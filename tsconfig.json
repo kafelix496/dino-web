@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -13,8 +14,40 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@/react-testing-library": [
+        "./src/utils/test-utils.tsx"
+      ],
+      "@/components/*": [
+        "./src/components/*"
+      ],
+      "@/pages/*": [
+        "./src/pages/*"
+      ],
+      "@/hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@/database": [
+        "./src/utils/db-utils.ts"
+      ],
+      "@/models/*": [
+        "./src/models/*"
+      ],
+      "@/redux-store": [
+        "./src/redux/store"
+      ],
+      "@/redux-types": [
+        "./src/redux/types"
+      ],
+      "@/redux-types/*": [
+        "./src/redux/types/*"
+      ],
+      "@/redux-action-creators": [
+        "./src/redux/action-creators"
+      ]
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "environment.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
