@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getSession } from 'next-auth/client'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
@@ -7,7 +8,7 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 
-import type { GetStaticProps, NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 
 const Home: NextPage = () => {
   const { t } = useTranslation('home')
@@ -26,10 +27,13 @@ const Home: NextPage = () => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, locale }) => {
+  const session = await getSession({ req }).catch(() => null)
+
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'default', ['common', 'home']))
+      ...(await serverSideTranslations(locale ?? 'default', ['common', 'home'])),
+      session
     }
   }
 }

@@ -1,10 +1,12 @@
 import { HYDRATE } from 'next-redux-wrapper'
-import { AnyAction } from 'redux'
-import { HydrateAction } from '@/redux-types'
-import { Action, ActionType, State } from '../types/todo'
+import { ActionType } from '@/redux-types/theme'
+
+import type { AnyAction } from 'redux'
+import type { HydrateAction } from '@/redux-types'
+import type { Action, State } from '@/redux-types/theme'
 
 const initialState: State = {
-  todos: []
+  paletteMode: 'dark'
 }
 
 const reducer = (state: State = initialState, action: AnyAction) => {
@@ -15,17 +17,10 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       return { ...state, ..._action.payload }
     }
 
-    case ActionType.ADD_TODO: {
+    case ActionType.TOGGLE_PALETTE_MODE: {
       return {
         ...state,
-        todos: state.todos.concat({ _id: '123', title: action.title })
-      }
-    }
-
-    case ActionType.REMOVE_TODO: {
-      return {
-        ...state,
-        todos: state.todos.filter((todo) => todo._id !== _action.id)
+        paletteMode: state.paletteMode === 'light' ? 'dark' : 'light'
       }
     }
 

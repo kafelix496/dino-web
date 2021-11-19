@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import todoReducer from './todoReducer'
+import themeReducer from './themeReducer'
 
 const combinedReducers = combineReducers({
-  todo: todoReducer
+  theme: themeReducer
 })
 
 export default combinedReducers
