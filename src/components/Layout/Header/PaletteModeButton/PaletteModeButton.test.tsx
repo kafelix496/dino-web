@@ -9,7 +9,6 @@ describe('PaletteModeButton component', () => {
     render(<PaletteModeButton />)
 
     const paletteModeButton = screen.getByTestId('palette-mode-button')
-
     expect(paletteModeButton).toBeInTheDocument()
     fireEvent.click(paletteModeButton)
     expect(togglePaletteMode).toHaveBeenCalled()

@@ -4,7 +4,7 @@ import { createSnapshot } from '@/react-testing-library'
 
 import Header from './Header'
 
-describe('Header Component', () => {
+describe('Header component', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })

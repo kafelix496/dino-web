@@ -17,7 +17,6 @@ describe('AuthStatusButton component', () => {
     const authButton = screen.getByRole('button', {
       name: 'SIGN_IN'
     })
-
     expect(authButton).toBeInTheDocument()
     fireEvent.click(authButton)
     expect(signOut).not.toHaveBeenCalled()
@@ -30,7 +29,6 @@ describe('AuthStatusButton component', () => {
     const authButton = screen.getByRole('button', {
       name: 'SIGN_OUT'
     })
-
     expect(authButton).toBeInTheDocument()
     fireEvent.click(authButton)
     expect(signIn).not.toHaveBeenCalled()
