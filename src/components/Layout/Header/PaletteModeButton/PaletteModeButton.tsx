@@ -34,6 +34,7 @@ const PaletteModeButton: FC = () => {
 
   return (
     <CustomizedIconButton
+      data-testid="palette-mode-button"
       onClick={() => {
         dispatch(togglePaletteMode())
       }}

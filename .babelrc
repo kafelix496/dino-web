@@ -1,4 +1,16 @@
 {
-  "presets": ["next/babel"],
-  "plugins": ["ramda"]
+  env: {
+    production: {
+      "presets": ["next/babel"],
+      "plugins": ["ramda", "babel-plugin-jsx-remove-data-test-id"]
+    },
+    development: {
+      "presets": ["next/babel"],
+      "plugins": ["ramda", "babel-plugin-jsx-remove-data-test-id"]
+    },
+    test: {
+      "presets": ["next/babel"],
+      "plugins": ["ramda"]
+    }
+  }
 }

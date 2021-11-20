@@ -16,8 +16,7 @@ const bindMiddleware = (...middleware: Middleware[]) => {
 }
 
 // create a makeStore function
-export const makeStore = () =>
-  createStore(combinedReducers, bindMiddleware(thunk))
+export const makeStore = () => createStore(combinedReducers, bindMiddleware(thunk))
 
 // export an assembled wrapper
 export const wrapper = createWrapper<Store<State>>(makeStore)
