@@ -7,9 +7,11 @@ import { styled } from '@mui/material/styles'
 
 import type { FC } from 'react'
 
-const CustomizedIconButton = styled(({ className, ...props }: IconButtonProps) => (
-  <IconButton {...props} classes={{ root: className }} />
-))(
+const CustomizedIconButton = styled(
+  ({ className, ...props }: IconButtonProps) => (
+    <IconButton {...props} classes={{ root: className }} />
+  )
+)(
   ({ theme }) => `
   &.MuiIconButton-root {
     border: 1px solid ${theme.palette.primary.main};

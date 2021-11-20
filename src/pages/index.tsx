@@ -27,12 +27,18 @@ const Home: NextPage = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  locale
+}) => {
   const session = await getSession({ req }).catch(() => null)
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'default', ['common', 'home'])),
+      ...(await serverSideTranslations(locale ?? 'default', [
+        'common',
+        'home'
+      ])),
       session
     }
   }
