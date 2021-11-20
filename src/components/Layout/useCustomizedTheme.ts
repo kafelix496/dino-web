@@ -6,7 +6,11 @@ import { indigo, grey } from '@mui/material/colors'
 import type { Theme } from '@mui/material'
 import type { PaletteModeType } from '@/redux-types/theme'
 
-export default function useTheme({ paletteMode }: { paletteMode: PaletteModeType }): {
+export default function useTheme({
+  paletteMode
+}: {
+  paletteMode: PaletteModeType
+}): {
   theme: Theme
 } {
   const theme = useMemo(
@@ -17,7 +21,9 @@ export default function useTheme({ paletteMode }: { paletteMode: PaletteModeType
           primary: indigo,
           secondary: grey,
           bgHoverDim:
-            paletteMode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.04)'
+            paletteMode === 'dark'
+              ? 'rgba(255, 255, 255, 0.08)'
+              : 'rgba(0, 0, 0, 0.04)'
         },
         typography: {
           fontFamily: 'Lato'

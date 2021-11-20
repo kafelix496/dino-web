@@ -8,8 +8,10 @@ const Providers: FC = ({ children }) => (
   <Provider store={makeStore()}>{children}</Provider>
 )
 
-const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
-  render(ui, { wrapper: Providers, ...options })
+const customRender = (
+  ui: ReactElement,
+  options?: Omit<RenderOptions, 'wrapper'>
+) => render(ui, { wrapper: Providers, ...options })
 
 const createSnapshot = (ui: ReactElement) =>
   renderer.create(<Provider store={makeStore()}>{ui}</Provider>).toJSON()

@@ -11,7 +11,12 @@ import { styled } from '@mui/material/styles'
 import type { FC } from 'react'
 
 const CustomizedButton = styled(({ className, ...props }: ButtonProps) => (
-  <Button {...props} variant="outlined" color="primary" classes={{ root: className }} />
+  <Button
+    {...props}
+    variant="outlined"
+    color="primary"
+    classes={{ root: className }}
+  />
 ))(
   ({ theme }) => `
   &.MuiButton-root {
@@ -44,10 +49,16 @@ const AuthStatusButton: FC = () => {
   }
 
   if (session) {
-    return <CustomizedButton onClick={signOut}>{t('SIGN_OUT')}</CustomizedButton>
+    return (
+      <CustomizedButton onClick={signOut}>{t('SIGN_OUT')}</CustomizedButton>
+    )
   }
 
-  return <CustomizedButton onClick={signInWithGoogle}>{t('SIGN_IN')}</CustomizedButton>
+  return (
+    <CustomizedButton onClick={signInWithGoogle}>
+      {t('SIGN_IN')}
+    </CustomizedButton>
+  )
 }
 
 export default AuthStatusButton
