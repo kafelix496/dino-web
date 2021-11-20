@@ -1,6 +1,6 @@
 import { HYDRATE } from 'next-redux-wrapper'
 
-import { State as TodoState } from './todo'
+import { State as ThemeState } from './theme'
 
 export interface HydrateAction {
   type: typeof HYDRATE
@@ -8,5 +8,5 @@ export interface HydrateAction {
 }
 
 export interface State {
-  todo: TodoState
+  theme: ThemeState
 }

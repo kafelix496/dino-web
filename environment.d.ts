@@ -19,4 +19,13 @@ declare module 'ramda' {
   export function transduce(...rest: any[]): any
 }
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    bgHoverDim: string
+  }
+  interface PaletteOptions {
+    bgHoverDim: string
+  }
+}
+
 export {}
