@@ -13,6 +13,19 @@ declare global {
   }
 }
 
+declare module 'next-auth' {
+  interface Session {
+    user?:
+      | {
+          name?: string | null | undefined
+          email?: string | null | undefined
+          image?: string | null | undefined
+          id?: string | null | undefined
+        }
+      | undefined
+  }
+}
+
 declare module 'ramda' {
   export function compose(...rest: any[]): any
   export function flip(...rest: any[]): any

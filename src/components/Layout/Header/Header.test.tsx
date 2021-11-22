@@ -1,6 +1,6 @@
 import { useSession } from 'next-auth/client'
 
-import { createSnapshot } from '@/react-testing-library'
+import { createSnapshot } from '@/utils/test-utils'
 
 import Header from './Header'
 

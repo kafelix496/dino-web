@@ -18,11 +18,12 @@ module.exports = {
       '<rootDir>/src/__mocks__/fileMock.js',
 
     /* Handle typescript custom absolute imports */
-    '@/react-testing-library': '<rootDir>/src/utils/test-utils.tsx',
+    '@/global-types/(.*)': '<rootDir>/src/types/$1',
+    '@/global-types': '<rootDir>/src/types/global.ts',
     '@/components/(.*)': '<rootDir>/src/components/$1',
     '@/pages/(.*)': '<rootDir>/src/pages/$1',
     '@/hooks/(.*)': '<rootDir>/src/hooks/$1',
-    '@/database': '<rootDir>/src/utils/db-utils.ts',
+    '@/utils/(.*)': '<rootDir>/src/utils/$1',
     '@/models/(.*)': '<rootDir>/src/models/$1',
     '@/redux-store': '<rootDir>/src/redux/store',
     '@/redux-types/(.*)': '<rootDir>/src/redux/types/$1',

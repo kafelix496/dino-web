@@ -1,4 +1,4 @@
-import { createSnapshot } from '@/react-testing-library'
+import { createSnapshot } from '@/utils/test-utils'
 
 import Layout from './Layout'
 

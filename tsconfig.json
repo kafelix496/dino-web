@@ -16,8 +16,11 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/react-testing-library": [
-        "./src/utils/test-utils.tsx"
+      "@/global-types": [
+        "./src/types/index.ts"
+      ],
+      "@/global-types/*": [
+        "./src/types/*"
       ],
       "@/components/*": [
         "./src/components/*"
@@ -28,8 +31,8 @@
       "@/hooks/*": [
         "./src/hooks/*"
       ],
-      "@/database": [
-        "./src/utils/db-utils.ts"
+      "@/utils/*": [
+        "./src/utils/*"
       ],
       "@/models/*": [
         "./src/models/*"

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@/react-testing-library'
+import { render, screen, fireEvent } from '@/utils/test-utils'
 
 import PaletteModeButton from './PaletteModeButton'
 

@@ -1,6 +1,6 @@
 import { useSession, signIn, signOut } from 'next-auth/client'
 
-import { render, screen, fireEvent } from '@/react-testing-library'
+import { render, screen, fireEvent } from '@/utils/test-utils'
 
 import AuthStatusButton from './AuthStatusButton'
 
