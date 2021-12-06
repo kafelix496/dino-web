@@ -1,6 +1,7 @@
+import { getSession } from 'next-auth/client'
+
 import { dbConnect } from '@/utils/db-utils'
 import Project from '@/models/project'
-import { getSession } from 'next-auth/client'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 

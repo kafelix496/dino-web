@@ -39,7 +39,7 @@ export default async function handler(
           return res.status(400).json({ status: false })
         }
 
-        return res.status(200).json({ status: true, data: projects })
+        return res.status(200).json({ status: true, projects })
       }
 
       case 'POST': {
@@ -52,7 +52,7 @@ export default async function handler(
           return res.status(400).json({ status: false })
         }
 
-        return res.status(201).json({ status: true, data: project })
+        return res.status(201).json({ status: true, project })
       }
 
       default:
