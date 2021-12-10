@@ -7,11 +7,14 @@ import {
 
 import Button from '@mui/material/Button'
 
+import { useHeaderButtonColor } from '../useHeaderButtonColor'
+
 import type { FC } from 'react'
 
 const AuthStatusButton: FC = () => {
   const { t } = useTranslation('common')
   const [session] = useSession()
+  const headerButtonColor = useHeaderButtonColor()
 
   const signInWithGoogle = () => {
     nextAuthSignIn('google')
@@ -22,10 +25,18 @@ const AuthStatusButton: FC = () => {
   }
 
   if (session) {
-    return <Button onClick={signOut}>{t('SIGN_OUT')}</Button>
+    return (
+      <Button sx={{ color: headerButtonColor }} onClick={signOut}>
+        {t('SIGN_OUT')}
+      </Button>
+    )
   }
 
-  return <Button onClick={signInWithGoogle}>{t('SIGN_IN')}</Button>
+  return (
+    <Button sx={{ color: headerButtonColor }} onClick={signInWithGoogle}>
+      {t('SIGN_IN')}
+    </Button>
+  )
 }
 
 export default AuthStatusButton

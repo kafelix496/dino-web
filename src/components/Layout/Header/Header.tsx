@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles'
 
 import AuthStatusButton from './AuthStatusButton/AuthStatusButton'
 import PaletteModeButton from './PaletteModeButton/PaletteModeButton'
+
 import Box from '@mui/material/Box'
 
 import type { FC } from 'react'
