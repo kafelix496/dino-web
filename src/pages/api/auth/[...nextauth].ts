@@ -23,7 +23,7 @@ export default NextAuth({
     async session(session, token) {
       return Promise.resolve({
         ...session,
-        user: { ...session.user, id: token.sub }
+        user: { ...session.user, id: token.sub as string }
       })
     }
   }
