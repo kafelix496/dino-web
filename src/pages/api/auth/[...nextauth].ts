@@ -18,5 +18,13 @@ export default NextAuth({
     })
   ],
   pages: {},
-  database: process.env.DATABASE_URL
+  database: process.env.DATABASE_URL,
+  callbacks: {
+    async session(session, token) {
+      return Promise.resolve({
+        ...session,
+        user: { ...session.user, id: token.sub as string }
+      })
+    }
+  }
 })

@@ -6,6 +6,7 @@ export default function useMatchMutate() {
 
   return (
     matcher: RegExp,
+    // eslint-disable-next-line
     data?: any,
     shouldRevalidate?: boolean | undefined
   ) => {
@@ -15,6 +16,7 @@ export default function useMatchMutate() {
       )
     }
 
+    // eslint-disable-next-line
     const mutations: Promise<any>[] = R.transduce(
       R.compose(
         R.filter(R.test(matcher)),

@@ -31,7 +31,7 @@ export default function useCustomizedTheme({
         breakpoints: {
           values: {
             xs: 0,
-            sm: 360,
+            sm: 420,
             md: 768,
             lg: 1080,
             xl: 1536

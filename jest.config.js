@@ -1,5 +1,9 @@
 module.exports = {
-  collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}', '!**/*.d.ts', '!**/node_modules/**'],
+  collectCoverageFrom: [
+    '**/*.{js,jsx,ts,tsx}',
+    '!**/*.d.ts',
+    '!**/node_modules/**'
+  ],
   moduleNameMapper: {
     /* Handle CSS imports (with CSS modules)
     https://jestjs.io/docs/webpack#mocking-css-modules */
@@ -10,14 +14,16 @@ module.exports = {
 
     /* Handle image imports
     https://jestjs.io/docs/webpack#handling-static-assets */
-    '^.+\\.(jpg|jpeg|png|gif|webp|avif|svg)$': '<rootDir>/src/__mocks__/fileMock.js',
+    '^.+\\.(jpg|jpeg|png|gif|webp|avif|svg)$':
+      '<rootDir>/src/__mocks__/fileMock.js',
 
     /* Handle typescript custom absolute imports */
-    '@/react-testing-library': '<rootDir>/src/utils/test-utils.tsx',
+    '@/global-types/(.*)': '<rootDir>/src/types/$1',
+    '@/global-types': '<rootDir>/src/types/global.ts',
     '@/components/(.*)': '<rootDir>/src/components/$1',
     '@/pages/(.*)': '<rootDir>/src/pages/$1',
     '@/hooks/(.*)': '<rootDir>/src/hooks/$1',
-    '@/database': '<rootDir>/src/utils/db-utils.ts',
+    '@/utils/(.*)': '<rootDir>/src/utils/$1',
     '@/models/(.*)': '<rootDir>/src/models/$1',
     '@/redux-store': '<rootDir>/src/redux/store',
     '@/redux-types/(.*)': '<rootDir>/src/redux/types/$1',
@@ -31,9 +37,13 @@ module.exports = {
     https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object */
     '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }]
   },
-  transformIgnorePatterns: ['/node_modules/', '^.+\\.module\\.(css|sass|scss)$'],
+  transformIgnorePatterns: [
+    '/node_modules/',
+    '^.+\\.module\\.(css|sass|scss)$'
+  ],
   setupFiles: [
     '<rootDir>/src/__mocks__/react-i18next.js',
+    '<rootDir>/src/__mocks__/next.js',
     '<rootDir>/src/__mocks__/next-auth.js',
     '<rootDir>/src/__mocks__/redux-action-creators.js'
   ],

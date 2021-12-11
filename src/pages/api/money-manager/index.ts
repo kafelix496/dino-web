@@ -1,5 +1,5 @@
-import { dbConnect } from '@/database'
-import Todo from '@/models/Todo'
+import { dbConnect } from '@/utils/db-utils'
+import Project from '@/models/project'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -17,17 +17,17 @@ export default async function handler(
 
     switch (req?.method) {
       case 'GET': {
-        const todos = await Todo.find({})
+        const projects = await Project.find({})
 
-        res.status(200).json({ status: true, data: todos })
+        res.status(200).json({ status: true, data: projects })
 
         break
       }
 
       case 'POST': {
-        const todo = await Todo.create(req?.body)
+        const project = await Project.create(req?.body)
 
-        res.status(201).json({ status: true, data: todo })
+        res.status(201).json({ status: true, data: project })
 
         break
       }

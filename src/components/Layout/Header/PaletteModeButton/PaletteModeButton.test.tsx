@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@/react-testing-library'
+import { render, screen, fireEvent } from '@/utils/test-utils'
 
 import PaletteModeButton from './PaletteModeButton'
 
@@ -9,7 +9,6 @@ describe('PaletteModeButton component', () => {
     render(<PaletteModeButton />)
 
     const paletteModeButton = screen.getByTestId('palette-mode-button')
-
     expect(paletteModeButton).toBeInTheDocument()
     fireEvent.click(paletteModeButton)
     expect(togglePaletteMode).toHaveBeenCalled()

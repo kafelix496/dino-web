@@ -1,6 +1,6 @@
 import { useSession, signIn, signOut } from 'next-auth/client'
 
-import { render, screen, fireEvent } from '@/react-testing-library'
+import { render, screen, fireEvent } from '@/utils/test-utils'
 
 import AuthStatusButton from './AuthStatusButton'
 
@@ -17,7 +17,6 @@ describe('AuthStatusButton component', () => {
     const authButton = screen.getByRole('button', {
       name: 'SIGN_IN'
     })
-
     expect(authButton).toBeInTheDocument()
     fireEvent.click(authButton)
     expect(signOut).not.toHaveBeenCalled()
@@ -30,7 +29,6 @@ describe('AuthStatusButton component', () => {
     const authButton = screen.getByRole('button', {
       name: 'SIGN_OUT'
     })
-
     expect(authButton).toBeInTheDocument()
     fireEvent.click(authButton)
     expect(signIn).not.toHaveBeenCalled()

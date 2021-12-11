@@ -6,10 +6,21 @@ declare global {
       NEXTAUTH_URL: string
       GOOGLE_ID: string
       GOOGLE_SECRET: string
-      GITHUB_ID: string
-      GITHUB_SECRET: string
       JWT_SECRET: string
     }
+  }
+}
+
+declare module 'next-auth' {
+  interface Session {
+    user?:
+      | {
+          name?: string | null | undefined
+          email?: string | null | undefined
+          image?: string | null | undefined
+          id?: string | null | undefined
+        }
+      | undefined
   }
 }
 

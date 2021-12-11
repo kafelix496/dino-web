@@ -1,10 +1,10 @@
 import { useSession } from 'next-auth/client'
 
-import { createSnapshot } from '@/react-testing-library'
+import { createSnapshot } from '@/utils/test-utils'
 
 import Header from './Header'
 
-describe('Header Component', () => {
+describe('Header component', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
