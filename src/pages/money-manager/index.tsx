@@ -1,10 +1,11 @@
 import type { GetServerSideProps, NextPage } from 'next'
+import { useRouter } from 'next/router'
 import { getSession } from 'next-auth/client'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useTranslation } from 'next-i18next'
 import useSWR from 'swr'
+import axios from 'axios'
 
-import NewButton from '@/components/money-manager/NewButton/NewButton'
+import NewProjectButton from '@/components/money-manager/NewProjectButton/NewProjectButton'
 import ProjectItem from '@/components/money-manager/ProjectItem/ProjectItem'
 
 import Container from '@mui/material/Container'
@@ -15,17 +16,12 @@ import Box from '@mui/material/Box'
 import type { ProjectType } from '@/global-types'
 
 const MoneyManager: NextPage = () => {
-  const { t } = useTranslation('money-manager')
-
+  const router = useRouter()
   const { data, error } =
     useSWR<{ status: boolean; projects: ProjectType[] }>('/api/project')
 
   if (error || data?.status === false) {
-    return <div>failed to load</div>
-  }
-
-  if (!data) {
-    return <div>loading...</div>
+    router.push('/500')
   }
 
   return (
@@ -40,13 +36,17 @@ const MoneyManager: NextPage = () => {
           }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-            <NewButton innerText={t('NEW')}></NewButton>
+            <NewProjectButton></NewProjectButton>
           </Box>
-          <Paper sx={{ flexGrow: 1, overflowY: 'auto', p: 1 }}>
+          <Paper elevation={4} sx={{ flexGrow: 1, overflowY: 'auto', p: 1 }}>
             <Grid container spacing={1}>
-              {data.projects.map((project) => (
+              {data!.projects.map((project) => (
                 <Grid item key={project._id} xs={12} sm={6} md={4}>
-                  <ProjectItem title="Home" subheader="September 14, 2016" />
+                  <ProjectItem
+                    title={project.title}
+                    subheader={project.createdAt}
+                    description={project.description}
+                  />
                 </Grid>
               ))}
             </Grid>
@@ -72,13 +72,34 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   }
 
+  const data = await axios
+    .get(`${process.env.PAGE_URL}/api/project`, {
+      headers: {
+        Cookie: req.headers.cookie!
+      }
+    })
+    .then((res) => res.data)
+    .catch(() => null)
+
+  if (!data || data?.status === false) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/500'
+      }
+    }
+  }
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? 'default', [
         'common',
         'money-manager'
       ])),
-      session
+      session,
+      fallback: {
+        '/api/project': data
+      }
     }
   }
 }
