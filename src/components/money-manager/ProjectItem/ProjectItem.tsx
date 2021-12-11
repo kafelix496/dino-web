@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardActions from '@mui/material/CardActions'
@@ -5,8 +7,6 @@ import IconButton from '@mui/material/IconButton'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-
-import type { FC } from 'react'
 import type { Theme } from '@mui/material'
 
 interface ProjectItemProps {

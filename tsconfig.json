@@ -13,6 +13,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "preserveValueImports": true,
     "jsx": "preserve",
     "incremental": true,
     "paths": {

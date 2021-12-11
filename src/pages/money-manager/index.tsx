@@ -1,3 +1,4 @@
+import type { GetServerSideProps, NextPage } from 'next'
 import { getSession } from 'next-auth/client'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
@@ -11,7 +12,6 @@ import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 
-import type { GetServerSideProps, NextPage } from 'next'
 import type { ProjectType } from '@/global-types'
 
 const MoneyManager: NextPage = () => {
