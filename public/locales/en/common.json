@@ -1,4 +1,7 @@
 {
+  "ERROR_404_MESSAGE": "404 - Sorry could not find this page 😅",
+  "ERROR_500_MESSAGE": "500 - Server error 😭",
+  "GO_TO_HOMEPAGE": "Go to homepage",
   "SIGN_IN": "Sign In",
   "SIGN_OUT": "Sign Out",
   "TAB_TITLE": "ka496's personal website",
