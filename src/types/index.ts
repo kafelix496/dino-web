@@ -13,5 +13,7 @@ export interface ProjectType {
   title: string
   description?: string
   ownerId: string
+  createdAt: string
+  updatedAt: string
   accessUsersId: AccessUserType[]
 }

@@ -1,20 +1,27 @@
+import type { FC } from 'react'
+
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
+import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-
-import type { FC } from 'react'
 import type { Theme } from '@mui/material'
 
 interface ProjectItemProps {
   title: string
-  subheader: string
+  subTitle: string
+  description?: string
 }
 
-const ProjectItem: FC<ProjectItemProps> = ({ title, subheader }) => {
+const ProjectItem: FC<ProjectItemProps> = ({
+  title,
+  subTitle,
+  description
+}) => {
   return (
     <Card
       variant="outlined"
@@ -26,7 +33,14 @@ const ProjectItem: FC<ProjectItemProps> = ({ title, subheader }) => {
         }
       }}
     >
-      <CardHeader title={title} subheader={subheader} />
+      <CardHeader title={title} subheader={subTitle} />
+      {description ? (
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            {description}
+          </Typography>
+        </CardContent>
+      ) : null}
       <CardActions disableSpacing sx={{ justifyContent: 'flex-end' }}>
         <IconButton aria-label="start-project" title="start-project">
           <PlayArrowIcon />

@@ -1,3 +1,4 @@
+import type { GetServerSideProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { getSession, useSession } from 'next-auth/client'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -7,8 +8,6 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
-
-import type { GetServerSideProps, NextPage } from 'next'
 
 const appList = [
   {

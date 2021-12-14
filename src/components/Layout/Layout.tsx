@@ -1,16 +1,17 @@
+import type { FC } from 'react'
 import Head from 'next/head'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'next-i18next'
 
 import { ThemeProvider } from '@mui/material'
-import Paper, { PaperProps } from '@mui/material/Paper'
+import Paper from '@mui/material/Paper'
+import type { PaperProps } from '@mui/material/Paper'
 import { styled } from '@mui/material/styles'
 
 import Header from './Header/Header'
 
 import useCustomizedTheme from './useCustomizedTheme'
 
-import type { FC } from 'react'
 import type { State } from '@/redux-types'
 
 const CustomizedPaper = styled(({ className, ...props }: PaperProps) => (

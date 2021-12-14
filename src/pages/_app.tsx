@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
   return (
     <SWRConfig
       value={{
+        fallback: pageProps.fallback,
         provider: () => new Map(),
         fetcher: (url) => axios.get(url).then((res) => res.data)
       }}
