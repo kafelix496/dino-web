@@ -2,3 +2,7 @@ button.Mui-disabled {
   pointer-events: auto !important;
   cursor: not-allowed !important;
 }
+
+.MuiDialog-root .MuiDialogTitle-root {
+  width: 400px;
+}
