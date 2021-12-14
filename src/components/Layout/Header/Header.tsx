@@ -1,10 +1,10 @@
-import Paper, { PaperProps } from '@mui/material/Paper'
+import Paper from '@mui/material/Paper'
+import Box from '@mui/material/Box'
+import type { PaperProps } from '@mui/material/Paper'
 import { styled } from '@mui/material/styles'
 
 import AuthStatusButton from './AuthStatusButton/AuthStatusButton'
 import PaletteModeButton from './PaletteModeButton/PaletteModeButton'
-
-import Box from '@mui/material/Box'
 
 import type { FC } from 'react'
 

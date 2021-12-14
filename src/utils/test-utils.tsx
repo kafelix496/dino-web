@@ -1,6 +1,7 @@
-import { FC, ReactElement } from 'react'
+import type { FC, ReactElement } from 'react'
 import { Provider } from 'react-redux'
-import { render, RenderOptions } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import type { RenderOptions } from '@testing-library/react'
 import { makeStore } from '@/redux-store'
 import renderer from 'react-test-renderer'
 
