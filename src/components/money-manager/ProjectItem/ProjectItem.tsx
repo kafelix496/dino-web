@@ -13,13 +13,13 @@ import type { Theme } from '@mui/material'
 
 interface ProjectItemProps {
   title: string
-  subheader: string
+  subTitle: string
   description?: string
 }
 
 const ProjectItem: FC<ProjectItemProps> = ({
   title,
-  subheader,
+  subTitle,
   description
 }) => {
   return (
@@ -33,7 +33,7 @@ const ProjectItem: FC<ProjectItemProps> = ({
         }
       }}
     >
-      <CardHeader title={title} subheader={subheader} />
+      <CardHeader title={title} subheader={subTitle} />
       {description ? (
         <CardContent>
           <Typography variant="body2" color="text.secondary">

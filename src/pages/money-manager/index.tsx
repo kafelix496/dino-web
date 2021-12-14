@@ -44,7 +44,7 @@ const MoneyManager: NextPage = () => {
                 <Grid item key={project._id} xs={12} sm={6} md={4}>
                   <ProjectItem
                     title={project.title}
-                    subheader={project.createdAt}
+                    subTitle={project.createdAt}
                     description={project.description}
                   />
                 </Grid>

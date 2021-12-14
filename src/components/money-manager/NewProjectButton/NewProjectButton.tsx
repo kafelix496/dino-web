@@ -22,6 +22,7 @@ const NewButton: FC = () => {
   return (
     <>
       <Button
+        data-testid="button"
         variant="contained"
         startIcon={<AddIcon />}
         onClick={handleClickOpen}
