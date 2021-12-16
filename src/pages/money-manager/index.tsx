@@ -26,7 +26,7 @@ const MoneyManager: NextPage = () => {
 
   return (
     <Container sx={{ height: '100%' }}>
-      <Box className="__ka496-pw__all-center">
+      <Box className="__dino__all-center">
         <Box
           sx={{
             display: 'flex',
