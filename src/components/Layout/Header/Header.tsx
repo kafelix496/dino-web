@@ -3,12 +3,12 @@ import Box from '@mui/material/Box'
 import type { PaperProps } from '@mui/material/Paper'
 import { styled } from '@mui/material/styles'
 
-import AuthStatusButton from './AuthStatusButton/AuthStatusButton'
-import PaletteModeButton from './PaletteModeButton/PaletteModeButton'
+import DinoAuthStatusButton from './AuthStatusButton/AuthStatusButton'
+import DinoPaletteModeButton from './PaletteModeButton/PaletteModeButton'
 
 import type { FC } from 'react'
 
-const CustomizedHeader = styled(({ className, ...props }: PaperProps) => (
+const DinoStyledHeader = styled(({ className, ...props }: PaperProps) => (
   <Paper {...props} component="header" classes={{ root: className }} />
 ))(
   ({ theme }) => `
@@ -23,16 +23,16 @@ const CustomizedHeader = styled(({ className, ...props }: PaperProps) => (
 `
 )
 
-const Header: FC = () => {
+const DinoHeader: FC = () => {
   return (
-    <CustomizedHeader elevation={0} square={true}>
-      <AuthStatusButton />
+    <DinoStyledHeader elevation={0} square={true}>
+      <DinoAuthStatusButton />
 
       <Box sx={{ ml: 2 }}>
-        <PaletteModeButton />
+        <DinoPaletteModeButton />
       </Box>
-    </CustomizedHeader>
+    </DinoStyledHeader>
   )
 }
 
-export default Header
+export default DinoHeader

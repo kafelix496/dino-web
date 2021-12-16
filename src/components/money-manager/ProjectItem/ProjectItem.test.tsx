@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 
-import ProjectItem from './ProjectItem'
+import DinoProjectItem from './ProjectItem'
 
 const setup = () => {
   return {
@@ -10,11 +10,11 @@ const setup = () => {
   }
 }
 
-describe('ProjectItem component', () => {
+describe('DinoProjectItem component', () => {
   it('should render title and sub title', () => {
     const { title, subTitle } = setup()
 
-    render(<ProjectItem title={title} subTitle={subTitle} />)
+    render(<DinoProjectItem title={title} subTitle={subTitle} />)
 
     const projectItemTitle = screen.getByText(title)
     expect(projectItemTitle).toBeInTheDocument()
@@ -26,7 +26,7 @@ describe('ProjectItem component', () => {
   it("should not render description if you don't pass description", () => {
     const { title, subTitle, description } = setup()
 
-    render(<ProjectItem title={title} subTitle={subTitle} />)
+    render(<DinoProjectItem title={title} subTitle={subTitle} />)
 
     const projectItemDescription = screen.queryByText(description)
     expect(projectItemDescription).not.toBeInTheDocument()
@@ -36,7 +36,7 @@ describe('ProjectItem component', () => {
     const { title, subTitle, description } = setup()
 
     render(
-      <ProjectItem
+      <DinoProjectItem
         title={title}
         subTitle={subTitle}
         description={description}

@@ -4,13 +4,13 @@ import { togglePaletteMode } from '@/redux-action-creators'
 import IconButton from '@mui/material/IconButton'
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness'
 
-import { useHeaderButtonColor } from '../useHeaderButtonColor'
+import useDinoHeaderButtonColor from '../useHeaderButtonColor'
 
 import type { FC } from 'react'
 
-const PaletteModeButton: FC = () => {
+const DinoPaletteModeButton: FC = () => {
   const dispatch = useDispatch()
-  const headerButtonColor = useHeaderButtonColor()
+  const headerButtonColor = useDinoHeaderButtonColor()
 
   return (
     <IconButton
@@ -25,4 +25,4 @@ const PaletteModeButton: FC = () => {
   )
 }
 
-export default PaletteModeButton
+export default DinoPaletteModeButton

@@ -1,4 +1,6 @@
 import type { Theme } from '@mui/material'
 
-export const useHeaderButtonColor = () => (theme: Theme) =>
+const useDinoHeaderButtonColor = () => (theme: Theme) =>
   theme.palette.mode === 'dark' ? 'white' : theme.palette.primary.main
+
+export default useDinoHeaderButtonColor

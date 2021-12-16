@@ -2,9 +2,9 @@ import { useSession, signIn, signOut } from 'next-auth/client'
 
 import { render, screen, fireEvent } from '@/utils/test-utils'
 
-import AuthStatusButton from './AuthStatusButton'
+import DinoAuthStatusButton from './AuthStatusButton'
 
-describe('AuthStatusButton component', () => {
+describe('DinoAuthStatusButton component', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -12,7 +12,7 @@ describe('AuthStatusButton component', () => {
   it('should render a sign in button', () => {
     ;(useSession as jest.Mock).mockReturnValueOnce([null])
 
-    render(<AuthStatusButton />)
+    render(<DinoAuthStatusButton />)
 
     const authButton = screen.getByRole('button', {
       name: 'SIGN_IN'
@@ -24,7 +24,7 @@ describe('AuthStatusButton component', () => {
   })
 
   it('should render a sign out button', () => {
-    render(<AuthStatusButton />)
+    render(<DinoAuthStatusButton />)
 
     const authButton = screen.getByRole('button', {
       name: 'SIGN_OUT'

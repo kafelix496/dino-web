@@ -1,10 +1,10 @@
 import type { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import CustomError from '@/components/Error/Error'
+import DinoError from '@/components/Error/Error'
 
-const Custom404 = () => {
-  return <CustomError statusCode={404} />
+const Dino404 = () => {
+  return <DinoError statusCode={404} />
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -15,4 +15,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   }
 }
 
-export default Custom404
+export default Dino404
