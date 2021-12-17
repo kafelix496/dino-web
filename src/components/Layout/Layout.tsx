@@ -8,13 +8,13 @@ import Paper from '@mui/material/Paper'
 import type { PaperProps } from '@mui/material/Paper'
 import { styled } from '@mui/material/styles'
 
-import Header from './Header/Header'
+import DinoHeader from './Header/Header'
 
-import useCustomizedTheme from './useCustomizedTheme'
+import useDinoTheme from './useTheme'
 
 import type { State } from '@/redux-types'
 
-const CustomizedPaper = styled(({ className, ...props }: PaperProps) => (
+const DinoStyledPaper = styled(({ className, ...props }: PaperProps) => (
   <Paper {...props} elevation={0} square={true} classes={{ root: className }} />
 ))(
   ({ theme }) => `
@@ -24,10 +24,10 @@ const CustomizedPaper = styled(({ className, ...props }: PaperProps) => (
 `
 )
 
-const Layout: FC = ({ children }) => {
+const DinoLayout: FC = ({ children }) => {
   const { t } = useTranslation('common')
   const paletteMode = useSelector((state: State) => state.theme.paletteMode)
-  const { theme } = useCustomizedTheme({ paletteMode })
+  const { theme } = useDinoTheme({ paletteMode })
 
   return (
     <ThemeProvider theme={theme}>
@@ -37,11 +37,11 @@ const Layout: FC = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
+      <DinoHeader />
 
-      <CustomizedPaper>{children}</CustomizedPaper>
+      <DinoStyledPaper>{children}</DinoStyledPaper>
     </ThemeProvider>
   )
 }
 
-export default Layout
+export default DinoLayout

@@ -1,10 +1,10 @@
 import type { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import CustomError from '@/components/Error/Error'
+import DinoError from '@/components/Error/Error'
 
-const Custom500 = () => {
-  return <CustomError statusCode={500} />
+const Dino500 = () => {
+  return <DinoError statusCode={500} />
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -15,4 +15,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   }
 }
 
-export default Custom500
+export default Dino500

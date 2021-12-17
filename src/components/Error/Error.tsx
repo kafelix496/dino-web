@@ -5,15 +5,15 @@ import { useTranslation } from 'next-i18next'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 
-import { Typography } from '@mui/material'
 import type { Theme } from '@mui/material'
 
-interface CustomErrorProps {
+interface DinoErrorProps {
   statusCode: 404 | 500
 }
 
-const CustomError: FC<CustomErrorProps> = ({ statusCode }) => {
+const DinoError: FC<DinoErrorProps> = ({ statusCode }) => {
   const { t } = useTranslation('common')
 
   return (
@@ -40,4 +40,4 @@ const CustomError: FC<CustomErrorProps> = ({ statusCode }) => {
   )
 }
 
-export default CustomError
+export default DinoError

@@ -5,8 +5,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import useSWR from 'swr'
 import axios from 'axios'
 
-import NewProjectButton from '@/components/money-manager/NewProjectButton/NewProjectButton'
-import ProjectItem from '@/components/money-manager/ProjectItem/ProjectItem'
+import DinoNewProjectButton from '@/components/money-manager/NewProjectButton/NewProjectButton'
+import DinoProjectItem from '@/components/money-manager/ProjectItem/ProjectItem'
 
 import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
@@ -36,13 +36,13 @@ const MoneyManager: NextPage = () => {
           }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-            <NewProjectButton></NewProjectButton>
+            <DinoNewProjectButton></DinoNewProjectButton>
           </Box>
           <Paper elevation={4} sx={{ flexGrow: 1, overflowY: 'auto', p: 1 }}>
             <Grid container spacing={1}>
               {data!.projects.map((project) => (
                 <Grid item key={project._id} xs={12} sm={6} md={4}>
-                  <ProjectItem
+                  <DinoProjectItem
                     title={project.title}
                     subTitle={project.createdAt}
                     description={project.description}

@@ -1,6 +1,5 @@
-import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import Home from '@/pages/index'
 
@@ -34,8 +33,6 @@ describe('Home page', () => {
   })
 
   it("should not clickable if it wasn't signed in & authNeed is true", () => {
-    const mockRouter = { push: jest.fn() }
-    ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
     ;(useSession as jest.Mock).mockReturnValueOnce([null])
 
     render(<Home />)
@@ -44,21 +41,19 @@ describe('Home page', () => {
       name: 'MONEY_MANAGER_APP'
     })
     expect(moneyManagerButton).toHaveAttribute('disabled')
-    fireEvent.click(moneyManagerButton)
-    expect(mockRouter.push).not.toHaveBeenCalled()
+    expect(moneyManagerButton).not.toHaveAttribute('data-testhref')
   })
 
   it('should clickable if it was signed in', () => {
-    const mockRouter = { push: jest.fn() }
-    ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
-
     render(<Home />)
 
     const moneyManagerButton = screen.getByRole('button', {
       name: 'MONEY_MANAGER_APP'
     })
     expect(moneyManagerButton).not.toHaveAttribute('disabled')
-    fireEvent.click(moneyManagerButton)
-    expect(mockRouter.push).toHaveBeenCalledWith('/money-manager')
+    expect(moneyManagerButton).toHaveAttribute(
+      'data-testhref',
+      '/money-manager'
+    )
   })
 })

@@ -6,13 +6,13 @@ import { indigo, grey } from '@mui/material/colors'
 import type { Theme } from '@mui/material'
 import type { PaletteModeType } from '@/redux-types/theme'
 
-export default function useCustomizedTheme({
+const useDinoTheme = ({
   paletteMode
 }: {
   paletteMode: PaletteModeType
 }): {
   theme: Theme
-} {
+} => {
   const theme = useMemo(
     () =>
       createTheme({
@@ -43,3 +43,5 @@ export default function useCustomizedTheme({
 
   return { theme }
 }
+
+export default useDinoTheme
