@@ -1,10 +1,10 @@
 import { createSnapshot } from '@/utils/test-utils'
 
-import Layout from './Layout'
+import DinoLayout from './Layout'
 
-describe('Layout component', () => {
+describe('DinoLayout component', () => {
   it('should render layout as expected', () => {
-    const layoutComponent = createSnapshot(<Layout />)
+    const layoutComponent = createSnapshot(<DinoLayout />)
     expect(layoutComponent).toMatchSnapshot()
   })
 })

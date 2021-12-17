@@ -11,13 +11,13 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import type { Theme } from '@mui/material'
 
-interface ProjectItemProps {
+interface DinoProjectItemProps {
   title: string
   subTitle: string
   description?: string
 }
 
-const ProjectItem: FC<ProjectItemProps> = ({
+const DinoProjectItem: FC<DinoProjectItemProps> = ({
   title,
   subTitle,
   description
@@ -56,4 +56,4 @@ const ProjectItem: FC<ProjectItemProps> = ({
   )
 }
 
-export default ProjectItem
+export default DinoProjectItem

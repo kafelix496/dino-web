@@ -1,6 +1,6 @@
 import { render, screen } from '@/utils/test-utils'
 
-import DinoFormFieldText from './DinoFormFieldText'
+import DinoFormFieldText from './FormFieldText'
 
 const setup = ({ touched }: { touched: boolean }) => {
   const formik = {

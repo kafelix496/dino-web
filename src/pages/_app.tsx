@@ -5,13 +5,13 @@ import { Provider } from 'next-auth/client'
 
 import { wrapper } from '@/redux-store'
 
-import Layout from '@/components/Layout/Layout'
-
-import '../styles/globals.scss'
+import DinoLayout from '@/components/Layout/Layout'
 
 import type { AppProps } from 'next/app'
 
-function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
+import '../styles/globals.scss'
+
+const MyApp = ({ Component, pageProps: { ...pageProps } }: AppProps) => {
   return (
     <SWRConfig
       value={{
@@ -21,9 +21,9 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
       }}
     >
       <Provider session={pageProps.session}>
-        <Layout>
+        <DinoLayout>
           <Component {...pageProps} />
-        </Layout>
+        </DinoLayout>
       </Provider>
     </SWRConfig>
   )

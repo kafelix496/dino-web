@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from '@/utils/test-utils'
 
-import PaletteModeButton from './PaletteModeButton'
+import DinoPaletteModeButton from './PaletteModeButton'
 
 import { togglePaletteMode } from '@/redux-action-creators'
 
-describe('PaletteModeButton component', () => {
+describe('DinoPaletteModeButton component', () => {
   it('should render a palette mode button', () => {
-    render(<PaletteModeButton />)
+    render(<DinoPaletteModeButton />)
 
     const paletteModeButton = screen.getByTestId('palette-mode-button')
     expect(paletteModeButton).toBeInTheDocument()
