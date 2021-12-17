@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { getSession, useSession } from 'next-auth/client'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
@@ -20,7 +20,6 @@ const appList = [
 const Home: NextPage = () => {
   const { t } = useTranslation('home')
   const [session] = useSession()
-  const router = useRouter()
 
   return (
     <Container>
@@ -34,15 +33,9 @@ const Home: NextPage = () => {
               {t(app.name)}
             </Button>
           ) : (
-            <Button
-              key={index}
-              variant="contained"
-              onClick={() => {
-                router.push(app.link)
-              }}
-            >
-              {t(app.name)}
-            </Button>
+            <Link key={index} href={app.link}>
+              <Button variant="contained">{t(app.name)}</Button>
+            </Link>
           )
         )}
       </Box>

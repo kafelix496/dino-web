@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import NewProjectFormDialog from './NewProjectFormDialog'
+import DinoNewProjectFormDialog from './NewProjectFormDialog'
 
 const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
   const TestComp = () => {
@@ -11,13 +11,15 @@ const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
       setOpen(false)
     }, [])
 
-    return <NewProjectFormDialog isOpen={isOpen} handleClose={handleClose} />
+    return (
+      <DinoNewProjectFormDialog isOpen={isOpen} handleClose={handleClose} />
+    )
   }
 
   return { TestComp }
 }
 
-describe('NewProjectFormDialog component', () => {
+describe('DinoNewProjectFormDialog component', () => {
   it('should not render when isOpen prop is false', async () => {
     const { TestComp } = setup({ initialOpenStatus: false })
 

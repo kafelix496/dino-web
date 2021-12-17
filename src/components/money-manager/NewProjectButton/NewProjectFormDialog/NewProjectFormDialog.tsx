@@ -12,14 +12,14 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 
-import DinoFormFieldText from '@/components/forms/DinoFormFieldText/DinoFormFieldText'
+import DinoFormFieldText from '@/components/forms/FormFieldText/FormFieldText'
 
-interface NewProjectFormDialogProps {
+interface DinoNewProjectFormDialogProps {
   isOpen: boolean
   handleClose: () => void
 }
 
-const NewProjectFormDialog: FC<NewProjectFormDialogProps> = ({
+const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   isOpen,
   handleClose
 }) => {
@@ -97,4 +97,4 @@ const NewProjectFormDialog: FC<NewProjectFormDialogProps> = ({
   )
 }
 
-export default NewProjectFormDialog
+export default DinoNewProjectFormDialog

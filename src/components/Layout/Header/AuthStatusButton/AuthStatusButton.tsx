@@ -7,14 +7,14 @@ import {
 
 import Button from '@mui/material/Button'
 
-import { useHeaderButtonColor } from '../useHeaderButtonColor'
+import useDinoHeaderButtonColor from '../useHeaderButtonColor'
 
 import type { FC } from 'react'
 
-const AuthStatusButton: FC = () => {
+const DinoAuthStatusButton: FC = () => {
   const { t } = useTranslation('common')
   const [session] = useSession()
-  const headerButtonColor = useHeaderButtonColor()
+  const headerButtonColor = useDinoHeaderButtonColor()
 
   const signInWithGoogle = () => {
     nextAuthSignIn('google')
@@ -39,4 +39,4 @@ const AuthStatusButton: FC = () => {
   )
 }
 
-export default AuthStatusButton
+export default DinoAuthStatusButton
