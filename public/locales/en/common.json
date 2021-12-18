@@ -2,6 +2,7 @@
   "BUTTON_CANCEL": "Cancel",
   "BUTTON_CONFIRM": "Confirm",
   "BUTTON_CREATE": "Create",
+  "BUTTON_DELETE": "Delete",
   "BUTTON_NEW": "New",
   "ERROR_ALERT_MESSAGE": "Unexpected error occured. Please try it again later.",
   "ERROR_404_MESSAGE": "404 - Sorry could not find this page 😅",
