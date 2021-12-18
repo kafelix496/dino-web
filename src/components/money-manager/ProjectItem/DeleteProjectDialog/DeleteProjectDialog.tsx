@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useSWRConfig } from 'swr'
 
 import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 
 import DinoDialog from '@/components/Dialog/Dialog'
 
@@ -44,7 +45,12 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
     <DinoDialog
       open={isOpen}
       onClose={handleClose}
-      title={t('DELETE_PROJECT', { ns: 'money-manager' })}
+      title={t('DELETE_PROJECT_TITLE', { ns: 'money-manager' })}
+      contentJsx={
+        <Typography>
+          {t('DELETE_PROJECT_CONTENT', { ns: 'money-manager' })}
+        </Typography>
+      }
       actionsJsx={
         <>
           <Button color="secondary" variant="outlined" onClick={handleClose}>
@@ -57,7 +63,7 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
             variant="contained"
             onClick={handleDelete}
           >
-            {t('BUTTON_CONFIRM')}
+            {t('BUTTON_DELETE')}
           </Button>
         </>
       }

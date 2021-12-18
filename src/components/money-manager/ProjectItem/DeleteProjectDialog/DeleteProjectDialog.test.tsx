@@ -9,7 +9,7 @@ describe('DinoDeleteProjectDialog component', () => {
     )
 
     const createButton = await screen.findByRole('button', {
-      name: 'BUTTON_CONFIRM'
+      name: 'BUTTON_DELETE'
     })!
     expect(createButton).not.toHaveClass('Mui-disabled')
   })
