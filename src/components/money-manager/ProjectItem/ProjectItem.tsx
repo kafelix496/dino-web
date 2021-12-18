@@ -1,4 +1,5 @@
 import type { FC } from 'react'
+import Link from 'next/link'
 
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
@@ -11,48 +12,77 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import type { Theme } from '@mui/material'
 
+import DinoEditProjectFormDialog from './EditProjectFormDialog/EditProjectFormDialog'
+import useDialogStatus from '@/hooks/useDialogStatus'
+
 interface DinoProjectItemProps {
+  id: string
   title: string
   subTitle: string
   description?: string
 }
 
 const DinoProjectItem: FC<DinoProjectItemProps> = ({
+  id,
   title,
   subTitle,
-  description
+  description = ''
 }) => {
+  const { state: dialogState, handleOpen, handleClose } = useDialogStatus()
+
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        maxWidth: 300,
-        cursor: 'pointer',
-        '&:hover': {
-          backgroundColor: (theme: Theme) => theme.palette.bgHoverDim
-        }
-      }}
-    >
-      <CardHeader title={title} subheader={subTitle} />
-      {description ? (
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {description}
-          </Typography>
-        </CardContent>
-      ) : null}
-      <CardActions disableSpacing sx={{ justifyContent: 'flex-end' }}>
-        <IconButton aria-label="start-project" title="start-project">
-          <PlayArrowIcon />
-        </IconButton>
-        <IconButton aria-label="edit" title="edit">
-          <EditIcon />
-        </IconButton>
-        <IconButton aria-label="delete" title="delete">
-          <DeleteIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
+    <>
+      <Card
+        variant="outlined"
+        sx={{
+          maxWidth: 300,
+          cursor: 'pointer',
+          '&:hover': {
+            backgroundColor: (theme: Theme) => theme.palette.bgHoverDim
+          }
+        }}
+      >
+        <CardHeader title={title} subheader={subTitle} />
+        {description ? (
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {description}
+            </Typography>
+          </CardContent>
+        ) : null}
+        <CardActions disableSpacing sx={{ justifyContent: 'flex-end' }}>
+          <Link href={`project/${id}`}>
+            <IconButton title="start-project">
+              <PlayArrowIcon />
+            </IconButton>
+          </Link>
+          <IconButton
+            title="edit"
+            onClick={() => {
+              handleOpen('edit')
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            title="delete"
+            onClick={() => {
+              handleOpen('delete')
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+
+      <DinoEditProjectFormDialog
+        isOpen={dialogState.name === 'edit' && dialogState.isOpen}
+        handleClose={handleClose}
+        id={id}
+        title={title}
+        description={description}
+      />
+    </>
   )
 }
 
