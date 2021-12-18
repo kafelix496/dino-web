@@ -4,6 +4,9 @@ import { render } from '@testing-library/react'
 import type { RenderOptions } from '@testing-library/react'
 import { makeStore } from '@/redux-store'
 import renderer from 'react-test-renderer'
+import type { ReactTestRendererJSON } from 'react-test-renderer'
+
+export type Snapshot = ReactTestRendererJSON | ReactTestRendererJSON[] | null
 
 const Providers: FC = ({ children }) => (
   <Provider store={makeStore()}>{children}</Provider>
