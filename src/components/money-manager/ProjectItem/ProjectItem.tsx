@@ -39,7 +39,7 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
           maxWidth: 300,
           cursor: 'pointer',
           '&:hover': {
-            backgroundColor: (theme: Theme) => theme.palette.bgHoverDim
+            backgroundColor: (theme: Theme) => theme.palette.action.hover
           }
         }}
       >
