@@ -1,51 +1,10 @@
-import { useCallback, useState } from 'react'
-
 import { fireEvent, render, screen } from '@testing-library/react'
 
 import DinoNewProjectFormDialog from './NewProjectFormDialog'
 
-const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
-  const TestComp = () => {
-    const [isOpen, setOpen] = useState(initialOpenStatus)
-    const handleClose = useCallback(() => {
-      setOpen(false)
-    }, [])
-
-    return (
-      <DinoNewProjectFormDialog isOpen={isOpen} handleClose={handleClose} />
-    )
-  }
-
-  return { TestComp }
-}
-
 describe('DinoNewProjectFormDialog component', () => {
-  it('should not render when isOpen prop is false', async () => {
-    const { TestComp } = setup({ initialOpenStatus: false })
-
-    render(<TestComp />)
-
-    const createButton = screen.queryByRole('button', {
-      name: 'BUTTON_CREATE'
-    })
-    expect(createButton).not.toBeInTheDocument()
-  })
-
-  it('should render when isOpen prop is true', async () => {
-    const { TestComp } = setup({ initialOpenStatus: true })
-
-    render(<TestComp />)
-
-    const createButton = screen.queryByRole('button', {
-      name: 'BUTTON_CREATE'
-    })
-    expect(createButton).toBeInTheDocument()
-  })
-
   test('button is disabled at the beginning', async () => {
-    const { TestComp } = setup({ initialOpenStatus: true })
-
-    render(<TestComp />)
+    render(<DinoNewProjectFormDialog isOpen={true} handleClose={jest.fn()} />)
 
     const createButton = screen.queryByRole('button', {
       name: 'BUTTON_CREATE'
@@ -54,9 +13,7 @@ describe('DinoNewProjectFormDialog component', () => {
   })
 
   test('button is enabled when user type something at title', async () => {
-    const { TestComp } = setup({ initialOpenStatus: true })
-
-    render(<TestComp />)
+    render(<DinoNewProjectFormDialog isOpen={true} handleClose={jest.fn()} />)
 
     const titleInput = screen.getByRole('textbox', {
       name: 'PROJECT_TITLE'

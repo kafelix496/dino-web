@@ -7,11 +7,8 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
 
+import DinoDialog from '@/components/Dialog/Dialog'
 import DinoFormFieldText from '@/components/forms/FormFieldText/FormFieldText'
 
 interface DinoNewProjectFormDialogProps {
@@ -62,12 +59,14 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   }, [isOpen])
 
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
-      <DialogTitle>
-        {t('CREATE_NEW_PROJECT', { ns: 'money-manager' })}
-      </DialogTitle>
-      <form onSubmit={formik.handleSubmit}>
-        <DialogContent>
+    <DinoDialog
+      open={isOpen}
+      onClose={handleClose}
+      title={t('CREATE_NEW_PROJECT', { ns: 'money-manager' })}
+      wrapBodyWithForm={true}
+      handleFormSubmit={formik.handleSubmit}
+      contentJsx={
+        <>
           <DinoFormFieldText
             label={t('PROJECT_TITLE')}
             formik={formik}
@@ -78,8 +77,10 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
             formik={formik}
             name="description"
           />
-        </DialogContent>
-        <DialogActions>
+        </>
+      }
+      actionsJsx={
+        <>
           <Button color="secondary" variant="outlined" onClick={handleClose}>
             {t('BUTTON_CANCEL')}
           </Button>
@@ -91,9 +92,9 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
           >
             {t('BUTTON_CREATE')}
           </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
+        </>
+      }
+    />
   )
 }
 
