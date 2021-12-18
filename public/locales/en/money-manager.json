@@ -1,4 +1,5 @@
 {
-  "CREATE_NEW_PROJECT": "Create new project",
+  "CREATE_PROJECT": "Create new project",
+  "DELETE_PROJECT": "Delete project",
   "EDIT_PROJECT": "Edit project"
 }

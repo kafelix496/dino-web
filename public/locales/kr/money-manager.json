@@ -1,4 +1,5 @@
 {
-  "CREATE_NEW_PROJECT": "프로젝트 새로 만들기",
+  "CREATE_PROJECT": "프로젝트 새로 만들기",
+  "DELETE_PROJECT": "프로젝트 삭제하기",
   "EDIT_PROJECT": "프로젝트 수정하기"
 }

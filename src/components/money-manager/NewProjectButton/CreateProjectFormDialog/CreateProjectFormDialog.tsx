@@ -62,7 +62,7 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
     <DinoDialog
       open={isOpen}
       onClose={handleClose}
-      title={t('CREATE_NEW_PROJECT', { ns: 'money-manager' })}
+      title={t('CREATE_PROJECT', { ns: 'money-manager' })}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={
