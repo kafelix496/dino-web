@@ -68,6 +68,8 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
       contentJsx={
         <>
           <DinoFormFieldText
+            autoFocus={true}
+            required={true}
             label={t('PROJECT_TITLE')}
             formik={formik}
             name="title"
