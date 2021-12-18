@@ -1,19 +1,35 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import DinoNewProjectFormDialog from './NewProjectFormDialog'
+import DinoEditProjectFormDialog from './EditProjectFormDialog'
 
-describe('DinoNewProjectFormDialog component', () => {
+describe('DinoEditProjectFormDialog component', () => {
   test('button is disabled at the beginning', async () => {
-    render(<DinoNewProjectFormDialog isOpen={true} handleClose={jest.fn()} />)
+    render(
+      <DinoEditProjectFormDialog
+        isOpen={true}
+        handleClose={jest.fn()}
+        id=""
+        title=""
+        description=""
+      />
+    )
 
     const createButton = await screen.findByRole('button', {
-      name: 'BUTTON_CREATE'
+      name: 'BUTTON_CONFIRM'
     })!
     expect(createButton).toHaveClass('Mui-disabled')
   })
 
   test('button is enabled when user type something at title', async () => {
-    render(<DinoNewProjectFormDialog isOpen={true} handleClose={jest.fn()} />)
+    render(
+      <DinoEditProjectFormDialog
+        isOpen={true}
+        handleClose={jest.fn()}
+        id=""
+        title=""
+        description=""
+      />
+    )
 
     const titleInput = screen.getByRole('textbox', {
       name: 'PROJECT_TITLE'
@@ -21,7 +37,7 @@ describe('DinoNewProjectFormDialog component', () => {
     expect(titleInput).toBeInTheDocument()
     fireEvent.change(titleInput, { target: { value: 'TEXT' } })
     const createButton = await screen.findByRole('button', {
-      name: 'BUTTON_CREATE'
+      name: 'BUTTON_CONFIRM'
     })!
     expect(createButton).not.toHaveClass('Mui-disabled')
   })

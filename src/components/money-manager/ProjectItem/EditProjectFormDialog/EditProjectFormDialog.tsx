@@ -14,19 +14,22 @@ import DinoFormFieldText from '@/components/forms/FormFieldText/FormFieldText'
 interface DinoNewProjectFormDialogProps {
   isOpen: boolean
   handleClose: () => void
+  id: string
+  title: string
+  description: string
 }
 
-const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
+const DinoEditProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   isOpen,
-  handleClose
+  handleClose,
+  id,
+  title,
+  description
 }) => {
   const { t } = useTranslation(['common', 'money-manager'])
   const { mutate } = useSWRConfig()
   const formik = useFormik({
-    initialValues: {
-      title: '',
-      description: ''
-    },
+    initialValues: { title: '', description: '' },
     validationSchema: yup.object({
       title: yup
         .string()
@@ -38,7 +41,7 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
       setSubmitting(true)
 
       axios
-        .post('/api/project', values)
+        .put(`/api/project/${id}`, values)
         .then(() => {
           mutate('/api/project')
         })
@@ -55,14 +58,16 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   useEffect(() => {
     if (isOpen) {
       formik.resetForm()
+      formik.setTouched({ title: true })
+      formik.setValues({ title, description })
     }
-  }, [isOpen])
+  }, [isOpen, title, description])
 
   return (
     <DinoDialog
       open={isOpen}
       onClose={handleClose}
-      title={t('CREATE_NEW_PROJECT', { ns: 'money-manager' })}
+      title={t('EDIT_PROJECT', { ns: 'money-manager' })}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={
@@ -92,7 +97,7 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
             color="success"
             variant="contained"
           >
-            {t('BUTTON_CREATE')}
+            {t('BUTTON_CONFIRM')}
           </Button>
         </>
       }
@@ -100,4 +105,4 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   )
 }
 
-export default DinoNewProjectFormDialog
+export default DinoEditProjectFormDialog

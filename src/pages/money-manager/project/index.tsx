@@ -15,7 +15,7 @@ import Box from '@mui/material/Box'
 
 import type { ProjectType } from '@/global-types'
 
-const MoneyManager: NextPage = () => {
+const Projects: NextPage = () => {
   const router = useRouter()
   const { data, error } =
     useSWR<{ status: boolean; projects: ProjectType[] }>('/api/project')
@@ -43,6 +43,7 @@ const MoneyManager: NextPage = () => {
               {data!.projects.map((project) => (
                 <Grid item key={project._id} xs={12} sm={6} md={4}>
                   <DinoProjectItem
+                    id={project._id}
                     title={project.title}
                     subTitle={project.createdAt}
                     description={project.description}
@@ -104,4 +105,4 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 }
 
-export default MoneyManager
+export default Projects
