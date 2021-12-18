@@ -37,5 +37,7 @@ const projectSchema = new mongoose.Schema({
   }
 })
 
+projectSchema.set('timestamps', true)
+
 export default mongoose.models.Project ||
   mongoose.model('Project', projectSchema)

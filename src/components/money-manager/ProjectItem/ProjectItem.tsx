@@ -19,7 +19,7 @@ import useDialogStatus from '@/hooks/useDialogStatus'
 interface DinoProjectItemProps {
   id: string
   title: string
-  subTitle: string
+  subTitle: string | JSX.Element
   description?: string
 }
 
