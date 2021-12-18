@@ -1,4 +1,6 @@
 {
-  "CREATE_NEW_PROJECT": "Create new project",
-  "EDIT_PROJECT": "Edit project"
+  "CREATE_PROJECT_TITLE": "Create new project",
+  "DELETE_PROJECT_TITLE": "Delete project",
+  "DELETE_PROJECT_CONTENT": "Are you sure? You can not undo this.",
+  "EDIT_PROJECT_TITLE": "Edit project"
 }

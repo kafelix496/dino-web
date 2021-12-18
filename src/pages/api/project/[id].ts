@@ -49,7 +49,7 @@ export default async function handler(
           return res.status(400).json({ status: false })
         }
 
-        return res.status(200).json({ status: true, data: project })
+        return res.status(200).json({ status: true, project })
       }
 
       case 'PUT': {
@@ -62,7 +62,27 @@ export default async function handler(
           return res.status(400).json({ status: false })
         }
 
-        return res.status(200).json({ status: true, data: project })
+        return res.status(200).json({ status: true, project })
+      }
+
+      case 'DELETE': {
+        const project = await Project.deleteOne({
+          $and: [
+            { _id: id },
+            {
+              $or: [
+                { ownerId: userId },
+                { accessUsers: { $elemMatch: { accessUserId: userId } } }
+              ]
+            }
+          ]
+        })
+
+        if (!project) {
+          return res.status(400).json({ status: false })
+        }
+
+        return res.status(200).json({ status: true, project })
       }
 
       default:

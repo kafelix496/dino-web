@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import type { Theme } from '@mui/material'
 
 import DinoEditProjectFormDialog from './EditProjectFormDialog/EditProjectFormDialog'
+import DinoDeleteProjectDialog from './DeleteProjectDialog/DeleteProjectDialog'
 import useDialogStatus from '@/hooks/useDialogStatus'
 
 interface DinoProjectItemProps {
@@ -81,6 +82,12 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
         id={id}
         title={title}
         description={description}
+      />
+
+      <DinoDeleteProjectDialog
+        isOpen={dialogState.name === 'delete' && dialogState.isOpen}
+        handleClose={handleClose}
+        id={id}
       />
     </>
   )
