@@ -1,20 +1,29 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 import DinoProjectItem from './ProjectItem'
 
 const setup = () => {
   return {
+    id: 'TEST_ID',
     title: 'TEST_TITLE',
     subTitle: 'TEST_SUBTITLE',
+    tooltip: 'TEST_TOOPTIP',
     description: 'TEST_DESCRIPTION'
   }
 }
 
 describe('DinoProjectItem component', () => {
   it('should render title and sub title', () => {
-    const { title, subTitle } = setup()
+    const { id, title, subTitle, tooltip } = setup()
 
-    render(<DinoProjectItem title={title} subTitle={subTitle} />)
+    render(
+      <DinoProjectItem
+        id={id}
+        title={title}
+        subTitle={subTitle}
+        tooltip={tooltip}
+      />
+    )
 
     const projectItemTitle = screen.getByText(title)
     expect(projectItemTitle).toBeInTheDocument()
@@ -23,27 +32,22 @@ describe('DinoProjectItem component', () => {
     expect(projectItemSubTitle).toBeInTheDocument()
   })
 
-  it("should not render description if you don't pass description", () => {
-    const { title, subTitle, description } = setup()
-
-    render(<DinoProjectItem title={title} subTitle={subTitle} />)
-
-    const projectItemDescription = screen.queryByText(description)
-    expect(projectItemDescription).not.toBeInTheDocument()
-  })
-
-  it('should render description if you pass description', () => {
-    const { title, subTitle, description } = setup()
+  it('should render tooltip if you put your mouse over the title', async () => {
+    const { id, title, subTitle, tooltip } = setup()
 
     render(
       <DinoProjectItem
+        id={id}
         title={title}
         subTitle={subTitle}
-        description={description}
+        tooltip={tooltip}
       />
     )
 
-    const projectItemDescription = screen.queryByText(description)
-    expect(projectItemDescription).toBeInTheDocument()
+    const projectItemTitle = screen.getByText(title)
+    expect(projectItemTitle).toBeInTheDocument()
+    fireEvent.mouseOver(projectItemTitle)
+    const projectItemTooltip = await screen.findByText(tooltip)
+    expect(projectItemTooltip).toBeInTheDocument()
   })
 })
