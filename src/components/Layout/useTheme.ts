@@ -19,11 +19,7 @@ const useDinoTheme = ({
         palette: {
           mode: paletteMode,
           primary: { main: paletteMode === 'dark' ? indigo[400] : indigo[600] },
-          secondary: { main: paletteMode === 'dark' ? grey[300] : grey[700] },
-          bgHoverDim:
-            paletteMode === 'dark'
-              ? 'rgba(255, 255, 255, 0.08)'
-              : 'rgba(0, 0, 0, 0.04)'
+          secondary: { main: paletteMode === 'dark' ? grey[300] : grey[700] }
         },
         typography: {
           fontFamily: 'Lato'
