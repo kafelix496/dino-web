@@ -55,6 +55,19 @@ const Projects: NextPage = () => {
                         {t('CREATED_AT')}: {dbToJs(project.createdAt)}
                       </Typography>
                     }
+                    tooltip={
+                      <>
+                        <Typography variant="subtitle2" color="inherit">
+                          {t('CREATED_AT')}: {dbToJs(project.createdAt)}
+                        </Typography>
+                        <Typography variant="subtitle2" color="inherit">
+                          {t('UPDATED_AT')}: {dbToJs(project.updatedAt)}
+                        </Typography>
+                        <Typography variant="subtitle2" color="inherit">
+                          {t('PROJECT_DESCRIPTION')}: {project.description}
+                        </Typography>
+                      </>
+                    }
                     description={project.description}
                   />
                 </Grid>

@@ -3,10 +3,9 @@ import Link from 'next/link'
 
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
-import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -20,6 +19,7 @@ interface DinoProjectItemProps {
   id: string
   title: string
   subTitle: string | JSX.Element
+  tooltip: string | JSX.Element
   description?: string
 }
 
@@ -27,6 +27,7 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
   id,
   title,
   subTitle,
+  tooltip,
   description = ''
 }) => {
   const { state: dialogState, handleOpen, handleClose } = useDialogStatus()
@@ -43,22 +44,18 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
           }
         }}
       >
-        <CardHeader title={title} subheader={subTitle} />
-        {description ? (
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
-              {description}
-            </Typography>
-          </CardContent>
-        ) : null}
+        <Tooltip followCursor title={tooltip}>
+          <div>
+            <CardHeader title={title} subheader={subTitle} />
+          </div>
+        </Tooltip>
         <CardActions disableSpacing sx={{ justifyContent: 'flex-end' }}>
           <Link href={`project/${id}`}>
-            <IconButton title="start-project">
+            <IconButton>
               <PlayArrowIcon />
             </IconButton>
           </Link>
           <IconButton
-            title="edit"
             onClick={() => {
               handleOpen('edit')
             }}
@@ -66,7 +63,6 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
             <EditIcon />
           </IconButton>
           <IconButton
-            title="delete"
             onClick={() => {
               handleOpen('delete')
             }}

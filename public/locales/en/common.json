@@ -4,8 +4,7 @@
   "BUTTON_CREATE": "Create",
   "BUTTON_DELETE": "Delete",
   "BUTTON_NEW": "New",
-  "CREATED_AT": "created at",
-  "UPDATED_AT": "updated at",
+  "CREATED_AT": "Created at",
   "ERROR_ALERT_MESSAGE": "Unexpected error occured. Please try it again later.",
   "ERROR_404_MESSAGE": "404 - Sorry could not find this page 😅",
   "ERROR_500_MESSAGE": "500 - Server error 😭",
@@ -18,5 +17,6 @@
   "SIGN_IN": "Sign In",
   "SIGN_OUT": "Sign Out",
   "TAB_TITLE": "DINO",
-  "TAB_DESCRIPTION": "everything in one application"
+  "TAB_DESCRIPTION": "everything in one application",
+  "UPDATED_AT": "Updated at"
 }
