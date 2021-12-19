@@ -7,8 +7,8 @@ module.exports = {
   async redirects() {
     return [
       {
-        source: '/money-manager',
-        destination: '/money-manager/project',
+        source: '/money-tracker',
+        destination: '/money-tracker/project',
         permanent: true
       }
     ]

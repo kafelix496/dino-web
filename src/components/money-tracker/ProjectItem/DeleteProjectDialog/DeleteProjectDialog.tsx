@@ -20,7 +20,7 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   isOpen,
   handleClose
 }) => {
-  const { t } = useTranslation(['common', 'money-manager'])
+  const { t } = useTranslation(['common', 'money-tracker'])
   const { mutate } = useSWRConfig()
   const [isSubmitting, setSubmitting] = useState(false)
 
@@ -28,9 +28,9 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
     setSubmitting(true)
 
     axios
-      .delete(`/api/project/${id}`)
+      .delete(`/api/money-tracker/project/${id}`)
       .then(() => {
-        mutate('/api/project')
+        mutate('/api/money-tracker/project')
       })
       .catch(() => {
         alert(t('ERROR_ALERT_MESSAGE'))
@@ -45,10 +45,10 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
     <DinoDialog
       open={isOpen}
       onClose={handleClose}
-      title={t('DELETE_PROJECT_TITLE', { ns: 'money-manager' })}
+      title={t('DELETE_PROJECT_TITLE', { ns: 'money-tracker' })}
       contentJsx={
         <Typography>
-          {t('DELETE_PROJECT_CONTENT', { ns: 'money-manager' })}
+          {t('DELETE_PROJECT_CONTENT', { ns: 'money-tracker' })}
         </Typography>
       }
       actionsJsx={
