@@ -1,6 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { getSession } from 'next-auth/client'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import useSWR from 'swr'
 import axios from 'axios'
@@ -12,10 +13,14 @@ import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+
+import { dbToJs } from '@/utils/convertTime'
 
 import type { ProjectType } from '@/global-types'
 
 const Projects: NextPage = () => {
+  const { t } = useTranslation('common')
   const router = useRouter()
   const { data, error } =
     useSWR<{ status: boolean; projects: ProjectType[] }>('/api/project')
@@ -45,7 +50,24 @@ const Projects: NextPage = () => {
                   <DinoProjectItem
                     id={project._id}
                     title={project.title}
-                    subTitle={project.createdAt}
+                    subTitle={
+                      <Typography variant="subtitle2" color="text.secondary">
+                        {t('CREATED_AT')}: {dbToJs(project.createdAt)}
+                      </Typography>
+                    }
+                    tooltip={
+                      <>
+                        <Typography variant="subtitle2" color="inherit">
+                          {t('CREATED_AT')}: {dbToJs(project.createdAt)}
+                        </Typography>
+                        <Typography variant="subtitle2" color="inherit">
+                          {t('UPDATED_AT')}: {dbToJs(project.updatedAt)}
+                        </Typography>
+                        <Typography variant="subtitle2" color="inherit">
+                          {t('PROJECT_DESCRIPTION')}: {project.description}
+                        </Typography>
+                      </>
+                    }
                     description={project.description}
                   />
                 </Grid>
