@@ -1,5 +1,5 @@
 import { dbConnect } from '@/utils/db-utils'
-import Project from '@/models/project'
+import Project from '@/models/money-traker/project'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 
