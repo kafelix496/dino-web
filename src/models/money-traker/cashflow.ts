@@ -1,13 +1,11 @@
 import mongoose from 'mongoose'
 
-// TODO: I can not use @/global-types
-// because I get error from api
-import { SectionType } from '../../types/money-manager'
+import { SectionType } from '@/global-types/money-tracker'
 
 const cashflowSchema = new mongoose.Schema({
   projectId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Project',
+    ref: 'project',
     required: true
   },
   type: {
@@ -49,4 +47,4 @@ const cashflowSchema = new mongoose.Schema({
 })
 
 export default mongoose.models.Cashflow ||
-  mongoose.model('Cashflow', cashflowSchema)
+  mongoose.model('cashflow', cashflowSchema)

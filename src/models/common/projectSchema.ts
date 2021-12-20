@@ -1,13 +1,11 @@
 import mongoose from 'mongoose'
 
-// TODO: I can not use @/global-types
-// because I get error from api
-import { AccessLevelType } from '../types/index'
+import { AccessLevelType } from '@/global-types/index'
 
 const accessUserSchema = new mongoose.Schema({
   accessUserId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user',
     required: true
   },
   accessLevel: {
@@ -29,7 +27,7 @@ const projectSchema = new mongoose.Schema({
   },
   ownerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user',
     required: true
   },
   accessUsers: {
@@ -39,5 +37,4 @@ const projectSchema = new mongoose.Schema({
 
 projectSchema.set('timestamps', true)
 
-export default mongoose.models.Project ||
-  mongoose.model('Project', projectSchema)
+export default projectSchema
