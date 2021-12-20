@@ -64,9 +64,11 @@ const Projects: NextPage = () => {
                         <Typography variant="subtitle2" color="inherit">
                           {t('UPDATED_AT')}: {dbToJs(project.updatedAt)}
                         </Typography>
-                        <Typography variant="subtitle2" color="inherit">
-                          {t('PROJECT_DESCRIPTION')}: {project.description}
-                        </Typography>
+                        {project.description ? (
+                          <Typography variant="subtitle2" color="inherit">
+                            {t('PROJECT_DESCRIPTION')}: {project.description}
+                          </Typography>
+                        ) : null}
                       </>
                     }
                     description={project.description}
