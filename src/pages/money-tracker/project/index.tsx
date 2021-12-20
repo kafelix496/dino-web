@@ -6,8 +6,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import useSWR from 'swr'
 import axios from 'axios'
 
-import DinoNewProjectButton from '@/components/money-manager/NewProjectButton/NewProjectButton'
-import DinoProjectItem from '@/components/money-manager/ProjectItem/ProjectItem'
+import DinoNewProjectButton from '@/components/money-tracker/NewProjectButton/NewProjectButton'
+import DinoProjectItem from '@/components/money-tracker/ProjectItem/ProjectItem'
 
 import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
@@ -22,8 +22,9 @@ import type { ProjectType } from '@/global-types'
 const Projects: NextPage = () => {
   const { t } = useTranslation('common')
   const router = useRouter()
-  const { data, error } =
-    useSWR<{ status: boolean; projects: ProjectType[] }>('/api/project')
+  const { data, error } = useSWR<{ status: boolean; projects: ProjectType[] }>(
+    '/api/money-tracker/project'
+  )
 
   if (error || data?.status === false) {
     router.push('/500')
@@ -96,7 +97,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   const data = await axios
-    .get(`${process.env.PAGE_URL}/api/project`, {
+    .get(`${process.env.PAGE_URL}/api/money-tracker/project`, {
       headers: {
         Cookie: req.headers.cookie!
       }
@@ -117,11 +118,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     props: {
       ...(await serverSideTranslations(locale ?? 'default', [
         'common',
-        'money-manager'
+        'money-tracker'
       ])),
       session,
       fallback: {
-        '/api/project': data
+        '/api/money-tracker/project': data
       }
     }
   }

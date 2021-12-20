@@ -26,10 +26,10 @@ describe('Home page', () => {
 
     const buttons = screen.getAllByRole('button')
     expect(buttons.length).toBe(1)
-    const moneyManagerButton = screen.getByRole('button', {
-      name: 'MONEY_MANAGER_APP'
+    const moneyTrackerButton = screen.getByRole('button', {
+      name: 'MONEY_TRACKER_APP'
     })
-    expect(moneyManagerButton).toBeInTheDocument()
+    expect(moneyTrackerButton).toBeInTheDocument()
   })
 
   it("should not clickable if it wasn't signed in & authNeed is true", () => {
@@ -37,23 +37,23 @@ describe('Home page', () => {
 
     render(<Home />)
 
-    const moneyManagerButton = screen.getByRole('button', {
-      name: 'MONEY_MANAGER_APP'
+    const moneyTrackerButton = screen.getByRole('button', {
+      name: 'MONEY_TRACKER_APP'
     })
-    expect(moneyManagerButton).toHaveAttribute('disabled')
-    expect(moneyManagerButton).not.toHaveAttribute('data-testhref')
+    expect(moneyTrackerButton).toHaveAttribute('disabled')
+    expect(moneyTrackerButton).not.toHaveAttribute('data-testhref')
   })
 
   it('should clickable if it was signed in', () => {
     render(<Home />)
 
-    const moneyManagerButton = screen.getByRole('button', {
-      name: 'MONEY_MANAGER_APP'
+    const moneyTrackerButton = screen.getByRole('button', {
+      name: 'MONEY_TRACKER_APP'
     })
-    expect(moneyManagerButton).not.toHaveAttribute('disabled')
-    expect(moneyManagerButton).toHaveAttribute(
+    expect(moneyTrackerButton).not.toHaveAttribute('disabled')
+    expect(moneyTrackerButton).toHaveAttribute(
       'data-testhref',
-      '/money-manager'
+      '/money-tracker'
     )
   })
 })

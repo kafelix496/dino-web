@@ -11,8 +11,8 @@ import Box from '@mui/material/Box'
 
 const appList = [
   {
-    link: '/money-manager',
-    name: 'MONEY_MANAGER_APP',
+    link: '/money-tracker',
+    name: 'MONEY_TRACKER_APP',
     needAuth: true
   }
 ]

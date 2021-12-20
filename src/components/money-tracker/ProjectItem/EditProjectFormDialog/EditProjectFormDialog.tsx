@@ -26,7 +26,7 @@ const DinoEditProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   title,
   description
 }) => {
-  const { t } = useTranslation(['common', 'money-manager'])
+  const { t } = useTranslation(['common', 'money-tracker'])
   const { mutate } = useSWRConfig()
   const formik = useFormik({
     initialValues: { title: '', description: '' },
@@ -41,9 +41,9 @@ const DinoEditProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
       setSubmitting(true)
 
       axios
-        .put(`/api/project/${id}`, values)
+        .put(`/api/money-tracker/project/${id}`, values)
         .then(() => {
-          mutate('/api/project')
+          mutate('/api/money-tracker/project')
         })
         .catch(() => {
           alert(t('ERROR_ALERT_MESSAGE'))
@@ -67,7 +67,7 @@ const DinoEditProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
     <DinoDialog
       open={isOpen}
       onClose={handleClose}
-      title={t('EDIT_PROJECT_TITLE', { ns: 'money-manager' })}
+      title={t('EDIT_PROJECT_TITLE', { ns: 'money-tracker' })}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={
