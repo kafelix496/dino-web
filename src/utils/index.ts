@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 import { Apps } from '@/global-types'
 
@@ -11,6 +11,6 @@ export const isValidAppType = (appType: unknown) => {
 
 export const convertTime = {
   dbToJs(date: string) {
-    return moment(date).format('MM/DD/YYYY h:mm a')
+    return dayjs(date).format('MM/DD/YYYY h:mm a')
   }
 }
