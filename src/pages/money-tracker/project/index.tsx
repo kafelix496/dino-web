@@ -16,14 +16,14 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
 import { dbToJs } from '@/utils/convertTime'
-
+import { Projects } from '@/global-types'
 import type { ProjectType } from '@/global-types'
 
-const Projects: NextPage = () => {
+const Page: NextPage = () => {
   const { t } = useTranslation('common')
   const router = useRouter()
   const { data, error } = useSWR<{ status: boolean; projects: ProjectType[] }>(
-    '/api/money-tracker/project'
+    `/api/project?type=${Projects.moneyTracker}`
   )
 
   if (error || data?.status === false) {
@@ -46,7 +46,7 @@ const Projects: NextPage = () => {
           </Box>
           <Paper elevation={4} sx={{ flexGrow: 1, overflowY: 'auto', p: 1 }}>
             <Grid container spacing={1}>
-              {data!.projects.map((project) => (
+              {(data?.projects ?? []).map((project) => (
                 <Grid item key={project._id} xs={12} sm={6} md={4}>
                   <DinoProjectItem
                     id={project._id}
@@ -99,7 +99,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   const data = await axios
-    .get(`${process.env.PAGE_URL}/api/money-tracker/project`, {
+    .get(`${process.env.PAGE_URL}/api/project?type=${Projects.moneyTracker}`, {
       headers: {
         Cookie: req.headers.cookie!
       }
@@ -124,10 +124,10 @@ export const getServerSideProps: GetServerSideProps = async ({
       ])),
       session,
       fallback: {
-        '/api/money-tracker/project': data
+        [`/api/project?type=${Projects.moneyTracker}`]: data
       }
     }
   }
 }
 
-export default Projects
+export default Page

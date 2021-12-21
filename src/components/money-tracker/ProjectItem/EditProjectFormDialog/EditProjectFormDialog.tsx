@@ -10,6 +10,7 @@ import Button from '@mui/material/Button'
 
 import DinoDialog from '@/components/Dialog/Dialog'
 import DinoFormFieldText from '@/components/forms/FormFieldText/FormFieldText'
+import { Projects } from '@/global-types'
 
 interface DinoNewProjectFormDialogProps {
   isOpen: boolean
@@ -41,9 +42,9 @@ const DinoEditProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
       setSubmitting(true)
 
       axios
-        .put(`/api/money-tracker/project/${id}`, values)
+        .put(`/api/project/${id}?type=${Projects.moneyTracker}`, values)
         .then(() => {
-          mutate('/api/money-tracker/project')
+          mutate(`/api/project?type=${Projects.moneyTracker}`)
         })
         .catch(() => {
           alert(t('ERROR_ALERT_MESSAGE'))

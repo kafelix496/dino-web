@@ -17,7 +17,7 @@ const appList = [
   }
 ]
 
-const Home: NextPage = () => {
+const Page: NextPage = () => {
   const { t } = useTranslation('home')
   const [session] = useSession()
 
@@ -60,4 +60,4 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 }
 
-export default Home
+export default Page

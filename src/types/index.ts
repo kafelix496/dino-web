@@ -1,12 +1,16 @@
-export enum AccessLevelType {
+export enum AccessLevels {
   READ = '4',
   READ_WRITE = '6',
   ALL = '7'
 }
 
+export enum Projects {
+  moneyTracker = 'mt'
+}
+
 interface AccessUserType {
   accessUserId: string
-  accessLevel: AccessLevelType
+  accessLevel: AccessLevels
 }
 export interface ProjectType {
   _id: string

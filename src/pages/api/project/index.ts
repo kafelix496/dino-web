@@ -1,23 +1,21 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/client'
+import mongoose from 'mongoose'
 
 import { dbConnect } from '@/utils/db-utils'
-import Project from '@/models/money-traker/project'
+import projectSchema from '@/models/common/projectSchema'
+import { Projects } from '@/global-types/index'
 
-import type { NextApiRequest, NextApiResponse } from 'next'
-
-/**
- * 1. If user isn't signed in, it will be returned with 401 error.
- * 2. If projectId is passed as query parameter with GET method,
- *    it will return matching project if current signed in user has access.
- * 3. If projectId is not passed as query parameter with GET method,
- *    it will return every project that current signed in user has access.
- * 4. If any unexpected thing happens, it will be return with 400 error.
- */
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
+    const { type } = req?.query ?? {}
+    if (!Object.values(Projects).includes(type as Projects)) {
+      return res.status(400).json({ status: false })
+    }
+
     const session = await getSession({ req })
     const userId = session?.user?.id
     if (!userId) {
@@ -26,9 +24,13 @@ export default async function handler(
 
     await dbConnect()
 
+    const ProjectModel =
+      mongoose.models[`${type}.project`] ||
+      mongoose.model(`${type}.project`, projectSchema)
+
     switch (req?.method) {
       case 'GET': {
-        const projects = await Project.find({
+        const projects = await ProjectModel.find({
           $or: [
             { ownerId: userId },
             { accessUsers: { $elemMatch: { accessUserId: userId } } }
@@ -43,7 +45,7 @@ export default async function handler(
       }
 
       case 'POST': {
-        const project = await Project.create({
+        const project = await ProjectModel.create({
           ...(req?.body ?? {}),
           ownerId: userId
         })
