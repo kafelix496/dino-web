@@ -4,10 +4,15 @@ import { useTranslation } from 'next-i18next'
 import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/Add'
 
-import DinoCreateProjectFormDialog from './CreateProjectFormDialog/CreateProjectFormDialog'
+import DinoCreateProjectDialog from './CreateProjectDialog/CreateProjectDialog'
+
 import useDialogStatus from '@/hooks/useDialogStatus'
 
-const DinoNewProjectButton: FC = () => {
+interface DinoNewProjectButtonProps {
+  appType: string
+}
+
+const DinoNewProjectButton: FC<DinoNewProjectButtonProps> = ({ appType }) => {
   const { t } = useTranslation('common')
   const { state: dialogState, handleOpen, handleClose } = useDialogStatus()
 
@@ -24,7 +29,8 @@ const DinoNewProjectButton: FC = () => {
         {t('BUTTON_NEW')}
       </Button>
 
-      <DinoCreateProjectFormDialog
+      <DinoCreateProjectDialog
+        appType={appType}
         isOpen={dialogState.isOpen}
         handleClose={handleClose}
       />

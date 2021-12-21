@@ -9,22 +9,27 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 
+import { Apps } from '@/global-types'
+
 const appList = [
   {
-    link: '/money-tracker',
-    name: 'MONEY_TRACKER_APP',
+    link: {
+      pathname: '/project',
+      query: { app_type: Apps.moneyTracker }
+    },
+    name: 'HOME_PAGE_MONEY_TRACKER_APP',
     needAuth: true
   }
 ]
 
-const Home: NextPage = () => {
-  const { t } = useTranslation('home')
+const Page: NextPage = () => {
+  const { t } = useTranslation('common')
   const [session] = useSession()
 
   return (
     <Container>
-      <Typography variant="h3">{t('PAGE_TITLE')}</Typography>
-      <Typography variant="h6">{t('PAGE_DESCRIPTION')}</Typography>
+      <Typography variant="h3">{t('HOME_PAGE_TITLE')}</Typography>
+      <Typography variant="h6">{t('HOME_PAGE_DESCRIPTION')}</Typography>
 
       <Box sx={{ mt: 2 }}>
         {appList.map((app, index) =>
@@ -51,13 +56,10 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'default', [
-        'common',
-        'home'
-      ])),
+      ...(await serverSideTranslations(locale ?? 'default', ['common'])),
       session
     }
   }
 }
 
-export default Home
+export default Page
