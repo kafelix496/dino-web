@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { AccessLevelType } from '@/global-types/index'
+import { AccessLevels } from '@/global-types'
 
 const accessUserSchema = new mongoose.Schema({
   accessUserId: {
@@ -10,7 +10,7 @@ const accessUserSchema = new mongoose.Schema({
   },
   accessLevel: {
     type: String,
-    enum: Object.values(AccessLevelType),
+    enum: Object.values(AccessLevels),
     required: true
   }
 })

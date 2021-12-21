@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import type { PaperProps } from '@mui/material/Paper'
@@ -5,8 +7,6 @@ import { styled } from '@mui/material/styles'
 
 import DinoAuthStatusButton from './AuthStatusButton/AuthStatusButton'
 import DinoPaletteModeButton from './PaletteModeButton/PaletteModeButton'
-
-import type { FC } from 'react'
 
 const DinoStyledHeader = styled(({ className, ...props }: PaperProps) => (
   <Paper {...props} component="header" classes={{ root: className }} />

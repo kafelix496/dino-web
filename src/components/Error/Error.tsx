@@ -6,7 +6,6 @@ import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-
 import type { Theme } from '@mui/material'
 
 interface DinoErrorProps {

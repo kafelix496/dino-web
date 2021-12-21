@@ -11,11 +11,13 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import type { Theme } from '@mui/material'
 
-import DinoEditProjectFormDialog from './EditProjectFormDialog/EditProjectFormDialog'
+import DinoEditProjectDialog from './EditProjectDialog/EditProjectDialog'
 import DinoDeleteProjectDialog from './DeleteProjectDialog/DeleteProjectDialog'
+
 import useDialogStatus from '@/hooks/useDialogStatus'
 
 interface DinoProjectItemProps {
+  appType: string
   id: string
   title: string
   subTitle: string | JSX.Element
@@ -24,6 +26,7 @@ interface DinoProjectItemProps {
 }
 
 const DinoProjectItem: FC<DinoProjectItemProps> = ({
+  appType,
   id,
   title,
   subTitle,
@@ -72,7 +75,8 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
         </CardActions>
       </Card>
 
-      <DinoEditProjectFormDialog
+      <DinoEditProjectDialog
+        appType={appType}
         isOpen={dialogState.name === 'edit' && dialogState.isOpen}
         handleClose={handleClose}
         id={id}
@@ -81,6 +85,7 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
       />
 
       <DinoDeleteProjectDialog
+        appType={appType}
         isOpen={dialogState.name === 'delete' && dialogState.isOpen}
         handleClose={handleClose}
         id={id}

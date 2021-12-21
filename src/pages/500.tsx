@@ -1,9 +1,9 @@
-import type { GetStaticProps } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import DinoError from '@/components/Error/Error'
 
-const Dino500 = () => {
+const Page: NextPage = () => {
   return <DinoError statusCode={500} />
 }
 
@@ -15,4 +15,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   }
 }
 
-export default Dino500
+export default Page

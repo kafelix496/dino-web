@@ -11,7 +11,6 @@ import { styled } from '@mui/material/styles'
 import DinoHeader from './Header/Header'
 
 import useDinoTheme from './useTheme'
-
 import type { State } from '@/redux-types'
 
 const DinoStyledPaper = styled(({ className, ...props }: PaperProps) => (
