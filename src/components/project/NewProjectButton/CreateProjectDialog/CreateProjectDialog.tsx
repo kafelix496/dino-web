@@ -9,18 +9,20 @@ import * as yup from 'yup'
 import Button from '@mui/material/Button'
 
 import DinoDialog from '@/components/Dialog/Dialog'
-import DinoFormFieldText from '@/components/forms/FormFieldText/FormFieldText'
+import DinoFieldText from '@/components/mui/FormFieldText/FormFieldText'
 
-interface DinoNewProjectFormDialogProps {
+interface DinoCreateProjectDialogProps {
+  appType: string
   isOpen: boolean
   handleClose: () => void
 }
 
-const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
+const DinoCreateProjectDialog: FC<DinoCreateProjectDialogProps> = ({
+  appType,
   isOpen,
   handleClose
 }) => {
-  const { t } = useTranslation(['common', 'money-tracker'])
+  const { t } = useTranslation('common')
   const { mutate } = useSWRConfig()
   const formik = useFormik({
     initialValues: {
@@ -38,9 +40,9 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
       setSubmitting(true)
 
       axios
-        .post('/api/money-tracker/project', values)
+        .post(`/api/project?app_type=${appType}`, values)
         .then(() => {
-          mutate('/api/money-tracker/project')
+          mutate(`/api/project?app_type=${appType}`)
         })
         .catch(() => {
           alert(t('ERROR_ALERT_MESSAGE'))
@@ -62,19 +64,19 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
     <DinoDialog
       open={isOpen}
       onClose={handleClose}
-      title={t('CREATE_PROJECT_TITLE', { ns: 'money-tracker' })}
+      title={t('CREATE_PROJECT_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={
         <>
-          <DinoFormFieldText
+          <DinoFieldText
             autoFocus={true}
             required={true}
             label={t('PROJECT_TITLE')}
             formik={formik}
             name="title"
           />
-          <DinoFormFieldText
+          <DinoFieldText
             label={t('PROJECT_DESCRIPTION')}
             formik={formik}
             name="description"
@@ -100,4 +102,4 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   )
 }
 
-export default DinoNewProjectFormDialog
+export default DinoCreateProjectDialog

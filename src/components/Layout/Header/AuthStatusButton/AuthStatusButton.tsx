@@ -1,3 +1,4 @@
+import type { FC } from 'react'
 import { useTranslation } from 'next-i18next'
 import {
   signIn as nextAuthSignIn,
@@ -8,8 +9,6 @@ import {
 import Button from '@mui/material/Button'
 
 import useDinoHeaderButtonColor from '../useHeaderButtonColor'
-
-import type { FC } from 'react'
 
 const DinoAuthStatusButton: FC = () => {
   const { t } = useTranslation('common')

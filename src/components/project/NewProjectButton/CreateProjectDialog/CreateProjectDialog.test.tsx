@@ -1,12 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import DinoCreateProjectFormDialog from './CreateProjectFormDialog'
+import DinoCreateProjectDialog from './CreateProjectDialog'
 
-describe('DinoCreateProjectFormDialog component', () => {
+describe('DinoCreateProjectDialog component', () => {
   test('button is disabled at the beginning', async () => {
-    render(
-      <DinoCreateProjectFormDialog isOpen={true} handleClose={jest.fn()} />
-    )
+    render(<DinoCreateProjectDialog isOpen={true} handleClose={jest.fn()} />)
 
     const createButton = await screen.findByRole('button', {
       name: 'BUTTON_CREATE'
@@ -15,9 +13,7 @@ describe('DinoCreateProjectFormDialog component', () => {
   })
 
   test('button is enabled when user type something at title', async () => {
-    render(
-      <DinoCreateProjectFormDialog isOpen={true} handleClose={jest.fn()} />
-    )
+    render(<DinoCreateProjectDialog isOpen={true} handleClose={jest.fn()} />)
 
     const titleInput = screen.getByRole('textbox', {
       name: 'PROJECT_TITLE'
