@@ -32,6 +32,9 @@
       "@/hooks/*": [
         "./src/hooks/*"
       ],
+      "@/utils": [
+        "./src/utils/index.ts"
+      ],
       "@/utils/*": [
         "./src/utils/*"
       ],

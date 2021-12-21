@@ -15,8 +15,7 @@ import Typography from '@mui/material/Typography'
 import DinoNewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
 import DinoProjectItem from '@/components/project/ProjectItem/ProjectItem'
 
-import { dbToJs } from '@/utils/convertTime'
-import { isValidAppType } from '@/utils/global'
+import { isValidAppType, convertTime } from '@/utils'
 import { Apps } from '@/global-types'
 import type { ProjectType } from '@/global-types'
 
@@ -58,16 +57,19 @@ const Page: NextPage = () => {
                     title={project.title}
                     subTitle={
                       <Typography variant="subtitle2" color="text.secondary">
-                        {t('CREATED_AT')}: {dbToJs(project.createdAt)}
+                        {t('CREATED_AT')}:{' '}
+                        {convertTime.dbToJs(project.createdAt)}
                       </Typography>
                     }
                     tooltip={
                       <>
                         <Typography variant="subtitle2" color="inherit">
-                          {t('CREATED_AT')}: {dbToJs(project.createdAt)}
+                          {t('CREATED_AT')}:{' '}
+                          {convertTime.dbToJs(project.createdAt)}
                         </Typography>
                         <Typography variant="subtitle2" color="inherit">
-                          {t('UPDATED_AT')}: {dbToJs(project.updatedAt)}
+                          {t('UPDATED_AT')}:{' '}
+                          {convertTime.dbToJs(project.updatedAt)}
                         </Typography>
                         {project.description ? (
                           <Typography variant="subtitle2" color="inherit">
