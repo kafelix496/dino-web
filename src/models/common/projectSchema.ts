@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { AccessLevels } from '@/global-types/index'
+import { AccessLevels } from '@/global-types'
 
 const accessUserSchema = new mongoose.Schema({
   accessUserId: {

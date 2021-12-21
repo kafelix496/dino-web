@@ -1,12 +1,11 @@
+import type { FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { togglePaletteMode } from '@/redux-action-creators'
 
 import IconButton from '@mui/material/IconButton'
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness'
 
 import useDinoHeaderButtonColor from '../useHeaderButtonColor'
-
-import type { FC } from 'react'
+import { togglePaletteMode } from '@/redux-action-creators'
 
 const DinoPaletteModeButton: FC = () => {
   const dispatch = useDispatch()

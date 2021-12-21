@@ -4,7 +4,7 @@ export enum AccessLevels {
   ALL = '7'
 }
 
-export enum Projects {
+export enum Apps {
   moneyTracker = 'mt'
 }
 

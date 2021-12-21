@@ -8,15 +8,16 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import DinoDialog from '@/components/Dialog/Dialog'
-import { Projects } from '@/global-types'
 
-interface DinoNewProjectFormDialogProps {
+interface DinoDeleteProjectFormDialogProps {
+  appType: string
   id: string
   isOpen: boolean
   handleClose: () => void
 }
 
-const DinoDeleteProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
+const DinoDeleteProjectFormDialog: FC<DinoDeleteProjectFormDialogProps> = ({
+  appType,
   id,
   isOpen,
   handleClose
@@ -29,9 +30,9 @@ const DinoDeleteProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
     setSubmitting(true)
 
     axios
-      .delete(`/api/project/${id}?type=${Projects.moneyTracker}`)
+      .delete(`/api/project/${id}?app_type=${appType}`)
       .then(() => {
-        mutate(`/api/project?type=${Projects.moneyTracker}`)
+        mutate(`/api/project?app_type=${appType}`)
       })
       .catch(() => {
         alert(t('ERROR_ALERT_MESSAGE'))

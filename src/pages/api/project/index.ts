@@ -3,16 +3,16 @@ import { getSession } from 'next-auth/client'
 import mongoose from 'mongoose'
 
 import { dbConnect } from '@/utils/db-utils'
+import { isValidAppType } from '@/utils/global'
 import projectSchema from '@/models/common/projectSchema'
-import { Projects } from '@/global-types/index'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const { type } = req?.query ?? {}
-    if (!Object.values(Projects).includes(type as Projects)) {
+    const { app_type: appType } = req?.query ?? {}
+    if (!isValidAppType(appType)) {
       return res.status(400).json({ status: false })
     }
 
@@ -25,8 +25,8 @@ export default async function handler(
     await dbConnect()
 
     const ProjectModel =
-      mongoose.models[`${type}.project`] ||
-      mongoose.model(`${type}.project`, projectSchema)
+      mongoose.models[`${appType}.project`] ||
+      mongoose.model(`${appType}.project`, projectSchema)
 
     switch (req?.method) {
       case 'GET': {

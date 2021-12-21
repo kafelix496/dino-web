@@ -1,11 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import DinoEditProjectFormDialog from './EditProjectFormDialog'
+import DinoEditProjectDialog from './EditProjectDialog'
 
-describe('DinoEditProjectFormDialog component', () => {
+describe('DinoEditProjectDialog component', () => {
   test('button is disabled at the beginning', async () => {
     render(
-      <DinoEditProjectFormDialog
+      <DinoEditProjectDialog
+        appType=""
         isOpen={true}
         handleClose={jest.fn()}
         id=""
@@ -22,7 +23,8 @@ describe('DinoEditProjectFormDialog component', () => {
 
   test('button is enabled when user type something at title', async () => {
     render(
-      <DinoEditProjectFormDialog
+      <DinoEditProjectDialog
+        appType=""
         isOpen={true}
         handleClose={jest.fn()}
         id=""

@@ -9,10 +9,10 @@ import * as yup from 'yup'
 import Button from '@mui/material/Button'
 
 import DinoDialog from '@/components/Dialog/Dialog'
-import DinoFormFieldText from '@/components/forms/FormFieldText/FormFieldText'
-import { Projects } from '@/global-types'
+import DinoFieldText from '@/components/mui/FormFieldText/FormFieldText'
 
-interface DinoNewProjectFormDialogProps {
+interface DinoEditProjectDialogProps {
+  appType: string
   isOpen: boolean
   handleClose: () => void
   id: string
@@ -20,7 +20,8 @@ interface DinoNewProjectFormDialogProps {
   description: string
 }
 
-const DinoEditProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
+const DinoEditProjectDialog: FC<DinoEditProjectDialogProps> = ({
+  appType,
   isOpen,
   handleClose,
   id,
@@ -42,9 +43,9 @@ const DinoEditProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
       setSubmitting(true)
 
       axios
-        .put(`/api/project/${id}?type=${Projects.moneyTracker}`, values)
+        .put(`/api/project/${id}?app_type=${appType}`, values)
         .then(() => {
-          mutate(`/api/project?type=${Projects.moneyTracker}`)
+          mutate(`/api/project?app_type=${appType}`)
         })
         .catch(() => {
           alert(t('ERROR_ALERT_MESSAGE'))
@@ -73,14 +74,14 @@ const DinoEditProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
       handleFormSubmit={formik.handleSubmit}
       contentJsx={
         <>
-          <DinoFormFieldText
+          <DinoFieldText
             autoFocus={true}
             required={true}
             label={t('PROJECT_TITLE')}
             formik={formik}
             name="title"
           />
-          <DinoFormFieldText
+          <DinoFieldText
             label={t('PROJECT_DESCRIPTION')}
             formik={formik}
             name="description"
@@ -106,4 +107,4 @@ const DinoEditProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   )
 }
 
-export default DinoEditProjectFormDialog
+export default DinoEditProjectDialog

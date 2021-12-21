@@ -9,9 +9,14 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 
+import { Apps } from '@/global-types'
+
 const appList = [
   {
-    link: '/money-tracker',
+    link: {
+      pathname: '/project',
+      query: { app_type: Apps.moneyTracker }
+    },
     name: 'HOME_PAGE_MONEY_TRACKER_APP',
     needAuth: true
   }
