@@ -16,12 +16,12 @@ interface DinoNewProjectFormDialogProps {
   handleClose: () => void
 }
 
-const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
+const DinoDeleteProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   id,
   isOpen,
   handleClose
 }) => {
-  const { t } = useTranslation(['common', 'money-tracker'])
+  const { t } = useTranslation('common')
   const { mutate } = useSWRConfig()
   const [isSubmitting, setSubmitting] = useState(false)
 
@@ -46,12 +46,8 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
     <DinoDialog
       open={isOpen}
       onClose={handleClose}
-      title={t('DELETE_PROJECT_TITLE', { ns: 'money-tracker' })}
-      contentJsx={
-        <Typography>
-          {t('DELETE_PROJECT_CONTENT', { ns: 'money-tracker' })}
-        </Typography>
-      }
+      title={t('DELETE_PROJECT_DIALOG_TITLE')}
+      contentJsx={<Typography>{t('DELETE_PROJECT_DIALOG_CONTENT')}</Typography>}
       actionsJsx={
         <>
           <Button color="secondary" variant="outlined" onClick={handleClose}>
@@ -72,4 +68,4 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   )
 }
 
-export default DinoNewProjectFormDialog
+export default DinoDeleteProjectFormDialog

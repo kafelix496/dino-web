@@ -12,11 +12,11 @@ describe('Home page', () => {
     render(<Home />)
 
     const pageTitle = screen.getByRole('heading', {
-      name: /PAGE_TITLE/
+      name: /HOME_PAGE_TITLE/
     })
     expect(pageTitle).toBeInTheDocument()
     const pageDescription = screen.getByRole('heading', {
-      name: /PAGE_DESCRIPTION/
+      name: /HOME_PAGE_DESCRIPTION/
     })
     expect(pageDescription).toBeInTheDocument()
   })
@@ -27,7 +27,7 @@ describe('Home page', () => {
     const buttons = screen.getAllByRole('button')
     expect(buttons.length).toBe(1)
     const moneyTrackerButton = screen.getByRole('button', {
-      name: 'MONEY_TRACKER_APP'
+      name: 'HOME_PAGE_MONEY_TRACKER_APP'
     })
     expect(moneyTrackerButton).toBeInTheDocument()
   })
@@ -38,7 +38,7 @@ describe('Home page', () => {
     render(<Home />)
 
     const moneyTrackerButton = screen.getByRole('button', {
-      name: 'MONEY_TRACKER_APP'
+      name: 'HOME_PAGE_MONEY_TRACKER_APP'
     })
     expect(moneyTrackerButton).toHaveAttribute('disabled')
     expect(moneyTrackerButton).not.toHaveAttribute('data-testhref')
@@ -48,7 +48,7 @@ describe('Home page', () => {
     render(<Home />)
 
     const moneyTrackerButton = screen.getByRole('button', {
-      name: 'MONEY_TRACKER_APP'
+      name: 'HOME_PAGE_MONEY_TRACKER_APP'
     })
     expect(moneyTrackerButton).not.toHaveAttribute('disabled')
     expect(moneyTrackerButton).toHaveAttribute(

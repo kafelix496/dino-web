@@ -118,10 +118,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'default', [
-        'common',
-        'money-tracker'
-      ])),
+      ...(await serverSideTranslations(locale ?? 'default', ['common'])),
       session,
       fallback: {
         [`/api/project?type=${Projects.moneyTracker}`]: data

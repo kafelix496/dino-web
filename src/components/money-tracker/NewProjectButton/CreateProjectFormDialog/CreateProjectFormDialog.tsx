@@ -21,7 +21,7 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
   isOpen,
   handleClose
 }) => {
-  const { t } = useTranslation(['common', 'money-tracker'])
+  const { t } = useTranslation('common')
   const { mutate } = useSWRConfig()
   const formik = useFormik({
     initialValues: {
@@ -63,7 +63,7 @@ const DinoNewProjectFormDialog: FC<DinoNewProjectFormDialogProps> = ({
     <DinoDialog
       open={isOpen}
       onClose={handleClose}
-      title={t('CREATE_PROJECT_TITLE', { ns: 'money-tracker' })}
+      title={t('CREATE_PROJECT_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={
