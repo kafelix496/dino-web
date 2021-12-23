@@ -5,23 +5,11 @@ import { useTranslation } from 'next-i18next'
 
 import { ThemeProvider } from '@mui/material'
 import Paper from '@mui/material/Paper'
-import type { PaperProps } from '@mui/material/Paper'
-import { styled } from '@mui/material/styles'
 
 import DinoHeader from './Header/Header'
 
 import useDinoTheme from './useTheme'
 import type { State } from '@/redux-types'
-
-const DinoStyledPaper = styled(({ className, ...props }: PaperProps) => (
-  <Paper {...props} elevation={0} square={true} classes={{ root: className }} />
-))(
-  ({ theme }) => `
-  &.MuiPaper-root {
-    height: calc(100vh - ${theme.spacing(8)});
-  }
-`
-)
 
 const DinoLayout: FC = ({ children }) => {
   const { t } = useTranslation('common')
@@ -38,7 +26,13 @@ const DinoLayout: FC = ({ children }) => {
 
       <DinoHeader />
 
-      <DinoStyledPaper>{children}</DinoStyledPaper>
+      <Paper
+        elevation={0}
+        square={true}
+        sx={{ height: (theme) => `calc(100vh - ${theme.spacing(8)})` }}
+      >
+        {children}
+      </Paper>
     </ThemeProvider>
   )
 }

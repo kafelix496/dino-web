@@ -17,17 +17,12 @@ const DinoError: FC<DinoErrorProps> = ({ statusCode }) => {
 
   return (
     <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: (theme: Theme) => `calc(100vh - ${theme.spacing(8)})`,
-        overflow: 'hidden'
-      }}
+      className="__d-flex-center __d-overflow-hidden"
+      sx={{ height: (theme: Theme) => `calc(100vh - ${theme.spacing(8)})` }}
     >
       <Paper elevation={4} sx={{ py: 4, px: 3 }}>
         <Typography variant="h6">{t(`ERROR_${statusCode}_MESSAGE`)}</Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Box className="__d-flex __d-justify-end">
           <Link href="/">
             <Button sx={{ mt: 3 }} variant="contained">
               {t('GO_TO_HOMEPAGE')}
