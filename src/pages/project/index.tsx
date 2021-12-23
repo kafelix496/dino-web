@@ -33,21 +33,21 @@ const Page: NextPage = () => {
 
   return (
     <Container sx={{ height: '100%' }}>
-      <Box className="__dino__all-center">
+      <Box className="__d-flex-center __d-full">
         <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '90%',
-            height: '60%'
-          }}
+          className="__d-flex __d-flex-col"
+          sx={{ width: '90%', height: '60%' }}
         >
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+          <Box className="__d-flex __d-justify-end" sx={{ mb: 2 }}>
             <DinoNewProjectButton
               appType={appType as string}
             ></DinoNewProjectButton>
           </Box>
-          <Paper elevation={4} sx={{ flexGrow: 1, overflowY: 'auto', p: 1 }}>
+          <Paper
+            className="__d-grow"
+            elevation={4}
+            sx={{ overflowY: 'auto', p: 1 }}
+          >
             <Grid container spacing={1}>
               {(data?.projects ?? []).map((project) => (
                 <Grid item key={project._id} xs={12} sm={6} md={4}>

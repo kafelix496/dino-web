@@ -38,10 +38,10 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
   return (
     <>
       <Card
+        className="__d-cursor-pointer"
         variant="outlined"
         sx={{
           maxWidth: 300,
-          cursor: 'pointer',
           '&:hover': {
             backgroundColor: (theme: Theme) => theme.palette.action.hover
           }
@@ -52,7 +52,7 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
             <CardHeader title={title} subheader={subTitle} />
           </div>
         </Tooltip>
-        <CardActions disableSpacing sx={{ justifyContent: 'flex-end' }}>
+        <CardActions disableSpacing className="__d-justify-end">
           <Link href={`project/${id}`}>
             <IconButton>
               <PlayArrowIcon />
