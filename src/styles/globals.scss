@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
-@import 'parts/_variables';
+@import 'parts/variables';
+@import 'parts/flex';
+@import 'parts/position';
+@import 'parts/size';
+@import 'parts/cursor';
+@import 'parts/overflow';
 @import 'mui-overwrite';
 
 * {
@@ -11,12 +16,4 @@ html,
 body {
   margin: 0;
   padding: 0;
-}
-
-.__dino__all-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
 }
