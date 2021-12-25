@@ -10,6 +10,11 @@ module.exports = {
         permanent: false,
         source: '/project',
         destination: '/project/dashboard'
+      },
+      {
+        permanent: false,
+        source: '/mt',
+        destination: '/mt/dashboard'
       }
     ]
   }
