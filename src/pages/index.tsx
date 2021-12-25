@@ -14,7 +14,7 @@ import { Apps } from '@/global-types'
 const appList = [
   {
     link: {
-      pathname: '/project',
+      pathname: '/project/dashboard',
       query: { app_type: Apps.moneyTracker }
     },
     name: 'HOME_PAGE_MONEY_TRACKER_APP',
