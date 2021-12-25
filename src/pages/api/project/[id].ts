@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/client'
-import mongoose from 'mongoose'
 
 import { dbConnect } from '@/utils/db-utils'
 import { isValidAppType } from '@/utils'
 import projectSchema from '@/models/common/projectSchema'
+import { createDocument } from '@/models/utils/createDocument'
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,13 +24,11 @@ export default async function handler(
 
     await dbConnect()
 
-    const ProjectModel =
-      mongoose.models[`${appType}.project`] ||
-      mongoose.model(`${appType}.project`, projectSchema)
+    const ProjectDoc = createDocument(`${appType}.project`, projectSchema)
 
     switch (req?.method) {
       case 'GET': {
-        const project = await ProjectModel.findOne({
+        const project = await ProjectDoc.findOne({
           $and: [
             { _id: id },
             {
@@ -50,7 +48,7 @@ export default async function handler(
       }
 
       case 'PUT': {
-        const project = await ProjectModel.findByIdAndUpdate(id, req?.body, {
+        const project = await ProjectDoc.findByIdAndUpdate(id, req?.body, {
           new: true,
           runValidators: true
         })
@@ -63,7 +61,7 @@ export default async function handler(
       }
 
       case 'DELETE': {
-        const project = await ProjectModel.deleteOne({
+        const project = await ProjectDoc.deleteOne({
           $and: [
             { _id: id },
             {
