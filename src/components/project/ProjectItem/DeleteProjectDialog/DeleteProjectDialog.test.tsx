@@ -2,10 +2,17 @@ import { render, screen } from '@testing-library/react'
 
 import DinoDeleteProjectDialog from './DeleteProjectDialog'
 
+import { Apps } from '@/global-types'
+
 describe('DinoDeleteProjectDialog component', () => {
-  test('button is disabled at the beginning', async () => {
+  test('the button should not be disabled at the beginning', async () => {
     render(
-      <DinoDeleteProjectDialog isOpen={true} handleClose={jest.fn()} id="" />
+      <DinoDeleteProjectDialog
+        appType={Apps.moneyTracker}
+        isOpen={true}
+        handleClose={jest.fn()}
+        id=""
+      />
     )
 
     const createButton = await screen.findByRole('button', {

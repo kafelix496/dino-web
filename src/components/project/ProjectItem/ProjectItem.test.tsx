@@ -2,6 +2,8 @@ import { fireEvent, render, screen } from '@testing-library/react'
 
 import DinoProjectItem from './ProjectItem'
 
+import { Apps } from '@/global-types'
+
 const setup = () => {
   return {
     id: 'TEST_ID',
@@ -18,6 +20,7 @@ describe('DinoProjectItem component', () => {
 
     render(
       <DinoProjectItem
+        appType={Apps.moneyTracker}
         id={id}
         title={title}
         subTitle={subTitle}
@@ -37,6 +40,7 @@ describe('DinoProjectItem component', () => {
 
     render(
       <DinoProjectItem
+        appType={Apps.moneyTracker}
         id={id}
         title={title}
         subTitle={subTitle}

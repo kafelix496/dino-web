@@ -2,9 +2,17 @@ import { fireEvent, render, screen } from '@testing-library/react'
 
 import DinoCreateProjectDialog from './CreateProjectDialog'
 
+import { Apps } from '@/global-types'
+
 describe('DinoCreateProjectDialog component', () => {
-  test('button is disabled at the beginning', async () => {
-    render(<DinoCreateProjectDialog isOpen={true} handleClose={jest.fn()} />)
+  test('the button should be disabled at the beginning', async () => {
+    render(
+      <DinoCreateProjectDialog
+        appType={Apps.moneyTracker}
+        isOpen={true}
+        handleClose={jest.fn()}
+      />
+    )
 
     const createButton = await screen.findByRole('button', {
       name: 'BUTTON_CREATE'
@@ -12,8 +20,14 @@ describe('DinoCreateProjectDialog component', () => {
     expect(createButton).toHaveClass('Mui-disabled')
   })
 
-  test('button is enabled when user type something at title', async () => {
-    render(<DinoCreateProjectDialog isOpen={true} handleClose={jest.fn()} />)
+  it('should enable the button when the user types something on the title', async () => {
+    render(
+      <DinoCreateProjectDialog
+        appType={Apps.moneyTracker}
+        isOpen={true}
+        handleClose={jest.fn()}
+      />
+    )
 
     const titleInput = screen.getByRole('textbox', {
       name: 'PROJECT_TITLE'
