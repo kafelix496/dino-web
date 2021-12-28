@@ -2,13 +2,15 @@ import { fireEvent, render, screen } from '@testing-library/react'
 
 import DinoNewProjectButton from './NewProjectButton'
 
+import { Apps } from '@/global-types'
+
 describe('DinoNewProjectButton component', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('should not render dialog on initial render', () => {
-    render(<DinoNewProjectButton />)
+    render(<DinoNewProjectButton appType={Apps.moneyTracker} />)
 
     const dialogButton = screen.queryByRole('button', {
       name: 'BUTTON_CREATE'
@@ -17,7 +19,7 @@ describe('DinoNewProjectButton component', () => {
   })
 
   it('should render dialog when button is clicked', () => {
-    render(<DinoNewProjectButton />)
+    render(<DinoNewProjectButton appType={Apps.moneyTracker} />)
 
     const newButton = screen.getByTestId('button')
     fireEvent.click(newButton)

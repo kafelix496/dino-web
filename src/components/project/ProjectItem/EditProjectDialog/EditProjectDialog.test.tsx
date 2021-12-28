@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import DinoEditProjectDialog from './EditProjectDialog'
 
 describe('DinoEditProjectDialog component', () => {
-  test('button is disabled at the beginning', async () => {
+  test('the button should not be disabled at the beginning', async () => {
     render(
       <DinoEditProjectDialog
         appType=""
@@ -21,7 +21,7 @@ describe('DinoEditProjectDialog component', () => {
     expect(createButton).toHaveClass('Mui-disabled')
   })
 
-  test('button is enabled when user type something at title', async () => {
+  test('should enable the button when the user types something on the title', async () => {
     render(
       <DinoEditProjectDialog
         appType=""
