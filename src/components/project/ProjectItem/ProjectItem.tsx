@@ -53,7 +53,7 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
           </div>
         </Tooltip>
         <CardActions disableSpacing className="__d-justify-end">
-          <Link href={`/${appType}/dashboard?project_type=${id}`}>
+          <Link href={`/${appType}/dashboard?project_id=${id}`}>
             <IconButton>
               <PlayArrowIcon />
             </IconButton>

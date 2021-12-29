@@ -1,20 +1,31 @@
 import type { FC } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'next-i18next'
 
 import { ThemeProvider } from '@mui/material'
+import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
+import Toolbar from '@mui/material/Toolbar'
 
 import DinoHeader from './Header/Header'
+import DinoSidebar from './Sidebar/Sidebar'
 
 import useDinoTheme from './useTheme'
+import { Apps } from '@/global-types'
 import type { State } from '@/redux-types'
 
 const DinoLayout: FC = ({ children }) => {
+  const router = useRouter()
   const { t } = useTranslation('common')
   const paletteMode = useSelector((state: State) => state.theme.paletteMode)
   const { theme } = useDinoTheme({ paletteMode })
+
+  const hasSidebar =
+    Object.values(Apps).find((app) =>
+      new RegExp(`^/${app}`).test(router.pathname)
+    ) !== undefined
 
   return (
     <ThemeProvider theme={theme}>
@@ -24,15 +35,25 @@ const DinoLayout: FC = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <DinoHeader />
+      <Box className="__d-flex">
+        <DinoHeader withSidebarMenu={hasSidebar} />
 
-      <Paper
-        elevation={0}
-        square={true}
-        sx={{ height: (theme) => `calc(100vh - ${theme.spacing(8)})` }}
-      >
-        {children}
-      </Paper>
+        {hasSidebar ? <DinoSidebar /> : null}
+
+        <Paper
+          className="__d-grow"
+          component="main"
+          elevation={0}
+          square={true}
+          sx={{ height: '100vh', px: 3 }}
+        >
+          <Toolbar />
+
+          <Box sx={{ height: (theme) => `calc(100% - ${theme.spacing(8)})` }}>
+            {children}
+          </Box>
+        </Paper>
+      </Box>
     </ThemeProvider>
   )
 }

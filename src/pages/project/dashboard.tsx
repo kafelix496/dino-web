@@ -95,14 +95,14 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   locale
 }) => {
-  const { app_type } = query
-  if (!isValidAppType(app_type)) {
-    return { redirect: { permanent: false, destination: '/404' } }
-  }
-
   const session = await getSession({ req }).catch(() => null)
   if (!session) {
     return { redirect: { permanent: false, destination: '/500' } }
+  }
+
+  const { app_type } = query
+  if (!isValidAppType(app_type)) {
+    return { redirect: { permanent: false, destination: '/404' } }
   }
 
   const data = await axios
