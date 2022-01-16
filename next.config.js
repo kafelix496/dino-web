@@ -8,8 +8,13 @@ module.exports = {
     return [
       {
         permanent: false,
-        source: '/money-tracker',
-        destination: '/money-tracker/dashboard'
+        source: '/project',
+        destination: '/project/dashboard'
+      },
+      {
+        permanent: false,
+        source: '/mt',
+        destination: '/mt/dashboard'
       }
     ]
   }
