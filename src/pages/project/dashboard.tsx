@@ -1,4 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { getSession } from 'next-auth/client'
 import { useTranslation } from 'next-i18next'
@@ -13,11 +14,15 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
 import DinoNewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
-import DinoProjectItem from '@/components/project/ProjectItem/ProjectItem'
 
 import { isValidAppType, convertTime } from '@/utils'
 import { Apps } from '@/global-types'
 import type { ProjectType } from '@/global-types'
+
+const DinoProjectItem = dynamic(
+  () => import('@/components/project/ProjectItem/ProjectItem'),
+  { ssr: false }
+)
 
 const Page: NextPage = () => {
   const { t } = useTranslation('common')
@@ -30,6 +35,11 @@ const Page: NextPage = () => {
   if (error || data?.status === false) {
     router.push('/500')
   }
+
+  const getCreatedAtTxt = (dbTime: string): string =>
+    `${t('CREATED_AT')}: ${convertTime.dbToJs(dbTime)}`
+  const getUpdatedAtTxt = (dbTime: string): string =>
+    `${t('UPDATED_AT')}: ${convertTime.dbToJs(dbTime)}`
 
   return (
     <Container sx={{ height: '100%' }}>
@@ -57,19 +67,16 @@ const Page: NextPage = () => {
                     title={project.title}
                     subTitle={
                       <Typography variant="subtitle2" color="text.secondary">
-                        {t('CREATED_AT')}:{' '}
-                        {convertTime.dbToJs(project.createdAt)}
+                        {getCreatedAtTxt(project.createdAt)}
                       </Typography>
                     }
                     tooltip={
                       <>
                         <Typography variant="subtitle2" color="inherit">
-                          {t('CREATED_AT')}:{' '}
-                          {convertTime.dbToJs(project.createdAt)}
+                          {getCreatedAtTxt(project.createdAt)}
                         </Typography>
                         <Typography variant="subtitle2" color="inherit">
-                          {t('UPDATED_AT')}:{' '}
-                          {convertTime.dbToJs(project.updatedAt)}
+                          {getUpdatedAtTxt(project.updatedAt)}
                         </Typography>
                         {project.description ? (
                           <Typography variant="subtitle2" color="inherit">

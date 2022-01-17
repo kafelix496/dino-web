@@ -20,3 +20,5 @@ export const convertTime = {
 export const generateUuid = (): string => {
   return uuidv1()
 }
+
+export const isServer = () => typeof window !== 'undefined'
