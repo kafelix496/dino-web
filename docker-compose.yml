@@ -1,11 +1,24 @@
 version: "3.8"
 
 services:
+  web:
+    container_name: dino-web
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+
   mongodb:
-    container_name: mongodb
+    container_name: dino-mongodb
     image: mongo
     restart: always
     volumes:
-      - ~/dino-mongodb:/data/db
+      - ./dino-mongodb:/data/db
     ports:
-      - "27017:27017"
+      - 27017:27017
