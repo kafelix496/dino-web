@@ -8,7 +8,7 @@ import Container from '@mui/material/Container'
 import { Apps } from '@/global-types'
 
 const Page: NextPage = () => {
-  return <Container>dashboard</Container>
+  return <Container>aaa</Container>
 }
 
 export const getServerSideProps: GetServerSideProps = async ({
