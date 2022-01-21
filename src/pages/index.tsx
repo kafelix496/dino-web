@@ -6,7 +6,6 @@ import { useTranslation } from 'next-i18next'
 
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 
 import { Apps } from '@/global-types'
@@ -27,7 +26,7 @@ const Page: NextPage = () => {
   const [session] = useSession()
 
   return (
-    <Container>
+    <>
       <Typography variant="h3">{t('HOME_PAGE_TITLE')}</Typography>
       <Typography variant="h6">{t('HOME_PAGE_DESCRIPTION')}</Typography>
 
@@ -44,7 +43,7 @@ const Page: NextPage = () => {
           )
         )}
       </Box>
-    </Container>
+    </>
   )
 }
 

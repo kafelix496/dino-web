@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'next-i18next'
 
 import { ThemeProvider } from '@mui/material'
+import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
@@ -45,12 +46,12 @@ const DinoLayout: FC = ({ children }) => {
           component="main"
           elevation={0}
           square={true}
-          sx={{ height: '100vh', px: 3 }}
+          sx={{ height: '100vh' }}
         >
           <Toolbar />
 
           <Box sx={{ height: (theme) => `calc(100% - ${theme.spacing(8)})` }}>
-            {children}
+            <Container sx={{ height: '100%' }}>{children}</Container>
           </Box>
         </Paper>
       </Box>

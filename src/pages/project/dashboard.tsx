@@ -7,7 +7,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import useSWR from 'swr'
 import axios from 'axios'
 
-import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -42,58 +41,56 @@ const Page: NextPage = () => {
     `${t('UPDATED_AT')}: ${convertTime.dbToJs(dbTime)}`
 
   return (
-    <Container sx={{ height: '100%' }}>
-      <Box className="__d-flex-center __d-full">
-        <Box
-          className="__d-flex __d-flex-col"
-          sx={{ width: '90%', height: '60%' }}
+    <Box className="__d-flex-center __d-full">
+      <Box
+        className="__d-flex __d-flex-col"
+        sx={{ width: '90%', height: '60%' }}
+      >
+        <Box className="__d-flex __d-justify-end" sx={{ mb: 2 }}>
+          <DinoNewProjectButton
+            appType={appType as string}
+          ></DinoNewProjectButton>
+        </Box>
+        <Paper
+          className="__d-grow"
+          elevation={4}
+          sx={{ overflowY: 'auto', p: 1 }}
         >
-          <Box className="__d-flex __d-justify-end" sx={{ mb: 2 }}>
-            <DinoNewProjectButton
-              appType={appType as string}
-            ></DinoNewProjectButton>
-          </Box>
-          <Paper
-            className="__d-grow"
-            elevation={4}
-            sx={{ overflowY: 'auto', p: 1 }}
-          >
-            <Grid container spacing={1}>
-              {(data?.projects ?? []).map((project) => (
-                <Grid item key={project._id} xs={12} sm={6} md={4}>
-                  <DinoProjectItem
-                    appType={appType as string}
-                    id={project._id}
-                    title={project.title}
-                    subTitle={
-                      <Typography variant="subtitle2" color="text.secondary">
+          <Grid container spacing={1}>
+            {(data?.projects ?? []).map((project) => (
+              <Grid item key={project._id} xs={12} sm={6} md={4}>
+                <DinoProjectItem
+                  appType={appType as string}
+                  id={project._id}
+                  title={project.title}
+                  subTitle={
+                    <Typography variant="subtitle2" color="text.secondary">
+                      {getCreatedAtTxt(project.createdAt)}
+                    </Typography>
+                  }
+                  tooltip={
+                    <>
+                      <Typography variant="subtitle2" color="inherit">
                         {getCreatedAtTxt(project.createdAt)}
                       </Typography>
-                    }
-                    tooltip={
-                      <>
+                      <Typography variant="subtitle2" color="inherit">
+                        {getUpdatedAtTxt(project.updatedAt)}
+                      </Typography>
+                      {project.description ? (
                         <Typography variant="subtitle2" color="inherit">
-                          {getCreatedAtTxt(project.createdAt)}
+                          {t('PROJECT_DESCRIPTION')}: {project.description}
                         </Typography>
-                        <Typography variant="subtitle2" color="inherit">
-                          {getUpdatedAtTxt(project.updatedAt)}
-                        </Typography>
-                        {project.description ? (
-                          <Typography variant="subtitle2" color="inherit">
-                            {t('PROJECT_DESCRIPTION')}: {project.description}
-                          </Typography>
-                        ) : null}
-                      </>
-                    }
-                    description={project.description}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Paper>
-        </Box>
+                      ) : null}
+                    </>
+                  }
+                  description={project.description}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Paper>
       </Box>
-    </Container>
+    </Box>
   )
 }
 

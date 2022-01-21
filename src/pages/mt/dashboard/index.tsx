@@ -3,12 +3,10 @@ import { getSession } from 'next-auth/client'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import axios from 'axios'
 
-import Container from '@mui/material/Container'
-
 import { Apps } from '@/global-types'
 
 const Page: NextPage = () => {
-  return <Container>aaa</Container>
+  return <>aaa</>
 }
 
 export const getServerSideProps: GetServerSideProps = async ({
