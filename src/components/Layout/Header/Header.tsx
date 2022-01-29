@@ -1,4 +1,5 @@
 import type { FC } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 
@@ -10,26 +11,25 @@ import MenuIcon from '@mui/icons-material/Menu'
 
 import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 import DinoAuthStatusButton from './AuthStatusButton/AuthStatusButton'
-import DinoPaletteModeButton from './PaletteModeButton/PaletteModeButton'
+import DinoSettingsButton from './SettingsButton/SettingsButton'
 
 import useDinoHeaderButtonColor from './useHeaderButtonColor'
+import { Apps } from '@/global-types'
 
-interface DinoHeaderProps {
-  withSidebarMenu?: boolean
-}
-
-const DinoHeader: FC<DinoHeaderProps> = ({ withSidebarMenu }) => {
+const DinoHeader: FC = () => {
+  const router = useRouter()
   const { t } = useTranslation('common')
   const headerButtonColor = useDinoHeaderButtonColor()
 
+  const hasSidebar =
+    Object.values(Apps).find((app) =>
+      new RegExp(`^/${app}`).test(router.pathname)
+    ) !== undefined
+
   return (
-    <AppBar
-      color="inherit"
-      position="fixed"
-      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-    >
+    <AppBar color="inherit" position="fixed">
       <Toolbar>
-        {withSidebarMenu ? (
+        {hasSidebar ? (
           <DinoTooltipIconButton title={t('MAIN_MENU')}>
             <MenuIcon />
           </DinoTooltipIconButton>
@@ -50,7 +50,7 @@ const DinoHeader: FC<DinoHeaderProps> = ({ withSidebarMenu }) => {
           <DinoAuthStatusButton />
 
           <Box sx={{ ml: 2 }}>
-            <DinoPaletteModeButton />
+            <DinoSettingsButton />
           </Box>
         </Box>
       </Toolbar>

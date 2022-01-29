@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware } from 'redux'
+import type { Middleware, Store } from 'redux'
 import thunk from 'redux-thunk'
 import { createWrapper } from 'next-redux-wrapper'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import combinedReducers from './reducers'
 
-import type { Middleware, Store } from 'redux'
 import type { State } from '@/redux-types'
+import combinedReducers from './reducers'
 
 const bindMiddleware = (...middleware: Middleware[]) => {
   if (process.env.NODE_ENV !== 'production') {

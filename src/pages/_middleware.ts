@@ -1,14 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { Locale } from '@/redux-types/settings'
+
 const PUBLIC_FILE = /\.(.*)$/
 
 export function middleware(request: NextRequest) {
+  const savedLocale = Object.values(Locale).includes(
+    request.cookies.locale as Locale
+  )
+    ? request.cookies.locale
+    : 'en'
   const shouldHandleLocale =
     !PUBLIC_FILE.test(request.nextUrl.pathname) &&
     !request.nextUrl.pathname.includes('/api/') &&
-    request.nextUrl.locale === 'default'
+    request.nextUrl.locale !== savedLocale
 
-  return shouldHandleLocale
-    ? NextResponse.redirect(`/en${request.nextUrl.href}`)
-    : undefined
+  if (shouldHandleLocale) {
+    const url = request.nextUrl.clone()
+
+    url.locale = savedLocale
+
+    return NextResponse.redirect(url)
+  }
+
+  return undefined
 }

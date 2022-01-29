@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import themeReducer from './themeReducer'
+import settingsReducer from './settingsReducer'
 
 const combinedReducers = combineReducers({
-  theme: themeReducer
+  settings: settingsReducer
 })
 
 export default combinedReducers

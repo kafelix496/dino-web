@@ -1,32 +1,32 @@
 import type { FC } from 'react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'next-i18next'
 
 import { ThemeProvider } from '@mui/material'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
 
 import DinoHeader from './Header/Header'
-import DinoSidebar from './Sidebar/Sidebar'
 
 import useDinoTheme from './useTheme'
-import { Apps } from '@/global-types'
 import type { State } from '@/redux-types'
 
-const DinoLayout: FC = ({ children }) => {
-  const router = useRouter()
-  const { t } = useTranslation('common')
-  const paletteMode = useSelector((state: State) => state.theme.paletteMode)
-  const { theme } = useDinoTheme({ paletteMode })
+const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 
-  const hasSidebar =
-    Object.values(Apps).find((app) =>
-      new RegExp(`^/${app}`).test(router.pathname)
-    ) !== undefined
+const DinoLayout: FC = ({ children }) => {
+  const { t } = useTranslation('common')
+  const paletteMode = useSelector((state: State) => state.settings.paletteMode)
+  const prefersDarkMode = useMediaQuery(COLOR_SCHEME_QUERY)
+  const { theme } = useDinoTheme({
+    isDarkMode:
+      paletteMode !== 'system'
+        ? paletteMode === 'dark'
+        : prefersDarkMode ?? false
+  })
 
   return (
     <ThemeProvider theme={theme}>
@@ -37,21 +37,18 @@ const DinoLayout: FC = ({ children }) => {
       </Head>
 
       <Box className="__d-flex">
-        <DinoHeader withSidebarMenu={hasSidebar} />
-
-        {hasSidebar ? <DinoSidebar /> : null}
+        <DinoHeader />
 
         <Paper
-          className="__d-grow"
+          className="__d-grow __d-h-screen"
           component="main"
           elevation={0}
           square={true}
-          sx={{ height: '100vh' }}
         >
           <Toolbar />
 
           <Box sx={{ height: (theme) => `calc(100% - ${theme.spacing(8)})` }}>
-            <Container sx={{ height: '100%' }}>{children}</Container>
+            <Container className="__d-h-full">{children}</Container>
           </Box>
         </Paper>
       </Box>
