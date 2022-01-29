@@ -2,7 +2,15 @@
 
 ## Start develop locally
 
+#### Using npm
+
 ```zsh
-npm install
 docker-compose up --build
+npm run dev
+```
+
+#### Using yarn
+```zsh
+docker-compose up --build
+yarn dev
 ```
