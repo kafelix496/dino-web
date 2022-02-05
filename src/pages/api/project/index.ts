@@ -1,10 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/client'
+import { getSession } from 'next-auth/react'
 
 import { dbConnect } from '@/utils/db-utils'
 import { isValidAppType } from '@/utils'
 import projectSchema from '@/models/common/projectSchema'
 import { createDocument } from '@/models/utils/createDocument'
+import { CollectionName } from '@/global-types/collection'
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,7 +25,10 @@ export default async function handler(
 
     await dbConnect()
 
-    const ProjectDoc = createDocument(`${appType}.project`, projectSchema)
+    const ProjectDoc = createDocument(
+      `${appType}.${CollectionName.PROJECT}`,
+      projectSchema
+    )
 
     switch (req?.method) {
       case 'GET': {
@@ -56,10 +60,8 @@ export default async function handler(
       }
 
       default:
-        break
+        return res.status(405).json({ status: false })
     }
-
-    return res.status(400).json({ status: false })
   } catch (error) {
     res.status(400).json({ status: false })
   }
