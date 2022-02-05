@@ -1,7 +1,7 @@
 import { SWRConfig } from 'swr'
 import axios from 'axios'
 import { appWithTranslation } from 'next-i18next'
-import { Provider } from 'next-auth/client'
+import { SessionProvider } from 'next-auth/react'
 import App from 'next/app'
 import type { AppContext, AppProps } from 'next/app'
 import nookies from 'nookies'
@@ -39,11 +39,11 @@ const MyApp = ({
           fetcher: (url) => axios.get(url).then((res) => res.data)
         }}
       >
-        <Provider session={pageProps.session}>
+        <SessionProvider session={pageProps.session}>
           <DinoLayout>
             <Component {...pageProps} />
           </DinoLayout>
-        </Provider>
+        </SessionProvider>
       </SWRConfig>
     </CacheProvider>
   )

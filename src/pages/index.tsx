@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
-import { getSession, useSession } from 'next-auth/client'
+import { getSession, useSession } from 'next-auth/react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
@@ -23,7 +23,7 @@ const appList = [
 
 const Page: NextPage = () => {
   const { t } = useTranslation('common')
-  const [session] = useSession()
+  const { data: session } = useSession()
 
   return (
     <>

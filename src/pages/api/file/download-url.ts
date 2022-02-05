@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/client'
+import { getSession } from 'next-auth/react'
 
 import { getDownloadUrl } from '@/utils/file'
 
@@ -33,10 +33,8 @@ export default async function handler(
       }
 
       default:
-        break
+        return res.status(405).json({ status: false })
     }
-
-    return res.status(400).json({ status: false })
   } catch (error) {
     res.status(400).json({ status: false })
   }

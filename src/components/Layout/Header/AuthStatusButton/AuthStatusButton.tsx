@@ -4,7 +4,7 @@ import {
   signIn as nextAuthSignIn,
   signOut as nextAuthSignOut,
   useSession
-} from 'next-auth/client'
+} from 'next-auth/react'
 
 import Button from '@mui/material/Button'
 
@@ -12,7 +12,7 @@ import useDinoHeaderButtonColor from '../useHeaderButtonColor'
 
 const DinoAuthStatusButton: FC = () => {
   const { t } = useTranslation('common')
-  const [session] = useSession()
+  const { data: session } = useSession()
   const headerButtonColor = useDinoHeaderButtonColor()
 
   const signInWithGoogle = () => {

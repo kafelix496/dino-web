@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut } from 'next-auth/client'
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 import { render, screen, fireEvent } from '@/utils/test-utils'
 

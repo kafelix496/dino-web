@@ -1,26 +1,23 @@
+import { MongooseAdapter } from '@/utils/db-utils'
 import NextAuth from 'next-auth'
-import NextAuthProvider from 'next-auth/providers'
+import GoogleProvider from 'next-auth/providers/google'
 
 export default NextAuth({
   session: {
-    jwt: true,
+    strategy: 'jwt',
     maxAge: 24 * 60 * 60
   },
-  jwt: {
-    secret: process.env.JWT_SECRET
-  },
+  secret: process.env.JWT_SECRET,
   providers: [
-    NextAuthProvider.Google({
+    GoogleProvider({
       clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-      scope:
-        'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email'
+      clientSecret: process.env.GOOGLE_SECRET
     })
   ],
   pages: {},
-  database: process.env.DATABASE_URL,
+  adapter: MongooseAdapter(),
   callbacks: {
-    async session(session, token) {
+    async session({ session, token }) {
       return Promise.resolve({
         ...session,
         user: { ...session.user, id: token.sub as string }
