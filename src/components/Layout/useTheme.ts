@@ -1,25 +1,21 @@
 import { useMemo } from 'react'
 
 import { createTheme } from '@mui/material'
+import type { Theme } from '@mui/material'
 import { indigo, grey } from '@mui/material/colors'
 
-import type { Theme } from '@mui/material'
-import type { PaletteModeType } from '@/redux-types/theme'
-
 const useDinoTheme = ({
-  paletteMode
+  isDarkMode
 }: {
-  paletteMode: PaletteModeType
-}): {
-  theme: Theme
-} => {
+  isDarkMode: boolean
+}): { theme: Theme } => {
   const theme = useMemo(
     () =>
       createTheme({
         palette: {
-          mode: paletteMode,
-          primary: { main: paletteMode === 'dark' ? indigo[400] : indigo[600] },
-          secondary: { main: paletteMode === 'dark' ? grey[300] : grey[700] }
+          mode: isDarkMode ? 'dark' : 'light',
+          primary: { main: isDarkMode ? indigo[400] : indigo[600] },
+          secondary: { main: isDarkMode ? grey[300] : grey[700] }
         },
         typography: {
           fontFamily: 'Lato'
@@ -34,7 +30,7 @@ const useDinoTheme = ({
           }
         }
       }),
-    [paletteMode]
+    [isDarkMode]
   )
 
   return { theme }

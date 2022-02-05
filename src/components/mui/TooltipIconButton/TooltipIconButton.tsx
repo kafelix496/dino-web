@@ -16,6 +16,7 @@ const DinoTooltipIconButton: FC<DinoTooltipIconButtonProps> = ({
   return (
     <Tooltip
       title={title}
+      enterDelay={300}
       componentsProps={{
         tooltip: { sx: { fontSize: '0.8rem', fontWeight: 'bold' } }
       }}

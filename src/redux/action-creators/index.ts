@@ -1,1 +1,1 @@
-export * from './themeActionCreators'
+export * from './settingsActionCreators'

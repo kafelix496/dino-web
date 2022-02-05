@@ -1,6 +1,8 @@
 jest.mock('next/router', () => ({
   __esModule: true,
-  useRouter: jest.fn()
+  useRouter: jest.fn().mockImplementation(() => ({
+    push: jest.fn()
+  }))
 }))
 
 jest.mock('next/link', () => {

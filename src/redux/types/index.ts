@@ -1,6 +1,6 @@
 import { HYDRATE } from 'next-redux-wrapper'
 
-import type { State as ThemeState } from './theme'
+import type { State as SettingsState } from './settings'
 
 export interface HydrateAction {
   type: typeof HYDRATE
@@ -8,5 +8,5 @@ export interface HydrateAction {
 }
 
 export interface State {
-  theme: ThemeState
+  settings: SettingsState
 }
