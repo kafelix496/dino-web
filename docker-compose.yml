@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   mongodb:
@@ -6,6 +6,18 @@ services:
     image: mongo
     restart: always
     volumes:
-      - ./dino-mongodb:/data/db
+      - ./local-storage/mongodb:/data/db
     ports:
       - 27017:27017
+
+  localstack:
+    container_name: dino-localstack
+    image: localstack/localstack
+    ports:
+      - 4510-4559:4510-4559
+      - 4566:4566
+    environment:
+      - SERVICES=s3
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - ./local-storage/localstack:/tmp/localstack

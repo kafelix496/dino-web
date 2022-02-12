@@ -1,6 +1,8 @@
 import aws from 'aws-sdk'
 import axios from 'axios'
 
+import { generateUuid } from '@/utils'
+
 interface Config {
   bucket: string
   region: string
@@ -8,13 +10,16 @@ interface Config {
   secretAccessKey: string
 }
 
+const isProd = process.env.NODE_ENV === 'production'
+
 // Back-end
 export const getDownloadUrl = async (key: string, config: Config) => {
   const s3 = new aws.S3({
     region: config.region,
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,
-    signatureVersion: 'v4'
+    signatureVersion: 'v4',
+    ...(!isProd ? { endpoint: 'http://localhost:4566' } : {})
   })
 
   const url = await s3.getSignedUrlPromise('getObject', {
@@ -35,7 +40,8 @@ export const getUploadUrl = (
     region: config.region,
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,
-    signatureVersion: 'v4'
+    signatureVersion: 'v4',
+    ...(!isProd ? { endpoint: 'http://localhost:4566' } : {})
   })
 
   const post = s3.createPresignedPost({
@@ -91,7 +97,7 @@ const tryToUploadFile = async (fileName: string, file: File) => {
 
 // Front-end
 export const uploadFile = ({ key, file }: { key: string; file: File }) =>
-  new Promise((resolve, reject) => {
+  new Promise<{ fileName: string; fileType: string }>((resolve, reject) => {
     try {
       const fileType = getFileType(file.type)
 
@@ -101,11 +107,11 @@ export const uploadFile = ({ key, file }: { key: string; file: File }) =>
         return
       }
 
-      const fileName = `${key}.${fileType}`
+      const fileName = `${generateUuid()}-${key}`
 
       tryToUploadFile(fileName, file).then((status) => {
         if (status) {
-          resolve({ fileName })
+          resolve({ fileName, fileType })
         } else {
           reject('Fail to upload file')
         }
