@@ -36,5 +36,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-# database
-dino-mongodb
+# local storage (mongodb, local-s3)
+/local-storage
