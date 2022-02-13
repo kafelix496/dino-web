@@ -1,7 +1,11 @@
 export enum AccessLevels {
-  READ = '4',
-  READ_WRITE = '6',
-  ALL = '7'
+  NONE = '0',
+  VIEWER = '4',
+  COMMENTOR = '5',
+  EDITOR = '6',
+  GROUP_ADMIN = '8',
+  ADMIN = '9',
+  SUPER_ADMIN = '10'
 }
 
 export enum Apps {

@@ -1,19 +1,23 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+
 ## Start develop locally
 
 #### Using npm
 
 ```zsh
 docker-compose up --build
+
 npm run dev
 ```
 
 #### Using yarn
 ```zsh
 docker-compose up --build
+
 yarn dev
 ```
+
 
 ## How to configure local s3
 
@@ -62,4 +66,15 @@ aws --endpoint-url=http://localhost:4566 --profile dino-local s3 rm s3://local.f
 - Remove all files in the bucket
 ```zsh
 aws --endpoint-url=http://localhost:4566 --profile dino-local s3 rm --recursive s3://local.files/{fileName}
+```
+
+## How to set a super-admin in your local dev environment
+
+When you log in with your google account, you can find `providerAccountId` at `account collection`.
+You should add that into your .env.local file.
+
+```shell
+# .env.local
+
+SUPER_ADMIN_PROVIDER_ACCOUNT_ID=123456789
 ```

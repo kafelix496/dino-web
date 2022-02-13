@@ -1,11 +1,12 @@
 import mongoose from 'mongoose'
 
 import { AccessLevels } from '@/global-types'
+import { CollectionName } from '@/global-types/collection'
 
 const accessUserSchema = new mongoose.Schema({
   accessUserId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: CollectionName.USER,
     required: true
   },
   accessLevel: {
@@ -27,7 +28,7 @@ const projectSchema = new mongoose.Schema({
   },
   ownerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: CollectionName.USER,
     required: true
   },
   accessUsers: {
