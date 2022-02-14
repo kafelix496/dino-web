@@ -3,6 +3,8 @@ import { v1 as uuidv1 } from 'uuid'
 
 import { Apps } from '@/global-types'
 
+export const DRAWER_WIDTH = 280
+
 export const isValidAppType = (appType: unknown): boolean => {
   if (typeof appType !== 'string') {
     return false

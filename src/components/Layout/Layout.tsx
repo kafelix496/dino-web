@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { FC } from 'react'
 import Head from 'next/head'
 import { useSelector } from 'react-redux'
@@ -11,6 +12,8 @@ import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
 
 import DinoHeader from './Header/Header'
+import DinoSidebarNavDrawer from './SidebarNavDrawer/SidebarNavDrawer'
+import DinoSettingsButton from './SettingsDrawer/SettingsDrawer'
 
 import useDinoTheme from './useTheme'
 import type { State } from '@/redux-types'
@@ -19,6 +22,8 @@ const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 
 const DinoLayout: FC = ({ children }) => {
   const { t } = useTranslation('common')
+  const [isSidebarNavOpen, setSidebarNavOpen] = useState(false)
+  const [isSettingsOpen, setSettingsOpen] = useState(false)
   const paletteMode = useSelector((state: State) => state.settings.paletteMode)
   const prefersDarkMode = useMediaQuery(COLOR_SCHEME_QUERY)
   const { theme } = useDinoTheme({
@@ -37,20 +42,32 @@ const DinoLayout: FC = ({ children }) => {
       </Head>
 
       <Box className="__d-flex">
-        <DinoHeader />
+        <DinoHeader
+          setSidebarNavOpen={setSidebarNavOpen}
+          setSettingsOpen={setSettingsOpen}
+        />
 
-        <Paper
-          className="__d-grow __d-h-screen"
-          component="main"
-          elevation={0}
-          square={true}
-        >
+        <DinoSidebarNavDrawer
+          isSidebarNavOpen={isSidebarNavOpen}
+          setSidebarNavOpen={setSidebarNavOpen}
+        />
+
+        <DinoSettingsButton
+          isSettingsOpen={isSettingsOpen}
+          setSettingsOpen={setSettingsOpen}
+        />
+
+        <Box className="__d-grow __d-h-screen" component="main">
           <Toolbar />
 
-          <Box sx={{ height: (theme) => `calc(100% - ${theme.spacing(8)})` }}>
+          <Paper
+            elevation={0}
+            square={true}
+            sx={{ height: (theme) => `calc(100% - ${theme.spacing(8)})` }}
+          >
             <Container className="__d-h-full">{children}</Container>
-          </Box>
-        </Paper>
+          </Paper>
+        </Box>
       </Box>
     </ThemeProvider>
   )

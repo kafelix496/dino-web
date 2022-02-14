@@ -1,35 +1,35 @@
 import type { FC, Dispatch, SetStateAction } from 'react'
 import { useTranslation } from 'next-i18next'
 
-import SettingsIcon from '@mui/icons-material/Settings'
+import MenuIcon from '@mui/icons-material/Menu'
 
 import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 
 import useDinoHeaderButtonColor from '../useHeaderButtonColor'
 
-interface DinoSettingsButtonProps {
-  setSettingsOpen: Dispatch<SetStateAction<boolean>>
+interface DinoSidebarNavButtonProps {
+  setSidebarNavOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DinoSettingsButton: FC<DinoSettingsButtonProps> = ({
-  setSettingsOpen
+const DinoSidebarNavButton: FC<DinoSidebarNavButtonProps> = ({
+  setSidebarNavOpen
 }) => {
   const { t } = useTranslation('common')
   const headerButtonColor = useDinoHeaderButtonColor()
 
   return (
     <DinoTooltipIconButton
-      title={t('TOGGLE_SETTINGS_DRAWER')}
+      title={t('MAIN_MENU')}
       iconButtonProps={{
         sx: { color: headerButtonColor },
         onClick: () => {
-          setSettingsOpen(true)
+          setSidebarNavOpen((prev) => !prev)
         }
       }}
     >
-      <SettingsIcon />
+      <MenuIcon />
     </DinoTooltipIconButton>
   )
 }
 
-export default DinoSettingsButton
+export default DinoSidebarNavButton

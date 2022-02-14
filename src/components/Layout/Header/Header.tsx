@@ -1,5 +1,4 @@
-import type { FC } from 'react'
-import { useRouter } from 'next/router'
+import type { FC, Dispatch, SetStateAction } from 'react'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 
@@ -7,54 +6,62 @@ import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Toolbar from '@mui/material/Toolbar'
-import MenuIcon from '@mui/icons-material/Menu'
+import type { Theme } from '@mui/material'
 
-import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
+import DinoSidebarNavButton from './SidebarNavButton/SidebarNavButton'
 import DinoAuthStatusButton from './AuthStatusButton/AuthStatusButton'
 import DinoSettingsButton from './SettingsButton/SettingsButton'
 
 import useDinoHeaderButtonColor from './useHeaderButtonColor'
-import { Apps } from '@/global-types'
 
-const DinoHeader: FC = () => {
-  const router = useRouter()
+interface DinoHeaderProps {
+  setSidebarNavOpen: Dispatch<SetStateAction<boolean>>
+  setSettingsOpen: Dispatch<SetStateAction<boolean>>
+}
+
+const DinoHeader: FC<DinoHeaderProps> = ({
+  setSidebarNavOpen,
+  setSettingsOpen
+}) => {
   const { t } = useTranslation('common')
   const headerButtonColor = useDinoHeaderButtonColor()
 
-  const hasSidebar =
-    Object.values(Apps).find((app) =>
-      new RegExp(`^/${app}`).test(router.pathname)
-    ) !== undefined
+  // const hasSidebar =
+  //   Object.values(Apps).find((app) =>
+  //     new RegExp(`^/${app}`).test(router.pathname)
+  //   ) !== undefined
 
   return (
-    <AppBar color="inherit" position="fixed">
-      <Toolbar>
-        {hasSidebar ? (
-          <DinoTooltipIconButton title={t('MAIN_MENU')}>
-            <MenuIcon />
-          </DinoTooltipIconButton>
-        ) : null}
+    <Box>
+      <AppBar
+        color="inherit"
+        position="fixed"
+        sx={{ zIndex: (theme: Theme) => theme.zIndex.drawer + 1 }}
+      >
+        <Toolbar>
+          <DinoSidebarNavButton setSidebarNavOpen={setSidebarNavOpen} />
 
-        <Link href="/">
-          <Button
-            disableRipple
-            sx={[
-              { color: headerButtonColor },
-              { '&:hover': { backgroundColor: 'transparent' } }
-            ]}
-          >
-            {t('APP_NAME')}
-          </Button>
-        </Link>
-        <Box className="__d-grow __d-flex __d-justify-end">
-          <DinoAuthStatusButton />
+          <Link href="/">
+            <Button
+              disableRipple
+              sx={[
+                { color: headerButtonColor },
+                { '&:hover': { backgroundColor: 'transparent' } }
+              ]}
+            >
+              {t('APP_NAME')}
+            </Button>
+          </Link>
+          <Box className="__d-grow __d-flex __d-justify-end">
+            <DinoAuthStatusButton />
 
-          <Box sx={{ ml: 2 }}>
-            <DinoSettingsButton />
+            <Box sx={{ ml: 2 }}>
+              <DinoSettingsButton setSettingsOpen={setSettingsOpen} />
+            </Box>
           </Box>
-        </Box>
-      </Toolbar>
-    </AppBar>
+        </Toolbar>
+      </AppBar>
+    </Box>
   )
 }
 
