@@ -14,13 +14,7 @@ const DinoTooltipIconButton: FC<DinoTooltipIconButtonProps> = ({
   children
 }) => {
   return (
-    <Tooltip
-      title={title}
-      enterDelay={300}
-      componentsProps={{
-        tooltip: { sx: { fontSize: '0.8rem', fontWeight: 'bold' } }
-      }}
-    >
+    <Tooltip title={title}>
       <IconButton {...iconButtonProps}>{children}</IconButton>
     </Tooltip>
   )

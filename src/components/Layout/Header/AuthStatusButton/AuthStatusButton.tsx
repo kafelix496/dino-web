@@ -8,12 +8,11 @@ import {
 
 import Button from '@mui/material/Button'
 
-import useDinoHeaderButtonColor from '../useHeaderButtonColor'
+import headerButtonMixin from '../headerButtonMixin'
 
 const DinoAuthStatusButton: FC = () => {
   const { t } = useTranslation('common')
   const { data: session } = useSession()
-  const headerButtonColor = useDinoHeaderButtonColor()
 
   const signInWithGoogle = () => {
     nextAuthSignIn('google')
@@ -25,14 +24,14 @@ const DinoAuthStatusButton: FC = () => {
 
   if (session) {
     return (
-      <Button sx={{ color: headerButtonColor }} onClick={signOut}>
+      <Button sx={{ color: headerButtonMixin }} onClick={signOut}>
         {t('SIGN_OUT')}
       </Button>
     )
   }
 
   return (
-    <Button sx={{ color: headerButtonColor }} onClick={signInWithGoogle}>
+    <Button sx={{ color: headerButtonMixin }} onClick={signInWithGoogle}>
       {t('SIGN_IN')}
     </Button>
   )

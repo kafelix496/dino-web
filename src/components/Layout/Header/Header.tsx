@@ -12,24 +12,21 @@ import DinoSidebarNavButton from './SidebarNavButton/SidebarNavButton'
 import DinoAuthStatusButton from './AuthStatusButton/AuthStatusButton'
 import DinoSettingsButton from './SettingsButton/SettingsButton'
 
-import useDinoHeaderButtonColor from './useHeaderButtonColor'
+import headerButtonMixin from './headerButtonMixin'
+import type { SetSidebarNavOpen } from '../useSidebarNavState'
 
 interface DinoHeaderProps {
-  setSidebarNavOpen: Dispatch<SetStateAction<boolean>>
+  hasSidebarNav: boolean
+  setSidebarNavOpen: SetSidebarNavOpen
   setSettingsOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const DinoHeader: FC<DinoHeaderProps> = ({
+  hasSidebarNav,
   setSidebarNavOpen,
   setSettingsOpen
 }) => {
   const { t } = useTranslation('common')
-  const headerButtonColor = useDinoHeaderButtonColor()
-
-  // const hasSidebar =
-  //   Object.values(Apps).find((app) =>
-  //     new RegExp(`^/${app}`).test(router.pathname)
-  //   ) !== undefined
 
   return (
     <Box>
@@ -39,13 +36,15 @@ const DinoHeader: FC<DinoHeaderProps> = ({
         sx={{ zIndex: (theme: Theme) => theme.zIndex.drawer + 1 }}
       >
         <Toolbar>
-          <DinoSidebarNavButton setSidebarNavOpen={setSidebarNavOpen} />
+          {hasSidebarNav && (
+            <DinoSidebarNavButton setSidebarNavOpen={setSidebarNavOpen} />
+          )}
 
           <Link href="/">
             <Button
               disableRipple
               sx={[
-                { color: headerButtonColor },
+                { color: headerButtonMixin },
                 { '&:hover': { backgroundColor: 'transparent' } }
               ]}
             >

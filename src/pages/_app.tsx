@@ -41,7 +41,9 @@ const MyApp = ({
         }}
       >
         <SessionProvider session={pageProps.session}>
-          <DinoLayout>
+          <DinoLayout
+            initialSidebarNavOpenState={pageProps.initialSidebarNavOpenState}
+          >
             <Component {...pageProps} />
           </DinoLayout>
         </SessionProvider>
@@ -72,7 +74,14 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
 
     const appProps = await App.getInitialProps(appContext)
 
-    return appProps
+    return {
+      appProps,
+      pageProps: {
+        ...appProps,
+        initialSidebarNavOpenState:
+          nookies.get(appContext.ctx)[Cookies.sidebarNav] === 'true'
+      }
+    }
   }
 )
 

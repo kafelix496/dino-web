@@ -16,13 +16,24 @@ import DinoSidebarNavDrawer from './SidebarNavDrawer/SidebarNavDrawer'
 import DinoSettingsButton from './SettingsDrawer/SettingsDrawer'
 
 import useDinoTheme from './useTheme'
+import useDinoDrawerContent from './useDrawerContent'
+import useDioSidebarNavState from './useSidebarNavState'
 import type { State } from '@/redux-types'
 
 const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 
-const DinoLayout: FC = ({ children }) => {
+interface DinoLayoutProps {
+  initialSidebarNavOpenState: boolean
+}
+
+const DinoLayout: FC<DinoLayoutProps> = ({
+  initialSidebarNavOpenState,
+  children
+}) => {
   const { t } = useTranslation('common')
-  const [isSidebarNavOpen, setSidebarNavOpen] = useState(false)
+  const [isSidebarNavOpen, setSidebarNavOpen] = useDioSidebarNavState(
+    initialSidebarNavOpenState
+  )
   const [isSettingsOpen, setSettingsOpen] = useState(false)
   const paletteMode = useSelector((state: State) => state.settings.paletteMode)
   const prefersDarkMode = useMediaQuery(COLOR_SCHEME_QUERY)
@@ -32,6 +43,7 @@ const DinoLayout: FC = ({ children }) => {
         ? paletteMode === 'dark'
         : prefersDarkMode ?? false
   })
+  const DinoDrawerContent = useDinoDrawerContent()
 
   return (
     <ThemeProvider theme={theme}>
@@ -43,11 +55,13 @@ const DinoLayout: FC = ({ children }) => {
 
       <Box className="__d-flex">
         <DinoHeader
+          hasSidebarNav={!!DinoDrawerContent}
           setSidebarNavOpen={setSidebarNavOpen}
           setSettingsOpen={setSettingsOpen}
         />
 
         <DinoSidebarNavDrawer
+          DrawerContent={DinoDrawerContent}
           isSidebarNavOpen={isSidebarNavOpen}
           setSidebarNavOpen={setSidebarNavOpen}
         />
