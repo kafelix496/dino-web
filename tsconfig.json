@@ -23,6 +23,12 @@
       "@/global-types/*": [
         "./src/types/*"
       ],
+      "@/global-constants": [
+        "./src/constants/index.ts"
+      ],
+      "@/global-constants/*": [
+        "./src/constants/*"
+      ],
       "@/components/*": [
         "./src/components/*"
       ],

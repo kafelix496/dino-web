@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 
 import DinoNewProjectButton from './NewProjectButton'
 
-import { Apps } from '@/global-types'
+import { Apps } from '@/global-constants'
 
 describe('DinoNewProjectButton component', () => {
   beforeEach(() => {

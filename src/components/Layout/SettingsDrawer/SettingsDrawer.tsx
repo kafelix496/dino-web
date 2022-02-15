@@ -18,7 +18,7 @@ import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIco
 import type { State } from '@/redux-types'
 import { setLocale, setPaletteMode } from '@/redux-action-creators'
 import { Locale, PaletteMode } from '@/redux-types/settings'
-import { DRAWER_WIDTH } from '@/utils'
+import { DRAWER_WIDTH } from '@/global-constants'
 
 interface CustomStyledButtonProps {
   selected: boolean

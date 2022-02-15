@@ -11,7 +11,7 @@ import type { CSSObject, Theme } from '@mui/material'
 
 import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 
-import { DRAWER_WIDTH } from '@/utils'
+import { DRAWER_WIDTH } from '@/global-constants'
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: DRAWER_WIDTH,

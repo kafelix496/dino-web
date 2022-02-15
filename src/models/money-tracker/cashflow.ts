@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { SectionType } from '@/global-types/money-tracker'
+import { Sections } from '@/global-constants/money-tracker'
 
 const cashflowSchema = new mongoose.Schema({
   projectId: {
@@ -11,7 +11,7 @@ const cashflowSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
-    enum: Object.values(SectionType)
+    enum: Object.values(Sections)
   },
   title: {
     type: String,

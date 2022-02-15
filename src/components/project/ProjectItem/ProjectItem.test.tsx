@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 
 import DinoProjectItem from './ProjectItem'
 
-import { Apps } from '@/global-types'
+import { Apps } from '@/global-constants'
 
 const setup = () => {
   return {
