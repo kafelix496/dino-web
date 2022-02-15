@@ -15,7 +15,7 @@ import { wrapper } from '@/redux-store'
 import { createEmotionCache } from '@/utils/mui'
 import { setLocale, setPaletteMode } from '@/redux-action-creators'
 import { Locale, PaletteMode } from '@/redux-types/settings'
-import { Cookies } from '@/global-constants/cookies'
+import { Cookies } from '@/constants/cookies'
 
 import '../styles/globals.scss'
 

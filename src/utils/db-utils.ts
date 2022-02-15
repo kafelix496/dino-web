@@ -7,7 +7,7 @@ import { createDocument } from '@/models/utils/createDocument'
 import userSchema from '@/models/common/userSchema'
 import accountSchema from '@/models/common/accountSchema'
 import sessionSchema from '@/models/common/sessionSchema'
-import { CollectionName } from '@/global-constants/collection'
+import { CollectionName } from '@/constants/collection'
 
 export async function dbConnect() {
   if (mongoose.connection.readyState >= 1) {

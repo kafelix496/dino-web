@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { Sections } from '@/global-constants/money-tracker'
+import { Sections } from '@/constants/money-tracker'
 
 const cashflowSchema = new mongoose.Schema({
   projectId: {

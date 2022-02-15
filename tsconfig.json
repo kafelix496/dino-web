@@ -17,16 +17,16 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/global-types": [
+      "@/types": [
         "./src/types/index.ts"
       ],
-      "@/global-types/*": [
+      "@/types/*": [
         "./src/types/*"
       ],
-      "@/global-constants": [
+      "@/constants": [
         "./src/constants/index.ts"
       ],
-      "@/global-constants/*": [
+      "@/constants/*": [
         "./src/constants/*"
       ],
       "@/components/*": [

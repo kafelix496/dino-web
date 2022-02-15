@@ -1,4 +1,4 @@
-import { AccessLevels } from '@/global-constants'
+import { AccessLevels } from '@/constants'
 
 interface AccessUserType {
   accessUserId: string

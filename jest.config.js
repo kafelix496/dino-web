@@ -20,10 +20,10 @@ module.exports = {
       '<rootDir>/src/__mocks__/fileMock.js',
 
     /* Handle typescript custom absolute imports */
-    '@/global-types/(.*)': '<rootDir>/src/types/$1',
-    '@/global-types': '<rootDir>/src/types/index.ts',
-    '@/global-constants/(.*)': '<rootDir>/src/constants/$1',
-    '@/global-constants': '<rootDir>/src/constants/index.ts',
+    '@/types/(.*)': '<rootDir>/src/types/$1',
+    '@/types': '<rootDir>/src/types/index.ts',
+    '@/constants/(.*)': '<rootDir>/src/constants/$1',
+    '@/constants': '<rootDir>/src/constants/index.ts',
     '@/components/(.*)': '<rootDir>/src/components/$1',
     '@/pages/(.*)': '<rootDir>/src/pages/$1',
     '@/hooks/(.*)': '<rootDir>/src/hooks/$1',

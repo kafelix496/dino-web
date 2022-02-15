@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { v1 as uuidv1 } from 'uuid'
 
-import { Apps } from '@/global-constants'
+import { Apps } from '@/constants'
 
 export const isValidAppType = (appType: unknown): boolean => {
   if (typeof appType !== 'string') {

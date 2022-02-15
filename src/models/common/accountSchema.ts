@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { CollectionName } from '@/global-constants/collection'
+import { CollectionName } from '@/constants/collection'
 
 const accountSchema = new mongoose.Schema({
   type: {
