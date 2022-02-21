@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 
-import Tooltip from '@mui/material/Tooltip'
 import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 
 interface DinoTooltipIconButtonProps {
   title: string

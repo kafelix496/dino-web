@@ -1,13 +1,13 @@
 import { ObjectId } from 'mongodb'
 import mongoose from 'mongoose'
-import type { Adapter, AdapterSession, AdapterUser } from 'next-auth/adapters'
 import type { Account } from 'next-auth'
+import type { Adapter, AdapterSession, AdapterUser } from 'next-auth/adapters'
 
-import { createDocument } from '@/models/utils/createDocument'
-import userSchema from '@/models/common/userSchema'
+import { CollectionName } from '@/constants/collection'
 import accountSchema from '@/models/common/accountSchema'
 import sessionSchema from '@/models/common/sessionSchema'
-import { CollectionName } from '@/constants/collection'
+import userSchema from '@/models/common/userSchema'
+import { createDocument } from '@/models/utils/createDocument'
 
 export async function dbConnect() {
   if (mongoose.connection.readyState >= 1) {

@@ -1,24 +1,24 @@
+import { useTranslation } from 'next-i18next'
+import Head from 'next/head'
 import { useState } from 'react'
 import type { FC } from 'react'
-import Head from 'next/head'
 import { useSelector } from 'react-redux'
-import { useTranslation } from 'next-i18next'
 
 import { ThemeProvider } from '@mui/material'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
+import useMediaQuery from '@mui/material/useMediaQuery'
+
+import type { State } from '@/redux-types'
 
 import DinoHeader from './Header/Header'
-import DinoSidebarNavDrawer from './SidebarNavDrawer/SidebarNavDrawer'
 import DinoSettingsButton from './SettingsDrawer/SettingsDrawer'
-
-import useDinoTheme from './useTheme'
+import DinoSidebarNavDrawer from './SidebarNavDrawer/SidebarNavDrawer'
 import useDinoDrawerContent from './useDrawerContent'
 import useDioSidebarNavState from './useSidebarNavState'
-import type { State } from '@/redux-types'
+import useDinoTheme from './useTheme'
 
 const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 

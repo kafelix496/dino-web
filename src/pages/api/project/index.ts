@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
-import { dbConnect } from '@/utils/db-utils'
-import { isValidAppType } from '@/utils'
+import { CollectionName } from '@/constants/collection'
 import projectSchema from '@/models/common/projectSchema'
 import { createDocument } from '@/models/utils/createDocument'
-import { CollectionName } from '@/constants/collection'
+import { isValidAppType } from '@/utils'
+import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,

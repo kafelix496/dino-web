@@ -1,5 +1,5 @@
-import type { AnyAction } from 'redux'
 import { HYDRATE } from 'next-redux-wrapper'
+import type { AnyAction } from 'redux'
 
 import type { HydrateAction } from '@/redux-types'
 import { ActionType, Locale, PaletteMode } from '@/redux-types/settings'

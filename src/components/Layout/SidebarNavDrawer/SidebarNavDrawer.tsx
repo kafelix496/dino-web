@@ -1,17 +1,17 @@
-import type { ComponentType, FC } from 'react'
 import { useTranslation } from 'next-i18next'
+import type { ComponentType, FC } from 'react'
 
-import Drawer from '@mui/material/Drawer'
-import Toolbar from '@mui/material/Toolbar'
-import Divider from '@mui/material/Divider'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
 import CloseIcon from '@mui/icons-material/Close'
 import type { CSSObject, Theme } from '@mui/material'
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
+import Drawer from '@mui/material/Drawer'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 
 import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
-
 import { DRAWER_WIDTH } from '@/constants'
+
 import type { SetSidebarNavOpen } from '../useSidebarNavState'
 
 const openedMixin = (theme: Theme): CSSObject => ({

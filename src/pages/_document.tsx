@@ -1,7 +1,7 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Document, { Head, Html, Main, NextScript } from 'next/document'
 
-import createEmotionServer from '@emotion/server/create-instance'
 import { createEmotionCache } from '@/utils/mui'
+import createEmotionServer from '@emotion/server/create-instance'
 
 export default class MyDocument extends Document {
   render() {

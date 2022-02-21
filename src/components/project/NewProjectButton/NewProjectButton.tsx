@@ -1,12 +1,12 @@
-import type { FC } from 'react'
 import { useTranslation } from 'next-i18next'
+import type { FC } from 'react'
 
-import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/Add'
-
-import DinoCreateProjectDialog from './CreateProjectDialog/CreateProjectDialog'
+import Button from '@mui/material/Button'
 
 import useDialogStatus from '@/hooks/useDialogStatus'
+
+import DinoCreateProjectDialog from './CreateProjectDialog/CreateProjectDialog'
 
 interface DinoNewProjectButtonProps {
   appType: string

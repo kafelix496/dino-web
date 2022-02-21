@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { createTheme } from '@mui/material'
 import type { Theme } from '@mui/material'
-import { indigo, grey } from '@mui/material/colors'
+import { grey, indigo } from '@mui/material/colors'
 
 const useDinoTheme = ({
   isDarkMode

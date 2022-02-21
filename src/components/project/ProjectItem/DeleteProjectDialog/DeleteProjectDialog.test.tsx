@@ -1,8 +1,7 @@
+import { Apps } from '@/constants'
 import { render, screen } from '@testing-library/react'
 
 import DinoDeleteProjectDialog from './DeleteProjectDialog'
-
-import { Apps } from '@/constants'
 
 describe('DinoDeleteProjectDialog component', () => {
   test('the button should not be disabled at the beginning', async () => {
