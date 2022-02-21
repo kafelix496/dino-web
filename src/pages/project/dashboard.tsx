@@ -1,22 +1,21 @@
+import axios from 'axios'
 import type { GetServerSideProps, NextPage } from 'next'
-import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
 import { getSession } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 import useSWR from 'swr'
-import axios from 'axios'
 
-import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
 import DinoNewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
-
-import { isValidAppType, convertTime } from '@/utils'
 import { Apps } from '@/constants'
 import type { ProjectType } from '@/types'
+import { convertTime, isValidAppType } from '@/utils'
 
 const DinoProjectItem = dynamic(
   () => import('@/components/project/ProjectItem/ProjectItem'),

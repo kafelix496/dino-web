@@ -1,8 +1,7 @@
+import { Apps } from '@/constants'
 import { fireEvent, render, screen } from '@testing-library/react'
 
 import DinoNewProjectButton from './NewProjectButton'
-
-import { Apps } from '@/constants'
 
 describe('DinoNewProjectButton component', () => {
   beforeEach(() => {

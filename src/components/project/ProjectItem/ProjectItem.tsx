@@ -1,20 +1,20 @@
-import type { FC } from 'react'
 import Link from 'next/link'
+import type { FC } from 'react'
 
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import type { Theme } from '@mui/material'
 import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
 import CardActions from '@mui/material/CardActions'
+import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import PlayArrowIcon from '@mui/icons-material/PlayArrow'
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete'
-import type { Theme } from '@mui/material'
-
-import DinoEditProjectDialog from './EditProjectDialog/EditProjectDialog'
-import DinoDeleteProjectDialog from './DeleteProjectDialog/DeleteProjectDialog'
 
 import useDialogStatus from '@/hooks/useDialogStatus'
+
+import DinoDeleteProjectDialog from './DeleteProjectDialog/DeleteProjectDialog'
+import DinoEditProjectDialog from './EditProjectDialog/EditProjectDialog'
 
 interface DinoProjectItemProps {
   appType: string

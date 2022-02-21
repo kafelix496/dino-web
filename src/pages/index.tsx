@@ -1,12 +1,12 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import Link from 'next/link'
 import { getSession, useSession } from 'next-auth/react'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Link from 'next/link'
 
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 
 import { AccessLevels, Apps } from '@/constants'
 

@@ -1,24 +1,23 @@
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 import type { Dispatch, FC, SetStateAction } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useRouter } from 'next/router'
-import { useTranslation } from 'next-i18next'
 
-import Drawer from '@mui/material/Drawer'
-import Toolbar from '@mui/material/Toolbar'
-import Divider from '@mui/material/Divider'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
-import ButtonGroup from '@mui/material/ButtonGroup'
-import Button from '@mui/material/Button'
 import CloseIcon from '@mui/icons-material/Close'
 import type { Theme } from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import Divider from '@mui/material/Divider'
+import Drawer from '@mui/material/Drawer'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 
 import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
-
-import type { State } from '@/redux-types'
-import { setLocale, setPaletteMode } from '@/redux-action-creators'
-import { Locale, PaletteMode } from '@/redux-types/settings'
 import { DRAWER_WIDTH } from '@/constants'
+import { setLocale, setPaletteMode } from '@/redux-action-creators'
+import type { State } from '@/redux-types'
+import { Locale, PaletteMode } from '@/redux-types/settings'
 
 interface CustomStyledButtonProps {
   selected: boolean

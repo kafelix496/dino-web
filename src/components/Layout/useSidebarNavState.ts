@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import nookies from 'nookies'
+import { useState } from 'react'
 
 import { COOKIES_OPTION } from '@/constants'
 import { Cookies } from '@/constants/cookies'

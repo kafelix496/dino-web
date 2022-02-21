@@ -1,5 +1,5 @@
-import { useSWRConfig } from 'swr'
 import * as R from 'ramda'
+import { useSWRConfig } from 'swr'
 
 export default function useMatchMutate() {
   const { cache, mutate } = useSWRConfig()

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 const useDialogStatus = () => {
   const [state, dispatch] = useState({ isOpen: false, name: '' })

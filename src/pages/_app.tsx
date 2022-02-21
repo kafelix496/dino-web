@@ -1,21 +1,20 @@
-import { SWRConfig } from 'swr'
 import axios from 'axios'
-import { appWithTranslation } from 'next-i18next'
 import { SessionProvider } from 'next-auth/react'
+import { appWithTranslation } from 'next-i18next'
 import App from 'next/app'
 import type { AppContext, AppProps } from 'next/app'
 import nookies from 'nookies'
 import type { Dispatch } from 'redux'
+import { SWRConfig } from 'swr'
 
 import DinoLayout from '@/components/Layout/Layout'
-
+import { Cookies } from '@/constants/cookies'
+import { setLocale, setPaletteMode } from '@/redux-action-creators'
+import { wrapper } from '@/redux-store'
+import { Locale, PaletteMode } from '@/redux-types/settings'
+import { createEmotionCache } from '@/utils/mui'
 import { CacheProvider } from '@emotion/react'
 import type { EmotionCache } from '@emotion/react'
-import { wrapper } from '@/redux-store'
-import { createEmotionCache } from '@/utils/mui'
-import { setLocale, setPaletteMode } from '@/redux-action-creators'
-import { Locale, PaletteMode } from '@/redux-types/settings'
-import { Cookies } from '@/constants/cookies'
 
 import '../styles/globals.scss'
 

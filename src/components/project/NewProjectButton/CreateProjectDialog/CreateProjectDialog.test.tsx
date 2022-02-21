@@ -1,8 +1,7 @@
+import { Apps } from '@/constants'
 import { fireEvent, render, screen } from '@testing-library/react'
 
 import DinoCreateProjectDialog from './CreateProjectDialog'
-
-import { Apps } from '@/constants'
 
 describe('DinoCreateProjectDialog component', () => {
   test('the button should be disabled at the beginning', async () => {

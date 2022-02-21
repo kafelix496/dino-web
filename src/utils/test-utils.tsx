@@ -1,8 +1,9 @@
 import type { FC, ReactElement } from 'react'
 import { Provider } from 'react-redux'
+
+import { makeStore } from '@/redux-store'
 import { render } from '@testing-library/react'
 import type { RenderOptions } from '@testing-library/react'
-import { makeStore } from '@/redux-store'
 
 const Providers: FC = ({ children }) => (
   <Provider store={makeStore()}>{children}</Provider>

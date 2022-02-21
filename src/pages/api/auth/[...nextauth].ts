@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
-import { MongooseAdapter } from '@/utils/db-utils'
 import { AccessLevels, Apps } from '@/constants'
+import { MongooseAdapter } from '@/utils/db-utils'
 
 const apps = Object.values(Apps)
 

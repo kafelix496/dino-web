@@ -1,7 +1,7 @@
+import axios from 'axios'
+import { useTranslation } from 'next-i18next'
 import { useState } from 'react'
 import type { FC } from 'react'
-import { useTranslation } from 'next-i18next'
-import axios from 'axios'
 import { useSWRConfig } from 'swr'
 
 import Button from '@mui/material/Button'

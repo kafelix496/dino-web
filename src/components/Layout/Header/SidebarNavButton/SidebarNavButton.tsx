@@ -1,12 +1,12 @@
-import type { FC } from 'react'
 import { useTranslation } from 'next-i18next'
+import type { FC } from 'react'
 
 import MenuIcon from '@mui/icons-material/Menu'
 
 import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 
-import headerButtonMixin from '../headerButtonMixin'
 import type { SetSidebarNavOpen } from '../../useSidebarNavState'
+import headerButtonMixin from '../headerButtonMixin'
 
 interface DinoSidebarNavButtonProps {
   setSidebarNavOpen: SetSidebarNavOpen

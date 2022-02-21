@@ -1,10 +1,10 @@
-import type { FC } from 'react'
-import { useTranslation } from 'next-i18next'
 import {
   signIn as nextAuthSignIn,
   signOut as nextAuthSignOut,
   useSession
 } from 'next-auth/react'
+import { useTranslation } from 'next-i18next'
+import type { FC } from 'react'
 
 import Button from '@mui/material/Button'
 

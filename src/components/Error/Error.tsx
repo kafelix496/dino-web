@@ -1,12 +1,12 @@
-import type { FC } from 'react'
-import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
+import type { FC } from 'react'
 
-import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 import type { Theme } from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
 
 interface DinoErrorProps {
   statusCode: 404 | 500

@@ -1,5 +1,5 @@
-import type { FC, Dispatch, SetStateAction } from 'react'
 import { useTranslation } from 'next-i18next'
+import type { Dispatch, FC, SetStateAction } from 'react'
 
 import SettingsIcon from '@mui/icons-material/Settings'
 

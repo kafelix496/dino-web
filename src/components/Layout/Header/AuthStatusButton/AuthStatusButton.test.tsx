@@ -1,6 +1,6 @@
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
-import { render, screen, fireEvent } from '@/utils/test-utils'
+import { fireEvent, render, screen } from '@/utils/test-utils'
 
 import DinoAuthStatusButton from './AuthStatusButton'
 

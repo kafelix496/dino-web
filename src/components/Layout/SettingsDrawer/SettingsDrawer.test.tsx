@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { render, screen, fireEvent } from '@/utils/test-utils'
+import { fireEvent, render, screen } from '@/utils/test-utils'
 
 import DinoSettingsDrawer from './SettingsDrawer'
 
