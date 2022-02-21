@@ -1,19 +1,36 @@
+import { useState } from 'react'
+
 import { render, screen, fireEvent } from '@/utils/test-utils'
 
 import DinoSettingsButton from './SettingsButton'
 
+const setup = () => {
+  const TestComp = () => {
+    const [isSettingsOpen, setSettingsOpen] = useState(false)
+
+    return (
+      <>
+        <DinoSettingsButton setSettingsOpen={setSettingsOpen} />
+        <div data-testid="settings-open-status">{String(isSettingsOpen)}</div>
+      </>
+    )
+  }
+
+  return { TestComp }
+}
+
 describe('DinoSettingsButton component', () => {
-  it('should render settings drawer when the user clicks settings button', () => {
-    render(<DinoSettingsButton />)
+  it('should set settings open status true when the user clicks settings button', () => {
+    const { TestComp } = setup()
+
+    render(<TestComp />)
 
     const settingsButton = screen.getByLabelText('TOGGLE_SETTINGS_DRAWER')
-    // SETTINGS is the text inside drawer component
-    const settingsDrawer = screen.queryByText('SETTINGS')
-    expect(settingsButton).toBeInTheDocument()
-    expect(settingsDrawer).not.toBeInTheDocument()
+    const settingsOpenStatus = screen.getByTestId('settings-open-status')
+    expect(settingsOpenStatus.innerHTML).toBe('false')
     fireEvent.click(settingsButton)
-    // SETTINGS is the text inside drawer component
-    const settingsDrawer2 = screen.queryByText('SETTINGS')
-    expect(settingsDrawer2).toBeInTheDocument()
+    expect(settingsOpenStatus.innerHTML).toBe('true')
+    fireEvent.click(settingsButton)
+    expect(settingsOpenStatus.innerHTML).toBe('true')
   })
 })

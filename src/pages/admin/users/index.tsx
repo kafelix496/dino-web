@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next'
 import { getSession } from 'next-auth/react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import { AccessLevels } from '@/global-types'
+import { AccessLevels } from '@/constants'
 
 const Page: NextPage = () => {
   return <>aaa</>

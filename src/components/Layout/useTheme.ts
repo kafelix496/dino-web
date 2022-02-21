@@ -28,6 +28,16 @@ const useDinoTheme = ({
             lg: 1080,
             xl: 1536
           }
+        },
+        components: {
+          MuiTooltip: {
+            defaultProps: {
+              enterDelay: 300,
+              componentsProps: {
+                tooltip: { sx: { fontSize: '0.8rem', fontWeight: 'bold' } }
+              }
+            }
+          }
         }
       }),
     [isDarkMode]

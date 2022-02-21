@@ -15,6 +15,7 @@ import { wrapper } from '@/redux-store'
 import { createEmotionCache } from '@/utils/mui'
 import { setLocale, setPaletteMode } from '@/redux-action-creators'
 import { Locale, PaletteMode } from '@/redux-types/settings'
+import { Cookies } from '@/constants/cookies'
 
 import '../styles/globals.scss'
 
@@ -40,7 +41,9 @@ const MyApp = ({
         }}
       >
         <SessionProvider session={pageProps.session}>
-          <DinoLayout>
+          <DinoLayout
+            initialSidebarNavOpenState={pageProps.initialSidebarNavOpenState}
+          >
             <Component {...pageProps} />
           </DinoLayout>
         </SessionProvider>
@@ -51,7 +54,7 @@ const MyApp = ({
 
 MyApp.getInitialProps = wrapper.getInitialAppProps(
   (store) => async (appContext: AppContext) => {
-    const savedPaletteMode = nookies.get(appContext.ctx).paletteMode
+    const savedPaletteMode = nookies.get(appContext.ctx)[Cookies.paletteMode]
     ;(store.dispatch as Dispatch<any>)(
       setPaletteMode(
         Object.values(PaletteMode).includes(savedPaletteMode as PaletteMode)
@@ -60,7 +63,7 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
       )
     )
 
-    const savedLocale = nookies.get(appContext.ctx).locale
+    const savedLocale = nookies.get(appContext.ctx)[Cookies.locale]
     ;(store.dispatch as Dispatch<any>)(
       setLocale(
         Object.values(Locale).includes(savedLocale as Locale)
@@ -71,7 +74,14 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
 
     const appProps = await App.getInitialProps(appContext)
 
-    return appProps
+    return {
+      appProps,
+      pageProps: {
+        ...appProps,
+        initialSidebarNavOpenState:
+          nookies.get(appContext.ctx)[Cookies.sidebarNav] === 'true'
+      }
+    }
   }
 )
 

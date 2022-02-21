@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { CollectionName } from '@/global-types/collection'
+import { CollectionName } from '@/constants/collection'
 
 const sessionSchema = new mongoose.Schema({
   expires: {

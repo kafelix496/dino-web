@@ -15,8 +15,8 @@ import Typography from '@mui/material/Typography'
 import DinoNewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
 
 import { isValidAppType, convertTime } from '@/utils'
-import { Apps } from '@/global-types'
-import type { ProjectType } from '@/global-types'
+import { Apps } from '@/constants'
+import type { ProjectType } from '@/types'
 
 const DinoProjectItem = dynamic(
   () => import('@/components/project/ProjectItem/ProjectItem'),

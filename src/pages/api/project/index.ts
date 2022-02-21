@@ -5,7 +5,7 @@ import { dbConnect } from '@/utils/db-utils'
 import { isValidAppType } from '@/utils'
 import projectSchema from '@/models/common/projectSchema'
 import { createDocument } from '@/models/utils/createDocument'
-import { CollectionName } from '@/global-types/collection'
+import { CollectionName } from '@/constants/collection'
 
 export default async function handler(
   req: NextApiRequest,

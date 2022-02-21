@@ -4,9 +4,9 @@ import { render, screen, fireEvent } from '@/utils/test-utils'
 
 import DinoSettingsDrawer from './SettingsDrawer'
 
-const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
+const setup = () => {
   const TestComp = () => {
-    const [isSettingsOpen, setSettingsOpen] = useState(initialOpenStatus)
+    const [isSettingsOpen, setSettingsOpen] = useState(true)
 
     return (
       <DinoSettingsDrawer
@@ -16,9 +16,7 @@ const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
     )
   }
 
-  return {
-    TestComp
-  }
+  return { TestComp }
 }
 
 const SELECTED_BUTTON_CLASS = 'MuiButton-contained'
@@ -26,7 +24,7 @@ const UNSELECTED_BUTTON_CLASS = 'MuiButton-outlined'
 
 describe('DinoSettingsDrawer component', () => {
   it('should change selected theme mode', () => {
-    const { TestComp } = setup({ initialOpenStatus: true })
+    const { TestComp } = setup()
 
     render(<TestComp />)
 
@@ -44,7 +42,7 @@ describe('DinoSettingsDrawer component', () => {
   })
 
   it('should change selected locale', () => {
-    const { TestComp } = setup({ initialOpenStatus: true })
+    const { TestComp } = setup()
 
     render(<TestComp />)
 

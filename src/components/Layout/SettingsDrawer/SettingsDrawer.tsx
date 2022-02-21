@@ -18,8 +18,7 @@ import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIco
 import type { State } from '@/redux-types'
 import { setLocale, setPaletteMode } from '@/redux-action-creators'
 import { Locale, PaletteMode } from '@/redux-types/settings'
-
-const DRAWER_WIDTH = 280
+import { DRAWER_WIDTH } from '@/constants'
 
 interface CustomStyledButtonProps {
   selected: boolean
@@ -64,7 +63,10 @@ const DinoSettingsDrawer: FC<DinoSettingsDrawerProps> = ({
 
   return (
     <Drawer
-      sx={{ '& .MuiDrawer-paper': { width: DRAWER_WIDTH } }}
+      sx={{
+        zIndex: (theme: Theme) => theme.zIndex.drawer + 2,
+        '& .MuiDrawer-paper': { width: DRAWER_WIDTH }
+      }}
       anchor="right"
       open={isSettingsOpen}
       onClose={() => {

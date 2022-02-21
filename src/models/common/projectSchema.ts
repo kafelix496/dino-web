@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
-import { AccessLevels } from '@/global-types'
-import { CollectionName } from '@/global-types/collection'
+import { AccessLevels } from '@/constants'
+import { CollectionName } from '@/constants/collection'
 
 const accessUserSchema = new mongoose.Schema({
   accessUserId: {
