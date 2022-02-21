@@ -1,13 +1,16 @@
 {
-    "useTabs": false,
-    "printWidth": 80,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "quoteProps": "as-needed",
-    "jsxSingleQuote": false,
-    "trailingComma": "none",
-    "bracketSpacing": true,
-    "bracketSameLine": false,
-    "semi": false,
-    "arrowParens": "always"
+  "useTabs": false,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "quoteProps": "as-needed",
+  "jsxSingleQuote": false,
+  "trailingComma": "none",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "semi": false,
+  "arrowParens": "always",
+  "importOrder": ["^@mui/(.*)$", "^@(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
