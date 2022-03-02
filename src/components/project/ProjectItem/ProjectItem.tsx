@@ -11,10 +11,9 @@ import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 
+import DinoDeleteProjectDialog from '@/components/project/DeleteProjectDialog/DeleteProjectDialog'
+import DinoEditProjectDialog from '@/components/project/EditProjectDialog/EditProjectDialog'
 import useDialogStatus from '@/hooks/useDialogStatus'
-
-import DinoDeleteProjectDialog from './DeleteProjectDialog/DeleteProjectDialog'
-import DinoEditProjectDialog from './EditProjectDialog/EditProjectDialog'
 
 interface DinoProjectItemProps {
   appType: string

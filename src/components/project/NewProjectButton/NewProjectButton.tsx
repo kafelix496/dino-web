@@ -4,9 +4,8 @@ import type { FC } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import Button from '@mui/material/Button'
 
+import DinoCreateProjectDialog from '@/components/project/CreateProjectDialog/CreateProjectDialog'
 import useDialogStatus from '@/hooks/useDialogStatus'
-
-import DinoCreateProjectDialog from './CreateProjectDialog/CreateProjectDialog'
 
 interface DinoNewProjectButtonProps {
   appType: string
