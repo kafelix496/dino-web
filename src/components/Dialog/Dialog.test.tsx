@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 
 import { render, screen } from '@testing-library/react'
 
-import DinoDialog from './Dialog'
+import Dialog from './Dialog'
 
 const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
   const mockTitle = 'TEST_TITLE'
@@ -21,7 +21,7 @@ const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
     }, [])
 
     return (
-      <DinoDialog
+      <Dialog
         open={isOpen}
         onClose={handleClose}
         title={mockTitle}
@@ -39,7 +39,7 @@ const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
   }
 }
 
-describe('DinoDialog component', () => {
+describe('Dialog component', () => {
   it('should not render when isOpen prop is false', async () => {
     const { mockTitle, TestComp } = setup({ initialOpenStatus: false })
 

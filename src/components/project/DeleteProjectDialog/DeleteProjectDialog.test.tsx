@@ -1,12 +1,12 @@
 import { Apps } from '@/constants'
 import { render, screen } from '@testing-library/react'
 
-import DinoDeleteProjectDialog from './DeleteProjectDialog'
+import DeleteProjectDialog from './DeleteProjectDialog'
 
-describe('DinoDeleteProjectDialog component', () => {
+describe('DeleteProjectDialog component', () => {
   test('the button should not be disabled at the beginning', async () => {
     render(
-      <DinoDeleteProjectDialog
+      <DeleteProjectDialog
         appType={Apps.moneyTracker}
         isOpen={true}
         handleClose={jest.fn()}

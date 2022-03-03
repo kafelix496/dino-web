@@ -12,12 +12,12 @@ import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
-import DinoNewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
+import NewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
 import { Apps } from '@/constants'
 import type { ProjectType } from '@/types'
 import { convertTime, isValidAppType } from '@/utils'
 
-const DinoProjectItem = dynamic(
+const ProjectItem = dynamic(
   () => import('@/components/project/ProjectItem/ProjectItem'),
   { ssr: false }
 )
@@ -46,9 +46,7 @@ const Page: NextPage = () => {
         sx={{ width: '90%', height: '60%' }}
       >
         <Box className="__d-flex __d-justify-end" sx={{ mb: 2 }}>
-          <DinoNewProjectButton
-            appType={appType as string}
-          ></DinoNewProjectButton>
+          <NewProjectButton appType={appType as string}></NewProjectButton>
         </Box>
         <Paper
           className="__d-grow"
@@ -58,7 +56,7 @@ const Page: NextPage = () => {
           <Grid container spacing={1}>
             {(data?.projects ?? []).map((project) => (
               <Grid item key={project._id} xs={12} sm={6} md={4}>
-                <DinoProjectItem
+                <ProjectItem
                   appType={appType as string}
                   id={project._id}
                   title={project.title}

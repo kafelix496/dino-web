@@ -2,11 +2,11 @@ import type { FC } from 'react'
 
 import Typography from '@mui/material/Typography'
 
-interface DinoMoneyTrackerDrawerProps {
+interface MoneyTrackerDrawerProps {
   isSidebarNavOpen: boolean
 }
 
-const DinoMoneyTrackerDrawer: FC<DinoMoneyTrackerDrawerProps> = () => {
+const MoneyTrackerDrawer: FC<MoneyTrackerDrawerProps> = () => {
   return (
     <Typography sx={{ mt: 2, mb: 1 }} color="text.secondary">
       money tracker
@@ -14,4 +14,4 @@ const DinoMoneyTrackerDrawer: FC<DinoMoneyTrackerDrawerProps> = () => {
   )
 }
 
-export default DinoMoneyTrackerDrawer
+export default MoneyTrackerDrawer

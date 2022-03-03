@@ -4,14 +4,14 @@ import type { FC } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import Button from '@mui/material/Button'
 
-import DinoCreateProjectDialog from '@/components/project/CreateProjectDialog/CreateProjectDialog'
+import CreateProjectDialog from '@/components/project/CreateProjectDialog/CreateProjectDialog'
 import useDialogStatus from '@/hooks/useDialogStatus'
 
-interface DinoNewProjectButtonProps {
+interface NewProjectButtonProps {
   appType: string
 }
 
-const DinoNewProjectButton: FC<DinoNewProjectButtonProps> = ({ appType }) => {
+const NewProjectButton: FC<NewProjectButtonProps> = ({ appType }) => {
   const { t } = useTranslation('common')
   const { state: dialogState, handleOpen, handleClose } = useDialogStatus()
 
@@ -28,7 +28,7 @@ const DinoNewProjectButton: FC<DinoNewProjectButtonProps> = ({ appType }) => {
         {t('BUTTON_NEW')}
       </Button>
 
-      <DinoCreateProjectDialog
+      <CreateProjectDialog
         appType={appType}
         isOpen={dialogState.isOpen}
         handleClose={handleClose}
@@ -37,4 +37,4 @@ const DinoNewProjectButton: FC<DinoNewProjectButtonProps> = ({ appType }) => {
   )
 }
 
-export default DinoNewProjectButton
+export default NewProjectButton

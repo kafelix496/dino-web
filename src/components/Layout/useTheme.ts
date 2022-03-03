@@ -4,7 +4,7 @@ import { createTheme } from '@mui/material'
 import type { Theme } from '@mui/material'
 import { grey, indigo } from '@mui/material/colors'
 
-const useDinoTheme = ({
+const useTheme = ({
   isDarkMode
 }: {
   isDarkMode: boolean
@@ -46,4 +46,4 @@ const useDinoTheme = ({
   return { theme }
 }
 
-export default useDinoTheme
+export default useTheme

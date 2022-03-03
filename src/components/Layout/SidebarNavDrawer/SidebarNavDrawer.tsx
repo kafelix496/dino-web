@@ -9,7 +9,7 @@ import Drawer from '@mui/material/Drawer'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
-import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
+import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 import { DRAWER_WIDTH } from '@/constants'
 
 import type { SetSidebarNavOpen } from '../useSidebarNavState'
@@ -32,13 +32,13 @@ const closedMixin = (theme: Theme): CSSObject => ({
   width: `calc(${theme.spacing(11)} + 1px)`
 })
 
-interface DinoSidebarNavDrawerProps {
+interface SidebarNavDrawerProps {
   DrawerContent: ComponentType<{ isSidebarNavOpen: boolean }> | null
   isSidebarNavOpen: boolean
   setSidebarNavOpen: SetSidebarNavOpen
 }
 
-const DinoSidebarNavDrawer: FC<DinoSidebarNavDrawerProps> = ({
+const SidebarNavDrawer: FC<SidebarNavDrawerProps> = ({
   DrawerContent,
   isSidebarNavOpen,
   setSidebarNavOpen
@@ -68,12 +68,12 @@ const DinoSidebarNavDrawer: FC<DinoSidebarNavDrawerProps> = ({
         >
           <Toolbar className="__d-flex __d-justify-between">
             <Typography>{t('SETTINGS')}</Typography>
-            <DinoTooltipIconButton
+            <TooltipIconButton
               title={t('CLOSE')}
               iconButtonProps={{ onClick: () => setSidebarNavOpen(false) }}
             >
               <CloseIcon />
-            </DinoTooltipIconButton>
+            </TooltipIconButton>
           </Toolbar>
           <Divider />
           <Box className="__d-h-full">
@@ -85,4 +85,4 @@ const DinoSidebarNavDrawer: FC<DinoSidebarNavDrawerProps> = ({
   )
 }
 
-export default DinoSidebarNavDrawer
+export default SidebarNavDrawer

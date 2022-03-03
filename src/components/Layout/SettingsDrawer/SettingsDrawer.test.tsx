@@ -2,14 +2,14 @@ import { useState } from 'react'
 
 import { fireEvent, render, screen } from '@/utils/test-utils'
 
-import DinoSettingsDrawer from './SettingsDrawer'
+import SettingsDrawer from './SettingsDrawer'
 
 const setup = () => {
   const TestComp = () => {
     const [isSettingsOpen, setSettingsOpen] = useState(true)
 
     return (
-      <DinoSettingsDrawer
+      <SettingsDrawer
         isSettingsOpen={isSettingsOpen}
         setSettingsOpen={setSettingsOpen}
       />
@@ -22,7 +22,7 @@ const setup = () => {
 const SELECTED_BUTTON_CLASS = 'MuiButton-contained'
 const UNSELECTED_BUTTON_CLASS = 'MuiButton-outlined'
 
-describe('DinoSettingsDrawer component', () => {
+describe('SettingsDrawer component', () => {
   it('should change selected theme mode', () => {
     const { TestComp } = setup()
 

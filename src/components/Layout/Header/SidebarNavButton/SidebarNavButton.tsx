@@ -3,22 +3,20 @@ import type { FC } from 'react'
 
 import MenuIcon from '@mui/icons-material/Menu'
 
-import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
+import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 
 import type { SetSidebarNavOpen } from '../../useSidebarNavState'
 import headerButtonMixin from '../headerButtonMixin'
 
-interface DinoSidebarNavButtonProps {
+interface SidebarNavButtonProps {
   setSidebarNavOpen: SetSidebarNavOpen
 }
 
-const DinoSidebarNavButton: FC<DinoSidebarNavButtonProps> = ({
-  setSidebarNavOpen
-}) => {
+const SidebarNavButton: FC<SidebarNavButtonProps> = ({ setSidebarNavOpen }) => {
   const { t } = useTranslation('common')
 
   return (
-    <DinoTooltipIconButton
+    <TooltipIconButton
       title={t('MAIN_MENU')}
       iconButtonProps={{
         sx: { color: headerButtonMixin },
@@ -28,8 +26,8 @@ const DinoSidebarNavButton: FC<DinoSidebarNavButtonProps> = ({
       }}
     >
       <MenuIcon />
-    </DinoTooltipIconButton>
+    </TooltipIconButton>
   )
 }
 
-export default DinoSidebarNavButton
+export default SidebarNavButton

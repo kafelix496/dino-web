@@ -1,11 +1,11 @@
 import { render, screen } from '@/utils/test-utils'
 
-import DinoError from './Error'
+import Error from './Error'
 
-describe('DinoError component', () => {
+describe('Error component', () => {
   describe('should render a proper text', () => {
     test('when statusCode is 404', () => {
-      render(<DinoError statusCode={404} />)
+      render(<Error statusCode={404} />)
 
       const errorTypography = screen.getByText('ERROR_404_MESSAGE')
 
@@ -13,7 +13,7 @@ describe('DinoError component', () => {
     })
 
     test('when statusCode is 500', () => {
-      render(<DinoError statusCode={500} />)
+      render(<Error statusCode={500} />)
 
       const errorTypography = screen.getByText('ERROR_500_MESSAGE')
 
@@ -22,7 +22,7 @@ describe('DinoError component', () => {
   })
 
   it('should render "go to homepage" button and link root when clicked', () => {
-    render(<DinoError statusCode={404} />)
+    render(<Error statusCode={404} />)
 
     const goToHomepageButton = screen.getByRole('button', {
       name: 'GO_TO_HOMEPAGE'

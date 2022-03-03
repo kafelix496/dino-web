@@ -13,7 +13,7 @@ import Drawer from '@mui/material/Drawer'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
-import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
+import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 import { DRAWER_WIDTH } from '@/constants'
 import { setLocale, setPaletteMode } from '@/redux-action-creators'
 import type { State } from '@/redux-types'
@@ -43,12 +43,12 @@ const CustomStyledButton: FC<CustomStyledButtonProps> = ({
   </Button>
 )
 
-interface DinoSettingsDrawerProps {
+interface SettingsDrawerProps {
   isSettingsOpen: boolean
   setSettingsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DinoSettingsDrawer: FC<DinoSettingsDrawerProps> = ({
+const SettingsDrawer: FC<SettingsDrawerProps> = ({
   isSettingsOpen,
   setSettingsOpen
 }) => {
@@ -74,12 +74,12 @@ const DinoSettingsDrawer: FC<DinoSettingsDrawerProps> = ({
     >
       <Toolbar className="__d-flex __d-justify-between">
         <Typography>{t('SETTINGS')}</Typography>
-        <DinoTooltipIconButton
+        <TooltipIconButton
           title={t('CLOSE')}
           iconButtonProps={{ onClick: () => setSettingsOpen(false) }}
         >
           <CloseIcon />
-        </DinoTooltipIconButton>
+        </TooltipIconButton>
       </Toolbar>
       <Divider />
       <Box className="__d-h-full" sx={{ px: 3 }}>
@@ -133,4 +133,4 @@ const DinoSettingsDrawer: FC<DinoSettingsDrawerProps> = ({
   )
 }
 
-export default DinoSettingsDrawer
+export default SettingsDrawer

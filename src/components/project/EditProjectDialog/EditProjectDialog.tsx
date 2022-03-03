@@ -8,10 +8,10 @@ import * as yup from 'yup'
 
 import Button from '@mui/material/Button'
 
-import DinoDialog from '@/components/Dialog/Dialog'
-import DinoFieldText from '@/components/mui/FormFieldText/FormFieldText'
+import Dialog from '@/components/Dialog/Dialog'
+import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 
-interface DinoEditProjectDialogProps {
+interface EditProjectDialogProps {
   appType: string
   isOpen: boolean
   handleClose: () => void
@@ -20,7 +20,7 @@ interface DinoEditProjectDialogProps {
   description: string
 }
 
-const DinoEditProjectDialog: FC<DinoEditProjectDialogProps> = ({
+const EditProjectDialog: FC<EditProjectDialogProps> = ({
   appType,
   isOpen,
   handleClose,
@@ -66,7 +66,7 @@ const DinoEditProjectDialog: FC<DinoEditProjectDialogProps> = ({
   }, [isOpen, title, description])
 
   return (
-    <DinoDialog
+    <Dialog
       open={isOpen}
       onClose={handleClose}
       title={t('EDIT_PROJECT_DIALOG_TITLE')}
@@ -74,14 +74,14 @@ const DinoEditProjectDialog: FC<DinoEditProjectDialogProps> = ({
       handleFormSubmit={formik.handleSubmit}
       contentJsx={
         <>
-          <DinoFieldText
+          <FieldText
             autoFocus={true}
             required={true}
             label={t('PROJECT_TITLE')}
             formik={formik}
             name="title"
           />
-          <DinoFieldText
+          <FieldText
             label={t('PROJECT_DESCRIPTION')}
             formik={formik}
             name="description"
@@ -107,4 +107,4 @@ const DinoEditProjectDialog: FC<DinoEditProjectDialogProps> = ({
   )
 }
 
-export default DinoEditProjectDialog
+export default EditProjectDialog

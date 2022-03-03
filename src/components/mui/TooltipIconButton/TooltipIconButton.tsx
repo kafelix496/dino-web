@@ -3,12 +3,12 @@ import type { FC } from 'react'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 
-interface DinoTooltipIconButtonProps {
+interface TooltipIconButtonProps {
   title: string
   iconButtonProps?: { [key: string]: any }
 }
 
-const DinoTooltipIconButton: FC<DinoTooltipIconButtonProps> = ({
+const TooltipIconButton: FC<TooltipIconButtonProps> = ({
   title,
   iconButtonProps,
   children
@@ -20,4 +20,4 @@ const DinoTooltipIconButton: FC<DinoTooltipIconButtonProps> = ({
   )
 }
 
-export default DinoTooltipIconButton
+export default TooltipIconButton

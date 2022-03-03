@@ -7,16 +7,16 @@ import { useSWRConfig } from 'swr'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-import DinoDialog from '@/components/Dialog/Dialog'
+import Dialog from '@/components/Dialog/Dialog'
 
-interface DinoDeleteProjectFormDialogProps {
+interface DeleteProjectFormDialogProps {
   appType: string
   id: string
   isOpen: boolean
   handleClose: () => void
 }
 
-const DinoDeleteProjectFormDialog: FC<DinoDeleteProjectFormDialogProps> = ({
+const DeleteProjectFormDialog: FC<DeleteProjectFormDialogProps> = ({
   appType,
   id,
   isOpen,
@@ -44,7 +44,7 @@ const DinoDeleteProjectFormDialog: FC<DinoDeleteProjectFormDialogProps> = ({
   }
 
   return (
-    <DinoDialog
+    <Dialog
       open={isOpen}
       onClose={handleClose}
       title={t('DELETE_PROJECT_DIALOG_TITLE')}
@@ -69,4 +69,4 @@ const DinoDeleteProjectFormDialog: FC<DinoDeleteProjectFormDialogProps> = ({
   )
 }
 
-export default DinoDeleteProjectFormDialog
+export default DeleteProjectFormDialog

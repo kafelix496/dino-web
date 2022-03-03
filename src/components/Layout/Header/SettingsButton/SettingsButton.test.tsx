@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { fireEvent, render, screen } from '@/utils/test-utils'
 
-import DinoSettingsButton from './SettingsButton'
+import SettingsButton from './SettingsButton'
 
 const setup = () => {
   const TestComp = () => {
@@ -10,7 +10,7 @@ const setup = () => {
 
     return (
       <>
-        <DinoSettingsButton setSettingsOpen={setSettingsOpen} />
+        <SettingsButton setSettingsOpen={setSettingsOpen} />
         <div data-testid="settings-open-status">{String(isSettingsOpen)}</div>
       </>
     )
@@ -19,7 +19,7 @@ const setup = () => {
   return { TestComp }
 }
 
-describe('DinoSettingsButton component', () => {
+describe('SettingsButton component', () => {
   it('should set settings open status true when the user clicks settings button', () => {
     const { TestComp } = setup()
 

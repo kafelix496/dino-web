@@ -1,7 +1,7 @@
 import { Apps } from '@/constants'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import DinoProjectItem from './ProjectItem'
+import ProjectItem from './ProjectItem'
 
 const setup = () => {
   return {
@@ -13,12 +13,12 @@ const setup = () => {
   }
 }
 
-describe('DinoProjectItem component', () => {
+describe('ProjectItem component', () => {
   it('should render title and sub title', () => {
     const { id, title, subTitle, tooltip } = setup()
 
     render(
-      <DinoProjectItem
+      <ProjectItem
         appType={Apps.moneyTracker}
         id={id}
         title={title}
@@ -38,7 +38,7 @@ describe('DinoProjectItem component', () => {
     const { id, title, subTitle, tooltip } = setup()
 
     render(
-      <DinoProjectItem
+      <ProjectItem
         appType={Apps.moneyTracker}
         id={id}
         title={title}

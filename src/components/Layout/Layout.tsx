@@ -13,37 +13,34 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 
 import type { State } from '@/redux-types'
 
-import DinoHeader from './Header/Header'
-import DinoSettingsButton from './SettingsDrawer/SettingsDrawer'
-import DinoSidebarNavDrawer from './SidebarNavDrawer/SidebarNavDrawer'
-import useDinoDrawerContent from './useDrawerContent'
-import useDioSidebarNavState from './useSidebarNavState'
-import useDinoTheme from './useTheme'
+import Header from './Header/Header'
+import SettingsButton from './SettingsDrawer/SettingsDrawer'
+import SidebarNavDrawer from './SidebarNavDrawer/SidebarNavDrawer'
+import useDrawerContent from './useDrawerContent'
+import useSidebarNavState from './useSidebarNavState'
+import useTheme from './useTheme'
 
 const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 
-interface DinoLayoutProps {
+interface LayoutProps {
   initialSidebarNavOpenState: boolean
 }
 
-const DinoLayout: FC<DinoLayoutProps> = ({
-  initialSidebarNavOpenState,
-  children
-}) => {
+const Layout: FC<LayoutProps> = ({ initialSidebarNavOpenState, children }) => {
   const { t } = useTranslation('common')
-  const [isSidebarNavOpen, setSidebarNavOpen] = useDioSidebarNavState(
+  const [isSidebarNavOpen, setSidebarNavOpen] = useSidebarNavState(
     initialSidebarNavOpenState
   )
   const [isSettingsOpen, setSettingsOpen] = useState(false)
   const paletteMode = useSelector((state: State) => state.settings.paletteMode)
   const prefersDarkMode = useMediaQuery(COLOR_SCHEME_QUERY)
-  const { theme } = useDinoTheme({
+  const { theme } = useTheme({
     isDarkMode:
       paletteMode !== 'system'
         ? paletteMode === 'dark'
         : prefersDarkMode ?? false
   })
-  const DinoDrawerContent = useDinoDrawerContent()
+  const DrawerContent = useDrawerContent()
 
   return (
     <ThemeProvider theme={theme}>
@@ -54,19 +51,19 @@ const DinoLayout: FC<DinoLayoutProps> = ({
       </Head>
 
       <Box className="__d-flex">
-        <DinoHeader
-          hasSidebarNav={!!DinoDrawerContent}
+        <Header
+          hasSidebarNav={!!DrawerContent}
           setSidebarNavOpen={setSidebarNavOpen}
           setSettingsOpen={setSettingsOpen}
         />
 
-        <DinoSidebarNavDrawer
-          DrawerContent={DinoDrawerContent}
+        <SidebarNavDrawer
+          DrawerContent={DrawerContent}
           isSidebarNavOpen={isSidebarNavOpen}
           setSidebarNavOpen={setSidebarNavOpen}
         />
 
-        <DinoSettingsButton
+        <SettingsButton
           isSettingsOpen={isSettingsOpen}
           setSettingsOpen={setSettingsOpen}
         />
@@ -87,4 +84,4 @@ const DinoLayout: FC<DinoLayoutProps> = ({
   )
 }
 
-export default DinoLayout
+export default Layout

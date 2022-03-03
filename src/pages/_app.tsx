@@ -7,7 +7,7 @@ import nookies from 'nookies'
 import type { Dispatch } from 'redux'
 import { SWRConfig } from 'swr'
 
-import DinoLayout from '@/components/Layout/Layout'
+import Layout from '@/components/Layout/Layout'
 import { Cookies } from '@/constants/cookies'
 import { setLocale, setPaletteMode } from '@/redux-action-creators'
 import { wrapper } from '@/redux-store'
@@ -40,11 +40,11 @@ const MyApp = ({
         }}
       >
         <SessionProvider session={pageProps.session}>
-          <DinoLayout
+          <Layout
             initialSidebarNavOpenState={pageProps.initialSidebarNavOpenState}
           >
             <Component {...pageProps} />
-          </DinoLayout>
+          </Layout>
         </SessionProvider>
       </SWRConfig>
     </CacheProvider>

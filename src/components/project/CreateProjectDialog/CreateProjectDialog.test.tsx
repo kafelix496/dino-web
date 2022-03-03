@@ -1,12 +1,12 @@
 import { Apps } from '@/constants'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import DinoCreateProjectDialog from './CreateProjectDialog'
+import CreateProjectDialog from './CreateProjectDialog'
 
-describe('DinoCreateProjectDialog component', () => {
+describe('CreateProjectDialog component', () => {
   test('the button should be disabled at the beginning', async () => {
     render(
-      <DinoCreateProjectDialog
+      <CreateProjectDialog
         appType={Apps.moneyTracker}
         isOpen={true}
         handleClose={jest.fn()}
@@ -21,7 +21,7 @@ describe('DinoCreateProjectDialog component', () => {
 
   it('should enable the button when the user types something on the title', async () => {
     render(
-      <DinoCreateProjectDialog
+      <CreateProjectDialog
         appType={Apps.moneyTracker}
         isOpen={true}
         handleClose={jest.fn()}

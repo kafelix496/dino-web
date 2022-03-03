@@ -3,11 +3,11 @@ import { useRouter } from 'next/router'
 
 import { Apps } from '@/constants'
 
-const DinoAdminDrawer = dynamic(
+const AdminDrawer = dynamic(
   () => import('./SidebarNavDrawer/AdminDrawer/AdminDrawer')
 )
 
-const DinoMoneyTrackerDrawer = dynamic(
+const MoneyTrackerDrawer = dynamic(
   () => import('./SidebarNavDrawer/MoneyTrackerDrawer/MoneyTrackerDrawer')
 )
 
@@ -16,11 +16,11 @@ const useDrawerContent = () => {
   const pathname = router.pathname
 
   if (/^\/admin\/users$/.test(pathname)) {
-    return DinoAdminDrawer
+    return AdminDrawer
   }
 
   if (new RegExp(`^/${Apps.moneyTracker}/`).test(pathname)) {
-    return DinoMoneyTrackerDrawer
+    return MoneyTrackerDrawer
   }
 
   return null

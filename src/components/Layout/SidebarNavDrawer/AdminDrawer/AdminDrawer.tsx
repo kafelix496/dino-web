@@ -22,11 +22,11 @@ const menus = [
   }
 ]
 
-interface DinoAdminDrawerProps {
+interface AdminDrawerProps {
   isSidebarNavOpen: boolean
 }
 
-const DinoAdminDrawer: FC<DinoAdminDrawerProps> = ({ isSidebarNavOpen }) => {
+const AdminDrawer: FC<AdminDrawerProps> = ({ isSidebarNavOpen }) => {
   return (
     <List>
       {menus.map((menu, index) => (
@@ -59,4 +59,4 @@ const DinoAdminDrawer: FC<DinoAdminDrawerProps> = ({ isSidebarNavOpen }) => {
   )
 }
 
-export default DinoAdminDrawer
+export default AdminDrawer

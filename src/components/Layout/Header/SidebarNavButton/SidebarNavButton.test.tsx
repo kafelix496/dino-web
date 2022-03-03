@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { fireEvent, render, screen } from '@/utils/test-utils'
 
-import DinoSidebarNavButton from './SidebarNavButton'
+import SidebarNavButton from './SidebarNavButton'
 
 const setup = () => {
   const TestComp = () => {
@@ -10,7 +10,7 @@ const setup = () => {
 
     return (
       <>
-        <DinoSidebarNavButton setSidebarNavOpen={setSidebarNavOpen} />
+        <SidebarNavButton setSidebarNavOpen={setSidebarNavOpen} />
         <div data-testid="sidebar-nav-open-status">
           {String(isSidebarNavOpen)}
         </div>
@@ -21,7 +21,7 @@ const setup = () => {
   return { TestComp }
 }
 
-describe('DinoSidebarNavButton component', () => {
+describe('SidebarNavButton component', () => {
   it('should toggle sidebar navigation open status when the user clicks sidebar navigation button', () => {
     const { TestComp } = setup()
 

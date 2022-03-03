@@ -10,7 +10,7 @@ import Button from '@mui/material/Button'
 
 import headerButtonMixin from '../headerButtonMixin'
 
-const DinoAuthStatusButton: FC = () => {
+const AuthStatusButton: FC = () => {
   const { t } = useTranslation('common')
   const { data: session } = useSession()
 
@@ -37,4 +37,4 @@ const DinoAuthStatusButton: FC = () => {
   )
 }
 
-export default DinoAuthStatusButton
+export default AuthStatusButton

@@ -3,21 +3,19 @@ import type { Dispatch, FC, SetStateAction } from 'react'
 
 import SettingsIcon from '@mui/icons-material/Settings'
 
-import DinoTooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
+import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 
 import headerButtonMixin from '../headerButtonMixin'
 
-interface DinoSettingsButtonProps {
+interface SettingsButtonProps {
   setSettingsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DinoSettingsButton: FC<DinoSettingsButtonProps> = ({
-  setSettingsOpen
-}) => {
+const SettingsButton: FC<SettingsButtonProps> = ({ setSettingsOpen }) => {
   const { t } = useTranslation('common')
 
   return (
-    <DinoTooltipIconButton
+    <TooltipIconButton
       title={t('TOGGLE_SETTINGS_DRAWER')}
       iconButtonProps={{
         sx: { color: headerButtonMixin },
@@ -27,8 +25,8 @@ const DinoSettingsButton: FC<DinoSettingsButtonProps> = ({
       }}
     >
       <SettingsIcon />
-    </DinoTooltipIconButton>
+    </TooltipIconButton>
   )
 }
 
-export default DinoSettingsButton
+export default SettingsButton

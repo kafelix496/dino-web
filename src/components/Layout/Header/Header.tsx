@@ -9,18 +9,18 @@ import Button from '@mui/material/Button'
 import Toolbar from '@mui/material/Toolbar'
 
 import type { SetSidebarNavOpen } from '../useSidebarNavState'
-import DinoAuthStatusButton from './AuthStatusButton/AuthStatusButton'
-import DinoSettingsButton from './SettingsButton/SettingsButton'
-import DinoSidebarNavButton from './SidebarNavButton/SidebarNavButton'
+import AuthStatusButton from './AuthStatusButton/AuthStatusButton'
+import SettingsButton from './SettingsButton/SettingsButton'
+import SidebarNavButton from './SidebarNavButton/SidebarNavButton'
 import headerButtonMixin from './headerButtonMixin'
 
-interface DinoHeaderProps {
+interface HeaderProps {
   hasSidebarNav: boolean
   setSidebarNavOpen: SetSidebarNavOpen
   setSettingsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DinoHeader: FC<DinoHeaderProps> = ({
+const Header: FC<HeaderProps> = ({
   hasSidebarNav,
   setSidebarNavOpen,
   setSettingsOpen
@@ -36,7 +36,7 @@ const DinoHeader: FC<DinoHeaderProps> = ({
       >
         <Toolbar>
           {hasSidebarNav && (
-            <DinoSidebarNavButton setSidebarNavOpen={setSidebarNavOpen} />
+            <SidebarNavButton setSidebarNavOpen={setSidebarNavOpen} />
           )}
 
           <Link href="/">
@@ -51,10 +51,10 @@ const DinoHeader: FC<DinoHeaderProps> = ({
             </Button>
           </Link>
           <Box className="__d-grow __d-flex __d-justify-end">
-            <DinoAuthStatusButton />
+            <AuthStatusButton />
 
             <Box sx={{ ml: 2 }}>
-              <DinoSettingsButton setSettingsOpen={setSettingsOpen} />
+              <SettingsButton setSettingsOpen={setSettingsOpen} />
             </Box>
           </Box>
         </Toolbar>
@@ -63,4 +63,4 @@ const DinoHeader: FC<DinoHeaderProps> = ({
   )
 }
 
-export default DinoHeader
+export default Header
