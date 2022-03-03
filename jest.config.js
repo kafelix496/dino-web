@@ -51,8 +51,7 @@ module.exports = {
   setupFiles: [
     '<rootDir>/src/__mocks__/react-i18next.js',
     '<rootDir>/src/__mocks__/next.js',
-    '<rootDir>/src/__mocks__/next-auth.js',
-    '<rootDir>/src/__mocks__/redux-actions.js'
+    '<rootDir>/src/__mocks__/next-auth.js'
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
 }
