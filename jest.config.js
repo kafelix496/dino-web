@@ -33,7 +33,7 @@ module.exports = {
     '@/redux-store': '<rootDir>/src/redux/store',
     '@/redux-types/(.*)': '<rootDir>/src/redux/types/$1',
     '@/redux-types': '<rootDir>/src/redux/types',
-    '@/redux-action-creators': '<rootDir>/src/redux/action-creators'
+    '@/redux-actions': '<rootDir>/src/redux/actions'
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
   testEnvironment: 'jsdom',
@@ -50,7 +50,7 @@ module.exports = {
     '<rootDir>/src/__mocks__/react-i18next.js',
     '<rootDir>/src/__mocks__/next.js',
     '<rootDir>/src/__mocks__/next-auth.js',
-    '<rootDir>/src/__mocks__/redux-action-creators.js'
+    '<rootDir>/src/__mocks__/redux-actions.js'
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
 }

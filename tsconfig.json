@@ -56,8 +56,8 @@
       "@/redux-types/*": [
         "./src/redux/types/*"
       ],
-      "@/redux-action-creators": [
-        "./src/redux/action-creators"
+      "@/redux-actions": [
+        "./src/redux/actions"
       ]
     }
   },

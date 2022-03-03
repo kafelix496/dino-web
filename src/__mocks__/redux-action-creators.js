@@ -1,5 +1,5 @@
-jest.mock('@/redux-action-creators', () => {
-  const originalModule = jest.requireActual('@/redux-action-creators')
+jest.mock('@/redux-actions', () => {
+  const originalModule = jest.requireActual('@/redux-actions')
 
   return {
     __esModule: true,

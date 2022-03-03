@@ -9,7 +9,7 @@ import { SWRConfig } from 'swr'
 
 import Layout from '@/components/Layout/Layout'
 import { Cookies } from '@/constants/cookies'
-import { setLocale, setPaletteMode } from '@/redux-action-creators'
+import { setLocale, setPaletteMode } from '@/redux-actions'
 import { wrapper } from '@/redux-store'
 import { Locale, PaletteMode } from '@/redux-types/settings'
 import { createEmotionCache } from '@/utils/mui'
