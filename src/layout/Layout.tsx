@@ -13,7 +13,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { usePaletteMode } from '@/redux-selectors'
 
 import Header from './Header/Header'
-import SettingsButton from './SettingsDrawer/SettingsDrawer'
+import SettingsDrawer from './SettingsDrawer/SettingsDrawer'
 import SidebarNavDrawer from './SidebarNavDrawer/SidebarNavDrawer'
 import useDrawerContent from './useDrawerContent'
 import useSidebarNavState from './useSidebarNavState'
@@ -62,7 +62,7 @@ const Layout: FC<LayoutProps> = ({ initialSidebarNavOpenState, children }) => {
           setSidebarNavOpen={setSidebarNavOpen}
         />
 
-        <SettingsButton
+        <SettingsDrawer
           isSettingsOpen={isSettingsOpen}
           setSettingsOpen={setSettingsOpen}
         />
