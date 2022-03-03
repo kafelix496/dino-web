@@ -17,14 +17,17 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
+      "@/layout": [
+        "./src/layout/Layout"
+      ],
       "@/types": [
-        "./src/types/index.ts"
+        "./src/types/index"
       ],
       "@/types/*": [
         "./src/types/*"
       ],
       "@/constants": [
-        "./src/constants/index.ts"
+        "./src/constants/index"
       ],
       "@/constants/*": [
         "./src/constants/*"
@@ -39,7 +42,7 @@
         "./src/hooks/*"
       ],
       "@/utils": [
-        "./src/utils/index.ts"
+        "./src/utils/index"
       ],
       "@/utils/*": [
         "./src/utils/*"
