@@ -4,6 +4,7 @@ jest.mock('@/redux-action-creators', () => {
   return {
     __esModule: true,
     ...originalModule,
-    togglePaletteMode: jest.fn(() => ({ type: '' }))
+    setPaletteMode: jest.fn(() => ({ type: '' })),
+    setLocale: jest.fn(() => ({ type: '' }))
   }
 })
