@@ -2,7 +2,6 @@ import { useTranslation } from 'next-i18next'
 import Head from 'next/head'
 import { useState } from 'react'
 import type { FC } from 'react'
-import { useSelector } from 'react-redux'
 
 import { ThemeProvider } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -11,7 +10,7 @@ import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import type { State } from '@/redux-types'
+import { usePaletteMode } from '@/redux-selectors'
 
 import Header from './Header/Header'
 import SettingsButton from './SettingsDrawer/SettingsDrawer'
@@ -32,7 +31,7 @@ const Layout: FC<LayoutProps> = ({ initialSidebarNavOpenState, children }) => {
     initialSidebarNavOpenState
   )
   const [isSettingsOpen, setSettingsOpen] = useState(false)
-  const paletteMode = useSelector((state: State) => state.settings.paletteMode)
+  const paletteMode = usePaletteMode()
   const prefersDarkMode = useMediaQuery(COLOR_SCHEME_QUERY)
   const { theme } = useTheme({
     isDarkMode:

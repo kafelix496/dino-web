@@ -59,6 +59,9 @@
       "@/redux-types/*": [
         "./src/redux/types/*"
       ],
+      "@/redux-selectors": [
+        "./src/redux/selectors"
+      ],
       "@/redux-actions": [
         "./src/redux/actions"
       ]

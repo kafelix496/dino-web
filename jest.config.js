@@ -34,7 +34,8 @@ module.exports = {
     '@/redux-store': '<rootDir>/src/redux/store',
     '@/redux-types/(.*)': '<rootDir>/src/redux/types/$1',
     '@/redux-types': '<rootDir>/src/redux/types',
-    '@/redux-actions': '<rootDir>/src/redux/actions'
+    '@/redux-actions': '<rootDir>/src/redux/actions',
+    '@/redux-selectors': '<rootDir>/src/redux/selectors'
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
   testEnvironment: 'jsdom',
