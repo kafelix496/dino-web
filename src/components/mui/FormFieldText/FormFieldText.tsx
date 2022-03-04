@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import TextField from '@mui/material/TextField'
 
-interface DinoFieldTextProps {
+interface FieldTextProps {
   autoFocus?: boolean
   required?: boolean
   fullWidth?: boolean
@@ -11,7 +11,7 @@ interface DinoFieldTextProps {
   name: string
 }
 
-const DinoFieldText: FC<DinoFieldTextProps> = ({
+const FieldText: FC<FieldTextProps> = ({
   autoFocus = false,
   required = false,
   fullWidth = true,
@@ -35,4 +35,4 @@ const DinoFieldText: FC<DinoFieldTextProps> = ({
   )
 }
 
-export default DinoFieldText
+export default FieldText

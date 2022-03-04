@@ -8,11 +8,11 @@ import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
-interface DinoErrorProps {
+interface ErrorProps {
   statusCode: 404 | 500
 }
 
-const DinoError: FC<DinoErrorProps> = ({ statusCode }) => {
+const Error: FC<ErrorProps> = ({ statusCode }) => {
   const { t } = useTranslation('common')
 
   return (
@@ -34,4 +34,4 @@ const DinoError: FC<DinoErrorProps> = ({ statusCode }) => {
   )
 }
 
-export default DinoError
+export default Error

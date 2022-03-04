@@ -1,6 +1,6 @@
 import { render, screen } from '@/utils/test-utils'
 
-import DinoFieldText from './FormFieldText'
+import FieldText from './FormFieldText'
 
 const setup = ({ touched }: { touched: boolean }) => {
   const formik = {
@@ -20,11 +20,11 @@ const setup = ({ touched }: { touched: boolean }) => {
   return { formik }
 }
 
-describe('DinoFieldText component', () => {
+describe('FieldText component', () => {
   it('should render a form field text', () => {
     const { formik } = setup({ touched: false })
 
-    render(<DinoFieldText label="TEST_TITLE" formik={formik} name="title" />)
+    render(<FieldText label="TEST_TITLE" formik={formik} name="title" />)
 
     const textbox = screen.getByRole('textbox', {
       name: 'TEST_TITLE'
@@ -36,7 +36,7 @@ describe('DinoFieldText component', () => {
     const { formik } = setup({ touched: false })
 
     const { rerender } = render(
-      <DinoFieldText
+      <FieldText
         required={true}
         label="TEST_TITLE"
         formik={formik}
@@ -50,7 +50,7 @@ describe('DinoFieldText component', () => {
     const { formik: formik2 } = setup({ touched: true })
 
     rerender(
-      <DinoFieldText
+      <FieldText
         required={true}
         label="TEST_TITLE"
         formik={formik2}

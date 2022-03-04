@@ -20,6 +20,7 @@ module.exports = {
       '<rootDir>/src/__mocks__/fileMock.js',
 
     /* Handle typescript custom absolute imports */
+    '@/layout': '<rootDir>/src/layout/Layout',
     '@/types/(.*)': '<rootDir>/src/types/$1',
     '@/types': '<rootDir>/src/types/index.ts',
     '@/constants/(.*)': '<rootDir>/src/constants/$1',
@@ -33,7 +34,8 @@ module.exports = {
     '@/redux-store': '<rootDir>/src/redux/store',
     '@/redux-types/(.*)': '<rootDir>/src/redux/types/$1',
     '@/redux-types': '<rootDir>/src/redux/types',
-    '@/redux-action-creators': '<rootDir>/src/redux/action-creators'
+    '@/redux-actions': '<rootDir>/src/redux/actions',
+    '@/redux-selectors': '<rootDir>/src/redux/selectors'
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
   testEnvironment: 'jsdom',
@@ -49,8 +51,7 @@ module.exports = {
   setupFiles: [
     '<rootDir>/src/__mocks__/react-i18next.js',
     '<rootDir>/src/__mocks__/next.js',
-    '<rootDir>/src/__mocks__/next-auth.js',
-    '<rootDir>/src/__mocks__/redux-action-creators.js'
+    '<rootDir>/src/__mocks__/next-auth.js'
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
 }

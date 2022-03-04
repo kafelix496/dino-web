@@ -11,12 +11,11 @@ import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 
+import DeleteProjectDialog from '@/components/project/DeleteProjectDialog/DeleteProjectDialog'
+import EditProjectDialog from '@/components/project/EditProjectDialog/EditProjectDialog'
 import useDialogStatus from '@/hooks/useDialogStatus'
 
-import DinoDeleteProjectDialog from './DeleteProjectDialog/DeleteProjectDialog'
-import DinoEditProjectDialog from './EditProjectDialog/EditProjectDialog'
-
-interface DinoProjectItemProps {
+interface ProjectItemProps {
   appType: string
   id: string
   title: string
@@ -25,7 +24,7 @@ interface DinoProjectItemProps {
   description?: string
 }
 
-const DinoProjectItem: FC<DinoProjectItemProps> = ({
+const ProjectItem: FC<ProjectItemProps> = ({
   appType,
   id,
   title,
@@ -75,7 +74,7 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
         </CardActions>
       </Card>
 
-      <DinoEditProjectDialog
+      <EditProjectDialog
         appType={appType}
         isOpen={dialogState.name === 'edit' && dialogState.isOpen}
         handleClose={handleClose}
@@ -84,7 +83,7 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
         description={description}
       />
 
-      <DinoDeleteProjectDialog
+      <DeleteProjectDialog
         appType={appType}
         isOpen={dialogState.name === 'delete' && dialogState.isOpen}
         handleClose={handleClose}
@@ -94,4 +93,4 @@ const DinoProjectItem: FC<DinoProjectItemProps> = ({
   )
 }
 
-export default DinoProjectItem
+export default ProjectItem
