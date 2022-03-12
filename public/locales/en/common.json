@@ -1,5 +1,8 @@
 {
   "APP_NAME": "Dino",
+  "APP_NAME_ADMIN": "Admin",
+  "APP_NAME_MONEY_TRACKER": "Money Tracker",
+  "APP_NAME_FAMILY_ALBUM": "Family Album",
   "BUTTON_CANCEL": "Cancel",
   "BUTTON_CONFIRM": "Confirm",
   "BUTTON_CREATE": "Create",
@@ -16,8 +19,6 @@
   "ERROR_500_MESSAGE": "500 - Server error 😭",
   "GO_TO_HOMEPAGE": "Go to homepage",
   "HOME_PAGE_DESCRIPTION": "Please choose the app you want to use",
-  "HOME_PAGE_ADMIN_APP": "Admin",
-  "HOME_PAGE_MONEY_TRACKER_APP": "Money Tracker",
   "HOME_PAGE_TITLE": "Welcome to DINO",
   "LANGUAGE": "Language",
   "LOCALE_EN": "English",

@@ -1,6 +1,8 @@
+import { useTranslation } from 'next-i18next'
 import type { FC } from 'react'
 
-import MailIcon from '@mui/icons-material/Mail'
+import AttachMoney from '@mui/icons-material/AttachMoney'
+import PhotoLibrary from '@mui/icons-material/PhotoLibrary'
 import type { Theme } from '@mui/material'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -9,24 +11,25 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Tooltip from '@mui/material/Tooltip'
 
-const menus = [
-  {
-    iconComponent: <MailIcon />,
-    label: '1111',
-    selected: false
-  },
-  {
-    iconComponent: <MailIcon />,
-    label: '2222',
-    selected: true
-  }
-]
-
 interface AdminDrawerProps {
   isSidebarNavOpen: boolean
 }
 
 const AdminDrawer: FC<AdminDrawerProps> = ({ isSidebarNavOpen }) => {
+  const { t } = useTranslation('common')
+  const menus = [
+    {
+      iconComponent: <PhotoLibrary />,
+      label: t('APP_NAME_FAMILY_ALBUM'),
+      selected: false
+    },
+    {
+      iconComponent: <AttachMoney />,
+      label: t('APP_NAME_MONEY_TRACKER'),
+      selected: false
+    }
+  ]
+
   return (
     <List>
       {menus.map((menu, index) => (

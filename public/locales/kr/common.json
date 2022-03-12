@@ -1,5 +1,8 @@
 {
   "APP_NAME": "Dino",
+  "APP_NAME_ADMIN": "관리자",
+  "APP_NAME_MONEY_TRACKER": "가계 관리",
+  "APP_NAME_FAMILY_ALBUM": "가족 사진",
   "BUTTON_CANCEL": "취소",
   "BUTTON_CONFIRM": "확인",
   "BUTTON_CREATE": "생성",
@@ -16,8 +19,6 @@
   "ERROR_500_MESSAGE": "500 - 알 수 없는 서버 에러가 발생하였습니다. 😭",
   "GO_TO_HOMEPAGE": "홈페이지로 돌아가기",
   "HOME_PAGE_DESCRIPTION": "사용하고 싶은 앱을 선택해주세요",
-  "HOME_PAGE_ADMIN_APP": "관리자",
-  "HOME_PAGE_MONEY_TRACKER_APP": "가계 관리",
   "HOME_PAGE_TITLE": "DINO 에 오신걸 환영합니다",
   "LANGUAGE": "언어",
   "LOCALE_EN": "English",

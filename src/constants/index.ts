@@ -17,5 +17,6 @@ export enum AccessLevels {
 }
 
 export enum Apps {
-  moneyTracker = 'mt'
+  moneyTracker = 'mt',
+  familyAlbum = 'fa'
 }

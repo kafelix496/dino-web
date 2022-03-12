@@ -15,7 +15,7 @@ const appList = [
     link: {
       pathname: '/admin/users'
     },
-    name: 'HOME_PAGE_ADMIN_APP',
+    name: 'APP_NAME_ADMIN',
     shouldAdmin: true,
     needAuth: true
   },
@@ -24,7 +24,7 @@ const appList = [
       pathname: '/project/dashboard',
       query: { app_type: Apps.moneyTracker }
     },
-    name: 'HOME_PAGE_MONEY_TRACKER_APP',
+    name: 'APP_NAME_MONEY_TRACKER',
     shouldAdmin: false,
     needAuth: true
   }
