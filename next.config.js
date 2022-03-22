@@ -8,6 +8,11 @@ module.exports = {
     return [
       {
         permanent: false,
+        source: '/admin',
+        destination: '/admin/users'
+      },
+      {
+        permanent: false,
         source: '/project',
         destination: '/project/dashboard'
       },
