@@ -8,7 +8,8 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-import { AccessLevels, Apps } from '@/constants'
+import { Apps } from '@/constants'
+import { hasAccessAdminPage } from '@/utils'
 
 const appList = [
   {
@@ -34,11 +35,7 @@ const Page: NextPage = () => {
   const { t } = useTranslation('common')
   const { data: session } = useSession()
 
-  const canAccessAdminPage =
-    (session?.user?.appsAccessLevel ?? []).find(
-      (level) =>
-        level === AccessLevels.SUPER_ADMIN || level === AccessLevels.ADMIN
-    ) !== undefined
+  const canAccessAdminPage = hasAccessAdminPage(session)
 
   return (
     <>

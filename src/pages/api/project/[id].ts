@@ -4,7 +4,7 @@ import { getSession } from 'next-auth/react'
 import { CollectionName } from '@/constants/collection'
 import projectSchema from '@/models/common/projectSchema'
 import { createDocument } from '@/models/utils/createDocument'
-import { isValidAppType } from '@/utils'
+import { isValidApp } from '@/utils'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
@@ -13,7 +13,7 @@ export default async function handler(
 ) {
   try {
     const { id, app_type: appType } = req?.query ?? {}
-    if (!id || !isValidAppType(appType)) {
+    if (!id || !isValidApp(appType)) {
       return res.status(400).json({ status: false })
     }
 

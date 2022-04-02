@@ -97,7 +97,7 @@ const useRowsAndCols = () => {
   const { t } = useTranslation()
 
   // const selectedApp = router.query.selectedApp
-  // const appAccessLevel = session?.user?.appsAccessLevel
+  // const appAccessLevel = session?.user?.appAccessLevel
 
   const refinedColumns = useMemo(
     () =>
@@ -115,7 +115,7 @@ const useRowsAndCols = () => {
       email: string
       image: string
     }[]
-  >(`/api/admin/user/${router?.query?.selectedApp as string}`)
+  >(`/api/admin/user/app/${router?.query?.selectedApp as string}`)
 
   const refinedRows = useMemo(
     () => (rows ?? []).map((row) => ({ ...row, id: row._id })),

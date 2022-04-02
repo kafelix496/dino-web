@@ -5,7 +5,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Box from '@mui/material/Box'
 
 import UsersDataGrid from '@/components/admin/UsersDataGrid/UsersDataGrid'
-import { AccessLevels } from '@/constants'
+import { hasAccessAdminPage } from '@/utils'
 
 const Page: NextPage = () => {
   return (
@@ -27,13 +27,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   locale
 }) => {
   const session = await getSession({ req }).catch(() => null)
-  if (
-    !session ||
-    (session?.user?.appsAccessLevel ?? []).find(
-      (level) =>
-        level === AccessLevels.SUPER_ADMIN || level === AccessLevels.ADMIN
-    ) === undefined
-  ) {
+  if (!hasAccessAdminPage(session)) {
     return { redirect: { permanent: false, destination: '/500' } }
   }
 

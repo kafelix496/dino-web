@@ -4,8 +4,6 @@ import GoogleProvider from 'next-auth/providers/google'
 import { AccessLevels, Apps } from '@/constants'
 import { MongooseAdapter } from '@/utils/db-utils'
 
-const apps = Object.values(Apps)
-
 export default NextAuth({
   session: {
     strategy: 'jwt',
@@ -27,19 +25,20 @@ export default NextAuth({
         return token
       }
 
-      if (
-        account.providerAccountId ===
-        process.env.SUPER_ADMIN_PROVIDER_ACCOUNT_ID
-      ) {
-        return {
-          ...token,
-          appsAccessLevel: apps.map(() => AccessLevels.SUPER_ADMIN)
-        }
+      return {
+        ...token,
+        ...Object.values(Apps).reduce((accu, app) => {
+          const appAccessLevelName = `${app}AccessLevel`
+
+          return {
+            ...accu,
+            [appAccessLevelName]:
+              user[appAccessLevelName] !== undefined
+                ? user[appAccessLevelName]
+                : AccessLevels.NONE
+          }
+        }, {})
       }
-
-      // TODO: if not super admin, parse later...
-
-      return token
     },
     async session({ session, token }) {
       return Promise.resolve({
@@ -47,9 +46,20 @@ export default NextAuth({
         user: {
           ...session.user,
           id: token?.sub,
-          appsAccessLevel:
-            (token?.appsAccessLevel as string[] | undefined) ??
-            apps.map(() => AccessLevels.NONE)
+          ...{
+            ...token,
+            ...Object.values(Apps).reduce((accu, app) => {
+              const appAccessLevelName = `${app}AccessLevel`
+
+              return {
+                ...accu,
+                [appAccessLevelName]:
+                  token[appAccessLevelName] !== undefined
+                    ? token[appAccessLevelName]
+                    : AccessLevels.NONE
+              }
+            }, {})
+          }
         }
       })
     }
