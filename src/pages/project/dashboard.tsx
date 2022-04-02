@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography'
 import NewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
 import { Apps } from '@/constants'
 import type { ProjectType } from '@/types'
-import { convertTime, isValidAppType } from '@/utils'
+import { convertTime, isValidApp } from '@/utils'
 
 const ProjectItem = dynamic(
   () => import('@/components/project/ProjectItem/ProjectItem'),
@@ -102,7 +102,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   const { app_type } = query
-  if (!isValidAppType(app_type)) {
+  if (!isValidApp(app_type)) {
     return { redirect: { permanent: false, destination: '/404' } }
   }
 

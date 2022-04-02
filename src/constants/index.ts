@@ -15,7 +15,8 @@ export enum AccessLevels {
   SUPER_ADMIN = '10'
 }
 
+// NOTE: 496-1
 export enum Apps {
-  moneyTracker = 'mt',
-  familyAlbum = 'fa'
+  familyAlbum = 'fa',
+  moneyTracker = 'mt'
 }
