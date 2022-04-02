@@ -70,11 +70,4 @@ aws --endpoint-url=http://localhost:4566 --profile dino-local s3 rm --recursive 
 
 ## How to set a super-admin in your local dev environment
 
-When you log in with your google account, you can find `providerAccountId` at `account collection`.
-You should add that into your .env.local file.
-
-```shell
-# .env.local
-
-SUPER_ADMIN_PROVIDER_ACCOUNT_ID=123456789
-```
+After you log-in, you should access database and update accessLevel field to 10 manually
