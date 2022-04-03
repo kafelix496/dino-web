@@ -75,6 +75,8 @@ export default async function handler(
       }
 
       case 'PUT': {
+        // TODO: get the user id from query
+        const targetUserId = req?.body.id
         const newPermission = req?.body.permission
 
         // there is no way the user can set super admin
@@ -92,7 +94,7 @@ export default async function handler(
         }
 
         const newUser = await UserDoc.findByIdAndUpdate(
-          user.id,
+          targetUserId,
           { [`${targetApp}AccessLevel`]: newPermission },
           {
             new: true,
