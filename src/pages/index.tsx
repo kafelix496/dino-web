@@ -8,14 +8,15 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-import { AccessLevels, Apps } from '@/constants'
+import { Apps } from '@/constants'
+import { hasAccessAdminPage } from '@/utils'
 
 const appList = [
   {
     link: {
       pathname: '/admin/users'
     },
-    name: 'HOME_PAGE_ADMIN_APP',
+    name: 'APP_NAME_ADMIN',
     shouldAdmin: true,
     needAuth: true
   },
@@ -24,7 +25,7 @@ const appList = [
       pathname: '/project/dashboard',
       query: { app_type: Apps.moneyTracker }
     },
-    name: 'HOME_PAGE_MONEY_TRACKER_APP',
+    name: 'APP_NAME_MONEY_TRACKER',
     shouldAdmin: false,
     needAuth: true
   }
@@ -34,11 +35,7 @@ const Page: NextPage = () => {
   const { t } = useTranslation('common')
   const { data: session } = useSession()
 
-  const canAccessAdminPage =
-    (session?.user?.appsAccessLevel ?? []).find(
-      (level) =>
-        level === AccessLevels.SUPER_ADMIN || level === AccessLevels.ADMIN
-    ) !== undefined
+  const canAccessAdminPage = hasAccessAdminPage(session)
 
   return (
     <>

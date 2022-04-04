@@ -8,14 +8,15 @@ export const COOKIES_OPTION = {
 
 export enum AccessLevels {
   NONE = '0',
-  VIEWER = '4',
-  COMMENTOR = '5',
-  EDITOR = '6',
-  GROUP_ADMIN = '8',
+  VIEWER = '1',
+  COMMENTOR = '2',
+  EDITOR = '5',
   ADMIN = '9',
   SUPER_ADMIN = '10'
 }
 
+// NOTE: 496-1
 export enum Apps {
+  familyAlbum = 'fa',
   moneyTracker = 'mt'
 }

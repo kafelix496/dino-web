@@ -34,6 +34,8 @@ const MyApp = ({
     <CacheProvider value={emotionCache}>
       <SWRConfig
         value={{
+          revalidateOnFocus: false,
+          shouldRetryOnError: false,
           fallback: pageProps.fallback,
           provider: () => new Map(),
           fetcher: (url) => axios.get(url).then((res) => res.data)

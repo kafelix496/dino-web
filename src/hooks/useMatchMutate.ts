@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 import { useSWRConfig } from 'swr'
 
-export default function useMatchMutate() {
+const useMatchMutate = () => {
   const { cache, mutate } = useSWRConfig()
 
   return (
@@ -29,3 +29,5 @@ export default function useMatchMutate() {
     return Promise.all(mutations)
   }
 }
+
+export default useMatchMutate

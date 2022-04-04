@@ -22,7 +22,9 @@ declare module 'next-auth' {
           email?: string | null | undefined
           image?: string | null | undefined
           id?: string | null | undefined
-          appsAccessLevel?: string[] | null | undefined
+          // NOTE: 496-1
+          faAccessLevel?: string | null | undefined
+          mtAccessLevel?: string | null | undefined
         }
       | undefined
   }

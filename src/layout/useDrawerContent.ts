@@ -13,9 +13,13 @@ const MoneyTrackerDrawer = dynamic(
 
 const useDrawerContent = () => {
   const router = useRouter()
-  const pathname = router.pathname
+  const pathname = router.asPath
 
-  if (/^\/admin\/users$/.test(pathname)) {
+  if (
+    Object.values(Apps).some((app) =>
+      new RegExp(`^/admin/users/${app}$`).test(pathname)
+    )
+  ) {
     return AdminDrawer
   }
 

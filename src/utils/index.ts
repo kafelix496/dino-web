@@ -1,15 +1,24 @@
 import dayjs from 'dayjs'
+import type { Session } from 'next-auth'
 import { v1 as uuidv1 } from 'uuid'
 
 import { Apps } from '@/constants'
 
-export const isValidAppType = (appType: unknown): boolean => {
-  if (typeof appType !== 'string') {
+export const isValidApp = (app: unknown): boolean => {
+  if (typeof app !== 'string') {
     return false
   }
 
-  return (Object.values(Apps) as string[]).includes(appType)
+  return (Object.values(Apps) as string[]).includes(app)
 }
+
+export const hasAccessAdminPage = (session: Session | null): boolean =>
+  (Object.values(Apps) as string[]).find(
+    (app) =>
+      ((session?.user ?? {})[`${app as Apps}AccessLevel`] as
+        | string
+        | undefined) !== undefined
+  ) !== undefined
 
 export const convertTime = {
   dbToJs(date: string): string {
