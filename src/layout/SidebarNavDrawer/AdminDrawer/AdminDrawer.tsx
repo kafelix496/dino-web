@@ -22,18 +22,20 @@ interface AdminDrawerProps {
 const AdminDrawer: FC<AdminDrawerProps> = ({ isSidebarNavOpen }) => {
   const router = useRouter()
   const { t } = useTranslation('common')
+
+  const appAbbreviation = router.query.appAbbreviation
   const menus = [
     {
       iconComponent: <PhotoLibrary />,
       label: t('APP_NAME_FAMILY_ALBUM'),
-      url: `/admin/users/${Apps.familyAlbum}`,
-      selected: router.query.selectedApp === Apps.familyAlbum
+      url: `/app/${Apps.familyAlbum}/admin/users`,
+      selected: appAbbreviation === Apps.familyAlbum
     },
     {
       iconComponent: <AttachMoney />,
       label: t('APP_NAME_MONEY_TRACKER'),
-      url: `/admin/users/${Apps.moneyTracker}`,
-      selected: router.query.selectedApp === Apps.moneyTracker
+      url: `/app/${Apps.moneyTracker}/admin/users`,
+      selected: appAbbreviation === Apps.moneyTracker
     }
   ]
 

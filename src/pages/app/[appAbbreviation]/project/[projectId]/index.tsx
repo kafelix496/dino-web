@@ -1,12 +1,9 @@
-import axios from 'axios'
 import type { GetServerSideProps, NextPage } from 'next'
 import { getSession } from 'next-auth/react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import { Apps } from '@/constants'
-
 const Page: NextPage = () => {
-  return <>aaa</>
+  return <>project</>
 }
 
 export const getServerSideProps: GetServerSideProps = async ({
@@ -19,22 +16,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     return { redirect: { permanent: false, destination: '/500' } }
   }
 
-  const { project_id } = query
-  if (!project_id) {
+  const { projectId } = query
+  if (!projectId) {
     return { redirect: { permanent: false, destination: '/404' } }
-  }
-
-  const data = await axios
-    .get(
-      `${process.env.PAGE_URL}/api/project/${project_id}?app_type=${Apps.moneyTracker}`,
-      {
-        headers: { Cookie: req.headers.cookie! }
-      }
-    )
-    .then((res) => res.data)
-    .catch(() => null)
-  if (!data || data?.status === false) {
-    return { redirect: { permanent: false, destination: '/500' } }
   }
 
   return {

@@ -10,14 +10,14 @@ import Typography from '@mui/material/Typography'
 import Dialog from '@/components/Dialog/Dialog'
 
 interface DeleteProjectFormDialogProps {
-  appType: string
+  appAbbreviation: string
   id: string
   isOpen: boolean
   handleClose: () => void
 }
 
 const DeleteProjectFormDialog: FC<DeleteProjectFormDialogProps> = ({
-  appType,
+  appAbbreviation,
   id,
   isOpen,
   handleClose
@@ -30,9 +30,9 @@ const DeleteProjectFormDialog: FC<DeleteProjectFormDialogProps> = ({
     setSubmitting(true)
 
     axios
-      .delete(`/api/project/${id}?app_type=${appType}`)
+      .delete(`/api/app/${appAbbreviation}/project/${id}`)
       .then(() => {
-        mutate(`/api/project?app_type=${appType}`)
+        mutate(`/api/app/${appAbbreviation}/project`)
       })
       .catch(() => {
         alert(t('ERROR_ALERT_MESSAGE'))

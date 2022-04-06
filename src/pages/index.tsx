@@ -8,13 +8,13 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-import { Apps } from '@/constants'
 import { hasAccessAdminPage } from '@/utils'
 
 const appList = [
   {
     link: {
-      pathname: '/admin/users'
+      // default to admin family album users
+      pathname: '/app/fa/admin/users'
     },
     name: 'APP_NAME_ADMIN',
     shouldAdmin: true,
@@ -22,8 +22,7 @@ const appList = [
   },
   {
     link: {
-      pathname: '/project/dashboard',
-      query: { app_type: Apps.moneyTracker }
+      pathname: '/app/mt/project/list'
     },
     name: 'APP_NAME_MONEY_TRACKER',
     shouldAdmin: false,

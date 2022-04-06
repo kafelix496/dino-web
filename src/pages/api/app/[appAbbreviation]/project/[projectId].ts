@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
+import { Apps } from '@/constants'
 import { CollectionName } from '@/constants/collection'
 import projectSchema from '@/models/common/projectSchema'
 import { createDocument } from '@/models/utils/createDocument'
-import { isValidApp } from '@/utils'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
@@ -19,7 +19,9 @@ export default async function handler(
     }
 
     const { appAbbreviation: targetAppAbbreviation, projectId } = req.query
-    if (!isValidApp(targetAppAbbreviation)) {
+    // NOTE: 496-1
+    // only money tracker can execute below codes
+    if (targetAppAbbreviation !== Apps.moneyTracker) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
     }
 

@@ -16,7 +16,7 @@ import EditProjectDialog from '@/components/project/EditProjectDialog/EditProjec
 import useDialogStatus from '@/hooks/useDialogStatus'
 
 interface ProjectItemProps {
-  appType: string
+  appAbbreviation: string
   id: string
   title: string
   subTitle: string | JSX.Element
@@ -25,7 +25,7 @@ interface ProjectItemProps {
 }
 
 const ProjectItem: FC<ProjectItemProps> = ({
-  appType,
+  appAbbreviation,
   id,
   title,
   subTitle,
@@ -52,7 +52,7 @@ const ProjectItem: FC<ProjectItemProps> = ({
           </div>
         </Tooltip>
         <CardActions disableSpacing className="__d-justify-end">
-          <Link href={`/${appType}/dashboard?project_id=${id}`}>
+          <Link href={`/app/${appAbbreviation}/project/${id}`}>
             <IconButton>
               <PlayArrowIcon />
             </IconButton>
@@ -75,7 +75,7 @@ const ProjectItem: FC<ProjectItemProps> = ({
       </Card>
 
       <EditProjectDialog
-        appType={appType}
+        appAbbreviation={appAbbreviation}
         isOpen={dialogState.name === 'edit' && dialogState.isOpen}
         handleClose={handleClose}
         id={id}
@@ -84,7 +84,7 @@ const ProjectItem: FC<ProjectItemProps> = ({
       />
 
       <DeleteProjectDialog
-        appType={appType}
+        appAbbreviation={appAbbreviation}
         isOpen={dialogState.name === 'delete' && dialogState.isOpen}
         handleClose={handleClose}
         id={id}

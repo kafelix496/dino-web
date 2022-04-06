@@ -8,10 +8,10 @@ import CreateProjectDialog from '@/components/project/CreateProjectDialog/Create
 import useDialogStatus from '@/hooks/useDialogStatus'
 
 interface NewProjectButtonProps {
-  appType: string
+  appAbbreviation: string
 }
 
-const NewProjectButton: FC<NewProjectButtonProps> = ({ appType }) => {
+const NewProjectButton: FC<NewProjectButtonProps> = ({ appAbbreviation }) => {
   const { t } = useTranslation('common')
   const { state: dialogState, handleOpen, handleClose } = useDialogStatus()
 
@@ -29,7 +29,7 @@ const NewProjectButton: FC<NewProjectButtonProps> = ({ appType }) => {
       </Button>
 
       <CreateProjectDialog
-        appType={appType}
+        appAbbreviation={appAbbreviation}
         isOpen={dialogState.isOpen}
         handleClose={handleClose}
       />

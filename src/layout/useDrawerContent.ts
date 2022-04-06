@@ -17,7 +17,7 @@ const useDrawerContent = () => {
 
   if (
     Object.values(Apps).some((app) =>
-      new RegExp(`^/admin/users/${app}$`).test(pathname)
+      new RegExp(`^/app/${app}/admin/users$`).test(pathname)
     )
   ) {
     return AdminDrawer

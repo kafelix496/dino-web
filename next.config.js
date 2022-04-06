@@ -8,18 +8,13 @@ module.exports = {
     return [
       {
         permanent: false,
-        source: '/admin',
-        destination: '/admin/users'
+        source: '/app/:appAbbreviation/admin',
+        destination: '/app/:appAbbreviation/admin/users'
       },
       {
         permanent: false,
-        source: '/project',
-        destination: '/project/dashboard'
-      },
-      {
-        permanent: false,
-        source: '/mt',
-        destination: '/mt/dashboard'
+        source: '/app/:appAbbreviation/project',
+        destination: '/app/:appAbbreviation/project/list'
       }
     ]
   }
