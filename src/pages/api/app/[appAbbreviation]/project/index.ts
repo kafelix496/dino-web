@@ -12,21 +12,21 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { app_type: appType } = req?.query ?? {}
-    if (!isValidApp(appType)) {
-      return res.status(400).json({ status: false })
-    }
-
     const session = await getSession({ req })
     const userId = session?.user?.id
     if (!userId) {
       return res.status(401).json({ status: false })
     }
 
+    const targetAppAbbreviation = req.query.appAbbreviation
+    if (!isValidApp(targetAppAbbreviation)) {
+      return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
+    }
+
     await dbConnect()
 
     const ProjectDoc = createDocument(
-      `${appType}.${CollectionName.PROJECT}`,
+      `${targetAppAbbreviation}.${CollectionName.PROJECT}`,
       projectSchema
     )
 

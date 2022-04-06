@@ -19,12 +19,14 @@ export default async function handler(
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
-    const targetApp = req.query.targetApp
-    if (!isValidApp(targetApp)) {
+    const { appAbbreviation: targetAppAbbreviation, userId: targetUserId } =
+      req.query
+    if (!isValidApp(targetAppAbbreviation)) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
     }
 
-    const userAppAccessLevel = user[`${targetApp as Apps}AccessLevel`]
+    const userAppAccessLevel =
+      user[`${targetAppAbbreviation as Apps}AccessLevel`]
 
     // if the user access-level is not super admin or admin, return error
     if (
@@ -39,44 +41,7 @@ export default async function handler(
     const UserDoc = createDocument(CollectionName.USER, userSchema)
 
     switch (req?.method) {
-      case 'GET': {
-        const users = await (() => {
-          if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
-            return UserDoc.find({
-              [`${targetApp as Apps}AccessLevel`]: {
-                $ne: AccessLevels.SUPER_ADMIN
-              }
-            })
-          }
-
-          // if user-app-access-level is admin
-          // because only super-admin and admin can go through here
-          return UserDoc.find({
-            $and: [
-              {
-                [`${targetApp as Apps}AccessLevel`]: {
-                  $ne: AccessLevels.SUPER_ADMIN
-                }
-              },
-              {
-                [`${targetApp as Apps}AccessLevel`]: {
-                  $ne: AccessLevels.ADMIN
-                }
-              }
-            ]
-          })
-        })()
-
-        if (!users) {
-          return res.status(400).json({ message: 'SEM_FAIL_TO_FIND_USERS' })
-        }
-
-        return res.status(200).json(users)
-      }
-
       case 'PUT': {
-        // TODO: get the user id from query
-        const targetUserId = req?.body.id
         const newPermission = req?.body.permission
 
         // there is no way the user can set super admin
@@ -95,7 +60,7 @@ export default async function handler(
 
         const newUser = await UserDoc.findByIdAndUpdate(
           targetUserId,
-          { [`${targetApp}AccessLevel`]: newPermission },
+          { [`${targetAppAbbreviation}AccessLevel`]: newPermission },
           {
             new: true,
             runValidators: true
