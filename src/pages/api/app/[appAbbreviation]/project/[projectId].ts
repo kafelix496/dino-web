@@ -1,3 +1,4 @@
+import type { DeleteResult } from 'mongodb'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
@@ -5,17 +6,18 @@ import { Apps } from '@/constants'
 import { CollectionName } from '@/constants/collection'
 import projectSchema from '@/models/common/projectSchema'
 import { createDocument } from '@/models/utils/createDocument'
+import type { Project } from '@/types'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<Project | DeleteResult | { message: string }>
 ) {
   try {
     const session = await getSession({ req })
     const userId = session?.user?.id
     if (!userId) {
-      return res.status(401).json({ status: false })
+      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
     const { appAbbreviation: targetAppAbbreviation, projectId } = req.query
@@ -47,14 +49,14 @@ export default async function handler(
         })
 
         if (!project) {
-          return res.status(400).json({ status: false })
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json({ status: true, project })
+        return res.status(200).json(project)
       }
 
       case 'PUT': {
-        const project = await ProjectDoc.findByIdAndUpdate(
+        const project: Project = await ProjectDoc.findByIdAndUpdate(
           projectId,
           req?.body,
           {
@@ -64,14 +66,14 @@ export default async function handler(
         )
 
         if (!project) {
-          return res.status(400).json({ status: false })
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json({ status: true, project })
+        return res.status(200).json(project)
       }
 
       case 'DELETE': {
-        const project = await ProjectDoc.deleteOne({
+        const deleteResult = await ProjectDoc.deleteOne({
           $and: [
             { _id: projectId },
             {
@@ -83,17 +85,17 @@ export default async function handler(
           ]
         })
 
-        if (!project) {
-          return res.status(400).json({ status: false })
+        if (!deleteResult) {
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json({ status: true, project })
+        return res.status(200).json(deleteResult)
       }
 
       default:
-        return res.status(405).json({ status: false })
+        return res.status(405).json({ message: 'SEM_METHOD_NOT_ALLOWED' })
     }
   } catch (error) {
-    res.status(400).json({ status: false })
+    return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
   }
 }

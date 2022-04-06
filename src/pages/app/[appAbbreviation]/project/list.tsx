@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 
 import NewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
 import { Apps } from '@/constants'
-import type { ProjectType } from '@/types'
+import type { Project } from '@/types'
 import { convertTime } from '@/utils'
 
 const ProjectItem = dynamic(
@@ -25,11 +25,11 @@ const Page: NextPage = () => {
   const { t } = useTranslation('common')
   const router = useRouter()
   const appAbbreviation = router.query.appAbbreviation as string
-  const { data, error } = useSWR<{ status: boolean; projects: ProjectType[] }>(
+  const { data: projects, error } = useSWR<Project[]>(
     `/api/app/${appAbbreviation}/project`
   )
 
-  if (error || data?.status === false) {
+  if (error) {
     router.push('/500')
   }
 
@@ -55,7 +55,7 @@ const Page: NextPage = () => {
           sx={{ overflowY: 'auto', p: 1 }}
         >
           <Grid container spacing={1}>
-            {(data?.projects ?? []).map((project) => (
+            {(projects ?? []).map((project) => (
               <Grid item key={project._id} xs={12} sm={6} md={4}>
                 <ProjectItem
                   appAbbreviation={appAbbreviation}
