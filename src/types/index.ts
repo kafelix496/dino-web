@@ -1,6 +1,6 @@
 import { AccessLevels } from '@/constants'
 
-interface AccessUserType {
+interface AccessUser {
   accessUserId: string
   accessLevel: AccessLevels
 }
@@ -16,12 +16,12 @@ export interface User {
   mtAccessLevel: AccessLevels
 }
 
-export interface ProjectType {
+export interface Project {
   _id: string
   title: string
   description?: string
   ownerId: string
   createdAt: string
   updatedAt: string
-  accessUsersId: AccessUserType[]
+  accessUsersId: AccessUser[]
 }

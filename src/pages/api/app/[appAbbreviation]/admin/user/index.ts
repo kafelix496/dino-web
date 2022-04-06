@@ -5,12 +5,13 @@ import { AccessLevels, Apps } from '@/constants'
 import { CollectionName } from '@/constants/collection'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
+import type { User } from '@/types'
 import { isValidApp } from '@/utils'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<User[] | { message: string }>
 ) {
   try {
     const session = await getSession({ req })
@@ -41,7 +42,7 @@ export default async function handler(
 
     switch (req?.method) {
       case 'GET': {
-        const users = await (() => {
+        const users: User[] = await (() => {
           if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
             return UserDoc.find({
               [`${targetAppAbbreviation as Apps}AccessLevel`]: {
@@ -69,7 +70,7 @@ export default async function handler(
         })()
 
         if (!users) {
-          return res.status(400).json({ message: 'SEM_FAIL_TO_FIND_USERS' })
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
         return res.status(200).json(users)
@@ -79,7 +80,6 @@ export default async function handler(
         return res.status(405).json({ message: 'SEM_METHOD_NOT_ALLOWED' })
     }
   } catch (error) {
-    console.log('error', error)
     res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
   }
 }
