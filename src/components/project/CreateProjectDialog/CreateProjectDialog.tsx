@@ -12,13 +12,13 @@ import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 
 interface CreateProjectDialogProps {
-  appType: string
+  appAbbreviation: string
   isOpen: boolean
   handleClose: () => void
 }
 
 const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
-  appType,
+  appAbbreviation,
   isOpen,
   handleClose
 }) => {
@@ -40,9 +40,9 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
       setSubmitting(true)
 
       axios
-        .post(`/api/project?app_type=${appType}`, values)
+        .post(`/api/app/${appAbbreviation}/project`, values)
         .then(() => {
-          mutate(`/api/project?app_type=${appType}`)
+          mutate(`/api/app/${appAbbreviation}/project`)
         })
         .catch(() => {
           alert(t('ERROR_ALERT_MESSAGE'))

@@ -12,7 +12,7 @@ import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 
 interface EditProjectDialogProps {
-  appType: string
+  appAbbreviation: string
   isOpen: boolean
   handleClose: () => void
   id: string
@@ -21,7 +21,7 @@ interface EditProjectDialogProps {
 }
 
 const EditProjectDialog: FC<EditProjectDialogProps> = ({
-  appType,
+  appAbbreviation,
   isOpen,
   handleClose,
   id,
@@ -43,9 +43,9 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
       setSubmitting(true)
 
       axios
-        .put(`/api/project/${id}?app_type=${appType}`, values)
+        .put(`/api/app/${appAbbreviation}/project/${id}`, values)
         .then(() => {
-          mutate(`/api/project?app_type=${appType}`)
+          mutate(`/api/app/${appAbbreviation}/project`)
         })
         .catch(() => {
           alert(t('ERROR_ALERT_MESSAGE'))

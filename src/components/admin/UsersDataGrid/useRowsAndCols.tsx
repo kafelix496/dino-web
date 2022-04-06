@@ -44,13 +44,13 @@ const useRowsAndCols = () => {
   const { data: session } = useSession()
   const { t } = useTranslation()
   const { mutate } = useSWRConfig()
-  const selectedApp = router.query.selectedApp
+  const targetAppAbbreviation = router.query.appAbbreviation
   const { data: rows, error } = useSWR<User[]>(
-    `/api/admin/user/app/${selectedApp as string}`
+    `/api/app/${targetAppAbbreviation as string}/admin/user`
   )
 
   const userAppAccessLevel = (session?.user ?? {})[
-    `${selectedApp as Apps}AccessLevel`
+    `${targetAppAbbreviation as Apps}AccessLevel`
   ]
 
   const columns: GridColDef[] = useMemo(
@@ -97,12 +97,13 @@ const useRowsAndCols = () => {
         valueFormatter: (params) => t(`PERMISSION_LABEL_${params.value}`),
         valueSetter: (params) => {
           mutate(
-            `/api/admin/user/app/${selectedApp as string}`,
+            `/api/app/${targetAppAbbreviation}/admin/user`,
             rows!.map((row) =>
               row._id === params.row._id
                 ? {
                     ...row,
-                    [`${selectedApp}AccessLevel`]: params.value as AccessLevels
+                    [`${targetAppAbbreviation}AccessLevel`]:
+                      params.value as AccessLevels
                   }
                 : row
             ),
@@ -110,12 +111,14 @@ const useRowsAndCols = () => {
           )
 
           axios
-            .put(`/api/admin/user/app/${selectedApp}`, {
-              id: params.row.id,
-              permission: params.value
-            })
+            .put(
+              `/api/app/${targetAppAbbreviation}/admin/user/${params.row._id}`,
+              {
+                permission: params.value
+              }
+            )
             .catch(() => {
-              mutate(`/api/admin/user/app/${selectedApp as string}`)
+              mutate(`/api/app/${targetAppAbbreviation}/admin/user`)
 
               alert(t('ERROR_ALERT_MESSAGE'))
             })
@@ -124,20 +127,22 @@ const useRowsAndCols = () => {
         }
       }
     ],
-    [t, rows, selectedApp, mutate]
+    [t, rows, targetAppAbbreviation, mutate]
   )
 
   const refinedColumns = useMemo(
     () =>
       columns.map((column) => {
+        const translatedHeaderName = t(column.headerName as string)
         if (column.field !== 'permission') {
-          return column
+          return { ...column, headerName: translatedHeaderName }
         }
 
+        // only permission field comes here
         const defaultRefinedColumn = {
           ...column,
-          field: `${selectedApp}AccessLevel`,
-          headerName: t(column.headerName as string)
+          field: `${targetAppAbbreviation}AccessLevel`,
+          headerName: translatedHeaderName
         }
 
         if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
@@ -159,7 +164,7 @@ const useRowsAndCols = () => {
           valueOptions: []
         }
       }),
-    [t, columns, selectedApp, userAppAccessLevel]
+    [t, columns, targetAppAbbreviation, userAppAccessLevel]
   )
 
   const refinedRows = useMemo(

@@ -1,4 +1,3 @@
-import axios from 'axios'
 import type { GetServerSideProps, NextPage } from 'next'
 import { getSession } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
@@ -15,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import NewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
 import { Apps } from '@/constants'
 import type { ProjectType } from '@/types'
-import { convertTime, isValidApp } from '@/utils'
+import { convertTime } from '@/utils'
 
 const ProjectItem = dynamic(
   () => import('@/components/project/ProjectItem/ProjectItem'),
@@ -25,9 +24,9 @@ const ProjectItem = dynamic(
 const Page: NextPage = () => {
   const { t } = useTranslation('common')
   const router = useRouter()
-  const { app_type: appType } = router.query
+  const appAbbreviation = router.query.appAbbreviation as string
   const { data, error } = useSWR<{ status: boolean; projects: ProjectType[] }>(
-    `/api/project?app_type=${appType}`
+    `/api/app/${appAbbreviation}/project`
   )
 
   if (error || data?.status === false) {
@@ -46,7 +45,9 @@ const Page: NextPage = () => {
         sx={{ width: '90%', height: '60%' }}
       >
         <Box className="__d-flex __d-justify-end" sx={{ mb: 2 }}>
-          <NewProjectButton appType={appType as string}></NewProjectButton>
+          <NewProjectButton
+            appAbbreviation={appAbbreviation}
+          ></NewProjectButton>
         </Box>
         <Paper
           className="__d-grow"
@@ -57,7 +58,7 @@ const Page: NextPage = () => {
             {(data?.projects ?? []).map((project) => (
               <Grid item key={project._id} xs={12} sm={6} md={4}>
                 <ProjectItem
-                  appType={appType as string}
+                  appAbbreviation={appAbbreviation}
                   id={project._id}
                   title={project.title}
                   subTitle={
@@ -101,26 +102,16 @@ export const getServerSideProps: GetServerSideProps = async ({
     return { redirect: { permanent: false, destination: '/500' } }
   }
 
-  const { app_type } = query
-  if (!isValidApp(app_type)) {
+  const appAbbreviation = query.appAbbreviation
+  if (appAbbreviation !== Apps.moneyTracker) {
     return { redirect: { permanent: false, destination: '/404' } }
-  }
-
-  const data = await axios
-    .get(`${process.env.PAGE_URL}/api/project?app_type=${Apps.moneyTracker}`, {
-      headers: { Cookie: req.headers.cookie! }
-    })
-    .then((res) => res.data)
-    .catch(() => null)
-  if (!data || data?.status === false) {
-    return { redirect: { permanent: false, destination: '/500' } }
   }
 
   return {
     props: {
       ...(await serverSideTranslations(locale ?? 'default', ['common'])),
       session,
-      fallback: { [`/api/project?app_type=${Apps.moneyTracker}`]: data }
+      fallback: false
     }
   }
 }

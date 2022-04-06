@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
+import { Apps } from '@/constants'
 import { CollectionName } from '@/constants/collection'
 import projectSchema from '@/models/common/projectSchema'
 import { createDocument } from '@/models/utils/createDocument'
-import { isValidApp } from '@/utils'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
@@ -12,21 +12,23 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { id, app_type: appType } = req?.query ?? {}
-    if (!id || !isValidApp(appType)) {
-      return res.status(400).json({ status: false })
-    }
-
     const session = await getSession({ req })
     const userId = session?.user?.id
     if (!userId) {
       return res.status(401).json({ status: false })
     }
 
+    const { appAbbreviation: targetAppAbbreviation, projectId } = req.query
+    // NOTE: 496-1
+    // only money tracker can execute below codes
+    if (targetAppAbbreviation !== Apps.moneyTracker) {
+      return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
+    }
+
     await dbConnect()
 
     const ProjectDoc = createDocument(
-      `${appType}.${CollectionName.PROJECT}`,
+      `${targetAppAbbreviation}.${CollectionName.PROJECT}`,
       projectSchema
     )
 
@@ -34,7 +36,7 @@ export default async function handler(
       case 'GET': {
         const project = await ProjectDoc.findOne({
           $and: [
-            { _id: id },
+            { _id: projectId },
             {
               $or: [
                 { ownerId: userId },
@@ -52,10 +54,14 @@ export default async function handler(
       }
 
       case 'PUT': {
-        const project = await ProjectDoc.findByIdAndUpdate(id, req?.body, {
-          new: true,
-          runValidators: true
-        })
+        const project = await ProjectDoc.findByIdAndUpdate(
+          projectId,
+          req?.body,
+          {
+            new: true,
+            runValidators: true
+          }
+        )
 
         if (!project) {
           return res.status(400).json({ status: false })
@@ -67,7 +73,7 @@ export default async function handler(
       case 'DELETE': {
         const project = await ProjectDoc.deleteOne({
           $and: [
-            { _id: id },
+            { _id: projectId },
             {
               $or: [
                 { ownerId: userId },
