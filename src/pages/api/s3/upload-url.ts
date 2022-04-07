@@ -11,7 +11,7 @@ export default async function handler(
   >
 ) {
   try {
-    const { key } = req?.query ?? {}
+    const key = req.query.key
 
     if (Array.isArray(key)) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
