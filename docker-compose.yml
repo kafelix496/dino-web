@@ -6,7 +6,8 @@ services:
     image: mongo
     restart: always
     volumes:
-      - ./local-storage/mongodb:/data/db
+      - mongodb-data:/data/db
+      - mongodb-config:/data/configdb
     ports:
       - 27017:27017
 
@@ -20,4 +21,9 @@ services:
       - SERVICES=s3
       - DATA_DIR=/tmp/localstack/data
     volumes:
-      - ./local-storage/localstack:/tmp/localstack
+      - localstack:/tmp/localstack
+
+volumes:
+  mongodb-data:
+  mongodb-config:
+  localstack:
