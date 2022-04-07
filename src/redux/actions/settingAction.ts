@@ -1,10 +1,10 @@
 import nookies from 'nookies'
 import type { Dispatch } from 'redux'
 
-import { COOKIES_OPTION } from '@/constants'
+import { COOKIES_OPTION, Locale, PaletteMode } from '@/constants'
 import { Cookies } from '@/constants/cookies'
-import { ActionType, Locale } from '@/redux-types/settings'
-import type { Action, PaletteMode } from '@/redux-types/settings'
+import { ActionType } from '@/redux-types/setting'
+import type { Action } from '@/redux-types/setting'
 
 export const setPaletteMode = (mode: PaletteMode) => {
   return (dispatch: Dispatch<Action>) => {

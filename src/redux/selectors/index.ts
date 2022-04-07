@@ -1,1 +1,1 @@
-export * from './settingsSelectors'
+export * from './settingSelector'

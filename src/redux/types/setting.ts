@@ -1,13 +1,4 @@
-export enum PaletteMode {
-  LIGHT = 'light',
-  SYSTEM = 'system',
-  DARK = 'dark'
-}
-
-export enum Locale {
-  EN = 'en',
-  KR = 'kr'
-}
+import { Locale, PaletteMode } from '@/constants'
 
 export interface State {
   paletteMode: PaletteMode
@@ -15,8 +6,8 @@ export interface State {
 }
 
 export enum ActionType {
-  SET_PALETTE_MODE = 'settings/setPaletteMode',
-  SET_LOCALE = 'settings/setLocale'
+  SET_PALETTE_MODE = 'setting/setPaletteMode',
+  SET_LOCALE = 'setting/setLocale'
 }
 
 export interface setPaletteModeAction {

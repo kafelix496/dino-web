@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import settingsReducer from './settingsReducer'
+import settingsReducer from './settingReducer'
 
 const combinedReducers = combineReducers({
-  settings: settingsReducer
+  setting: settingsReducer,
 })
 
 export default combinedReducers

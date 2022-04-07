@@ -6,6 +6,17 @@ export const COOKIES_OPTION = {
   path: '/'
 }
 
+export enum PaletteMode {
+  LIGHT = 'light',
+  SYSTEM = 'system',
+  DARK = 'dark'
+}
+
+export enum Locale {
+  EN = 'en',
+  KR = 'kr'
+}
+
 export enum AccessLevels {
   NONE = '0',
   VIEWER = '1',

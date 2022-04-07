@@ -14,10 +14,9 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
 import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
-import { DRAWER_WIDTH } from '@/constants'
+import { DRAWER_WIDTH, Locale, PaletteMode } from '@/constants'
 import { setLocale, setPaletteMode } from '@/redux-actions'
 import { useLocale, usePaletteMode } from '@/redux-selectors'
-import { Locale, PaletteMode } from '@/redux-types/settings'
 
 interface CustomStyledButtonProps {
   selected: boolean
