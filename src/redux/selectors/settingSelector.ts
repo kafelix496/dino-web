@@ -1,15 +1,5 @@
-import { useSelector } from 'react-redux'
+import type { RootState } from '@/redux-types'
 
-import type { State } from '@/redux-types'
+export const selectPaletteMode = (state: RootState) => state.setting.paletteMode
 
-export const usePaletteMode = () => {
-  const paletteMode = useSelector((state: State) => state.settings.paletteMode)
-
-  return paletteMode
-}
-
-export const useLocale = () => {
-  const locale = useSelector((state: State) => state.settings.locale)
-
-  return locale
-}
+export const selectLocale = (state: RootState) => state.setting.locale

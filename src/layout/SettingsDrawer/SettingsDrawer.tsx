@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import type { Dispatch, FC, SetStateAction } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import CloseIcon from '@mui/icons-material/Close'
 import type { Theme } from '@mui/material'
@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography'
 import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 import { DRAWER_WIDTH, Locale, PaletteMode } from '@/constants'
 import { setLocale, setPaletteMode } from '@/redux-actions'
-import { useLocale, usePaletteMode } from '@/redux-selectors'
+import { selectLocale, selectPaletteMode } from '@/redux-selectors'
 
 interface CustomStyledButtonProps {
   selected: boolean
@@ -51,8 +51,8 @@ const SettingsDrawer: FC<SettingsDrawerProps> = ({
   isSettingsOpen,
   setSettingsOpen
 }) => {
-  const paletteMode = usePaletteMode()
-  const locale = useLocale()
+  const paletteMode = useSelector(selectPaletteMode)
+  const locale = useSelector(selectLocale)
   const dispatch = useDispatch()
   const router = useRouter()
   const { t } = useTranslation('common')
