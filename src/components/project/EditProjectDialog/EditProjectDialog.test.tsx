@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@/utils/test-utils'
 
 import EditProjectDialog from './EditProjectDialog'
 
@@ -6,7 +6,7 @@ describe('EditProjectDialog component', () => {
   test('the button should not be disabled at the beginning', async () => {
     render(
       <EditProjectDialog
-        appType=""
+        appAbbreviation=""
         isOpen={true}
         handleClose={jest.fn()}
         id=""
@@ -24,7 +24,7 @@ describe('EditProjectDialog component', () => {
   test('should enable the button when the user types something on the title', async () => {
     render(
       <EditProjectDialog
-        appType=""
+        appAbbreviation=""
         isOpen={true}
         handleClose={jest.fn()}
         id=""

@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import Head from 'next/head'
 import { useState } from 'react'
-import type { FC } from 'react'
+import type { FC, ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 
 import { ThemeProvider } from '@mui/material'
@@ -23,6 +23,7 @@ import useTheme from './useTheme'
 const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 
 interface LayoutProps {
+  children: ReactNode
   initialSidebarNavOpenState: boolean
 }
 

@@ -36,4 +36,11 @@ declare module 'ramda' {
   export function transduce(...rest: any[]): any
 }
 
+// TODO:
+// after I update to react18, it complains about this
+// but I want to remove this one day
+declare module 'next-i18next' {
+  export function useTranslation(ns: string): { t: any }
+}
+
 export {}

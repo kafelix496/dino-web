@@ -3,13 +3,15 @@ import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import { useEffect } from 'react'
 import type { FC } from 'react'
-import { useSWRConfig } from 'swr'
+import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
 import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
+import { addProject } from '@/redux-actions'
+import type { Project } from '@/types'
 
 interface CreateProjectDialogProps {
   appAbbreviation: string
@@ -23,7 +25,7 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
   handleClose
 }) => {
   const { t } = useTranslation('common')
-  const { mutate } = useSWRConfig()
+  const dispatch = useDispatch()
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -40,9 +42,10 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
       setSubmitting(true)
 
       axios
-        .post(`/api/app/${appAbbreviation}/project`, values)
-        .then(() => {
-          mutate(`/api/app/${appAbbreviation}/project`)
+        .post<Project>(`/api/app/${appAbbreviation}/project`, values)
+        .then((res) => res.data)
+        .then((project) => {
+          dispatch(addProject(project))
         })
         .catch(() => {
           alert(t('ERROR_ALERT_MESSAGE'))
@@ -58,6 +61,8 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
     if (isOpen) {
       formik.resetForm()
     }
+    // I don't know why I can't pass test if I put formik in here
+    // I don't think it's important, so I'll ignore it
   }, [isOpen])
 
   return (

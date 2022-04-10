@@ -4,12 +4,12 @@ import { useTranslation } from 'next-i18next'
 import type { TFunction } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
-import useSWR, { useSWRConfig } from 'swr'
 
 import Avatar from '@mui/material/Avatar'
 import type { GridColDef } from '@mui/x-data-grid'
 
 import { AccessLevels, Apps } from '@/constants'
+import useFetchState from '@/hooks/useFetchState'
 import type { User } from '@/types'
 
 const getAdminPermissionOptions = (t: TFunction) => [
@@ -43,21 +43,36 @@ const useRowsAndCols = () => {
   const router = useRouter()
   const { data: session } = useSession()
   const { t } = useTranslation()
-  const { mutate } = useSWRConfig()
-  const targetAppAbbreviation = router.query.appAbbreviation
-  const { data: rows, error } = useSWR<User[]>(
-    `/api/app/${targetAppAbbreviation as string}/admin/user`
-  )
+  const appAbbreviation = router.query.appAbbreviation as Apps
+  const {
+    data: rows,
+    setData: setRows,
+    loading,
+    error,
+    forceReload
+  } = useFetchState<User[]>(`/api/app/${appAbbreviation}/admin/user`)
 
   const userAppAccessLevel = (session?.user ?? {})[
-    `${targetAppAbbreviation as Apps}AccessLevel`
+    `${appAbbreviation as Apps}AccessLevel`
   ]
 
-  const columns: GridColDef[] = useMemo(
+  const valueOptions = useMemo(() => {
+    if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
+      return getSuperAdminPermissionOptions(t)
+    }
+
+    if (userAppAccessLevel === AccessLevels.ADMIN) {
+      return getAdminPermissionOptions(t)
+    }
+
+    return []
+  }, [t, userAppAccessLevel])
+
+  const refinedColumns: GridColDef[] = useMemo(
     () => [
       {
         field: 'image',
-        headerName: 'THUMBNAIL',
+        headerName: t('THUMBNAIL'),
         headerAlign: 'center',
         align: 'center',
         width: 100,
@@ -67,7 +82,7 @@ const useRowsAndCols = () => {
       },
       {
         field: 'name',
-        headerName: 'NAME',
+        headerName: t('NAME'),
         headerAlign: 'center',
         align: 'center',
         width: 200,
@@ -76,7 +91,7 @@ const useRowsAndCols = () => {
       },
       {
         field: 'email',
-        headerName: 'EMAIL',
+        headerName: t('EMAIL'),
         headerAlign: 'center',
         align: 'center',
         width: 250,
@@ -85,7 +100,7 @@ const useRowsAndCols = () => {
       },
       {
         field: 'permission',
-        headerName: 'PERMISSION',
+        headerName: t('PERMISSION'),
         headerAlign: 'center',
         align: 'center',
         width: 200,
@@ -93,86 +108,56 @@ const useRowsAndCols = () => {
         filterable: false,
         sortable: false,
         type: 'singleSelect',
-        valueOptions: [],
+        valueOptions,
         valueFormatter: (params) => t(`PERMISSION_LABEL_${params.value}`),
         valueSetter: (params) => {
-          mutate(
-            `/api/app/${targetAppAbbreviation}/admin/user`,
-            rows!.map((row) =>
-              row._id === params.row._id
+          setRows((prevRows) =>
+            prevRows!.map((prevRow) =>
+              prevRow?._id === params.row._id
                 ? {
-                    ...row,
-                    [`${targetAppAbbreviation}AccessLevel`]:
+                    ...prevRow,
+                    [`${appAbbreviation}AccessLevel`]:
                       params.value as AccessLevels
                   }
-                : row
-            ),
-            false
+                : prevRow
+            )
           )
 
           axios
-            .put(
-              `/api/app/${targetAppAbbreviation}/admin/user/${params.row._id}`,
-              {
-                permission: params.value
-              }
-            )
+            .put(`/api/app/${appAbbreviation}/admin/user/${params.row._id}`, {
+              permission: params.value
+            })
             .catch(() => {
-              mutate(`/api/app/${targetAppAbbreviation}/admin/user`)
+              forceReload()
 
               alert(t('ERROR_ALERT_MESSAGE'))
             })
 
-          return { ...params.row, faAccessLevel: params.value }
+          return {
+            ...params.row,
+            [`${appAbbreviation}AccessLevel`]: params.value
+          }
         }
       }
     ],
-    [t, rows, targetAppAbbreviation, mutate]
-  )
-
-  const refinedColumns = useMemo(
-    () =>
-      columns.map((column) => {
-        const translatedHeaderName = t(column.headerName as string)
-        if (column.field !== 'permission') {
-          return { ...column, headerName: translatedHeaderName }
-        }
-
-        // only permission field comes here
-        const defaultRefinedColumn = {
-          ...column,
-          field: `${targetAppAbbreviation}AccessLevel`,
-          headerName: translatedHeaderName
-        }
-
-        if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
-          return {
-            ...defaultRefinedColumn,
-            valueOptions: getSuperAdminPermissionOptions(t)
-          }
-        }
-
-        if (userAppAccessLevel === AccessLevels.ADMIN) {
-          return {
-            ...defaultRefinedColumn,
-            valueOptions: getAdminPermissionOptions(t)
-          }
-        }
-
-        return {
-          ...defaultRefinedColumn,
-          valueOptions: []
-        }
-      }),
-    [t, columns, targetAppAbbreviation, userAppAccessLevel]
+    // change valueOptions means t and appAbbreviation was changed
+    // so we don't need to put another dependency
+    [forceReload, setRows, valueOptions]
   )
 
   const refinedRows = useMemo(
-    () => (rows ?? []).map((row) => ({ ...row, id: row._id })),
+    () =>
+      (rows ?? []).map((row) => ({
+        ...row,
+        id: row._id,
+        permission: row[`${appAbbreviation}AccessLevel`]
+      })),
+    // change rows means appAbbreviation was changed
+    // so we don't need to put another dependency
     [rows]
   )
 
-  return { rows: refinedRows, columns: refinedColumns, loading: !rows, error }
+  return { rows: refinedRows, columns: refinedColumns, loading, error }
 }
 
 export default useRowsAndCols

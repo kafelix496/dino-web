@@ -4,7 +4,7 @@ import type { Middleware, Store } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 
-import type { State } from '@/redux-types'
+import type { RootState } from '@/redux-types'
 
 import combinedReducers from './reducers'
 
@@ -21,4 +21,4 @@ export const makeStore = () =>
   createStore(combinedReducers, bindMiddleware(thunk))
 
 // export an assembled wrapper
-export const wrapper = createWrapper<Store<State>>(makeStore)
+export const wrapper = createWrapper<Store<RootState>>(makeStore)

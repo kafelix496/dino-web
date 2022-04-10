@@ -1,17 +1,16 @@
-import axios from 'axios'
 import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
 import App from 'next/app'
 import type { AppContext, AppProps } from 'next/app'
 import nookies from 'nookies'
-import type { Dispatch } from 'redux'
-import { SWRConfig } from 'swr'
+import type { Store } from 'redux'
 
 import { Locale, PaletteMode } from '@/constants'
 import { Cookies } from '@/constants/cookies'
 import Layout from '@/layout'
 import { setLocale, setPaletteMode } from '@/redux-actions'
 import { wrapper } from '@/redux-store'
+import type { RootState } from '@/redux-types'
 import { createEmotionCache } from '@/utils/mui'
 import { CacheProvider } from '@emotion/react'
 import type { EmotionCache } from '@emotion/react'
@@ -32,31 +31,21 @@ const MyApp = ({
 }: MyAppProps) => {
   return (
     <CacheProvider value={emotionCache}>
-      <SWRConfig
-        value={{
-          revalidateOnFocus: false,
-          shouldRetryOnError: false,
-          fallback: pageProps.fallback,
-          provider: () => new Map(),
-          fetcher: (url) => axios.get(url).then((res) => res.data)
-        }}
-      >
-        <SessionProvider session={pageProps.session}>
-          <Layout
-            initialSidebarNavOpenState={pageProps.initialSidebarNavOpenState}
-          >
-            <Component {...pageProps} />
-          </Layout>
-        </SessionProvider>
-      </SWRConfig>
+      <SessionProvider session={pageProps.session}>
+        <Layout
+          initialSidebarNavOpenState={pageProps.initialSidebarNavOpenState}
+        >
+          <Component {...pageProps} />
+        </Layout>
+      </SessionProvider>
     </CacheProvider>
   )
 }
 
 MyApp.getInitialProps = wrapper.getInitialAppProps(
-  (store) => async (appContext: AppContext) => {
+  (store: Store<RootState, any>) => async (appContext: AppContext) => {
     const savedPaletteMode = nookies.get(appContext.ctx)[Cookies.paletteMode]
-    ;(store.dispatch as Dispatch<any>)(
+    store.dispatch(
       setPaletteMode(
         Object.values(PaletteMode).includes(savedPaletteMode as PaletteMode)
           ? (savedPaletteMode as PaletteMode)
@@ -65,7 +54,7 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
     )
 
     const savedLocale = nookies.get(appContext.ctx)[Cookies.locale]
-    ;(store.dispatch as Dispatch<any>)(
+    store.dispatch(
       setLocale(
         Object.values(Locale).includes(savedLocale as Locale)
           ? (savedLocale as Locale)

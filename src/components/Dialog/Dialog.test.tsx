@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@/utils/test-utils'
 
 import Dialog from './Dialog'
 

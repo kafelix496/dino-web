@@ -1,6 +1,6 @@
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import type { Dispatch, FC, SetStateAction } from 'react'
+import type { Dispatch, FC, ReactNode, SetStateAction } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import CloseIcon from '@mui/icons-material/Close'
@@ -19,6 +19,7 @@ import { setLocale, setPaletteMode } from '@/redux-actions'
 import { selectLocale, selectPaletteMode } from '@/redux-selectors'
 
 interface CustomStyledButtonProps {
+  children: ReactNode
   selected: boolean
   onClick: () => void
 }

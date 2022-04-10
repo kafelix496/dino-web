@@ -40,7 +40,6 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.0",
     "sass": "^1.50.0",
-    "swr": "^1.2.2",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },

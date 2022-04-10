@@ -20,17 +20,17 @@ export default async function handler(
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
-    const { appAbbreviation: targetAppAbbreviation, projectId } = req.query
+    const { appAbbreviation: appAbbreviation, projectId } = req.query
     // NOTE: 496-1
     // only money tracker can execute below codes
-    if (targetAppAbbreviation !== Apps.moneyTracker) {
+    if (appAbbreviation !== Apps.moneyTracker) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
     }
 
     await dbConnect()
 
     const ProjectDoc = createDocument(
-      `${targetAppAbbreviation}.${CollectionName.PROJECT}`,
+      `${appAbbreviation}.${CollectionName.PROJECT}`,
       projectSchema
     )
 

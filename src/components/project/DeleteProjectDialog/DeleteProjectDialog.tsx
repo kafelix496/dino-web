@@ -2,12 +2,13 @@ import axios from 'axios'
 import { useTranslation } from 'next-i18next'
 import { useState } from 'react'
 import type { FC } from 'react'
-import { useSWRConfig } from 'swr'
+import { useDispatch } from 'react-redux'
 
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import Dialog from '@/components/Dialog/Dialog'
+import { deleteProject } from '@/redux-actions'
 
 interface DeleteProjectFormDialogProps {
   appAbbreviation: string
@@ -23,23 +24,25 @@ const DeleteProjectFormDialog: FC<DeleteProjectFormDialogProps> = ({
   handleClose
 }) => {
   const { t } = useTranslation('common')
-  const { mutate } = useSWRConfig()
+  const dispatch = useDispatch()
   const [isSubmitting, setSubmitting] = useState(false)
 
   const handleDelete = () => {
     setSubmitting(true)
 
+    dispatch(deleteProject(id))
+
+    handleClose()
+
     axios
       .delete(`/api/app/${appAbbreviation}/project/${id}`)
-      .then(() => {
-        mutate(`/api/app/${appAbbreviation}/project`)
-      })
       .catch(() => {
+        // TODO: fetch projects and dispatch setProjects
+
         alert(t('ERROR_ALERT_MESSAGE'))
       })
       .finally(() => {
         setSubmitting(false)
-        handleClose()
       })
   }
 

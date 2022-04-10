@@ -3,13 +3,14 @@ import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import { useEffect } from 'react'
 import type { FC } from 'react'
-import { useSWRConfig } from 'swr'
+import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
 import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
+import { editProject } from '@/redux-actions'
 
 interface EditProjectDialogProps {
   appAbbreviation: string
@@ -29,7 +30,7 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
   description
 }) => {
   const { t } = useTranslation('common')
-  const { mutate } = useSWRConfig()
+  const dispatch = useDispatch()
   const formik = useFormik({
     initialValues: { title: '', description: '' },
     validationSchema: yup.object({
@@ -42,17 +43,19 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true)
 
+      dispatch(editProject(id, values))
+
+      handleClose()
+
       axios
         .put(`/api/app/${appAbbreviation}/project/${id}`, values)
-        .then(() => {
-          mutate(`/api/app/${appAbbreviation}/project`)
-        })
         .catch(() => {
+          // TODO: fetch projects and dispatch setProjects
+
           alert(t('ERROR_ALERT_MESSAGE'))
         })
         .finally(() => {
           setSubmitting(false)
-          handleClose()
         })
     }
   })
@@ -63,6 +66,8 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
       formik.setTouched({ title: true })
       formik.setValues({ title, description })
     }
+    // I don't know why I can't pass test if I put formik in here
+    // I don't think it's important, so I'll ignore it
   }, [isOpen, title, description])
 
   return (

@@ -1,5 +1,5 @@
 import { Apps } from '@/constants'
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@/utils/test-utils'
 
 import DeleteProjectDialog from './DeleteProjectDialog'
 
@@ -7,7 +7,7 @@ describe('DeleteProjectDialog component', () => {
   test('the button should not be disabled at the beginning', async () => {
     render(
       <DeleteProjectDialog
-        appType={Apps.moneyTracker}
+        appAbbreviation={Apps.moneyTracker}
         isOpen={true}
         handleClose={jest.fn()}
         id=""
