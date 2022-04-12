@@ -56,8 +56,18 @@ export default async function handler(
       }
 
       case 'PUT': {
-        const project: Project = await ProjectDoc.findByIdAndUpdate(
-          projectId,
+        const project: Project = await ProjectDoc.findOneAndUpdate(
+          {
+            $and: [
+              { _id: projectId },
+              {
+                $or: [
+                  { ownerId: userId },
+                  { accessUsers: { $elemMatch: { accessUserId: userId } } }
+                ]
+              }
+            ]
+          },
           req?.body,
           {
             new: true,
