@@ -94,6 +94,7 @@ const Page: NextPage = () => {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (store: Store<RootState, any>): GetServerSideProps =>
     async ({ query, req, locale }) => {
       const session = await getSession({ req }).catch(() => null)

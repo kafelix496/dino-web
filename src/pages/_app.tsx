@@ -43,6 +43,7 @@ const MyApp = ({
 }
 
 MyApp.getInitialProps = wrapper.getInitialAppProps(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (store: Store<RootState, any>) => async (appContext: AppContext) => {
     const savedPaletteMode = nookies.get(appContext.ctx)[Cookies.paletteMode]
     store.dispatch(
