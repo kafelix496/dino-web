@@ -1,9 +1,10 @@
 import { HYDRATE } from 'next-redux-wrapper'
 import type { AnyAction } from 'redux'
 
+import { Locale, PaletteMode } from '@/constants'
 import type { HydrateAction } from '@/redux-types'
-import { ActionType, Locale, PaletteMode } from '@/redux-types/settings'
-import type { Action, State } from '@/redux-types/settings'
+import { ActionType } from '@/redux-types/setting'
+import type { Action, State } from '@/redux-types/setting'
 
 const initialState: State = {
   paletteMode: PaletteMode.SYSTEM,
@@ -15,7 +16,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
 
   switch (_action.type) {
     case HYDRATE: {
-      return { ...state, ..._action.payload.settings }
+      return { ...state, ..._action.payload.setting }
     }
 
     case ActionType.SET_PALETTE_MODE: {

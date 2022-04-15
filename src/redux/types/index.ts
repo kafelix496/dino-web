@@ -1,12 +1,14 @@
 import { HYDRATE } from 'next-redux-wrapper'
 
-import type { State as SettingsState } from './settings'
+import type { State as ProjectState } from './project'
+import type { State as SettingState } from './setting'
+
+export interface RootState {
+  setting: SettingState
+  project: ProjectState
+}
 
 export interface HydrateAction {
   type: typeof HYDRATE
-  payload: State
-}
-
-export interface State {
-  settings: SettingsState
+  payload: RootState
 }

@@ -1,5 +1,5 @@
 import { Apps } from '@/constants'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@/utils/test-utils'
 
 import NewProjectButton from './NewProjectButton'
 
@@ -9,7 +9,7 @@ describe('NewProjectButton component', () => {
   })
 
   it('should not render dialog on initial render', () => {
-    render(<NewProjectButton appType={Apps.moneyTracker} />)
+    render(<NewProjectButton appAbbreviation={Apps.moneyTracker} />)
 
     const dialogButton = screen.queryByRole('button', {
       name: 'BUTTON_CREATE'
@@ -18,7 +18,7 @@ describe('NewProjectButton component', () => {
   })
 
   it('should render dialog when button is clicked', () => {
-    render(<NewProjectButton appType={Apps.moneyTracker} />)
+    render(<NewProjectButton appAbbreviation={Apps.moneyTracker} />)
 
     const newButton = screen.getByTestId('button')
     fireEvent.click(newButton)

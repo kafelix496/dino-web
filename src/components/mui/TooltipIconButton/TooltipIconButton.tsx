@@ -1,11 +1,12 @@
-import type { FC } from 'react'
+import type { FC, ReactNode } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 
 interface TooltipIconButtonProps {
+  children: ReactNode
   title: string
-  iconButtonProps?: { [key: string]: any }
+  iconButtonProps?: { [key: string]: unknown }
 }
 
 const TooltipIconButton: FC<TooltipIconButtonProps> = ({

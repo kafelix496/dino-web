@@ -1,10 +1,12 @@
+import axios from 'axios'
 import type { GetServerSideProps, NextPage } from 'next'
 import { getSession } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import useSWR from 'swr'
+import { useSelector } from 'react-redux'
+import type { Store } from 'redux'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -13,7 +15,10 @@ import Typography from '@mui/material/Typography'
 
 import NewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
 import { Apps } from '@/constants'
-import type { Project } from '@/types'
+import { setProjects } from '@/redux-actions'
+import { selectProjectList } from '@/redux-selectors'
+import { wrapper } from '@/redux-store'
+import type { RootState } from '@/redux-types'
 import { convertTime } from '@/utils'
 
 const ProjectItem = dynamic(
@@ -24,14 +29,8 @@ const ProjectItem = dynamic(
 const Page: NextPage = () => {
   const { t } = useTranslation('common')
   const router = useRouter()
+  const projects = useSelector(selectProjectList)
   const appAbbreviation = router.query.appAbbreviation as string
-  const { data: projects, error } = useSWR<Project[]>(
-    `/api/app/${appAbbreviation}/project`
-  )
-
-  if (error) {
-    router.push('/500')
-  }
 
   const getCreatedAtTxt = (dbTime: string): string =>
     `${t('CREATED_AT')}: ${convertTime.dbToJs(dbTime)}`
@@ -76,7 +75,9 @@ const Page: NextPage = () => {
                       </Typography>
                       {project.description ? (
                         <Typography variant="subtitle2" color="inherit">
-                          {t('PROJECT_DESCRIPTION')}: {project.description}
+                          {`${t('PROJECT_DESCRIPTION')}: ${
+                            project.description
+                          }`}
                         </Typography>
                       ) : null}
                     </>
@@ -92,28 +93,36 @@ const Page: NextPage = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  query,
-  req,
-  locale
-}) => {
-  const session = await getSession({ req }).catch(() => null)
-  if (!session) {
-    return { redirect: { permanent: false, destination: '/500' } }
-  }
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store: Store<RootState, any>): GetServerSideProps =>
+    async ({ query, req, locale }) => {
+      const session = await getSession({ req }).catch(() => null)
+      if (!session) {
+        return { redirect: { permanent: false, destination: '/500' } }
+      }
 
-  const appAbbreviation = query.appAbbreviation
-  if (appAbbreviation !== Apps.moneyTracker) {
-    return { redirect: { permanent: false, destination: '/404' } }
-  }
+      const appAbbreviation = query.appAbbreviation
+      if (appAbbreviation !== Apps.moneyTracker) {
+        return { redirect: { permanent: false, destination: '/404' } }
+      }
 
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? 'default', ['common'])),
-      session,
-      fallback: false
+      const projects = await axios
+        .get(`${process.env.PAGE_URL}/api/app/${appAbbreviation}/project`, {
+          headers: {
+            Cookie: req.headers.cookie ?? ''
+          }
+        })
+        .then((res) => res.data)
+
+      store.dispatch(setProjects(projects))
+
+      return {
+        props: {
+          ...(await serverSideTranslations(locale ?? 'default', ['common'])),
+          session
+        }
+      }
     }
-  }
-}
+)
 
 export default Page

@@ -20,14 +20,12 @@ export default async function handler(
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
-    const { appAbbreviation: targetAppAbbreviation, userId: targetUserId } =
-      req.query
-    if (!isValidApp(targetAppAbbreviation)) {
+    const { appAbbreviation: appAbbreviation, userId: targetUserId } = req.query
+    if (!isValidApp(appAbbreviation)) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
     }
 
-    const userAppAccessLevel =
-      user[`${targetAppAbbreviation as Apps}AccessLevel`]
+    const userAppAccessLevel = user[`${appAbbreviation as Apps}AccessLevel`]
 
     // if the user access-level is not super admin or admin, return error
     if (
@@ -61,7 +59,7 @@ export default async function handler(
 
         const newUser: User = await UserDoc.findByIdAndUpdate(
           targetUserId,
-          { [`${targetAppAbbreviation}AccessLevel`]: newPermission },
+          { [`${appAbbreviation}AccessLevel`]: newPermission },
           {
             new: true,
             runValidators: true

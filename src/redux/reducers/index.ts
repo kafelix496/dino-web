@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux'
 
-import settingsReducer from './settingsReducer'
+import projectReducer from './projectReducer'
+import settingsReducer from './settingReducer'
 
 const combinedReducers = combineReducers({
-  settings: settingsReducer
+  setting: settingsReducer,
+  project: projectReducer
 })
 
 export default combinedReducers

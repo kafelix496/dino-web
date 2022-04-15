@@ -20,13 +20,12 @@ export default async function handler(
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
-    const targetAppAbbreviation = req.query.appAbbreviation
-    if (!isValidApp(targetAppAbbreviation)) {
+    const appAbbreviation = req.query.appAbbreviation
+    if (!isValidApp(appAbbreviation)) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
     }
 
-    const userAppAccessLevel =
-      user[`${targetAppAbbreviation as Apps}AccessLevel`]
+    const userAppAccessLevel = user[`${appAbbreviation as Apps}AccessLevel`]
 
     // if the user access-level is not super admin or admin, return error
     if (
@@ -45,7 +44,7 @@ export default async function handler(
         const users: User[] = await (() => {
           if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
             return UserDoc.find({
-              [`${targetAppAbbreviation as Apps}AccessLevel`]: {
+              [`${appAbbreviation as Apps}AccessLevel`]: {
                 $ne: AccessLevels.SUPER_ADMIN
               }
             })
@@ -56,12 +55,12 @@ export default async function handler(
           return UserDoc.find({
             $and: [
               {
-                [`${targetAppAbbreviation as Apps}AccessLevel`]: {
+                [`${appAbbreviation as Apps}AccessLevel`]: {
                   $ne: AccessLevels.SUPER_ADMIN
                 }
               },
               {
-                [`${targetAppAbbreviation as Apps}AccessLevel`]: {
+                [`${appAbbreviation as Apps}AccessLevel`]: {
                   $ne: AccessLevels.ADMIN
                 }
               }

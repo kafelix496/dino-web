@@ -1,16 +1,16 @@
 {
-  env: {
-    production: {
+  "env": {
+    "production": {
       "presets": ["next/babel"],
-      "plugins": ["ramda", "babel-plugin-jsx-remove-data-test-id"]
+      "plugins": ["babel-plugin-jsx-remove-data-test-id"]
     },
-    development: {
+    "development": {
       "presets": ["next/babel"],
-      "plugins": ["ramda", "babel-plugin-jsx-remove-data-test-id"]
+      "plugins": ["babel-plugin-jsx-remove-data-test-id"]
     },
-    test: {
+    "test": {
       "presets": ["next/babel"],
-      "plugins": ["ramda"]
+      "plugins": []
     }
   }
 }

@@ -1,1 +1,2 @@
-export * from './settingsActions'
+export * from './settingAction'
+export * from './projectAction'

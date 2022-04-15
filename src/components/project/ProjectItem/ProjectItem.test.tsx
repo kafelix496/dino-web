@@ -1,5 +1,5 @@
 import { Apps } from '@/constants'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@/utils/test-utils'
 
 import ProjectItem from './ProjectItem'
 
@@ -19,7 +19,7 @@ describe('ProjectItem component', () => {
 
     render(
       <ProjectItem
-        appType={Apps.moneyTracker}
+        appAbbreviation={Apps.moneyTracker}
         id={id}
         title={title}
         subTitle={subTitle}
@@ -39,7 +39,7 @@ describe('ProjectItem component', () => {
 
     render(
       <ProjectItem
-        appType={Apps.moneyTracker}
+        appAbbreviation={Apps.moneyTracker}
         id={id}
         title={title}
         subTitle={subTitle}

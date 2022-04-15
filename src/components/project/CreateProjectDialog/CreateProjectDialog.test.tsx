@@ -1,5 +1,5 @@
 import { Apps } from '@/constants'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@/utils/test-utils'
 
 import CreateProjectDialog from './CreateProjectDialog'
 
@@ -7,7 +7,7 @@ describe('CreateProjectDialog component', () => {
   test('the button should be disabled at the beginning', async () => {
     render(
       <CreateProjectDialog
-        appType={Apps.moneyTracker}
+        appAbbreviation={Apps.moneyTracker}
         isOpen={true}
         handleClose={jest.fn()}
       />
@@ -22,7 +22,7 @@ describe('CreateProjectDialog component', () => {
   it('should enable the button when the user types something on the title', async () => {
     render(
       <CreateProjectDialog
-        appType={Apps.moneyTracker}
+        appAbbreviation={Apps.moneyTracker}
         isOpen={true}
         handleClose={jest.fn()}
       />

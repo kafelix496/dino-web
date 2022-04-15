@@ -34,8 +34,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       ...(await serverSideTranslations(locale ?? 'default', ['common'])),
-      session,
-      fallback: false
+      session
     }
   }
 }

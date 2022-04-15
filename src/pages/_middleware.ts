@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { Locale } from '@/redux-types/settings'
+import { Locale } from '@/constants'
 
 const PUBLIC_FILE = /\.(.*)$/
 
