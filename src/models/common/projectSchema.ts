@@ -20,11 +20,12 @@ const projectSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    maxLength: 50
+    maxLength: 25
   },
   description: {
     type: String,
-    maxLength: 200
+    required: true,
+    maxLength: 100
   },
   ownerId: {
     type: mongoose.Schema.Types.ObjectId,

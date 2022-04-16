@@ -1,4 +1,3 @@
-import type { DeleteResult } from 'mongodb'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
@@ -11,7 +10,7 @@ import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Project | DeleteResult | { message: string }>
+  res: NextApiResponse<Project | { message: string }>
 ) {
   try {
     const session = await getSession({ req })
@@ -56,6 +55,8 @@ export default async function handler(
       }
 
       case 'PUT': {
+        const { title, description } = req?.body ?? {}
+
         const project: Project = await ProjectDoc.findOneAndUpdate(
           {
             $and: [
@@ -68,7 +69,10 @@ export default async function handler(
               }
             ]
           },
-          req?.body,
+          {
+            title: title ?? '',
+            description: description ?? ''
+          },
           {
             new: true,
             runValidators: true
@@ -99,7 +103,7 @@ export default async function handler(
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json(deleteResult)
+        return res.status(200).end()
       }
 
       default:

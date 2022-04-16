@@ -13,10 +13,11 @@ import Tooltip from '@mui/material/Tooltip'
 
 import DeleteProjectDialog from '@/components/project/DeleteProjectDialog/DeleteProjectDialog'
 import EditProjectDialog from '@/components/project/EditProjectDialog/EditProjectDialog'
+import { Apps } from '@/constants'
 import useDialogStatus from '@/hooks/useDialogStatus'
 
 interface ProjectItemProps {
-  appAbbreviation: string
+  appAbbreviation: Apps
   id: string
   title: string
   subTitle: string | JSX.Element

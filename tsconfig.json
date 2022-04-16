@@ -26,6 +26,9 @@
       "@/types/*": [
         "./src/types/*"
       ],
+      "@/http-services/*": [
+        "./src/http-services/*"
+      ],
       "@/constants": [
         "./src/constants/index"
       ],

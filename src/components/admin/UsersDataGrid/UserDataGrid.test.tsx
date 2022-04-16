@@ -1,19 +1,19 @@
 import { render, screen } from '@/utils/test-utils'
 
 import UsersDataGrid from './UsersDataGrid'
-
-jest.mock('./useRowsAndCols.tsx', () =>
-  jest.fn().mockImplementation(() => ({
-    error: 'fake error'
-  }))
-)
+import { getMockUsers1 } from './UsersDataGrid.mockData'
 
 describe('#UsersDataGrid', () => {
-  it('should render error page if data fetching is failed', () => {
-    render(<UsersDataGrid />)
+  it('should render every users', () => {
+    const mockUsers = getMockUsers1()
 
-    const unexpectedErrorBlock = screen.getByText('SEM_UNEXPECTED_ERROR')
+    render(<UsersDataGrid users={mockUsers} />)
 
-    expect(unexpectedErrorBlock).toBeInTheDocument()
+    const user1Email = screen.getByText('dino.test4961@gmail.com')
+    expect(user1Email).toBeInTheDocument()
+    const user2Email = screen.getByText('dino.test4962@gmail.com')
+    expect(user2Email).toBeInTheDocument()
+    const user3Email = screen.getByText('dino.test4963@gmail.com')
+    expect(user3Email).toBeInTheDocument()
   })
 })
