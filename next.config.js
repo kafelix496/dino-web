@@ -4,6 +4,12 @@ module.exports = {
   i18n,
   reactStrictMode: true,
   excludeFile: (str) => /\*.{test}.(js|jsx|ts|tsx)/.test(str),
+  images: {
+    domains: [
+      // google account thumbnail
+      'lh3.googleusercontent.com'
+    ]
+  },
   async redirects() {
     return [
       {
