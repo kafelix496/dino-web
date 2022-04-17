@@ -50,8 +50,11 @@ export default async function handler(
       }
 
       case 'POST': {
+        const { title, description } = req?.body ?? {}
+
         const project: Project = await ProjectDoc.create({
-          ...(req?.body ?? {}),
+          title: title ?? '',
+          description: description ?? '',
           ownerId: userId
         })
 

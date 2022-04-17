@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useTranslation } from 'next-i18next'
 import { useState } from 'react'
 import type { FC } from 'react'
@@ -8,10 +7,12 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import Dialog from '@/components/Dialog/Dialog'
-import { deleteProject } from '@/redux-actions'
+import { Apps } from '@/constants'
+import projectHttpService from '@/http-services/project'
+import { deleteProject, setProjects } from '@/redux-actions'
 
 interface DeleteProjectFormDialogProps {
-  appAbbreviation: string
+  appAbbreviation: Apps
   id: string
   isOpen: boolean
   handleClose: () => void
@@ -34,10 +35,12 @@ const DeleteProjectFormDialog: FC<DeleteProjectFormDialogProps> = ({
 
     handleClose()
 
-    axios
-      .delete(`/api/app/${appAbbreviation}/project/${id}`)
+    projectHttpService
+      .deleteProject({ appAbbreviation, id })
       .catch(() => {
-        // TODO: fetch projects and dispatch setProjects
+        projectHttpService.getProjects({ appAbbreviation }).then((projects) => {
+          dispatch(setProjects(projects))
+        })
 
         alert(t('ERROR_ALERT_MESSAGE'))
       })

@@ -1,15 +1,15 @@
-import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
 import type { TFunction } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import Avatar from '@mui/material/Avatar'
 import type { GridColDef } from '@mui/x-data-grid'
 
 import { AccessLevels, Apps } from '@/constants'
-import useFetchState from '@/hooks/useFetchState'
+import useUpdateEffect from '@/hooks/useUpdateEffect'
+import adminUserHttpService from '@/http-services/adminUser'
 import type { User } from '@/types'
 
 const getAdminPermissionOptions = (t: TFunction) => [
@@ -39,19 +39,14 @@ const getSuperAdminPermissionOptions = (t: TFunction) =>
     }
   ].concat(getAdminPermissionOptions(t))
 
-const useRowsAndCols = () => {
+const useRowsAndCols = (initialUsers: User[]) => {
   const router = useRouter()
   const { data: session } = useSession()
   const { t } = useTranslation()
-  const appAbbreviation = router.query.appAbbreviation as Apps
-  const {
-    data: rows,
-    setData: setRows,
-    loading,
-    error,
-    forceReload
-  } = useFetchState<User[]>(`/api/app/${appAbbreviation}/admin/user`)
+  const [rows, setRows] = useState<User[]>(initialUsers)
+  const [isLoading, setLoading] = useState<boolean>(false)
 
+  const appAbbreviation = router.query.appAbbreviation as Apps
   const userAppAccessLevel = (session?.user ?? {})[
     `${appAbbreviation as Apps}AccessLevel`
   ]
@@ -123,12 +118,17 @@ const useRowsAndCols = () => {
             )
           )
 
-          axios
-            .put(`/api/app/${appAbbreviation}/admin/user/${params.row._id}`, {
-              permission: params.value
+          adminUserHttpService
+            .editUserPermission({
+              appAbbreviation,
+              value: params.value
             })
             .catch(() => {
-              forceReload()
+              adminUserHttpService
+                .getUsers({ appAbbreviation })
+                .then((users) => {
+                  setRows(users)
+                })
 
               alert(t('ERROR_ALERT_MESSAGE'))
             })
@@ -142,12 +142,12 @@ const useRowsAndCols = () => {
     ],
     // change valueOptions means t and appAbbreviation was changed
     // so we don't need to put another dependency
-    [forceReload, setRows, valueOptions]
+    [setRows, valueOptions]
   )
 
   const refinedRows = useMemo(
     () =>
-      (rows ?? []).map((row) => ({
+      rows.map((row) => ({
         ...row,
         id: row._id,
         permission: row[`${appAbbreviation}AccessLevel`]
@@ -157,7 +157,24 @@ const useRowsAndCols = () => {
     [rows]
   )
 
-  return { rows: refinedRows, columns: refinedColumns, loading, error }
+  useUpdateEffect(() => {
+    setLoading(true)
+
+    adminUserHttpService
+      .getUsers({ appAbbreviation })
+      .then((users) => {
+        setLoading(false)
+        setRows(users)
+      })
+      .catch(() => {
+        setLoading(false)
+        setRows([])
+
+        alert(t('ERROR_ALERT_MESSAGE'))
+      })
+  }, [t, appAbbreviation])
+
+  return { isLoading, rows: refinedRows, columns: refinedColumns }
 }
 
 export default useRowsAndCols

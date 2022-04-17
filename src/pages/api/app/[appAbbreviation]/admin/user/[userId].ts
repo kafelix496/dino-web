@@ -57,7 +57,7 @@ export default async function handler(
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        const newUser: User = await UserDoc.findByIdAndUpdate(
+        const user: User = await UserDoc.findByIdAndUpdate(
           targetUserId,
           { [`${appAbbreviation}AccessLevel`]: newPermission },
           {
@@ -66,11 +66,11 @@ export default async function handler(
           }
         )
 
-        if (!newUser) {
+        if (!user) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json(newUser)
+        return res.status(200).json(user)
       }
 
       default:

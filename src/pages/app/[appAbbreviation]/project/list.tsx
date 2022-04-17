@@ -1,4 +1,3 @@
-import axios from 'axios'
 import type { GetServerSideProps, NextPage } from 'next'
 import { getSession } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
@@ -15,6 +14,7 @@ import Typography from '@mui/material/Typography'
 
 import NewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
 import { Apps } from '@/constants'
+import projectHttpService from '@/http-services/project'
 import { setProjects } from '@/redux-actions'
 import { selectProjectList } from '@/redux-selectors'
 import { wrapper } from '@/redux-store'
@@ -30,7 +30,7 @@ const Page: NextPage = () => {
   const { t } = useTranslation('common')
   const router = useRouter()
   const projects = useSelector(selectProjectList)
-  const appAbbreviation = router.query.appAbbreviation as string
+  const appAbbreviation = router.query.appAbbreviation as Apps
 
   const getCreatedAtTxt = (dbTime: string): string =>
     `${t('CREATED_AT')}: ${convertTime.dbToJs(dbTime)}`
@@ -94,33 +94,39 @@ const Page: NextPage = () => {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (store: Store<RootState, any>): GetServerSideProps =>
     async ({ query, req, locale }) => {
-      const session = await getSession({ req }).catch(() => null)
-      if (!session) {
-        return { redirect: { permanent: false, destination: '/500' } }
-      }
-
-      const appAbbreviation = query.appAbbreviation
-      if (appAbbreviation !== Apps.moneyTracker) {
-        return { redirect: { permanent: false, destination: '/404' } }
-      }
-
-      const projects = await axios
-        .get(`${process.env.PAGE_URL}/api/app/${appAbbreviation}/project`, {
-          headers: {
-            Cookie: req.headers.cookie ?? ''
-          }
-        })
-        .then((res) => res.data)
-
-      store.dispatch(setProjects(projects))
-
-      return {
-        props: {
-          ...(await serverSideTranslations(locale ?? 'default', ['common'])),
-          session
+      try {
+        const session = await getSession({ req }).catch(() => null)
+        if (!session) {
+          return { redirect: { permanent: false, destination: '/500' } }
         }
+
+        const appAbbreviation = query.appAbbreviation
+        if (appAbbreviation !== Apps.moneyTracker) {
+          return { redirect: { permanent: false, destination: '/404' } }
+        }
+
+        const projects = await projectHttpService.getProjects(
+          { appAbbreviation },
+          {
+            headers: {
+              Cookie: req.headers.cookie ?? ''
+            }
+          }
+        )
+
+        store.dispatch(setProjects(projects))
+
+        return {
+          props: {
+            ...(await serverSideTranslations(locale ?? 'default', ['common'])),
+            session
+          }
+        }
+      } catch (_) {
+        return { redirect: { permanent: false, destination: '/500' } }
       }
     }
 )

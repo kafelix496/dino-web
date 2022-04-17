@@ -1,0 +1,73 @@
+import { AccessLevels } from '@/constants'
+
+export const getMockUsers1 = () => [
+  {
+    _id: '62503637c7f67e97a1b74e22',
+    name: 'dino test',
+    email: 'dino.test4961@gmail.com',
+    emailVerified: null,
+    image: '',
+    faAccessLevel: AccessLevels.ADMIN,
+    mtAccessLevel: AccessLevels.NONE,
+    createdAt: '2022-04-08T13:18:47.714Z',
+    updatedAt: '2022-04-08T13:18:47.714Z'
+  },
+  {
+    _id: '6250363ec7f67e97a1b74e29',
+    name: 'dino test',
+    email: 'dino.test4962@gmail.com',
+    emailVerified: null,
+    image: '',
+    faAccessLevel: AccessLevels.EDITOR,
+    mtAccessLevel: AccessLevels.NONE,
+    createdAt: '2022-04-08T13:18:54.016Z',
+    updatedAt: '2022-04-08T14:08:28.217Z'
+  },
+  {
+    _id: '62503643c7f67e97a1b74e30',
+    name: 'dino test',
+    email: 'dino.test4963@gmail.com',
+    emailVerified: null,
+    image: '',
+    faAccessLevel: AccessLevels.VIEWER,
+    mtAccessLevel: AccessLevels.NONE,
+    createdAt: '2022-04-08T13:18:59.761Z',
+    updatedAt: '2022-04-08T15:21:20.838Z'
+  }
+]
+
+export const getMockUsers2 = () => [
+  {
+    _id: '62503637c7f67e97a1b74e22',
+    name: 'dino test',
+    email: 'dino.test4961@gmail.com',
+    emailVerified: null,
+    image: '',
+    faAccessLevel: AccessLevels.NONE,
+    mtAccessLevel: AccessLevels.NONE,
+    createdAt: '2022-04-08T13:18:47.714Z',
+    updatedAt: '2022-04-08T13:18:47.714Z'
+  },
+  {
+    _id: '6250363ec7f67e97a1b74e29',
+    name: 'dino test',
+    email: 'dino.test4962@gmail.com',
+    emailVerified: null,
+    image: '',
+    faAccessLevel: AccessLevels.NONE,
+    mtAccessLevel: AccessLevels.NONE,
+    createdAt: '2022-04-08T13:18:54.016Z',
+    updatedAt: '2022-04-08T14:08:28.217Z'
+  },
+  {
+    _id: '62503643c7f67e97a1b74e30',
+    name: 'dino test',
+    email: 'dino.test4963@gmail.com',
+    emailVerified: null,
+    image: '',
+    faAccessLevel: AccessLevels.NONE,
+    mtAccessLevel: AccessLevels.NONE,
+    createdAt: '2022-04-08T13:18:59.761Z',
+    updatedAt: '2022-04-08T15:21:20.838Z'
+  }
+]

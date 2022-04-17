@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import { useEffect } from 'react'
@@ -10,11 +9,12 @@ import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
+import { Apps } from '@/constants'
+import projectHttpService from '@/http-services/project'
 import { addProject } from '@/redux-actions'
-import type { Project } from '@/types'
 
 interface CreateProjectDialogProps {
-  appAbbreviation: string
+  appAbbreviation: Apps
   isOpen: boolean
   handleClose: () => void
 }
@@ -34,16 +34,15 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
     validationSchema: yup.object({
       title: yup
         .string()
-        .max(15, t('PROJECT_TITLE_MAX_MESSAGE'))
+        .max(25, t('PROJECT_TITLE_MAX_MESSAGE'))
         .required(t('PROJECT_TITLE_REQUIRED_MESSAGE')),
-      description: yup.string().max(40, t('PROJECT_DESCRIPTION_MAX_MESSAGE'))
+      description: yup.string().max(100, t('PROJECT_DESCRIPTION_MAX_MESSAGE'))
     }),
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true)
 
-      axios
-        .post<Project>(`/api/app/${appAbbreviation}/project`, values)
-        .then((res) => res.data)
+      projectHttpService
+        .createProject({ appAbbreviation, values })
         .then((project) => {
           dispatch(addProject(project))
         })

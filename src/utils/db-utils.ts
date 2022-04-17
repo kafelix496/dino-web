@@ -19,6 +19,7 @@ export async function dbConnect() {
 
 export const format = {
   /** Takes a mongoDB object and returns a plain old JavaScript object */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   from<T = Record<string, unknown>>(object: Record<string, any>): T {
     const newObject: Record<string, unknown> = {}
     for (const key in object) {

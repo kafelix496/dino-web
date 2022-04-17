@@ -23,6 +23,7 @@ module.exports = {
     '@/layout': '<rootDir>/src/layout/Layout',
     '@/types/(.*)': '<rootDir>/src/types/$1',
     '@/types': '<rootDir>/src/types/index.ts',
+    '@/http-services/(.*)': '<rootDir>/src/http-services/$1',
     '@/constants/(.*)': '<rootDir>/src/constants/$1',
     '@/constants': '<rootDir>/src/constants/index.ts',
     '@/components/(.*)': '<rootDir>/src/components/$1',

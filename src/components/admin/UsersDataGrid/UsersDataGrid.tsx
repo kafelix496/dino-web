@@ -1,33 +1,21 @@
-import { useTranslation } from 'next-i18next'
 import type { FC } from 'react'
 
 import { DataGrid } from '@mui/x-data-grid'
 
-import ErrorMessageBlock from '@/components/ErrorMessageBlock/ErrorMessageBlock'
+import type { User } from '@/types'
 
 import useRowsAndCols from './useRowsAndCols'
 
-const UsersDataGrid: FC = () => {
-  const { t } = useTranslation('common')
-  const { loading, error, rows, columns } = useRowsAndCols()
+interface UsersDataGridProps {
+  users: User[]
+}
 
-  if (error) {
-    const responseMessage = error?.response?.data?.message
-
-    return (
-      <ErrorMessageBlock
-        message={
-          responseMessage
-            ? t(responseMessage)
-            : error?.message ?? t('SEM_UNEXPECTED_ERROR')
-        }
-      />
-    )
-  }
+const UsersDataGrid: FC<UsersDataGridProps> = ({ users }) => {
+  const { isLoading, rows, columns } = useRowsAndCols(users)
 
   return (
     <DataGrid
-      loading={loading}
+      loading={isLoading}
       rows={rows}
       columns={columns}
       pageSize={20}

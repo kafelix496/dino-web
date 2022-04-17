@@ -1,4 +1,9 @@
+import type { AxiosRequestConfig as _AxiosRequestConfig } from 'axios'
+
 import { AccessLevels } from '@/constants'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AxiosRequestConfig = _AxiosRequestConfig<any>
 
 interface AccessUser {
   accessUserId: string
@@ -14,6 +19,8 @@ export interface User {
   // NOTE: 496-1
   faAccessLevel: AccessLevels
   mtAccessLevel: AccessLevels
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Project {

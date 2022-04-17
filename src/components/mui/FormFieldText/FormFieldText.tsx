@@ -7,6 +7,7 @@ interface FieldTextProps {
   required?: boolean
   fullWidth?: boolean
   label?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formik: { [key: string]: any }
   name: string
 }
