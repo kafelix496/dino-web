@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
+import { PaletteMode } from '@/constants'
 import { selectPaletteMode } from '@/redux-selectors'
 
 import Header from './Header/Header'
@@ -24,21 +25,23 @@ const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 
 interface LayoutProps {
   children: ReactNode
-  initialSidebarNavOpenState: boolean
+  isSidebarNavOpen: boolean
 }
 
-const Layout: FC<LayoutProps> = ({ initialSidebarNavOpenState, children }) => {
+const Layout: FC<LayoutProps> = ({
+  isSidebarNavOpen: isSidebarNavOpenInit,
+  children
+}) => {
   const { t } = useTranslation('common')
   const paletteMode = useSelector(selectPaletteMode)
-  const [isSidebarNavOpen, setSidebarNavOpen] = useSidebarNavState(
-    initialSidebarNavOpenState
-  )
+  const [isSidebarNavOpen, setSidebarNavOpen] =
+    useSidebarNavState(isSidebarNavOpenInit)
   const [isSettingsOpen, setSettingsOpen] = useState(false)
   const prefersDarkMode = useMediaQuery(COLOR_SCHEME_QUERY)
   const { theme } = useTheme({
     isDarkMode:
-      paletteMode !== 'system'
-        ? paletteMode === 'dark'
+      paletteMode !== PaletteMode.SYSTEM
+        ? paletteMode === PaletteMode.DARK
         : prefersDarkMode ?? false
   })
   const DrawerContent = useDrawerContent()

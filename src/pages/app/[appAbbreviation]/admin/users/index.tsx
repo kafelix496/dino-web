@@ -1,5 +1,4 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import { getSession } from 'next-auth/react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Box from '@mui/material/Box'
@@ -8,7 +7,6 @@ import UsersDataGrid from '@/components/admin/UsersDataGrid/UsersDataGrid'
 import { Apps } from '@/constants'
 import adminUserHttpService from '@/http-services/adminUser'
 import type { User } from '@/types'
-import { hasAccessAdminPage } from '@/utils'
 
 interface PageProps {
   users: User[]
@@ -35,31 +33,28 @@ export const getServerSideProps: GetServerSideProps = async ({
   locale
 }) => {
   try {
-    const session = await getSession({ req }).catch(() => null)
-    if (!hasAccessAdminPage(session)) {
-      return { redirect: { permanent: false, destination: '/500' } }
-    }
-
     const appAbbreviation = query.appAbbreviation as Apps
-
     const users = await adminUserHttpService.getUsers(
       { appAbbreviation },
       {
-        headers: {
-          Cookie: req.headers.cookie ?? ''
-        }
+        headers: { Cookie: req.headers.cookie ?? '' }
       }
     )
 
     return {
       props: {
         ...(await serverSideTranslations(locale ?? 'default', ['common'])),
-        session,
         users
       }
     }
-  } catch (_) {
-    return { redirect: { permanent: false, destination: '/500' } }
+  } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const errrorStatus = (error as Record<string, any>)?.response?.status
+    if (errrorStatus === 401 || errrorStatus === 404) {
+      return { redirect: { permanent: false, destination: `/${errrorStatus}` } }
+    }
+
+    return { redirect: { permanent: false, destination: '/400' } }
   }
 }
 

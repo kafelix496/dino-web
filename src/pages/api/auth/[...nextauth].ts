@@ -9,7 +9,7 @@ export default NextAuth({
     strategy: 'jwt',
     maxAge: 24 * 60 * 60
   },
-  secret: process.env.JWT_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,

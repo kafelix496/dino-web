@@ -12,6 +12,18 @@ export const isValidApp = (app: unknown): boolean => {
   return (Object.values(Apps) as string[]).includes(app)
 }
 
+export const isValidAppAbbreviationPathname = (pathname: string): boolean => {
+  const regExp = new RegExp(
+    `^(/api)?/app/(${Object.values(Apps).reduce(
+      (accu, appAbbreviation) =>
+        accu === '' ? appAbbreviation : `${accu}|${appAbbreviation}`,
+      ''
+    )})/.+`
+  )
+
+  return regExp.test(pathname)
+}
+
 export const hasAccessAdminPage = (session: Session | null): boolean =>
   (Object.values(Apps) as string[]).find(
     (app) =>

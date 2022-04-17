@@ -1,5 +1,4 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import { getSession } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import dynamic from 'next/dynamic'
@@ -98,12 +97,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store: Store<RootState, any>): GetServerSideProps =>
     async ({ query, req, locale }) => {
       try {
-        const session = await getSession({ req }).catch(() => null)
-        if (!session) {
-          return { redirect: { permanent: false, destination: '/500' } }
-        }
-
-        const appAbbreviation = query.appAbbreviation
+        const appAbbreviation = query.appAbbreviation as Apps
         if (appAbbreviation !== Apps.moneyTracker) {
           return { redirect: { permanent: false, destination: '/404' } }
         }
@@ -111,22 +105,26 @@ export const getServerSideProps = wrapper.getServerSideProps(
         const projects = await projectHttpService.getProjects(
           { appAbbreviation },
           {
-            headers: {
-              Cookie: req.headers.cookie ?? ''
-            }
+            headers: { Cookie: req.headers.cookie ?? '' }
           }
         )
-
         store.dispatch(setProjects(projects))
 
         return {
           props: {
-            ...(await serverSideTranslations(locale ?? 'default', ['common'])),
-            session
+            ...(await serverSideTranslations(locale ?? 'default', ['common']))
           }
         }
-      } catch (_) {
-        return { redirect: { permanent: false, destination: '/500' } }
+      } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errrorStatus = (error as Record<string, any>)?.response?.status
+        if (errrorStatus === 401 || errrorStatus === 404) {
+          return {
+            redirect: { permanent: false, destination: `/${errrorStatus}` }
+          }
+        }
+
+        return { redirect: { permanent: false, destination: '/400' } }
       }
     }
 )

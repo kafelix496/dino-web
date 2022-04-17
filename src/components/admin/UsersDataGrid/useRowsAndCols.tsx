@@ -39,11 +39,11 @@ const getSuperAdminPermissionOptions = (t: TFunction) =>
     }
   ].concat(getAdminPermissionOptions(t))
 
-const useRowsAndCols = (initialUsers: User[]) => {
+const useRowsAndCols = (users: User[]) => {
   const router = useRouter()
   const { data: session } = useSession()
   const { t } = useTranslation()
-  const [rows, setRows] = useState<User[]>(initialUsers)
+  const [rows, setRows] = useState<User[]>(users)
   const [isLoading, setLoading] = useState<boolean>(false)
 
   const appAbbreviation = router.query.appAbbreviation as Apps

@@ -32,9 +32,7 @@ const MyApp = ({
   return (
     <CacheProvider value={emotionCache}>
       <SessionProvider session={pageProps.session}>
-        <Layout
-          initialSidebarNavOpenState={pageProps.initialSidebarNavOpenState}
-        >
+        <Layout isSidebarNavOpen={pageProps.isSidebarNavOpen}>
           <Component {...pageProps} />
         </Layout>
       </SessionProvider>
@@ -69,7 +67,7 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
       appProps,
       pageProps: {
         ...appProps,
-        initialSidebarNavOpenState:
+        isSidebarNavOpen:
           nookies.get(appContext.ctx)[Cookies.sidebarNav] === 'true'
       }
     }
