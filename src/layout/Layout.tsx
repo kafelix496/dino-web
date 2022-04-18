@@ -1,4 +1,5 @@
 import { useTranslation } from 'next-i18next'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useState } from 'react'
 import type { FC, ReactNode } from 'react'
@@ -15,11 +16,14 @@ import { PaletteMode } from '@/constants'
 import { selectPaletteMode } from '@/redux-selectors'
 
 import Header from './Header/Header'
-import SettingsDrawer from './SettingsDrawer/SettingsDrawer'
-import SidebarNavDrawer from './SidebarNavDrawer/SidebarNavDrawer'
 import useDrawerContent from './useDrawerContent'
 import useSidebarNavState from './useSidebarNavState'
 import useTheme from './useTheme'
+
+const SidebarNavDrawer = dynamic(
+  () => import('./SidebarNavDrawer/SidebarNavDrawer')
+)
+const SettingsDrawer = dynamic(() => import('./SettingsDrawer/SettingsDrawer'))
 
 const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 
