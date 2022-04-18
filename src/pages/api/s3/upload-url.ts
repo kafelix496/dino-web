@@ -1,6 +1,5 @@
 import { PresignedPost } from 'aws-sdk/clients/s3'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/react'
 
 import { getUploadUrl } from '@/utils/file'
 
@@ -12,15 +11,8 @@ export default async function handler(
 ) {
   try {
     const key = req.query.key
-
     if (Array.isArray(key)) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
-    }
-
-    const session = await getSession({ req })
-    const userId = session?.user?.id
-    if (!userId) {
-      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
     switch (req?.method) {

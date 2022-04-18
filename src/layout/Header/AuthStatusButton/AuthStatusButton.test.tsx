@@ -1,8 +1,20 @@
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signIn, signOut } from 'next-auth/react'
 
+import { getMockUser } from '@/mock-data/user.mockData'
+import { selectUser } from '@/redux-selectors'
 import { fireEvent, render, screen } from '@/utils/test-utils'
 
 import AuthStatusButton from './AuthStatusButton'
+
+jest.mock('@/redux-selectors', () => {
+  const originalModule = jest.requireActual('@/redux-selectors')
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    selectUser: jest.fn()
+  }
+})
 
 describe('AuthStatusButton component', () => {
   beforeEach(() => {
@@ -10,7 +22,7 @@ describe('AuthStatusButton component', () => {
   })
 
   it('should render a sign in button', () => {
-    ;(useSession as jest.Mock).mockReturnValueOnce([null])
+    ;(selectUser as jest.Mock).mockReturnValueOnce(null)
 
     render(<AuthStatusButton />)
 
@@ -24,6 +36,9 @@ describe('AuthStatusButton component', () => {
   })
 
   it('should render a sign out button', () => {
+    const mockUser = getMockUser()
+    ;(selectUser as jest.Mock).mockReturnValueOnce(mockUser)
+
     render(<AuthStatusButton />)
 
     const authButton = screen.getByRole('button', {

@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
-import type { Session } from 'next-auth'
 import { v1 as uuidv1 } from 'uuid'
 
 import { Apps } from '@/constants'
+import type { User } from '@/types'
 
 export const isValidApp = (app: unknown): boolean => {
   if (typeof app !== 'string') {
@@ -12,12 +12,23 @@ export const isValidApp = (app: unknown): boolean => {
   return (Object.values(Apps) as string[]).includes(app)
 }
 
-export const hasAccessAdminPage = (session: Session | null): boolean =>
+export const isValidAppAbbreviationPathname = (pathname: string): boolean => {
+  const regExp = new RegExp(
+    `^(/api)?/app/(${Object.values(Apps).reduce(
+      (accu, appAbbreviation) =>
+        accu === '' ? appAbbreviation : `${accu}|${appAbbreviation}`,
+      ''
+    )})/.+`
+  )
+
+  return regExp.test(pathname)
+}
+
+export const hasAccessAdminPage = (user: User | null): boolean =>
   (Object.values(Apps) as string[]).find(
     (app) =>
-      ((session?.user ?? {})[`${app as Apps}AccessLevel`] as
-        | string
-        | undefined) !== undefined
+      ((user ?? {})[`${app as Apps}AccessLevel`] as string | undefined) !==
+      undefined
   ) !== undefined
 
 export const convertTime = {

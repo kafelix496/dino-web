@@ -1,8 +1,8 @@
-import { useSession } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
 import type { TFunction } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import Avatar from '@mui/material/Avatar'
 import type { GridColDef } from '@mui/x-data-grid'
@@ -10,6 +10,7 @@ import type { GridColDef } from '@mui/x-data-grid'
 import { AccessLevels, Apps } from '@/constants'
 import useUpdateEffect from '@/hooks/useUpdateEffect'
 import adminUserHttpService from '@/http-services/adminUser'
+import { selectUser } from '@/redux-selectors'
 import type { User } from '@/types'
 
 const getAdminPermissionOptions = (t: TFunction) => [
@@ -39,15 +40,15 @@ const getSuperAdminPermissionOptions = (t: TFunction) =>
     }
   ].concat(getAdminPermissionOptions(t))
 
-const useRowsAndCols = (initialUsers: User[]) => {
+const useRowsAndCols = (users: User[]) => {
   const router = useRouter()
-  const { data: session } = useSession()
+  const user = useSelector(selectUser)
   const { t } = useTranslation()
-  const [rows, setRows] = useState<User[]>(initialUsers)
+  const [rows, setRows] = useState<User[]>(users)
   const [isLoading, setLoading] = useState<boolean>(false)
 
   const appAbbreviation = router.query.appAbbreviation as Apps
-  const userAppAccessLevel = (session?.user ?? {})[
+  const userAppAccessLevel = (user ?? {})[
     `${appAbbreviation as Apps}AccessLevel`
   ]
 
@@ -121,6 +122,7 @@ const useRowsAndCols = (initialUsers: User[]) => {
           adminUserHttpService
             .editUserPermission({
               appAbbreviation,
+              userId: params.row._id,
               value: params.value
             })
             .catch(() => {

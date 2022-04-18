@@ -7,8 +7,9 @@ import type { Store } from 'redux'
 
 import { Locale, PaletteMode } from '@/constants'
 import { Cookies } from '@/constants/cookies'
+import userHttpService from '@/http-services/user'
 import Layout from '@/layout'
-import { setLocale, setPaletteMode } from '@/redux-actions'
+import { setLocale, setPaletteMode, setUser } from '@/redux-actions'
 import { wrapper } from '@/redux-store'
 import type { RootState } from '@/redux-types'
 import { createEmotionCache } from '@/utils/mui'
@@ -32,9 +33,7 @@ const MyApp = ({
   return (
     <CacheProvider value={emotionCache}>
       <SessionProvider session={pageProps.session}>
-        <Layout
-          initialSidebarNavOpenState={pageProps.initialSidebarNavOpenState}
-        >
+        <Layout isSidebarNavOpen={pageProps.isSidebarNavOpen}>
           <Component {...pageProps} />
         </Layout>
       </SessionProvider>
@@ -63,13 +62,21 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
       )
     )
 
+    // except error page, fetch user before the page is loaded
+    if (!/^\/(4\d\d)|(5\d\d)/.test(appContext.ctx.pathname)) {
+      const user = await userHttpService.getCurrentUser({
+        headers: { Cookie: appContext.ctx.req?.headers.cookie ?? '' }
+      })
+      store.dispatch(setUser(user))
+    }
+
     const appProps = await App.getInitialProps(appContext)
 
     return {
       appProps,
       pageProps: {
         ...appProps,
-        initialSidebarNavOpenState:
+        isSidebarNavOpen:
           nookies.get(appContext.ctx)[Cookies.sidebarNav] === 'true'
       }
     }

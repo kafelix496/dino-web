@@ -45,13 +45,14 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
         .createProject({ appAbbreviation, values })
         .then((project) => {
           dispatch(addProject(project))
+
+          handleClose()
         })
         .catch(() => {
           alert(t('ERROR_ALERT_MESSAGE'))
         })
         .finally(() => {
           setSubmitting(false)
-          handleClose()
         })
     }
   })

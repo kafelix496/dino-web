@@ -1,13 +1,14 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import { getSession, useSession } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
+import { useSelector } from 'react-redux'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
+import { selectUser } from '@/redux-selectors'
 import { hasAccessAdminPage } from '@/utils'
 
 const appList = [
@@ -32,9 +33,9 @@ const appList = [
 
 const Page: NextPage = () => {
   const { t } = useTranslation('common')
-  const { data: session } = useSession()
+  const user = useSelector(selectUser)
 
-  const canAccessAdminPage = hasAccessAdminPage(session)
+  const canAccessAdminPage = hasAccessAdminPage(user)
 
   return (
     <>
@@ -47,7 +48,7 @@ const Page: NextPage = () => {
             return null
           }
 
-          if (app.needAuth && !session) {
+          if (app.needAuth && !user) {
             return (
               <Button
                 key={app.name}
@@ -73,16 +74,10 @@ const Page: NextPage = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  locale
-}) => {
-  const session = await getSession({ req }).catch(() => null)
-
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'default', ['common'])),
-      session
+      ...(await serverSideTranslations(locale ?? 'default', ['common']))
     }
   }
 }

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/react'
+import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
 import { CollectionName } from '@/constants/collection'
@@ -14,9 +14,9 @@ export default async function handler(
   res: NextApiResponse<User[] | { message: string }>
 ) {
   try {
-    const session = await getSession({ req })
-    const user = session?.user
-    if (!user) {
+    const token = await getToken({ req })
+    const currentUserId = token?.sub
+    if (!currentUserId) {
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
@@ -25,24 +25,27 @@ export default async function handler(
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
     }
 
-    const userAppAccessLevel = user[`${appAbbreviation as Apps}AccessLevel`]
-
-    // if the user access-level is not super admin or admin, return error
-    if (
-      userAppAccessLevel !== AccessLevels.SUPER_ADMIN &&
-      userAppAccessLevel !== AccessLevels.ADMIN
-    ) {
-      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
-    }
-
     await dbConnect()
 
     const UserDoc = createDocument(CollectionName.USER, userSchema)
 
+    const currentUser: User = await UserDoc.findOne({ _id: currentUserId })
+
+    const currentUserAppAccessLevel =
+      currentUser[`${appAbbreviation as Apps}AccessLevel`]
+
+    // if the user access-level is not super admin or admin, return error
+    if (
+      currentUserAppAccessLevel !== AccessLevels.SUPER_ADMIN &&
+      currentUserAppAccessLevel !== AccessLevels.ADMIN
+    ) {
+      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
+    }
+
     switch (req?.method) {
       case 'GET': {
         const users: User[] = await (() => {
-          if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
+          if (currentUserAppAccessLevel === AccessLevels.SUPER_ADMIN) {
             return UserDoc.find({
               [`${appAbbreviation as Apps}AccessLevel`]: {
                 $ne: AccessLevels.SUPER_ADMIN

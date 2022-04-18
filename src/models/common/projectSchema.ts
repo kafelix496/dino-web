@@ -24,7 +24,13 @@ const projectSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
+    // description could be empty string
+    required() {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const description: string = (this as any).description
+
+      return typeof description !== 'string' && description !== undefined
+    },
     maxLength: 100
   },
   ownerId: {
