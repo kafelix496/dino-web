@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   } catch (error) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const errrorStatus = (error as Record<string, any>)?.response?.status
-    if (errrorStatus === 401 || errrorStatus === 404) {
+    if (errrorStatus === 400 || errrorStatus === 401 || errrorStatus === 404) {
       return {
         redirect: { permanent: false, destination: `/${errrorStatus}` }
       }

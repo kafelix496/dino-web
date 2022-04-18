@@ -17,7 +17,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (!isValidAppAbbreviationPathname(url.pathname)) {
-    url.pathname = '/500'
+    url.pathname = '/400'
 
     return NextResponse.redirect(url)
   }
