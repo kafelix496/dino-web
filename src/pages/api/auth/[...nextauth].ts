@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
-import { AccessLevels, Apps } from '@/constants'
 import { MongooseAdapter } from '@/utils/db-utils'
 
 export default NextAuth({
@@ -25,43 +24,10 @@ export default NextAuth({
         return token
       }
 
-      return {
-        ...token,
-        ...Object.values(Apps).reduce((accu, app) => {
-          const appAccessLevelName = `${app}AccessLevel`
-
-          return {
-            ...accu,
-            [appAccessLevelName]:
-              user[appAccessLevelName] !== undefined
-                ? user[appAccessLevelName]
-                : AccessLevels.NONE
-          }
-        }, {})
-      }
+      return token
     },
-    async session({ session, token }) {
-      return Promise.resolve({
-        ...session,
-        user: {
-          ...session.user,
-          id: token?.sub,
-          ...{
-            ...token,
-            ...Object.values(Apps).reduce((accu, app) => {
-              const appAccessLevelName = `${app}AccessLevel`
-
-              return {
-                ...accu,
-                [appAccessLevelName]:
-                  token[appAccessLevelName] !== undefined
-                    ? token[appAccessLevelName]
-                    : AccessLevels.NONE
-              }
-            }, {})
-          }
-        }
-      })
+    async session({ session }) {
+      return session
     }
   }
 })

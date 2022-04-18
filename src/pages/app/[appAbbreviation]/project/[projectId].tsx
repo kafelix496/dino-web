@@ -12,7 +12,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   try {
     const projectId = query.projectId
     if (!projectId) {
-      return { redirect: { permanent: false, destination: '/404' } }
+      return { notFound: true }
     }
 
     return {

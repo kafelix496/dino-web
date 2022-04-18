@@ -20,6 +20,7 @@ module.exports = {
       '<rootDir>/src/__mocks__/fileMock.js',
 
     /* Handle typescript custom absolute imports */
+    '@/mock-data/(.*)': '<rootDir>/src/__mocks__/data/$1',
     '@/layout': '<rootDir>/src/layout/Layout',
     '@/types/(.*)': '<rootDir>/src/types/$1',
     '@/types': '<rootDir>/src/types/index.ts',

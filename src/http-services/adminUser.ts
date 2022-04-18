@@ -19,14 +19,15 @@ const adminUserHttpService = {
   editUserPermission: (
     data: {
       appAbbreviation: Apps
+      userId: string
       value: AccessLevels
     },
     config?: AxiosRequestConfig
   ): Promise<User> =>
     axios
       .put<User>(
-        `/api/app/${data.appAbbreviation}/admin/user`,
-        data.value,
+        `/api/app/${data.appAbbreviation}/admin/user/${data.userId}`,
+        { permission: data.value },
         config
       )
       .then((res) => res.data)

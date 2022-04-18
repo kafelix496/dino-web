@@ -17,6 +17,9 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
+      "@/mock-data/*": [
+        "./src/__mocks__/data/*"
+      ],
       "@/layout": [
         "./src/layout/Layout"
       ],

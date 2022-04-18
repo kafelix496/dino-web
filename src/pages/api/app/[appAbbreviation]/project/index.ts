@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/react'
+import { getToken } from 'next-auth/jwt'
 
 import { Apps } from '@/constants'
 import { CollectionName } from '@/constants/collection'
@@ -13,9 +13,9 @@ export default async function handler(
   res: NextApiResponse<Project | Project[] | { message: string }>
 ) {
   try {
-    const session = await getSession({ req })
-    const userId = session?.user?.id
-    if (!userId) {
+    const token = await getToken({ req })
+    const currentUserId = token?.sub
+    if (!currentUserId) {
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
@@ -37,8 +37,8 @@ export default async function handler(
       case 'GET': {
         const projects = await ProjectDoc.find({
           $or: [
-            { ownerId: userId },
-            { accessUsers: { $elemMatch: { accessUserId: userId } } }
+            { ownerId: currentUserId },
+            { accessUsers: { $elemMatch: { accessUserId: currentUserId } } }
           ]
         })
 
@@ -55,7 +55,7 @@ export default async function handler(
         const project: Project = await ProjectDoc.create({
           title: title ?? '',
           description: description ?? '',
-          ownerId: userId
+          ownerId: currentUserId
         })
 
         if (!project) {

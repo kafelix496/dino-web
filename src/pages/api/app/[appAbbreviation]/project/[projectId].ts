@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/react'
+import { getToken } from 'next-auth/jwt'
 
 import { Apps } from '@/constants'
 import { CollectionName } from '@/constants/collection'
@@ -13,9 +13,9 @@ export default async function handler(
   res: NextApiResponse<Project | { message: string }>
 ) {
   try {
-    const session = await getSession({ req })
-    const userId = session?.user?.id
-    if (!userId) {
+    const token = await getToken({ req })
+    const currentUserId = token?.sub
+    if (!currentUserId) {
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
@@ -40,8 +40,8 @@ export default async function handler(
             { _id: projectId },
             {
               $or: [
-                { ownerId: userId },
-                { accessUsers: { $elemMatch: { accessUserId: userId } } }
+                { ownerId: currentUserId },
+                { accessUsers: { $elemMatch: { accessUserId: currentUserId } } }
               ]
             }
           ]
@@ -63,20 +63,16 @@ export default async function handler(
               { _id: projectId },
               {
                 $or: [
-                  { ownerId: userId },
-                  { accessUsers: { $elemMatch: { accessUserId: userId } } }
+                  { ownerId: currentUserId },
+                  {
+                    accessUsers: { $elemMatch: { accessUserId: currentUserId } }
+                  }
                 ]
               }
             ]
           },
-          {
-            title: title ?? '',
-            description: description ?? ''
-          },
-          {
-            new: true,
-            runValidators: true
-          }
+          { title: title ?? '', description: description ?? '' },
+          { new: true, runValidators: true }
         )
 
         if (!project) {
@@ -92,8 +88,8 @@ export default async function handler(
             { _id: projectId },
             {
               $or: [
-                { ownerId: userId },
-                { accessUsers: { $elemMatch: { accessUserId: userId } } }
+                { ownerId: currentUserId },
+                { accessUsers: { $elemMatch: { accessUserId: currentUserId } } }
               ]
             }
           ]

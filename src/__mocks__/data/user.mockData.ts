@@ -1,5 +1,17 @@
 import { AccessLevels } from '@/constants'
 
+export const getMockUser = () => ({
+  _id: '62503637c7f67e97a1b74e22',
+  name: 'dino test',
+  email: 'dino.test4961@gmail.com',
+  emailVerified: null,
+  image: '',
+  faAccessLevel: AccessLevels.ADMIN,
+  mtAccessLevel: AccessLevels.NONE,
+  createdAt: '2022-04-08T13:18:47.714Z',
+  updatedAt: '2022-04-08T13:18:47.714Z'
+})
+
 export const getMockUsers1 = () => [
   {
     _id: '62503637c7f67e97a1b74e22',

@@ -1,7 +1,7 @@
+import { getMockUsers1 } from '@/mock-data/user.mockData'
 import { render, screen } from '@/utils/test-utils'
 
 import UsersDataGrid from './UsersDataGrid'
-import { getMockUsers1 } from './UsersDataGrid.mockData'
 
 describe('#UsersDataGrid', () => {
   it('should render every users', () => {
