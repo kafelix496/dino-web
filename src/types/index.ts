@@ -14,7 +14,7 @@ export interface User {
   _id: string
   name: string
   email?: string
-  emailVerified: string | null
+  emailVerified: null
   image: string
   // NOTE: 496-1
   faAccessLevel: AccessLevels
@@ -26,7 +26,7 @@ export interface User {
 export interface Project {
   _id: string
   title: string
-  description?: string
+  description: string
   ownerId: string
   createdAt: string
   updatedAt: string
