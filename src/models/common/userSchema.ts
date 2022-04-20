@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   emailVerified: {
-    type: Date
+    type: Boolean
   },
   image: {
     type: String
