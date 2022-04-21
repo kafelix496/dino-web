@@ -30,5 +30,5 @@ export interface Project {
   ownerId: string
   createdAt: string
   updatedAt: string
-  accessUsersId: AccessUser[]
+  accessUsers: AccessUser[]
 }
