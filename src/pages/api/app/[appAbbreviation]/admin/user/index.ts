@@ -32,7 +32,7 @@ export default async function handler(
     const currentUser: User = await UserDoc.findOne({ _id: currentUserId })
 
     const currentUserAppAccessLevel =
-      currentUser[`${appAbbreviation as Apps}AccessLevel`]
+      currentUser.accessLevel[appAbbreviation as Apps]
 
     // if the user access-level is not super admin or admin, return error
     if (
@@ -47,7 +47,7 @@ export default async function handler(
         const users: User[] = await (() => {
           if (currentUserAppAccessLevel === AccessLevels.SUPER_ADMIN) {
             return UserDoc.find({
-              [`${appAbbreviation as Apps}AccessLevel`]: {
+              [`accessLevel.${appAbbreviation as Apps}`]: {
                 $ne: AccessLevels.SUPER_ADMIN
               }
             })
@@ -58,12 +58,12 @@ export default async function handler(
           return UserDoc.find({
             $and: [
               {
-                [`${appAbbreviation as Apps}AccessLevel`]: {
+                [`accessLevel.${appAbbreviation as Apps}`]: {
                   $ne: AccessLevels.SUPER_ADMIN
                 }
               },
               {
-                [`${appAbbreviation as Apps}AccessLevel`]: {
+                [`accessLevel.${appAbbreviation as Apps}`]: {
                   $ne: AccessLevels.ADMIN
                 }
               }

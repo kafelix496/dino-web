@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { v1 as uuidv1 } from 'uuid'
 
-import { Apps } from '@/constants'
+import { AccessLevels, Apps } from '@/constants'
 import type { User } from '@/types'
 
 export const isValidApp = (app: unknown): boolean => {
@@ -25,11 +25,15 @@ export const isValidAppAbbreviationPathname = (pathname: string): boolean => {
 }
 
 export const hasAccessAdminPage = (user: User | null): boolean =>
-  (Object.values(Apps) as string[]).find(
-    (app) =>
-      ((user ?? {})[`${app as Apps}AccessLevel`] as string | undefined) !==
-      undefined
-  ) !== undefined
+  (Object.values(Apps) as string[]).find((app) => {
+    const userAppAccessLevel: AccessLevels | undefined = (user?.accessLevel ??
+      {})[app as Apps]
+
+    return (
+      userAppAccessLevel === AccessLevels.SUPER_ADMIN ||
+      userAppAccessLevel === AccessLevels.ADMIN
+    )
+  }) !== undefined
 
 export const convertTime = {
   dbToJs(date: string): string {

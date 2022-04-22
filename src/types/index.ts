@@ -17,8 +17,10 @@ export interface User {
   emailVerified: null
   image: string
   // NOTE: 496-1
-  faAccessLevel: AccessLevels
-  mtAccessLevel: AccessLevels
+  accessLevel: {
+    fa: AccessLevels
+    mt: AccessLevels
+  }
   createdAt: string
   updatedAt: string
 }
