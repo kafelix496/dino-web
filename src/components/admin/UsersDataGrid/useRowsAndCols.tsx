@@ -48,9 +48,7 @@ const useRowsAndCols = (users: User[]) => {
   const [isLoading, setLoading] = useState<boolean>(false)
 
   const appAbbreviation = router.query.appAbbreviation as Apps
-  const userAppAccessLevel = (user ?? {})[
-    `${appAbbreviation as Apps}AccessLevel`
-  ]
+  const userAppAccessLevel = user!.accessLevel[appAbbreviation as Apps]
 
   const valueOptions = useMemo(() => {
     if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
@@ -112,8 +110,10 @@ const useRowsAndCols = (users: User[]) => {
               prevRow?._id === params.row._id
                 ? {
                     ...prevRow,
-                    [`${appAbbreviation}AccessLevel`]:
-                      params.value as AccessLevels
+                    accessLevel: {
+                      ...prevRow.accessLevel,
+                      [appAbbreviation as Apps]: params.value as AccessLevels
+                    }
                   }
                 : prevRow
             )
@@ -137,7 +137,10 @@ const useRowsAndCols = (users: User[]) => {
 
           return {
             ...params.row,
-            [`${appAbbreviation}AccessLevel`]: params.value
+            accessLevel: {
+              ...params.row.accessLevel,
+              [appAbbreviation as Apps]: params.value as AccessLevels
+            }
           }
         }
       }
@@ -152,7 +155,7 @@ const useRowsAndCols = (users: User[]) => {
       rows.map((row) => ({
         ...row,
         id: row._id,
-        permission: row[`${appAbbreviation}AccessLevel`]
+        permission: row.accessLevel[appAbbreviation]
       })),
     // change rows means appAbbreviation was changed
     // so we don't need to put another dependency

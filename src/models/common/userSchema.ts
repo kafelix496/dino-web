@@ -17,15 +17,17 @@ const userSchema = new mongoose.Schema({
     type: String
   },
   // NOTE: 496-1
-  faAccessLevel: {
-    type: String,
-    enum: Object.values(AccessLevels),
-    default: AccessLevels.NONE
-  },
-  mtAccessLevel: {
-    type: String,
-    enum: Object.values(AccessLevels),
-    default: AccessLevels.NONE
+  accessLevel: {
+    fa: {
+      type: String,
+      enum: Object.values(AccessLevels),
+      default: AccessLevels.NONE
+    },
+    mt: {
+      type: String,
+      enum: Object.values(AccessLevels),
+      default: AccessLevels.NONE
+    }
   }
 })
 

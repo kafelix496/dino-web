@@ -32,7 +32,7 @@ export default async function handler(
     const currentUser: User = await UserDoc.findOne({ _id: currentUserId })
 
     const currentUserAppAccessLevel =
-      currentUser[`${appAbbreviation as Apps}AccessLevel`]
+      currentUser.accessLevel[appAbbreviation as Apps]
 
     // if the user access-level is not super admin or admin, return error
     if (
@@ -62,7 +62,7 @@ export default async function handler(
 
         const user: User = await UserDoc.findByIdAndUpdate(
           targetUserId,
-          { [`${appAbbreviation}AccessLevel`]: newPermission },
+          { [`accessLevel.${appAbbreviation as Apps}`]: newPermission },
           { new: true, runValidators: true }
         )
 
