@@ -28,13 +28,13 @@ const AdminDrawer: FC<AdminDrawerProps> = ({ isSidebarNavOpen }) => {
     {
       iconComponent: <PhotoLibrary />,
       label: t('APP_NAME_FAMILY_ALBUM'),
-      url: `/app/${Apps.familyAlbum}/admin/users`,
+      url: `/app/${Apps.familyAlbum}/admin/user/list`,
       selected: appAbbreviation === Apps.familyAlbum
     },
     {
       iconComponent: <AttachMoney />,
       label: t('APP_NAME_MONEY_TRACKER'),
-      url: `/app/${Apps.moneyTracker}/admin/users`,
+      url: `/app/${Apps.moneyTracker}/admin/user/list`,
       selected: appAbbreviation === Apps.moneyTracker
     }
   ]

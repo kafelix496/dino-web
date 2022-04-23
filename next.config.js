@@ -15,7 +15,12 @@ module.exports = {
       {
         permanent: false,
         source: '/app/:appAbbreviation/admin',
-        destination: '/app/:appAbbreviation/admin/users'
+        destination: '/app/:appAbbreviation/admin/user/list'
+      },
+      {
+        permanent: false,
+        source: '/app/:appAbbreviation/admin/user',
+        destination: '/app/:appAbbreviation/admin/user/list'
       },
       {
         permanent: false,
