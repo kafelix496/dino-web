@@ -13,6 +13,7 @@
   "CREATED_AT": "생성 날짜",
   "DELETE_PROJECT_DIALOG_CONTENT": "정말로 지우시겠습니까? 이 작업은 되돌릴 수 없습니다.",
   "DELETE_PROJECT_DIALOG_TITLE": "프로젝트 삭제하기",
+  "DRAWER_MENU_ITEM_ALL": "전체",
   "EDIT_PROJECT_DIALOG_TITLE": "프로젝트 수정하기",
   "EMAIL": "이메일",
   "ERROR_ALERT_MESSAGE": "예상하지 못한 에러가 발생하였습니다. 나중에 다시 시도해주세요.",
