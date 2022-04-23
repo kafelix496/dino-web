@@ -49,7 +49,7 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
       setPaletteMode(
         Object.values(PaletteMode).includes(savedPaletteMode as PaletteMode)
           ? (savedPaletteMode as PaletteMode)
-          : PaletteMode.SYSTEM
+          : PaletteMode.LIGHT
       )
     )
 
