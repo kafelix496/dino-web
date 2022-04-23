@@ -8,7 +8,6 @@ export const COOKIES_OPTION = {
 
 export enum PaletteMode {
   LIGHT = 'light',
-  SYSTEM = 'system',
   DARK = 'dark'
 }
 

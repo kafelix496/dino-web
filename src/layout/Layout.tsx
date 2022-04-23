@@ -10,7 +10,6 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
-import useMediaQuery from '@mui/material/useMediaQuery'
 
 import { PaletteMode } from '@/constants'
 import { selectPaletteMode } from '@/redux-selectors'
@@ -24,8 +23,6 @@ const SidebarNavDrawer = dynamic(
   () => import('./SidebarNavDrawer/SidebarNavDrawer')
 )
 const SettingsDrawer = dynamic(() => import('./SettingsDrawer/SettingsDrawer'))
-
-const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)'
 
 interface LayoutProps {
   children: ReactNode
@@ -41,12 +38,8 @@ const Layout: FC<LayoutProps> = ({
   const [isSidebarNavOpen, setSidebarNavOpen] =
     useSidebarNavState(isSidebarNavOpenInit)
   const [isSettingsOpen, setSettingsOpen] = useState(false)
-  const prefersDarkMode = useMediaQuery(COLOR_SCHEME_QUERY)
   const { theme } = useTheme({
-    isDarkMode:
-      paletteMode !== PaletteMode.SYSTEM
-        ? paletteMode === PaletteMode.DARK
-        : prefersDarkMode ?? false
+    isDarkMode: paletteMode === PaletteMode.DARK
   })
   const DrawerContent = useDrawerContent()
 

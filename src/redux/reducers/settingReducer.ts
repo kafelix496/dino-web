@@ -7,7 +7,7 @@ import { ActionType } from '@/redux-types/setting'
 import type { Action, State } from '@/redux-types/setting'
 
 const initialState: State = {
-  paletteMode: PaletteMode.SYSTEM,
+  paletteMode: PaletteMode.LIGHT,
   locale: Locale.EN
 }
 
