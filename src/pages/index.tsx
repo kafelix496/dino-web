@@ -15,7 +15,7 @@ const appList = [
   {
     link: {
       // default to admin family album users
-      pathname: '/app/fa/admin/users'
+      pathname: '/app/fa/admin/user/list'
     },
     name: 'APP_NAME_ADMIN',
     shouldAdmin: true,
