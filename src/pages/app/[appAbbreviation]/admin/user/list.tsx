@@ -3,7 +3,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Box from '@mui/material/Box'
 
-import UsersDataGrid from '@/components/admin/UsersDataGrid/UsersDataGrid'
+import UserList from '@/components/admin/UserList/UserList'
 import { Apps } from '@/constants'
 import adminUserHttpService from '@/http-services/adminUser'
 import type { User } from '@/types'
@@ -20,7 +20,7 @@ const Page: NextPage<PageProps> = ({ users }) => {
     >
       <Box sx={{ width: '100%', height: 700, maxHeight: '100%' }}>
         <Box className="__d-w-full __d-h-full">
-          <UsersDataGrid users={users} />
+          <UserList users={users} />
         </Box>
       </Box>
     </Box>

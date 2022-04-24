@@ -2,7 +2,7 @@ import { getMockUser, getMockUsers } from '@/mock-data/user.mockData'
 import { selectUser } from '@/redux-selectors'
 import { render, screen } from '@/utils/test-utils'
 
-import UsersDataGrid from './UsersDataGrid'
+import UserList from './UserList'
 
 jest.mock('@/redux-selectors', () => {
   const originalModule = jest.requireActual('@/redux-selectors')
@@ -14,7 +14,7 @@ jest.mock('@/redux-selectors', () => {
   }
 })
 
-describe('#UsersDataGrid', () => {
+describe('#UserList', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -25,7 +25,7 @@ describe('#UsersDataGrid', () => {
 
     ;(selectUser as jest.Mock).mockReturnValueOnce(mockUser)
 
-    render(<UsersDataGrid users={mockUsers} />)
+    render(<UserList users={mockUsers} />)
 
     const user1Email = screen.getByText('dino.test4962@gmail.com')
     expect(user1Email).toBeInTheDocument()
