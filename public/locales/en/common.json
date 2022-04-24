@@ -13,6 +13,7 @@
   "CREATED_AT": "Created at",
   "DELETE_PROJECT_DIALOG_CONTENT": "Are you sure? You can not undo this.",
   "DELETE_PROJECT_DIALOG_TITLE": "Delete project",
+  "DRAWER_MENU_ITEM_ALL": "All",
   "EDIT_PROJECT_DIALOG_TITLE": "Edit project",
   "EMAIL": "Email",
   "ERROR_ALERT_MESSAGE": "Unexpected error occured. Please try it again later.",

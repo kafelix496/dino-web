@@ -6,7 +6,9 @@ import { Apps } from '@/constants'
 const AdminDrawer = dynamic(
   () => import('./SidebarNavDrawer/AdminDrawer/AdminDrawer')
 )
-
+const FamilyAlbumDrawer = dynamic(
+  () => import('./SidebarNavDrawer/FamilyAlbumDrawer/FamilyAlbumDrawer')
+)
 const MoneyTrackerDrawer = dynamic(
   () => import('./SidebarNavDrawer/MoneyTrackerDrawer/MoneyTrackerDrawer')
 )
@@ -16,14 +18,18 @@ const useDrawerContent = () => {
   const pathname = router.asPath
 
   if (
-    Object.values(Apps).some((app) =>
-      new RegExp(`^/app/${app}/admin/user/list$`).test(pathname)
+    Object.values(Apps).some((appAbbreviation) =>
+      new RegExp(`^/app/${appAbbreviation}/admin/user/list$`).test(pathname)
     )
   ) {
     return AdminDrawer
   }
 
-  if (new RegExp(`^/${Apps.moneyTracker}/`).test(pathname)) {
+  if (new RegExp(`^/app/${Apps.familyAlbum}/`).test(pathname)) {
+    return FamilyAlbumDrawer
+  }
+
+  if (new RegExp(`^/app/${Apps.moneyTracker}/`).test(pathname)) {
     return MoneyTrackerDrawer
   }
 

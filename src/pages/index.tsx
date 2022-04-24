@@ -8,6 +8,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
+import { Apps } from '@/constants'
 import { selectUser } from '@/redux-selectors'
 import { hasAccessAdminPage } from '@/utils'
 
@@ -15,7 +16,7 @@ const appList = [
   {
     link: {
       // default to admin family album users
-      pathname: '/app/fa/admin/user/list'
+      pathname: `/app/${Apps.familyAlbum}/admin/user/list`
     },
     name: 'APP_NAME_ADMIN',
     shouldAdmin: true,
@@ -23,7 +24,15 @@ const appList = [
   },
   {
     link: {
-      pathname: '/app/mt/project/list'
+      pathname: `/app/${Apps.familyAlbum}/album/list`
+    },
+    name: 'APP_NAME_FAMILY_ALBUM',
+    shouldAdmin: false,
+    needAuth: true
+  },
+  {
+    link: {
+      pathname: `/app/${Apps.moneyTracker}/project/list`
     },
     name: 'APP_NAME_MONEY_TRACKER',
     shouldAdmin: false,

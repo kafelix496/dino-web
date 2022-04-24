@@ -4,6 +4,8 @@ import { createTheme } from '@mui/material'
 import type { Theme } from '@mui/material'
 import { grey, indigo } from '@mui/material/colors'
 
+import { PaletteMode } from '@/constants'
+
 const useTheme = ({
   isDarkMode
 }: {
@@ -13,7 +15,7 @@ const useTheme = ({
     () =>
       createTheme({
         palette: {
-          mode: isDarkMode ? 'dark' : 'light',
+          mode: isDarkMode ? PaletteMode.DARK : PaletteMode.LIGHT,
           primary: { main: isDarkMode ? indigo[400] : indigo[600] },
           secondary: { main: isDarkMode ? grey[300] : grey[700] }
         },

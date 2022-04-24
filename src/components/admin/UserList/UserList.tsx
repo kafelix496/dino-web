@@ -6,11 +6,11 @@ import type { User } from '@/types'
 
 import useRowsAndCols from './useRowsAndCols'
 
-interface UsersDataGridProps {
+interface UserListProps {
   users: User[]
 }
 
-const UsersDataGrid: FC<UsersDataGridProps> = ({ users }) => {
+const UserList: FC<UserListProps> = ({ users }) => {
   const { isLoading, rows, columns } = useRowsAndCols(users)
 
   return (
@@ -30,4 +30,4 @@ const UsersDataGrid: FC<UsersDataGridProps> = ({ users }) => {
   )
 }
 
-export default UsersDataGrid
+export default UserList
