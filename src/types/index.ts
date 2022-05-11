@@ -13,7 +13,7 @@ interface AccessUser {
 export interface User {
   _id: string
   name: string
-  email?: string
+  email: string
   emailVerified: null
   image: string
   // NOTE: 496-1

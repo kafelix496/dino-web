@@ -2,5 +2,6 @@ export enum CollectionsName {
   USER = 'user',
   PROJECT = 'project',
   ACCOUNT = 'account',
-  SESSION = 'session'
+  SESSION = 'session',
+  ASSET = 'asset'
 }
