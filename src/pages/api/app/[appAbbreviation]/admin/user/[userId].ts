@@ -22,9 +22,9 @@ export default async function handler(
 
     await dbConnect()
 
-    const UserDoc = createDocument(CollectionName.USER, userSchema)
+    const userDoc = createDocument(CollectionName.USER, userSchema)
 
-    const currentUser: User = await UserDoc.findOne({ _id: currentUserId })
+    const currentUser: User = await userDoc.findOne({ _id: currentUserId })
 
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
 
@@ -54,7 +54,7 @@ export default async function handler(
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        const user: User = await UserDoc.findByIdAndUpdate(
+        const user: User = await userDoc.findByIdAndUpdate(
           targetUserId,
           { [`accessLevel.${appAbbreviation}`]: newPermission },
           { new: true, runValidators: true }

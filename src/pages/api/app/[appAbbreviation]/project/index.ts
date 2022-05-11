@@ -24,14 +24,14 @@ export default async function handler(
 
     await dbConnect()
 
-    const ProjectDoc = createDocument(
+    const projectDoc = createDocument(
       `${appAbbreviation}.${CollectionName.PROJECT}`,
       projectSchema
     )
 
     switch (req?.method) {
       case 'GET': {
-        const projects = await ProjectDoc.find({
+        const projects = await projectDoc.find({
           $or: [
             { ownerId: currentUserId },
             { accessUsers: { $elemMatch: { accessUserId: currentUserId } } }
@@ -48,7 +48,7 @@ export default async function handler(
       case 'POST': {
         const { title, description } = req?.body ?? {}
 
-        const project: Project = await ProjectDoc.create({
+        const project: Project = await projectDoc.create({
           title: title ?? '',
           description: description ?? '',
           ownerId: currentUserId

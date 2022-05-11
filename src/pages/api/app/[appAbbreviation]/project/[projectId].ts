@@ -27,14 +27,14 @@ export default async function handler(
 
     await dbConnect()
 
-    const ProjectDoc = createDocument(
+    const projectDoc = createDocument(
       `${appAbbreviation}.${CollectionName.PROJECT}`,
       projectSchema
     )
 
     switch (req?.method) {
       case 'GET': {
-        const project = await ProjectDoc.findOne({
+        const project = await projectDoc.findOne({
           $and: [
             { _id: projectId },
             {
@@ -56,7 +56,7 @@ export default async function handler(
       case 'PUT': {
         const { title, description } = req?.body ?? {}
 
-        const project: Project = await ProjectDoc.findOneAndUpdate(
+        const project: Project = await projectDoc.findOneAndUpdate(
           {
             $and: [
               { _id: projectId },
@@ -82,7 +82,7 @@ export default async function handler(
       }
 
       case 'DELETE': {
-        const deleteResult = await ProjectDoc.deleteOne({
+        const deleteResult = await projectDoc.deleteOne({
           $and: [
             { _id: projectId },
             {

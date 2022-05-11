@@ -19,9 +19,9 @@ export default async function handler(
 
     await dbConnect()
 
-    const UserDoc = createDocument(CollectionName.USER, userSchema)
+    const userDoc = createDocument(CollectionName.USER, userSchema)
 
-    const currentUser: User = await UserDoc.findOne({ _id: currentUserId })
+    const currentUser: User = await userDoc.findOne({ _id: currentUserId })
 
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
 
@@ -37,7 +37,7 @@ export default async function handler(
       case 'GET': {
         const users: User[] = await (() => {
           if (currentUserAppAccessLevel === AccessLevels.SUPER_ADMIN) {
-            return UserDoc.find({
+            return userDoc.find({
               [`accessLevel.${appAbbreviation}`]: {
                 $ne: AccessLevels.SUPER_ADMIN
               }
@@ -46,7 +46,7 @@ export default async function handler(
 
           // if user-app-access-level is admin
           // because only super-admin and admin can go through here
-          return UserDoc.find({
+          return userDoc.find({
             $and: [
               {
                 [`accessLevel.${appAbbreviation}`]: {

@@ -19,11 +19,11 @@ export default async function handler(
 
     switch (req?.method) {
       case 'GET': {
-        const UserDoc = createDocument(CollectionName.USER, userSchema)
+        const userDoc = createDocument(CollectionName.USER, userSchema)
 
-        const currentUser: User = await UserDoc.findOne({ _id: userId })
+        const user: User = await userDoc.findOne({ _id: userId })
 
-        return res.status(200).json(currentUser)
+        return res.status(200).json(user)
       }
 
       default:
