@@ -15,7 +15,10 @@ export default async function handler(
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
-    const { appAbbreviation: appAbbreviation, projectId } = req.query
+    const { appAbbreviation, projectId } = req.query as {
+      appAbbreviation: Apps
+      projectId: unknown
+    }
     // NOTE: 496-1
     // only money tracker can execute below codes
     if (appAbbreviation !== Apps.moneyTracker) {

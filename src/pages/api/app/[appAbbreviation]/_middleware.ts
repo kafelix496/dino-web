@@ -19,7 +19,7 @@ export async function middleware(req: NextRequest) {
 
   const url = req.nextUrl.clone()
   if (!isValidAppAbbreviationPathname(url.pathname)) {
-    return new Response(JSON.stringify({ message: 'SEM_UNEXPECTED_ERROR' }), {
+    return new Response(JSON.stringify({ message: 'SEM_QUERY_NOT_ALLOWED' }), {
       status: 400,
       headers: {
         'Content-Type': 'application/json'

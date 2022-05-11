@@ -6,7 +6,6 @@ import { CollectionName } from '@/constants/collection'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import { isValidApp } from '@/utils'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
@@ -16,10 +15,7 @@ export default async function handler(
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
-    const appAbbreviation = req.query.appAbbreviation
-    if (!isValidApp(appAbbreviation)) {
-      return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
-    }
+    const appAbbreviation = req.query.appAbbreviation as unknown as Apps
 
     await dbConnect()
 
@@ -27,8 +23,7 @@ export default async function handler(
 
     const currentUser: User = await UserDoc.findOne({ _id: currentUserId })
 
-    const currentUserAppAccessLevel =
-      currentUser.accessLevel[appAbbreviation as Apps]
+    const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
 
     // if the user access-level is not super admin or admin, return error
     if (
@@ -43,7 +38,7 @@ export default async function handler(
         const users: User[] = await (() => {
           if (currentUserAppAccessLevel === AccessLevels.SUPER_ADMIN) {
             return UserDoc.find({
-              [`accessLevel.${appAbbreviation as Apps}`]: {
+              [`accessLevel.${appAbbreviation}`]: {
                 $ne: AccessLevels.SUPER_ADMIN
               }
             })
@@ -54,12 +49,12 @@ export default async function handler(
           return UserDoc.find({
             $and: [
               {
-                [`accessLevel.${appAbbreviation as Apps}`]: {
+                [`accessLevel.${appAbbreviation}`]: {
                   $ne: AccessLevels.SUPER_ADMIN
                 }
               },
               {
-                [`accessLevel.${appAbbreviation as Apps}`]: {
+                [`accessLevel.${appAbbreviation}`]: {
                   $ne: AccessLevels.ADMIN
                 }
               }
