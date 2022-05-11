@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
 import { Apps } from '@/constants'
-import { CollectionName } from '@/constants/collection'
+import { CollectionsName } from '@/constants/collection'
 import projectSchema from '@/models/common/projectSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { Project } from '@/types'
@@ -28,7 +28,7 @@ export default async function handler(
     await dbConnect()
 
     const projectDoc = createDocument(
-      `${appAbbreviation}.${CollectionName.PROJECT}`,
+      `${appAbbreviation}.${CollectionsName.PROJECT}`,
       projectSchema
     )
 

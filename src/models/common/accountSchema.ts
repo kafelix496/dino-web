@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { CollectionName } from '@/constants/collection'
+import { CollectionsName } from '@/constants/collection'
 
 const accountSchema = new mongoose.Schema(
   {
@@ -30,7 +30,7 @@ const accountSchema = new mongoose.Schema(
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: CollectionName.USER
+      ref: CollectionsName.USER
     }
   },
   {

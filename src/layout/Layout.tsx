@@ -11,7 +11,7 @@ import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
 
-import { PaletteMode } from '@/constants'
+import { PaletteModes } from '@/constants'
 import { selectPaletteMode } from '@/redux-selectors'
 
 import Header from './Header/Header'
@@ -39,7 +39,7 @@ const Layout: FC<LayoutProps> = ({
     useSidebarNavState(isSidebarNavOpenInit)
   const [isSettingsOpen, setSettingsOpen] = useState(false)
   const { theme } = useTheme({
-    isDarkMode: paletteMode === PaletteMode.DARK
+    isDarkMode: paletteMode === PaletteModes.DARK
   })
   const DrawerContent = useDrawerContent()
 

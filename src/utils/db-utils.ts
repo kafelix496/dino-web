@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import type { Account } from 'next-auth'
 import type { Adapter, AdapterSession, AdapterUser } from 'next-auth/adapters'
 
-import { CollectionName } from '@/constants/collection'
+import { CollectionsName } from '@/constants/collection'
 import accountSchema from '@/models/common/accountSchema'
 import sessionSchema from '@/models/common/sessionSchema'
 import userSchema from '@/models/common/userSchema'
@@ -49,9 +49,9 @@ export function MongooseAdapter(): Adapter {
     await dbConnect()
   })()
 
-  const UserModel = createDocument(CollectionName.USER, userSchema)
-  const AccountModel = createDocument(CollectionName.ACCOUNT, accountSchema)
-  const SessionModel = createDocument(CollectionName.SESSION, sessionSchema)
+  const UserModel = createDocument(CollectionsName.USER, userSchema)
+  const AccountModel = createDocument(CollectionsName.ACCOUNT, accountSchema)
+  const SessionModel = createDocument(CollectionsName.SESSION, sessionSchema)
 
   return {
     async createUser(data) {

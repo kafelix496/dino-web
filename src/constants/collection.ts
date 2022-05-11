@@ -1,4 +1,4 @@
-export enum CollectionName {
+export enum CollectionsName {
   USER = 'user',
   PROJECT = 'project',
   ACCOUNT = 'account',

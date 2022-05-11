@@ -1,13 +1,13 @@
 import mongoose from 'mongoose'
 
 import { AccessLevels } from '@/constants'
-import { CollectionName } from '@/constants/collection'
+import { CollectionsName } from '@/constants/collection'
 
 const accessUserSchema = new mongoose.Schema(
   {
     accessUserId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: CollectionName.USER,
+      ref: CollectionsName.USER,
       required: true
     },
     accessLevel: {
@@ -41,7 +41,7 @@ const projectSchema = new mongoose.Schema(
     },
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: CollectionName.USER,
+      ref: CollectionsName.USER,
       required: true
     },
     accessUsers: {

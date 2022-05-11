@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
-import { CollectionName } from '@/constants/collection'
+import { CollectionsName } from '@/constants/collection'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
@@ -19,7 +19,7 @@ export default async function handler(
 
     await dbConnect()
 
-    const userDoc = createDocument(CollectionName.USER, userSchema)
+    const userDoc = createDocument(CollectionsName.USER, userSchema)
 
     const currentUser: User = await userDoc.findOne({ _id: currentUserId })
 
