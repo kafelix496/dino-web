@@ -14,11 +14,7 @@ export default async function handler(
 ) {
   try {
     const token = await getToken({ req })
-    const currentUserId = token?.sub
-    if (!currentUserId) {
-      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
-    }
-
+    const currentUserId = token!.sub!
     const appAbbreviation = req.query.appAbbreviation
     // NOTE: 496-1
     // only money tracker can execute below codes
