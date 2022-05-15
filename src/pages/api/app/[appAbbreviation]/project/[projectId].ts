@@ -54,7 +54,7 @@ export default async function handler(
       }
 
       case 'PUT': {
-        const { title, description } = req?.body ?? {}
+        const { title, description } = req.body ?? {}
 
         const project: Project = await projectDoc.findOneAndUpdate(
           {
@@ -70,7 +70,7 @@ export default async function handler(
               }
             ]
           },
-          { title: title ?? '', description: description ?? '' },
+          { title, description: description ?? '' },
           { new: true, runValidators: true }
         )
 

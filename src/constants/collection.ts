@@ -3,5 +3,6 @@ export enum CollectionsName {
   PROJECT = 'project',
   ACCOUNT = 'account',
   SESSION = 'session',
-  ASSET = 'asset'
+  ALBUM_ASSET = 'album-asset',
+  ALBUM_CATEGORY = 'album-category'
 }

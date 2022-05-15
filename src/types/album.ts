@@ -20,3 +20,8 @@ export interface Asset extends AssetDefault {
   like: Like[]
   comments: Comment[]
 }
+
+export interface Category {
+  _id: string
+  name: string
+}

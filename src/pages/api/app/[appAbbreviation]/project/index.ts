@@ -15,7 +15,7 @@ export default async function handler(
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
-    const appAbbreviation = req.query.appAbbreviation
+    const appAbbreviation = req.query.appAbbreviation as unknown as Apps
     // NOTE: 496-1
     // only money tracker can execute below codes
     if (appAbbreviation !== Apps.moneyTracker) {
@@ -46,10 +46,10 @@ export default async function handler(
       }
 
       case 'POST': {
-        const { title, description } = req?.body ?? {}
+        const { title, description } = req.body ?? {}
 
         const project: Project = await projectDoc.create({
-          title: title ?? '',
+          title,
           description: description ?? '',
           ownerId: currentUserId
         })

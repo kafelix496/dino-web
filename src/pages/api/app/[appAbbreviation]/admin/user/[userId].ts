@@ -23,11 +23,8 @@ export default async function handler(
     await dbConnect()
 
     const userDoc = createDocument(CollectionsName.USER, userSchema)
-
     const currentUser: User = await userDoc.findOne({ _id: currentUserId })
-
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
-
     // if the user access-level is not super admin or admin, return error
     if (
       currentUserAppAccessLevel !== AccessLevels.SUPER_ADMIN &&
@@ -38,7 +35,7 @@ export default async function handler(
 
     switch (req?.method) {
       case 'PUT': {
-        const newPermission = req?.body.permission
+        const newPermission = req.body?.permission
 
         // there is no way the user can set super admin
         if (newPermission === AccessLevels.SUPER_ADMIN) {
