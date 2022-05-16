@@ -9,7 +9,11 @@ const assetSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    like: likeSchema,
+    like: {
+      type: likeSchema,
+      required: true,
+      default: { clicked: false, users: [] }
+    },
     comments: [commentSchema]
   },
   {

@@ -8,7 +8,11 @@ import likeSchema from '@/models/album/likeSchema'
 const postSchema = new mongoose.Schema(
   {
     categories: [categorySchema],
-    like: likeSchema,
+    like: {
+      type: likeSchema,
+      required: true,
+      default: { clicked: false, users: [] }
+    },
     assets: [assetSchema],
     comments: [commentSchema]
   },

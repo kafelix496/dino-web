@@ -29,7 +29,7 @@ export default async function handler(
       projectSchema
     )
 
-    switch (req?.method) {
+    switch (req.method) {
       case 'GET': {
         const projects = await projectDoc.find({
           $or: [

@@ -37,7 +37,7 @@ export default async function handler(
       categorySchema
     )
 
-    switch (req?.method) {
+    switch (req.method) {
       case 'GET': {
         const categories: Category[] = await categoryDoc.find()
 

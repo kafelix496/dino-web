@@ -25,3 +25,11 @@ export interface Category {
   _id: string
   name: string
 }
+
+export interface Post {
+  _id: string
+  categories: Category[]
+  like: Like
+  assets: AssetDefault[]
+  comments: Comment[]
+}

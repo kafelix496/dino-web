@@ -17,7 +17,7 @@ export default async function handler(
 
     await dbConnect()
 
-    switch (req?.method) {
+    switch (req.method) {
       case 'GET': {
         const userDoc = createDocument(CollectionsName.USER, userSchema)
 

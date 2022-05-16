@@ -43,7 +43,7 @@ export default async function handler(
       categorySchema
     )
 
-    switch (req?.method) {
+    switch (req.method) {
       case 'PUT': {
         const name = req.body?.name
 

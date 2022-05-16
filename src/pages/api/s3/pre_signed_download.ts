@@ -12,7 +12,7 @@ export default async function handler(
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
     }
 
-    switch (req?.method) {
+    switch (req.method) {
       case 'GET': {
         const url = await getDownloadUrl(key, {
           bucket: process.env.AWS_BUCKET_NAME,

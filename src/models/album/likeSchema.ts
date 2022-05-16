@@ -12,7 +12,8 @@ const UserSchema = new mongoose.Schema(
     }
   },
   {
-    versionKey: false
+    versionKey: false,
+    _id: false
   }
 )
 
@@ -20,12 +21,14 @@ const likeSchema = new mongoose.Schema(
   {
     clicked: {
       type: Boolean,
-      required: true
+      required: true,
+      default: false
     },
     users: [UserSchema]
   },
   {
-    versionKey: false
+    versionKey: false,
+    _id: false
   }
 )
 

@@ -22,7 +22,7 @@ export default async function handler(
 
     await dbConnect()
 
-    switch (req?.method) {
+    switch (req.method) {
       case 'GET': {
         const assetDoc = createDocument(
           CollectionsName.ALBUM_ASSET,

@@ -33,7 +33,7 @@ export default async function handler(
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
-    switch (req?.method) {
+    switch (req.method) {
       case 'PUT': {
         const newPermission = req.body?.permission
 
