@@ -4,10 +4,26 @@ import type { Account } from 'next-auth'
 import type { Adapter, AdapterSession, AdapterUser } from 'next-auth/adapters'
 
 import { CollectionsName } from '@/constants/collection'
+import albumAssetSchema from '@/models/album/assetSchema'
+import albumCategorySchema from '@/models/album/categorySchema'
+import albumCommentSchema from '@/models/album/commentSchema'
+import albumPostSchema from '@/models/album/postSchema'
+import albumReactionSchema from '@/models/album/reactionSchema'
 import accountSchema from '@/models/common/accountSchema'
+import projectSchema from '@/models/common/projectSchema'
 import sessionSchema from '@/models/common/sessionSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
+
+createDocument(CollectionsName.USER, userSchema)
+createDocument(CollectionsName.PROJECT, projectSchema)
+createDocument(CollectionsName.ACCOUNT, accountSchema)
+createDocument(CollectionsName.SESSION, sessionSchema)
+createDocument(CollectionsName.ALBUM_POST, albumPostSchema)
+createDocument(CollectionsName.ALBUM_ASSET, albumAssetSchema)
+createDocument(CollectionsName.ALBUM_CATEGORY, albumCategorySchema)
+createDocument(CollectionsName.ALBUM_REACTION, albumReactionSchema)
+createDocument(CollectionsName.ALBUM_COMMENT, albumCommentSchema)
 
 export async function dbConnect() {
   if (mongoose.connection.readyState >= 1) {

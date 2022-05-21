@@ -1,31 +1,25 @@
-import mongoose from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
 import { CollectionsName } from '@/constants/collection'
-import assetSchema from '@/models/album/assetSchema'
+import commentSchema from '@/models/album/commentSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { Asset, ReactionResponse } from '@/types/album'
-import {
-  generateLookupForComments,
-  generateLookupForReactions,
-  transformReactionsForClient
-} from '@/utils/album'
+import type { CommentResponse } from '@/types/album'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Asset | { message?: string }>
+  res: NextApiResponse<CommentResponse | { message?: string }>
 ) {
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
-    const { appAbbreviation, assetId } = req.query as {
+    const { appAbbreviation, commentId } = req.query as {
       appAbbreviation: Apps
-      assetId: unknown
+      commentId: string
     }
     if (appAbbreviation !== Apps.familyAlbum) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
@@ -44,32 +38,32 @@ export default async function handler(
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
+    const commentDoc = createDocument(
+      CollectionsName.ALBUM_COMMENT,
+      commentSchema
+    )
+
     switch (req.method) {
-      case 'GET': {
-        const assetDoc = createDocument(
-          CollectionsName.ALBUM_ASSET,
-          assetSchema
+      case 'PUT': {
+        const { content } = req.body ?? {}
+
+        const comment: CommentResponse = await commentDoc.findOneAndUpdate(
+          { _id: commentId },
+          { content: content ?? '' },
+          { new: true, runValidators: true }
         )
 
-        const [asset]: Asset[] = await assetDoc.aggregate([
-          {
-            $match: { _id: new mongoose.Types.ObjectId(assetId as string) }
-          },
-          generateLookupForComments(1, CollectionsName.ALBUM_ASSET),
-          generateLookupForReactions(CollectionsName.ALBUM_ASSET)
-        ])
-
-        if (!asset) {
+        if (!comment) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json({
-          ...asset,
-          reaction: transformReactionsForClient(
-            currentUserId,
-            asset.reaction as unknown as ReactionResponse[]
-          )
-        })
+        return res.status(200).json(comment)
+      }
+
+      case 'DELETE': {
+        await commentDoc.deleteOne({ _id: commentId })
+
+        return res.status(200).end()
       }
 
       default:

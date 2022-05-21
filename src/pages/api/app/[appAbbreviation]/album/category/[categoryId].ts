@@ -61,11 +61,7 @@ export default async function handler(
       }
 
       case 'DELETE': {
-        const deleteResult = await categoryDoc.deleteOne({ _id: categoryId })
-
-        if (!deleteResult) {
-          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
-        }
+        await categoryDoc.deleteOne({ _id: categoryId })
 
         return res.status(200).end()
       }

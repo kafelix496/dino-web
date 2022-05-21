@@ -1,32 +1,23 @@
-import mongoose from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
 import { CollectionsName } from '@/constants/collection'
-import assetSchema from '@/models/album/assetSchema'
+import reactionSchema from '@/models/album/reactionSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { Asset, ReactionResponse } from '@/types/album'
-import {
-  generateLookupForComments,
-  generateLookupForReactions,
-  transformReactionsForClient
-} from '@/utils/album'
+import type { ReactionResponse } from '@/types/album'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Asset | { message?: string }>
+  res: NextApiResponse<ReactionResponse | { message?: string }>
 ) {
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
-    const { appAbbreviation, assetId } = req.query as {
-      appAbbreviation: Apps
-      assetId: unknown
-    }
+    const appAbbreviation = req.query.appAbbreviation as Apps
     if (appAbbreviation !== Apps.familyAlbum) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
     }
@@ -45,31 +36,31 @@ export default async function handler(
     }
 
     switch (req.method) {
-      case 'GET': {
-        const assetDoc = createDocument(
-          CollectionsName.ALBUM_ASSET,
-          assetSchema
+      case 'POST': {
+        const { parent, parentId, status } = req.body ?? {}
+
+        const reactionDoc = createDocument(
+          CollectionsName.ALBUM_REACTION,
+          reactionSchema
         )
 
-        const [asset]: Asset[] = await assetDoc.aggregate([
-          {
-            $match: { _id: new mongoose.Types.ObjectId(assetId as string) }
-          },
-          generateLookupForComments(1, CollectionsName.ALBUM_ASSET),
-          generateLookupForReactions(CollectionsName.ALBUM_ASSET)
-        ])
+        await reactionDoc.deleteMany({
+          parent,
+          parentId,
+          user: currentUserId
+        })
 
-        if (!asset) {
+        const reaction: ReactionResponse = await reactionDoc.create({
+          parent,
+          parentId,
+          user: currentUserId,
+          status
+        })
+        if (!reaction) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json({
-          ...asset,
-          reaction: transformReactionsForClient(
-            currentUserId,
-            asset.reaction as unknown as ReactionResponse[]
-          )
-        })
+        return res.status(201).json(reaction)
       }
 
       default:

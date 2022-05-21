@@ -13,6 +13,6 @@ const categorySchema = new mongoose.Schema(
   }
 )
 
-categorySchema.set('timestamps', true)
+categorySchema.set('timestamps', false)
 
 export default categorySchema

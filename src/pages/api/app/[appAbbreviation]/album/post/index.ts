@@ -3,11 +3,18 @@ import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
 import { CollectionsName } from '@/constants/collection'
+import assetSchema from '@/models/album/assetSchema'
 import postSchema from '@/models/album/postSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { Post } from '@/types/album'
+import type { Post, ReactionResponse } from '@/types/album'
+import {
+  generateLookupForComments,
+  generateLookupForReactions,
+  getDefaultReaction,
+  transformReactionsForClient
+} from '@/utils/album'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
@@ -19,10 +26,7 @@ export default async function handler(
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
-    const { appAbbreviation, page } = req.query as {
-      appAbbreviation: Apps
-      page: unknown
-    }
+    const appAbbreviation = req.query.appAbbreviation as Apps
 
     await dbConnect()
 
@@ -41,49 +45,103 @@ export default async function handler(
 
     switch (req.method) {
       case 'GET': {
+        const { page } = req.query
+
         if (Array.isArray(page) || !/^[1-9](\d+)?$/.test(page as string)) {
           return res.status(401).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
         }
 
-        // TODO
-        // I want to get the result with a single request
-        // but I don't know how to use aggregate.
         const total = await postDoc.countDocuments({})
-        const posts: Post[] = await postDoc
-          .find(
-            {},
-            {
-              comments: { $slice: 25 },
-              'like.users': { $slice: 3 },
-              'assets.comments': 0,
-              'assets.like': 0,
-              'assets.createdAt': 0,
-              'assets.updatedAt': 0
+        const posts: Post[] = await postDoc.aggregate([
+          {
+            $skip: (parseInt(page as string) - 1) * 25
+          },
+          {
+            $limit: 25
+          },
+          {
+            $lookup: {
+              from: CollectionsName.ALBUM_CATEGORY,
+              localField: 'categories',
+              foreignField: '_id',
+              as: 'categories'
             }
-          )
-          .skip((parseInt(page as string) - 1) * 25)
-          .limit(25)
+          },
+          {
+            $lookup: {
+              from: CollectionsName.ALBUM_ASSET,
+              localField: 'assets',
+              foreignField: '_id',
+              as: 'assets'
+            }
+          },
+          generateLookupForComments(1, CollectionsName.ALBUM_POST),
+          generateLookupForReactions(CollectionsName.ALBUM_POST)
+        ])
 
         if (!total || !posts) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json({ total, posts })
+        return res.status(200).json({
+          total,
+          posts: posts.map((post) => ({
+            ...post,
+            reaction: transformReactionsForClient(
+              currentUserId,
+              post.reaction as unknown as ReactionResponse[]
+            ),
+            comments: post.comments.map((comment) => ({
+              ...comment,
+              reaction: transformReactionsForClient(
+                currentUserId,
+                comment.reaction as unknown as ReactionResponse[]
+              )
+            }))
+          }))
+        })
       }
 
       case 'POST': {
-        const { assets, categories } = req.body ?? {}
+        const { assetsKey, categoriesId } = req.body ?? {}
 
-        const post: Post = await postDoc.create({
-          assets,
-          categories: categories ?? []
+        const assetDoc = createDocument(
+          CollectionsName.ALBUM_ASSET,
+          assetSchema
+        )
+
+        const assets = await assetDoc.create(
+          (assetsKey as string[]).map((key) => ({ key }))
+        )
+        if (!assets) {
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
+        }
+
+        const post = await postDoc.create({
+          assets: assets.map((asset) => asset._id),
+          categories: categoriesId ?? []
         })
-
         if (!post) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(201).json(post)
+        const newPost = await postDoc
+          .findOne({ _id: post._id })
+          .populate('assets')
+          .populate('categories')
+        if (!newPost) {
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
+        }
+
+        return res.status(201).json({
+          ...newPost._doc,
+          reaction: {
+            _id: null,
+            status: null,
+            items: getDefaultReaction()
+          },
+          comments: []
+        })
       }
 
       default:

@@ -82,7 +82,7 @@ export default async function handler(
       }
 
       case 'DELETE': {
-        const deleteResult = await projectDoc.deleteOne({
+        await projectDoc.deleteOne({
           $and: [
             { _id: projectId },
             {
@@ -93,10 +93,6 @@ export default async function handler(
             }
           ]
         })
-
-        if (!deleteResult) {
-          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
-        }
 
         return res.status(200).end()
       }
