@@ -32,6 +32,12 @@ declare module 'ramda' {
   export function transduce(...rest: any[]): any
 }
 
+declare module 'react-redux' {
+  export function useDispatch():
+    | ThunkDispatch<RootState, void, AnyAction>
+    | Dispatch<AnyAction>
+}
+
 // TODO:
 // after I update to react18, it complains about this
 // but I want to remove this one day
