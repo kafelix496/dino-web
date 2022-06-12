@@ -3,19 +3,27 @@ import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
 import { CollectionsName } from '@/constants/collection'
+import commentSchema from '@/models/album/commentSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
+import type { CommentResponse } from '@/types/album'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<User[] | { message: string }>
+  res: NextApiResponse<CommentResponse | { message?: string }>
 ) {
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
-    const appAbbreviation = req.query.appAbbreviation as unknown as Apps
+    const { appAbbreviation, commentId } = req.query as {
+      appAbbreviation: Apps
+      commentId: string
+    }
+    if (appAbbreviation !== Apps.familyAlbum) {
+      return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
+    }
 
     await dbConnect()
 
@@ -30,40 +38,32 @@ export default async function handler(
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
+    const commentDoc = createDocument(
+      CollectionsName.ALBUM_COMMENT,
+      commentSchema
+    )
+
     switch (req.method) {
-      case 'GET': {
-        const users: User[] = await (() => {
-          if (currentUserAppAccessLevel === AccessLevels.SUPER_ADMIN) {
-            return userDoc.find({
-              [`accessLevel.${appAbbreviation}`]: {
-                $ne: AccessLevels.SUPER_ADMIN
-              }
-            })
-          }
+      case 'PUT': {
+        const { content } = req.body ?? {}
 
-          // if user-app-access-level is admin
-          // because only super-admin and admin can go through here
-          return userDoc.find({
-            $and: [
-              {
-                [`accessLevel.${appAbbreviation}`]: {
-                  $ne: AccessLevels.SUPER_ADMIN
-                }
-              },
-              {
-                [`accessLevel.${appAbbreviation}`]: {
-                  $ne: AccessLevels.ADMIN
-                }
-              }
-            ]
-          })
-        })()
+        const comment: CommentResponse = await commentDoc.findOneAndUpdate(
+          { _id: commentId },
+          { content: content ?? '' },
+          { new: true, runValidators: true }
+        )
 
-        if (!users) {
+        if (!comment) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json(users)
+        return res.status(200).json(comment)
+      }
+
+      case 'DELETE': {
+        await commentDoc.deleteOne({ _id: commentId })
+
+        return res.status(200).end()
       }
 
       default:

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { CollectionName } from '@/constants/collection'
+import { CollectionsName } from '@/constants/collection'
 
 const sessionSchema = new mongoose.Schema(
   {
@@ -13,7 +13,7 @@ const sessionSchema = new mongoose.Schema(
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: CollectionName.USER
+      ref: CollectionsName.USER
     }
   },
   {

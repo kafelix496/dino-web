@@ -1,21 +1,35 @@
+import mongoose from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
 import { CollectionsName } from '@/constants/collection'
+import assetSchema from '@/models/album/assetSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
+import type { Asset, ReactionResponse } from '@/types/album'
+import {
+  generateLookupForComments,
+  generateLookupForReactions,
+  transformReactionsForClient
+} from '@/utils/album'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<User[] | { message: string }>
+  res: NextApiResponse<Asset | { message?: string }>
 ) {
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
-    const appAbbreviation = req.query.appAbbreviation as unknown as Apps
+    const { appAbbreviation, assetId } = req.query as {
+      appAbbreviation: Apps
+      assetId: unknown
+    }
+    if (appAbbreviation !== Apps.familyAlbum) {
+      return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
+    }
 
     await dbConnect()
 
@@ -32,38 +46,30 @@ export default async function handler(
 
     switch (req.method) {
       case 'GET': {
-        const users: User[] = await (() => {
-          if (currentUserAppAccessLevel === AccessLevels.SUPER_ADMIN) {
-            return userDoc.find({
-              [`accessLevel.${appAbbreviation}`]: {
-                $ne: AccessLevels.SUPER_ADMIN
-              }
-            })
-          }
+        const assetDoc = createDocument(
+          CollectionsName.ALBUM_ASSET,
+          assetSchema
+        )
 
-          // if user-app-access-level is admin
-          // because only super-admin and admin can go through here
-          return userDoc.find({
-            $and: [
-              {
-                [`accessLevel.${appAbbreviation}`]: {
-                  $ne: AccessLevels.SUPER_ADMIN
-                }
-              },
-              {
-                [`accessLevel.${appAbbreviation}`]: {
-                  $ne: AccessLevels.ADMIN
-                }
-              }
-            ]
-          })
-        })()
+        const [asset]: Asset[] = await assetDoc.aggregate([
+          {
+            $match: { _id: new mongoose.Types.ObjectId(assetId as string) }
+          },
+          generateLookupForComments(1, CollectionsName.ALBUM_ASSET),
+          generateLookupForReactions(CollectionsName.ALBUM_ASSET)
+        ])
 
-        if (!users) {
+        if (!asset) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json(users)
+        return res.status(200).json({
+          ...asset,
+          reaction: transformReactionsForClient(
+            currentUserId,
+            asset.reaction as unknown as ReactionResponse[]
+          )
+        })
       }
 
       default:

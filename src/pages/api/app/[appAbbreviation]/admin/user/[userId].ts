@@ -2,11 +2,10 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
-import { CollectionName } from '@/constants/collection'
+import { CollectionsName } from '@/constants/collection'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import { isValidApp } from '@/utils'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
@@ -15,25 +14,17 @@ export default async function handler(
 ) {
   try {
     const token = await getToken({ req })
-    const currentUserId = token?.sub
-    if (!currentUserId) {
-      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
-    }
-
-    const { appAbbreviation: appAbbreviation, userId: targetUserId } = req.query
-    if (!isValidApp(appAbbreviation)) {
-      return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
+    const currentUserId = token!.sub!
+    const { appAbbreviation, userId: targetUserId } = req.query as {
+      appAbbreviation: Apps
+      userId: unknown
     }
 
     await dbConnect()
 
-    const UserDoc = createDocument(CollectionName.USER, userSchema)
-
-    const currentUser: User = await UserDoc.findOne({ _id: currentUserId })
-
-    const currentUserAppAccessLevel =
-      currentUser.accessLevel[appAbbreviation as Apps]
-
+    const userDoc = createDocument(CollectionsName.USER, userSchema)
+    const currentUser: User = await userDoc.findOne({ _id: currentUserId })
+    const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
     // if the user access-level is not super admin or admin, return error
     if (
       currentUserAppAccessLevel !== AccessLevels.SUPER_ADMIN &&
@@ -42,9 +33,9 @@ export default async function handler(
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
-    switch (req?.method) {
+    switch (req.method) {
       case 'PUT': {
-        const newPermission = req?.body.permission
+        const newPermission = req.body?.permission
 
         // there is no way the user can set super admin
         if (newPermission === AccessLevels.SUPER_ADMIN) {
@@ -60,9 +51,9 @@ export default async function handler(
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        const user: User = await UserDoc.findByIdAndUpdate(
+        const user: User = await userDoc.findByIdAndUpdate(
           targetUserId,
-          { [`accessLevel.${appAbbreviation as Apps}`]: newPermission },
+          { [`accessLevel.${appAbbreviation}`]: newPermission },
           { new: true, runValidators: true }
         )
 

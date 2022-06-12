@@ -14,7 +14,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
 import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
-import { DRAWER_WIDTH, Locale, PaletteMode } from '@/constants'
+import { DRAWER_WIDTH, Locales, PaletteModes } from '@/constants'
 import { setLocale, setPaletteMode } from '@/redux-actions'
 import { selectLocale, selectPaletteMode } from '@/redux-selectors'
 
@@ -90,7 +90,7 @@ const SettingsDrawer: FC<SettingsDrawerProps> = ({
           size="large"
           sx={{ borderRadius: 5 }}
         >
-          {Object.values(PaletteMode).map((mode) => (
+          {Object.values(PaletteModes).map((mode) => (
             <CustomStyledButton
               key={mode}
               selected={paletteMode === mode}
@@ -112,7 +112,7 @@ const SettingsDrawer: FC<SettingsDrawerProps> = ({
           size="large"
           sx={{ borderRadius: 5 }}
         >
-          {Object.values(Locale).map((_locale) => (
+          {Object.values(Locales).map((_locale) => (
             <CustomStyledButton
               key={_locale}
               selected={locale === _locale}

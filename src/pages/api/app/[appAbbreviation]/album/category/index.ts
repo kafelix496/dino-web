@@ -3,67 +3,69 @@ import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
 import { CollectionsName } from '@/constants/collection'
+import categorySchema from '@/models/album/categorySchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
+import type { Category } from '@/types/album'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<User[] | { message: string }>
+  res: NextApiResponse<Category | Category[] | { message?: string }>
 ) {
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
     const appAbbreviation = req.query.appAbbreviation as unknown as Apps
+    if (appAbbreviation !== Apps.familyAlbum) {
+      return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
+    }
 
     await dbConnect()
 
     const userDoc = createDocument(CollectionsName.USER, userSchema)
     const currentUser: User = await userDoc.findOne({ _id: currentUserId })
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
-    // if the user access-level is not super admin or admin, return error
-    if (
-      currentUserAppAccessLevel !== AccessLevels.SUPER_ADMIN &&
-      currentUserAppAccessLevel !== AccessLevels.ADMIN
-    ) {
+    // if the user access-level is none, return error
+    if (currentUserAppAccessLevel === AccessLevels.NONE) {
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
+    const categoryDoc = createDocument(
+      CollectionsName.ALBUM_CATEGORY,
+      categorySchema
+    )
+
     switch (req.method) {
       case 'GET': {
-        const users: User[] = await (() => {
-          if (currentUserAppAccessLevel === AccessLevels.SUPER_ADMIN) {
-            return userDoc.find({
-              [`accessLevel.${appAbbreviation}`]: {
-                $ne: AccessLevels.SUPER_ADMIN
-              }
-            })
-          }
+        const categories: Category[] = await categoryDoc.find()
 
-          // if user-app-access-level is admin
-          // because only super-admin and admin can go through here
-          return userDoc.find({
-            $and: [
-              {
-                [`accessLevel.${appAbbreviation}`]: {
-                  $ne: AccessLevels.SUPER_ADMIN
-                }
-              },
-              {
-                [`accessLevel.${appAbbreviation}`]: {
-                  $ne: AccessLevels.ADMIN
-                }
-              }
-            ]
-          })
-        })()
-
-        if (!users) {
+        if (!categories) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json(users)
+        return res.status(200).json(categories)
+      }
+
+      case 'POST': {
+        // if the user access-level is not super admin or admin, return error
+        if (
+          currentUserAppAccessLevel !== AccessLevels.SUPER_ADMIN &&
+          currentUserAppAccessLevel !== AccessLevels.ADMIN
+        ) {
+          return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
+        }
+
+        const name = req.body?.name
+
+        const category: Category = await categoryDoc.create({ name })
+
+        if (!category) {
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
+        }
+
+        return res.status(201).json(category)
       }
 
       default:

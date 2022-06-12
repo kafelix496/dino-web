@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
 import { Apps } from '@/constants'
-import { CollectionName } from '@/constants/collection'
+import { CollectionsName } from '@/constants/collection'
 import projectSchema from '@/models/common/projectSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { Project } from '@/types'
@@ -14,12 +14,8 @@ export default async function handler(
 ) {
   try {
     const token = await getToken({ req })
-    const currentUserId = token?.sub
-    if (!currentUserId) {
-      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
-    }
-
-    const appAbbreviation = req.query.appAbbreviation
+    const currentUserId = token!.sub!
+    const appAbbreviation = req.query.appAbbreviation as unknown as Apps
     // NOTE: 496-1
     // only money tracker can execute below codes
     if (appAbbreviation !== Apps.moneyTracker) {
@@ -28,14 +24,14 @@ export default async function handler(
 
     await dbConnect()
 
-    const ProjectDoc = createDocument(
-      `${appAbbreviation}.${CollectionName.PROJECT}`,
+    const projectDoc = createDocument(
+      `${appAbbreviation}.${CollectionsName.PROJECT}`,
       projectSchema
     )
 
-    switch (req?.method) {
+    switch (req.method) {
       case 'GET': {
-        const projects = await ProjectDoc.find({
+        const projects = await projectDoc.find({
           $or: [
             { ownerId: currentUserId },
             { accessUsers: { $elemMatch: { accessUserId: currentUserId } } }
@@ -50,10 +46,10 @@ export default async function handler(
       }
 
       case 'POST': {
-        const { title, description } = req?.body ?? {}
+        const { title, description } = req.body ?? {}
 
-        const project: Project = await ProjectDoc.create({
-          title: title ?? '',
+        const project: Project = await projectDoc.create({
+          title,
           description: description ?? '',
           ownerId: currentUserId
         })

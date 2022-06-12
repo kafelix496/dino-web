@@ -4,11 +4,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { isValidAppAbbreviationPathname } from '@/utils'
 
 export async function middleware(req: NextRequest) {
-  // next-auth type is wrong
-  // TODO: should remove 'as any' later
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const token = await getToken({ req } as any)
-  if (!token) {
+  const token = await getToken({ req })
+  if (!token || !token.sub) {
     return new Response(
       JSON.stringify({ message: 'SEM_NOT_AUTHORIZED_USER' }),
       {
@@ -22,7 +19,7 @@ export async function middleware(req: NextRequest) {
 
   const url = req.nextUrl.clone()
   if (!isValidAppAbbreviationPathname(url.pathname)) {
-    return new Response(JSON.stringify({ message: 'SEM_UNEXPECTED_ERROR' }), {
+    return new Response(JSON.stringify({ message: 'SEM_QUERY_NOT_ALLOWED' }), {
       status: 400,
       headers: {
         'Content-Type': 'application/json'

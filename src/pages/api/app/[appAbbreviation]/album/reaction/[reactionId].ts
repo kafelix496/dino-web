@@ -3,19 +3,27 @@ import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
 import { CollectionsName } from '@/constants/collection'
+import reactionSchema from '@/models/album/reactionSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
+import type { ReactionResponse } from '@/types/album'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<User[] | { message: string }>
+  res: NextApiResponse<ReactionResponse | { message?: string }>
 ) {
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
-    const appAbbreviation = req.query.appAbbreviation as unknown as Apps
+    const { appAbbreviation, reactionId } = req.query as {
+      appAbbreviation: Apps
+      reactionId: string
+    }
+    if (appAbbreviation !== Apps.familyAlbum) {
+      return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
+    }
 
     await dbConnect()
 
@@ -31,39 +39,15 @@ export default async function handler(
     }
 
     switch (req.method) {
-      case 'GET': {
-        const users: User[] = await (() => {
-          if (currentUserAppAccessLevel === AccessLevels.SUPER_ADMIN) {
-            return userDoc.find({
-              [`accessLevel.${appAbbreviation}`]: {
-                $ne: AccessLevels.SUPER_ADMIN
-              }
-            })
-          }
+      case 'DELETE': {
+        const reactionDoc = createDocument(
+          CollectionsName.ALBUM_REACTION,
+          reactionSchema
+        )
 
-          // if user-app-access-level is admin
-          // because only super-admin and admin can go through here
-          return userDoc.find({
-            $and: [
-              {
-                [`accessLevel.${appAbbreviation}`]: {
-                  $ne: AccessLevels.SUPER_ADMIN
-                }
-              },
-              {
-                [`accessLevel.${appAbbreviation}`]: {
-                  $ne: AccessLevels.ADMIN
-                }
-              }
-            ]
-          })
-        })()
+        await reactionDoc.deleteOne({ _id: reactionId })
 
-        if (!users) {
-          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
-        }
-
-        return res.status(200).json(users)
+        return res.status(200).end()
       }
 
       default:

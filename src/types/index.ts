@@ -5,6 +5,8 @@ import { AccessLevels } from '@/constants'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AxiosRequestConfig = _AxiosRequestConfig<any>
 
+export type ExceptId<T> = Omit<T, '_id'>
+
 interface AccessUser {
   accessUserId: string
   accessLevel: AccessLevels
@@ -13,7 +15,7 @@ interface AccessUser {
 export interface User {
   _id: string
   name: string
-  email?: string
+  email: string
   emailVerified: null
   image: string
   // NOTE: 496-1

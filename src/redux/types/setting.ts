@@ -1,8 +1,8 @@
-import { Locale, PaletteMode } from '@/constants'
+import { Locales, PaletteModes } from '@/constants'
 
 export interface State {
-  paletteMode: PaletteMode
-  locale: Locale
+  paletteMode: PaletteModes
+  locale: Locales
 }
 
 export enum ActionType {
@@ -12,12 +12,12 @@ export enum ActionType {
 
 export interface setPaletteModeAction {
   type: ActionType.SET_PALETTE_MODE
-  value: PaletteMode
+  value: PaletteModes
 }
 
 export interface setLocaleAction {
   type: ActionType.SET_LOCALE
-  value: Locale
+  value: Locales
 }
 
 export type Action = setPaletteModeAction | setLocaleAction

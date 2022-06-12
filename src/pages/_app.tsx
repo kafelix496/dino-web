@@ -5,7 +5,7 @@ import type { AppContext, AppProps } from 'next/app'
 import nookies from 'nookies'
 import type { Store } from 'redux'
 
-import { Locale, PaletteMode } from '@/constants'
+import { Locales, PaletteModes } from '@/constants'
 import { Cookies } from '@/constants/cookies'
 import userHttpService from '@/http-services/user'
 import Layout from '@/layout'
@@ -47,18 +47,18 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
     const savedPaletteMode = nookies.get(appContext.ctx)[Cookies.paletteMode]
     store.dispatch(
       setPaletteMode(
-        Object.values(PaletteMode).includes(savedPaletteMode as PaletteMode)
-          ? (savedPaletteMode as PaletteMode)
-          : PaletteMode.LIGHT
+        Object.values(PaletteModes).includes(savedPaletteMode as PaletteModes)
+          ? (savedPaletteMode as PaletteModes)
+          : PaletteModes.LIGHT
       )
     )
 
     const savedLocale = nookies.get(appContext.ctx)[Cookies.locale]
     store.dispatch(
       setLocale(
-        Object.values(Locale).includes(savedLocale as Locale)
-          ? (savedLocale as Locale)
-          : Locale.EN
+        Object.values(Locales).includes(savedLocale as Locales)
+          ? (savedLocale as Locales)
+          : Locales.EN
       )
     )
 
