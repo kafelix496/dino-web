@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { Locales } from '@/constants'
+import { Cookies } from '@/constants/cookies'
 
 const PUBLIC_FILE = /\.(.*)$/
 
 export function middleware(request: NextRequest) {
   const savedLocale = Object.values(Locales).includes(
-    request.cookies.locale as Locales
+    request.cookies[Cookies.locale] as Locales
   )
-    ? request.cookies.locale
+    ? request.cookies[Cookies.locale]
     : 'en'
   const shouldHandleLocale =
     !PUBLIC_FILE.test(request.nextUrl.pathname) &&
