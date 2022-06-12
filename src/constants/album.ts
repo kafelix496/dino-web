@@ -17,3 +17,8 @@ export enum ReactionParents {
   ASSET = 'ASSET',
   COMMENT = 'COMMENT'
 }
+
+export enum PostAudiences {
+  VIEWER = 'VIEWER',
+  ALL = 'ALL'
+}

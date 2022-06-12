@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 
+import { PostAudiences } from '@/constants/album'
 import { CollectionsName } from '@/constants/collection'
 import assetSchema from '@/models/album/assetSchema'
 import commentSchema from '@/models/album/commentSchema'
@@ -21,6 +22,11 @@ const postSchema = new mongoose.Schema(
       ref: CollectionsName.ALBUM_ASSET,
       required: true,
       validate: minAssetLength
+    },
+    audience: {
+      type: String,
+      required: true,
+      enum: PostAudiences
     }
   },
   {

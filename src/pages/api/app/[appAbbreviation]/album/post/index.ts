@@ -45,47 +45,63 @@ export default async function handler(
 
     switch (req.method) {
       case 'GET': {
-        const { page } = req.query
+        const { page, audience } = req.query
 
         if (Array.isArray(page) || !/^[1-9](\d+)?$/.test(page as string)) {
           return res.status(401).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
         }
 
-        const total = await postDoc.countDocuments({})
-        const posts: Post[] = await postDoc.aggregate([
-          {
-            $skip: (parseInt(page as string) - 1) * 25
-          },
-          {
-            $limit: 25
-          },
-          {
-            $lookup: {
-              from: CollectionsName.ALBUM_CATEGORY,
-              localField: 'categories',
-              foreignField: '_id',
-              as: 'categories'
+        const [result]: { total: number; posts: Post[] }[] =
+          await postDoc.aggregate([
+            {
+              $match: { audience }
+            },
+            {
+              $facet: {
+                total: [{ $count: 'count' }],
+                posts: [
+                  {
+                    $skip: (parseInt(page as string) - 1) * 25
+                  },
+                  {
+                    $limit: 25
+                  },
+                  {
+                    $lookup: {
+                      from: CollectionsName.ALBUM_CATEGORY,
+                      localField: 'categories',
+                      foreignField: '_id',
+                      as: 'categories'
+                    }
+                  },
+                  {
+                    $lookup: {
+                      from: CollectionsName.ALBUM_ASSET,
+                      localField: 'assets',
+                      foreignField: '_id',
+                      as: 'assets'
+                    }
+                  },
+                  generateLookupForComments(1, CollectionsName.ALBUM_POST),
+                  generateLookupForReactions(CollectionsName.ALBUM_POST)
+                ]
+              }
+            },
+            {
+              $project: {
+                total: { $arrayElemAt: ['$total.count', 0] },
+                posts: 1
+              }
             }
-          },
-          {
-            $lookup: {
-              from: CollectionsName.ALBUM_ASSET,
-              localField: 'assets',
-              foreignField: '_id',
-              as: 'assets'
-            }
-          },
-          generateLookupForComments(1, CollectionsName.ALBUM_POST),
-          generateLookupForReactions(CollectionsName.ALBUM_POST)
-        ])
+          ])
 
-        if (!total || !posts) {
+        if (!result) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
         return res.status(200).json({
-          total,
-          posts: posts.map((post) => ({
+          ...result,
+          posts: result.posts.map((post) => ({
             ...post,
             reaction: transformReactionsForClient(
               currentUserId,
@@ -103,7 +119,7 @@ export default async function handler(
       }
 
       case 'POST': {
-        const { assetsKey, categoriesId } = req.body ?? {}
+        const { assetsKey, categoriesId, audience } = req.body ?? {}
 
         const assetDoc = createDocument(
           CollectionsName.ALBUM_ASSET,
@@ -119,7 +135,8 @@ export default async function handler(
 
         const post = await postDoc.create({
           assets: assets.map((asset) => asset._id),
-          categories: categoriesId ?? []
+          categories: categoriesId ?? [],
+          audience
         })
         if (!post) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
