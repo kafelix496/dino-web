@@ -7,19 +7,16 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import Dialog from '@/components/Dialog/Dialog'
-import { Apps } from '@/constants'
-import projectHttpService from '@/http-services/project'
-import { deleteProject, setProjects } from '@/redux-actions'
+import albumHttpService from '@/http-services/album'
+import { deleteCategory, setCategories } from '@/redux-actions'
 
-interface DeleteProjectDialogProps {
-  appAbbreviation: Apps
+interface DeleteCategoryDialogProps {
   id: string
   isOpen: boolean
   handleClose: () => void
 }
 
-const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
-  appAbbreviation,
+const DeleteCategoryDialog: FC<DeleteCategoryDialogProps> = ({
   id,
   isOpen,
   handleClose
@@ -31,15 +28,15 @@ const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
   const handleDelete = () => {
     setSubmitting(true)
 
-    dispatch(deleteProject(id))
+    dispatch(deleteCategory(id))
 
     handleClose()
 
-    projectHttpService
-      .deleteProject({ appAbbreviation, id })
+    albumHttpService
+      .deleteCategory({ id })
       .catch(() => {
-        projectHttpService.getProjects({ appAbbreviation }).then((projects) => {
-          dispatch(setProjects(projects))
+        albumHttpService.getCategories().then((categories) => {
+          dispatch(setCategories(categories))
         })
 
         alert(t('ERROR_ALERT_MESSAGE'))
@@ -53,8 +50,10 @@ const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
     <Dialog
       open={isOpen}
       onClose={handleClose}
-      title={t('DELETE_PROJECT_DIALOG_TITLE')}
-      contentJsx={<Typography>{t('DELETE_PROJECT_DIALOG_CONTENT')}</Typography>}
+      title={t('DELETE_CATEGORY_DIALOG_TITLE')}
+      contentJsx={
+        <Typography>{t('DELETE_CATEGORY_DIALOG_CONTENT')}</Typography>
+      }
       actionsJsx={
         <>
           <Button color="secondary" variant="outlined" onClick={handleClose}>
@@ -75,4 +74,4 @@ const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
   )
 }
 
-export default DeleteProjectDialog
+export default DeleteCategoryDialog

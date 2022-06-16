@@ -1,4 +1,5 @@
 import type { FC } from 'react'
+import { useEffect, useRef } from 'react'
 
 import TextField from '@mui/material/TextField'
 
@@ -20,9 +21,19 @@ const FieldText: FC<FieldTextProps> = ({
   formik,
   name
 }) => {
+  const inputRef = useRef<HTMLElement>()
+
+  // I don't know why 'autoFocus' props doesn't work.
+  // This is alternative way to fix it.
+  useEffect(() => {
+    if (autoFocus && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [autoFocus, inputRef])
+
   return (
     <TextField
-      autoFocus={autoFocus}
+      inputRef={inputRef}
       required={required}
       fullWidth={fullWidth}
       name={name}
