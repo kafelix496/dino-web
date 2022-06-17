@@ -50,6 +50,9 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
 
       projectHttpService
         .editProject({ appAbbreviation, id, values })
+        .then((project) => {
+          dispatch(editProject(id, project))
+        })
         .catch(() => {
           projectHttpService
             .getProjects({ appAbbreviation })

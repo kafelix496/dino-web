@@ -44,6 +44,9 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
 
       albumHttpService
         .editCategory({ id, values })
+        .then((category) => {
+          dispatch(editCategory(id, category))
+        })
         .catch(() => {
           albumHttpService.getCategories().then((categories) => {
             dispatch(setCategories(categories))
