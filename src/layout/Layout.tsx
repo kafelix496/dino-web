@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux'
 
 import { ThemeProvider } from '@mui/material'
 import Box from '@mui/material/Box'
-import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
 
@@ -77,7 +76,7 @@ const Layout: FC<LayoutProps> = ({
             square={true}
             sx={{ height: (theme) => `calc(100% - ${theme.spacing(8)})` }}
           >
-            <Container className="__d-h-full">{children}</Container>
+            {children}
           </Paper>
         </Box>
       </Box>

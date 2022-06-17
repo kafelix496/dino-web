@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
+import { PostAudiences } from '@/constants/album'
 import { CollectionsName } from '@/constants/collection'
 import assetSchema from '@/models/album/assetSchema'
 import postSchema from '@/models/album/postSchema'
@@ -34,11 +35,8 @@ export default async function handler(
     const userDoc = createDocument(CollectionsName.USER, userSchema)
     const currentUser: User = await userDoc.findOne({ _id: currentUserId })
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
-    // if the user access-level is not super admin or admin, return error
-    if (
-      currentUserAppAccessLevel !== AccessLevels.SUPER_ADMIN &&
-      currentUserAppAccessLevel !== AccessLevels.ADMIN
-    ) {
+    // if the user access-level is none, return error
+    if (currentUserAppAccessLevel === AccessLevels.NONE) {
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
@@ -46,15 +44,25 @@ export default async function handler(
 
     switch (req.method) {
       case 'GET': {
-        const { page, audience, category } = req.query
+        const { page, category } = req.query
+        const audience =
+          currentUserAppAccessLevel === AccessLevels.VIEWER
+            ? PostAudiences.VIEWER
+            : PostAudiences.ALL
 
-        if (Array.isArray(page) || !/^[1-9](\d+)?$/.test(page as string)) {
-          return res.status(401).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
-        }
-
-        const [result]: { total: number; posts: Post[] }[] =
-          await postDoc.aggregate([
-            {
+        const match = category
+          ? {
+              $match: {
+                $expr: {
+                  $and: [
+                    {
+                      $eq: ['$audience', audience]
+                    }
+                  ]
+                }
+              }
+            }
+          : {
               $match: {
                 $expr: {
                   $and: [
@@ -70,7 +78,11 @@ export default async function handler(
                   ]
                 }
               }
-            },
+            }
+
+        const [result]: { total: number; posts: Post[] }[] =
+          await postDoc.aggregate([
+            match,
             {
               $facet: {
                 total: [{ $count: 'count' }],
@@ -134,7 +146,8 @@ export default async function handler(
       }
 
       case 'POST': {
-        const { assetsKey, categoriesId, audience } = req.body ?? {}
+        const { assetsKey, categoriesId, audience, description } =
+          req.body ?? {}
 
         const assetDoc = createDocument(
           CollectionsName.ALBUM_ASSET,
@@ -151,7 +164,8 @@ export default async function handler(
         const post = await postDoc.create({
           assets: assets.map((asset) => asset._id),
           categories: categoriesId ?? [],
-          audience
+          audience,
+          description
         })
         if (!post) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })

@@ -10,6 +10,7 @@ import CardActions from '@mui/material/CardActions'
 import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
+import Box from '@mui/system/Box'
 
 import DeleteProjectDialog from '@/components/project/DeleteProjectDialog/DeleteProjectDialog'
 import EditProjectDialog from '@/components/project/EditProjectDialog/EditProjectDialog'
@@ -48,9 +49,9 @@ const ProjectItem: FC<ProjectItemProps> = ({
         }}
       >
         <Tooltip followCursor title={tooltip}>
-          <div>
+          <Box>
             <CardHeader title={title} subheader={subTitle} />
-          </div>
+          </Box>
         </Tooltip>
         <CardActions disableSpacing className="__d-justify-end">
           <Link href={`/app/${appAbbreviation}/project/${id}`}>

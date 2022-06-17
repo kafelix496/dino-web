@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import type { Store } from 'redux'
 
 import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 
 import NewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
@@ -19,25 +20,27 @@ const Page: NextPage = () => {
   const appAbbreviation = router.query.appAbbreviation as Apps
 
   return (
-    <Box className="__d-flex-center __d-full">
-      <Box
-        className="__d-flex __d-flex-col"
-        sx={{ width: '90%', height: '60%' }}
-      >
-        <Box className="__d-flex __d-justify-end" sx={{ mb: 2 }}>
-          <NewProjectButton
-            appAbbreviation={appAbbreviation}
-          ></NewProjectButton>
-        </Box>
-        <Paper
-          className="__d-grow"
-          elevation={4}
-          sx={{ overflowY: 'auto', p: 1 }}
+    <Container className="__d-h-full">
+      <Box className="__d-flex-center __d-full">
+        <Box
+          className="__d-flex __d-flex-col"
+          sx={{ width: '90%', height: '60%' }}
         >
-          <ProjectList appAbbreviation={appAbbreviation} />
-        </Paper>
+          <Box className="__d-flex __d-justify-end" sx={{ mb: 2 }}>
+            <NewProjectButton
+              appAbbreviation={appAbbreviation}
+            ></NewProjectButton>
+          </Box>
+          <Paper
+            className="__d-grow"
+            elevation={4}
+            sx={{ overflowY: 'auto', p: 1 }}
+          >
+            <ProjectList appAbbreviation={appAbbreviation} />
+          </Paper>
+        </Box>
       </Box>
-    </Box>
+    </Container>
   )
 }
 

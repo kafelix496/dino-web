@@ -63,7 +63,7 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
       id: '',
       iconComponent: <AllInboxIcon />,
       label: t('DRAWER_MENU_ITEM_ALL'),
-      url: `/app/${Apps.familyAlbum}/album/list`,
+      url: `/app/${Apps.familyAlbum}/album`,
       selected: categoryId === undefined,
       editable: false
     }
@@ -72,7 +72,7 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
       id: category._id,
       iconComponent: <DeckIcon />,
       label: category.name,
-      url: `/app/${Apps.familyAlbum}/album/list?categoryId=${category._id}`,
+      url: `/app/${Apps.familyAlbum}/album?categoryId=${category._id}`,
       selected: categoryId === category._id,
       editable: true
     }))

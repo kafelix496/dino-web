@@ -1,3 +1,5 @@
+export const POST_WIDTH = 500
+
 export enum Reactions {
   LIKE = 'LIKE',
   LOVE = 'LOVE',

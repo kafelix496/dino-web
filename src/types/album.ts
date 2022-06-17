@@ -1,4 +1,4 @@
-import { Reactions } from '@/constants/album'
+import { PostAudiences, Reactions } from '@/constants/album'
 import { CollectionsName } from '@/constants/collection'
 
 export interface ReactionResponse {
@@ -44,6 +44,7 @@ export interface Comment {
 export interface AssetDefault {
   _id: string
   key: string
+  src?: string
 }
 
 export interface Asset extends AssetDefault {
@@ -58,12 +59,20 @@ export interface Category {
   name: string
 }
 
+export interface PostRequest {
+  assetsKey: string[]
+  audience: PostAudiences
+  categoriesId: string[]
+}
+
 export interface Post {
   _id: string
+  audience: PostAudiences
   categories: Category[]
   assets: AssetDefault[]
   reaction: Reaction
   comments: Comment[]
+  description: string
   createdAt: string
   updatedAt: string
 }

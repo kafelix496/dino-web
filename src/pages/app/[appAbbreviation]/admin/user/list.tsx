@@ -2,6 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
 
 import UserList from '@/components/admin/UserList/UserList'
 import { Apps } from '@/constants'
@@ -14,16 +15,18 @@ interface PageProps {
 
 const Page: NextPage<PageProps> = ({ users }) => {
   return (
-    <Box
-      className="__d-flex __d-justify-center __d-items-center __d-h-full"
-      sx={{ py: 2 }}
-    >
-      <Box sx={{ width: '100%', height: 700, maxHeight: '100%' }}>
-        <Box className="__d-w-full __d-h-full">
-          <UserList users={users} />
+    <Container className="__d-h-full">
+      <Box
+        className="__d-flex __d-justify-center __d-items-center __d-h-full"
+        sx={{ py: 2 }}
+      >
+        <Box sx={{ width: '100%', height: 700, maxHeight: '100%' }}>
+          <Box className="__d-w-full __d-h-full">
+            <UserList users={users} />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </Container>
   )
 }
 
