@@ -23,7 +23,7 @@ export const addCategory = (
 
 export const editCategory = (
   id: string,
-  category: Pick<Category, 'name'>
+  category: Category | Pick<Category, 'name'>
 ): ThunkAction<void, RootState, unknown, Action> => {
   return (dispatch) => {
     dispatch({ type: ActionType.EDIT_CATEGORY, id, category })
