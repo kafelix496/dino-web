@@ -115,7 +115,9 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
             className={!isSidebarNavOpen ? '__d-justify-center' : ''}
             sx={{ height: (theme: Theme) => theme.spacing(8) }}
             secondaryAction={
-              isSidebarNavOpen && (
+              isSidebarNavOpen &&
+              canEditCategory &&
+              menu.editable && (
                 <MaxHeightMenu
                   options={menuOptions.map((menuOption) => ({
                     ...menuOption,
@@ -188,23 +190,27 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
         </>
       )}
 
-      <CreateCategoryDialog
-        isOpen={createCategoryDialogState.isOpen}
-        handleClose={handleCreateCategoryClose}
-      />
+      {canEditCategory && (
+        <>
+          <CreateCategoryDialog
+            isOpen={createCategoryDialogState.isOpen}
+            handleClose={handleCreateCategoryClose}
+          />
 
-      <EditCategoryDialog
-        isOpen={editCategoryDialogState.isOpen}
-        handleClose={handleEditCategoryClose}
-        id={dataRef.current?.categoryId as string}
-        name={dataRef.current?.name as string}
-      />
+          <EditCategoryDialog
+            isOpen={editCategoryDialogState.isOpen}
+            handleClose={handleEditCategoryClose}
+            id={dataRef.current?.categoryId as string}
+            name={dataRef.current?.name as string}
+          />
 
-      <DeleteCategoryDialog
-        isOpen={deleteCategoryDialogState.isOpen}
-        handleClose={handleDeleteCategoryClose}
-        id={dataRef.current?.categoryId as string}
-      />
+          <DeleteCategoryDialog
+            isOpen={deleteCategoryDialogState.isOpen}
+            handleClose={handleDeleteCategoryClose}
+            id={dataRef.current?.categoryId as string}
+          />
+        </>
+      )}
     </div>
   )
 }
