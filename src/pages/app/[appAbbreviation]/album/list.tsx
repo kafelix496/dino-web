@@ -1,10 +1,15 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import type { Store } from 'redux'
 
 import Box from '@mui/material/Box'
 
 import AssetList from '@/components/album/AssetList/AssetList'
 import { Apps } from '@/constants'
+import albumHttpService from '@/http-services/album'
+import { setCategories } from '@/redux-actions'
+import { wrapper } from '@/redux-store'
+import type { RootState } from '@/redux-types'
 
 const Page: NextPage = () => {
   return (
@@ -21,30 +26,41 @@ const Page: NextPage = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  query,
-  locale
-}) => {
-  try {
-    const appAbbreviation = query.appAbbreviation as Apps
-    if (appAbbreviation !== Apps.familyAlbum) {
-      return { redirect: { permanent: false, destination: '/404' } }
-    }
+export const getServerSideProps = wrapper.getServerSideProps(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (store: Store<RootState, any>): GetServerSideProps =>
+    async ({ query, req, locale }) => {
+      try {
+        const appAbbreviation = query.appAbbreviation as Apps
+        if (appAbbreviation !== Apps.familyAlbum) {
+          return { redirect: { permanent: false, destination: '/404' } }
+        }
+        const categories = await albumHttpService.getCategories({
+          headers: { Cookie: req.headers.cookie ?? '' }
+        })
+        store.dispatch(setCategories(categories))
 
-    return {
-      props: {
-        ...(await serverSideTranslations(locale ?? 'default', ['common']))
+        return {
+          props: {
+            ...(await serverSideTranslations(locale ?? 'default', ['common']))
+          }
+        }
+      } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errrorStatus = (error as Record<string, any>)?.response?.status
+        if (
+          errrorStatus === 400 ||
+          errrorStatus === 401 ||
+          errrorStatus === 404
+        ) {
+          return {
+            redirect: { permanent: false, destination: `/${errrorStatus}` }
+          }
+        }
+
+        return { redirect: { permanent: false, destination: '/400' } }
       }
     }
-  } catch (error) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const errrorStatus = (error as Record<string, any>)?.response?.status
-    if (errrorStatus === 400 || errrorStatus === 401 || errrorStatus === 404) {
-      return { redirect: { permanent: false, destination: `/${errrorStatus}` } }
-    }
-
-    return { redirect: { permanent: false, destination: '/400' } }
-  }
-}
+)
 
 export default Page

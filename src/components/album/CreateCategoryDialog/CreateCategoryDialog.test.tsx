@@ -1,17 +1,10 @@
-import { Apps } from '@/constants'
 import { act, fireEvent, render, screen } from '@/utils/test-utils'
 
-import CreateProjectDialog from './CreateProjectDialog'
+import CreateCategoryDialog from './CreateCategoryDialog'
 
-describe('CreateProjectDialog component', () => {
+describe('CreateCategoryDialog component', () => {
   test('the button should be disabled at the beginning', async () => {
-    render(
-      <CreateProjectDialog
-        appAbbreviation={Apps.moneyTracker}
-        isOpen={true}
-        handleClose={jest.fn()}
-      />
-    )
+    render(<CreateCategoryDialog isOpen={true} handleClose={jest.fn()} />)
 
     await act(async () => {
       const createButton = await screen.findByRole('button', {
@@ -21,19 +14,14 @@ describe('CreateProjectDialog component', () => {
     })
   })
 
-  it('should enable the button when the user types something on the title', async () => {
-    render(
-      <CreateProjectDialog
-        appAbbreviation={Apps.moneyTracker}
-        isOpen={true}
-        handleClose={jest.fn()}
-      />
-    )
+  it('should enable the button when the user types something on the name', async () => {
+    render(<CreateCategoryDialog isOpen={true} handleClose={jest.fn()} />)
 
     const titleInput = screen.getByRole('textbox', {
-      name: 'PROJECT_TITLE'
+      name: 'CATEGORY_NAME'
     })
     expect(titleInput).toBeInTheDocument()
+
     fireEvent.change(titleInput, { target: { value: 'TEXT' } })
     await act(async () => {
       const createButton = await screen.findByRole('button', {

@@ -46,6 +46,7 @@ const AdminDrawer: FC<AdminDrawerProps> = ({ isSidebarNavOpen }) => {
           key={index}
           className={!isSidebarNavOpen ? '__d-justify-center' : ''}
           sx={{ height: (theme: Theme) => theme.spacing(8) }}
+          disablePadding={isSidebarNavOpen}
         >
           <Link href={menu.url} replace shallow={false}>
             <ListItemButton

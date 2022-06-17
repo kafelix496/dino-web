@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
@@ -45,7 +46,7 @@ export default async function handler(
 
     switch (req.method) {
       case 'GET': {
-        const { page, audience } = req.query
+        const { page, audience, category } = req.query
 
         if (Array.isArray(page) || !/^[1-9](\d+)?$/.test(page as string)) {
           return res.status(401).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
@@ -54,7 +55,21 @@ export default async function handler(
         const [result]: { total: number; posts: Post[] }[] =
           await postDoc.aggregate([
             {
-              $match: { audience }
+              $match: {
+                $expr: {
+                  $and: [
+                    {
+                      $eq: ['$audience', audience]
+                    },
+                    {
+                      $in: [
+                        new mongoose.Types.ObjectId(category as string),
+                        '$categories'
+                      ]
+                    }
+                  ]
+                }
+              }
             },
             {
               $facet: {

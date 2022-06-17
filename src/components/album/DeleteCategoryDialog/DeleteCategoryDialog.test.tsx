@@ -1,18 +1,10 @@
-import { Apps } from '@/constants'
 import { act, render, screen } from '@/utils/test-utils'
 
-import DeleteProjectDialog from './DeleteProjectDialog'
+import DeleteCategoryDialog from './DeleteCategoryDialog'
 
-describe('DeleteProjectDialog component', () => {
+describe('DeleteCategoryDialog component', () => {
   test('the button should not be disabled at the beginning', async () => {
-    render(
-      <DeleteProjectDialog
-        appAbbreviation={Apps.moneyTracker}
-        isOpen={true}
-        handleClose={jest.fn()}
-        id=""
-      />
-    )
+    render(<DeleteCategoryDialog isOpen={true} handleClose={jest.fn()} id="" />)
 
     await act(async () => {
       const createButton = await screen.findByRole('button', {

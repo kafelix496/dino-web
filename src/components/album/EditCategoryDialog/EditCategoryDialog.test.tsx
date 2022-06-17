@@ -1,19 +1,11 @@
-import { Apps } from '@/constants'
 import { act, fireEvent, render, screen } from '@/utils/test-utils'
 
-import EditProjectDialog from './EditProjectDialog'
+import EditCategoryDialog from './EditCategoryDialog'
 
-describe('EditProjectDialog component', () => {
+describe('EditCategoryDialog component', () => {
   test('the button should not be disabled at the beginning', async () => {
     render(
-      <EditProjectDialog
-        appAbbreviation={Apps.moneyTracker}
-        isOpen={true}
-        handleClose={jest.fn()}
-        id=""
-        title=""
-        description=""
-      />
+      <EditCategoryDialog isOpen={true} handleClose={jest.fn()} id="" name="" />
     )
 
     await act(async () => {
@@ -24,20 +16,13 @@ describe('EditProjectDialog component', () => {
     })
   })
 
-  test('should enable the button when the user types something on the title', async () => {
+  test('should enable the button when the user types something on the name', async () => {
     render(
-      <EditProjectDialog
-        appAbbreviation={Apps.moneyTracker}
-        isOpen={true}
-        handleClose={jest.fn()}
-        id=""
-        title=""
-        description=""
-      />
+      <EditCategoryDialog isOpen={true} handleClose={jest.fn()} id="" name="" />
     )
 
     const titleInput = screen.getByRole('textbox', {
-      name: 'PROJECT_TITLE'
+      name: 'CATEGORY_NAME'
     })
     expect(titleInput).toBeInTheDocument()
     fireEvent.change(titleInput, { target: { value: 'TEXT' } })

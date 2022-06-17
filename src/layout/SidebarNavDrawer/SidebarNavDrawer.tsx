@@ -76,7 +76,12 @@ const SidebarNavDrawer: FC<SidebarNavDrawerProps> = ({
             </TooltipIconButton>
           </Toolbar>
           <Divider />
-          <Box className="__d-h-full">
+          <Box
+            className="__d-relative"
+            sx={{
+              height: (theme: Theme) => `calc(100% - ${theme.spacing(8)} - 1px)`
+            }}
+          >
             <DrawerContent isSidebarNavOpen={isSidebarNavOpen} />
           </Box>
         </Drawer>
