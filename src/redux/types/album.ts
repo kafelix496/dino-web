@@ -43,7 +43,7 @@ export interface setPostDataAction {
 
 export interface addPostAction {
   type: ActionType.ADD_POST
-  post: PostRequest
+  post: Post
 }
 
 export type Action =

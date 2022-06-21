@@ -65,7 +65,10 @@ const reducer = (state: State = initialState, action: AnyAction) => {
     case ActionType.ADD_POST: {
       return {
         ...state,
-        posts: state.postData.posts.concat(action.post)
+        postData: {
+          total: state.postData.total + 1,
+          posts: state.postData.posts.concat(action.post)
+        }
       }
     }
 

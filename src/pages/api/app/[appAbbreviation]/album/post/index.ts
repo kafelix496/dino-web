@@ -10,7 +10,7 @@ import postSchema from '@/models/album/postSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { Post, ReactionResponse } from '@/types/album'
+import type { AssetDefault, Post, ReactionResponse } from '@/types/album'
 import {
   generateLookupForComments,
   generateLookupForReactions,
@@ -128,6 +128,7 @@ export default async function handler(
 
         return res.status(200).json({
           ...result,
+          total: result?.total ?? 0,
           posts: result.posts.map((post) => ({
             ...post,
             reaction: transformReactionsForClient(
@@ -146,17 +147,20 @@ export default async function handler(
       }
 
       case 'POST': {
-        const { assetsKey, categoriesId, audience, description } =
-          req.body ?? {}
+        const {
+          assets: assetsInput,
+          categoriesId,
+          audience,
+          title,
+          description
+        } = req.body ?? {}
 
         const assetDoc = createDocument(
           CollectionsName.ALBUM_ASSET,
           assetSchema
         )
 
-        const assets = await assetDoc.create(
-          (assetsKey as string[]).map((key) => ({ key }))
-        )
+        const assets: AssetDefault[] = await assetDoc.create(assetsInput)
         if (!assets) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
@@ -165,6 +169,7 @@ export default async function handler(
           assets: assets.map((asset) => asset._id),
           categories: categoriesId ?? [],
           audience,
+          title,
           description
         })
         if (!post) {

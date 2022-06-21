@@ -3,7 +3,7 @@ import type { ThunkAction } from 'redux-thunk'
 import type { RootState } from '@/redux-types'
 import { ActionType } from '@/redux-types/album'
 import type { Action } from '@/redux-types/album'
-import type { Category, Post, PostRequest } from '@/types/album'
+import type { Category, Post } from '@/types/album'
 
 export const setCategories = (
   categories: Category[]
@@ -48,7 +48,7 @@ export const setPostData = (
 }
 
 export const addPost = (
-  post: PostRequest
+  post: Post
 ): ThunkAction<void, RootState, unknown, Action> => {
   return (dispatch) => {
     dispatch({ type: ActionType.ADD_POST, post })

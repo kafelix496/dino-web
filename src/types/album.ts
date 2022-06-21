@@ -44,14 +44,15 @@ export interface Comment {
 export interface AssetDefault {
   _id: string
   key: string
+  extension: string
   src?: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Asset extends AssetDefault {
   reaction: Reaction
   comments: Comment[]
-  createdAt: string
-  updatedAt: string
 }
 
 export interface Category {
@@ -60,9 +61,11 @@ export interface Category {
 }
 
 export interface PostRequest {
-  assetsKey: string[]
+  assets: { key: string; extension: string }[]
   audience: PostAudiences
-  categoriesId: string[]
+  categoriesId?: string[]
+  title: string
+  description?: string
 }
 
 export interface Post {

@@ -24,8 +24,16 @@ const Dialog: FC<DialogProps> = ({
   contentJsx,
   actionsJsx
 }) => {
+  const handleClose = (_, reason: string) => {
+    if (reason === 'backdropClick') {
+      return
+    }
+
+    onClose()
+  }
+
   return (
-    <MuiDialog open={open} onClose={onClose}>
+    <MuiDialog open={open} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       {wrapBodyWithForm && handleFormSubmit ? (
         <form data-testid="form" onSubmit={handleFormSubmit}>
