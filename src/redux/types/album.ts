@@ -1,4 +1,4 @@
-import type { Category, Post, PostRequest } from '@/types/album'
+import type { Category, Post } from '@/types/album'
 
 export interface State {
   categories: Category[]

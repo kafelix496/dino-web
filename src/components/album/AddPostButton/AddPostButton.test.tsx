@@ -11,7 +11,8 @@ jest.mock('@/redux-selectors', () => {
   return {
     __esModule: true,
     ...originalModule,
-    selectUser: jest.fn()
+    selectUser: jest.fn(),
+    addPost: jest.fn()
   }
 })
 

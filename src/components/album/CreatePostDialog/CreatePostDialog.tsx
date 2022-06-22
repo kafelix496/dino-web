@@ -3,7 +3,6 @@ import { useTranslation } from 'next-i18next'
 import { useEffect } from 'react'
 import type { FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { addPost } from 'src/redux/actions/albumAction'
 import * as yup from 'yup'
 
 import Button from '@mui/material/Button'
@@ -13,6 +12,7 @@ import CreatePostDialogImageList from '@/components/album/CreatePostDialogImageL
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 import { PostAudiences } from '@/constants/album'
 import albumHttpService from '@/http-services/album'
+import { addPost } from '@/redux-actions'
 import { uploadFile } from '@/utils/file'
 
 interface CreatePostDialogProps {
@@ -36,7 +36,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({
     validationSchema: yup.object({
       title: yup
         .string()
-        .max(100, t('POST_TITLE_MAX_MESSAGE'))
+        .max(20, t('POST_TITLE_MAX_MESSAGE'))
         .required(t('POST_TITLE_REQUIRED_MESSAGE')),
       description: yup.string().max(100, t('POST_DESCRIPTION_MAX_MESSAGE')),
       files: yup
@@ -151,7 +151,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({
             {t('BUTTON_CANCEL')}
           </Button>
           <Button
-            disabled={!(formik.isValid && formik.dirty) || formik.isSubmitting}
+            disabled={formik.isSubmitting}
             type="submit"
             color="success"
             variant="contained"

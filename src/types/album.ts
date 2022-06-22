@@ -75,6 +75,7 @@ export interface Post {
   assets: AssetDefault[]
   reaction: Reaction
   comments: Comment[]
+  title: string
   description: string
   createdAt: string
   updatedAt: string

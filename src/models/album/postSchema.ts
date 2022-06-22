@@ -31,7 +31,7 @@ const postSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      maxLength: 10
+      maxLength: 20
     },
     description: {
       type: String,

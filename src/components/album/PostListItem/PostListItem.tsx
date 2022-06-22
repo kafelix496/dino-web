@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography'
 import PostListItemImageList from '@/components/album/PostListItemImageList/PostListItemImageList'
 import { POST_WIDTH } from '@/constants/album'
 import type { Post } from '@/types/album'
-import { getCreatedAtTxt, getUpdatedAtTxt } from '@/utils'
+import { getCreatedAtTxt } from '@/utils'
 
 interface PostListItemProps {
   post: Post
@@ -31,13 +31,15 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
         maxWidth: '100%'
       }}
     >
-      <Box className="__d-text-right">
-        <Typography variant="caption" display="block">
-          {getCreatedAtTxt(t, post.createdAt)}
-        </Typography>
-        <Typography variant="caption" display="block">
-          {getUpdatedAtTxt(t, post.updatedAt)}
-        </Typography>
+      <Box className="__d-flex">
+        <Box className="__d-flex __d-items-center __d-grow">
+          <Typography>{post.title}</Typography>
+        </Box>
+        <Box className="__d-flex __d-items-center">
+          <Typography variant="caption">
+            {getCreatedAtTxt(t, post.createdAt)}
+          </Typography>
+        </Box>
       </Box>
 
       {post.description ? (
