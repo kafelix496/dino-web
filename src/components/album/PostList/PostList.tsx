@@ -10,7 +10,7 @@ const PostList = () => {
 
   return (
     <Box className="__d-flex-center __d-flex-col">
-      <Box className="__d-h-full">
+      <Box className="__d-h-full" sx={{ pb: 5 }}>
         {postData.posts.map((post) => (
           <PostListItem key={post._id} post={post} />
         ))}

@@ -17,7 +17,7 @@ const Page: NextPage = () => {
   return (
     <Box
       className="__d-flex __d-justify-center __d-items-start __d-h-full"
-      sx={{ py: 5, overflow: 'auto' }}
+      sx={{ pt: 5, overflow: 'auto' }}
     >
       <Box className="__d-w-full __d-h-full">
         <AddPostButton />

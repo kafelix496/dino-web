@@ -10,6 +10,8 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
 import PostListItemImageList from '@/components/album/PostListItemImageList/PostListItemImageList'
+import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
+import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import { POST_WIDTH } from '@/constants/album'
 import type { Post } from '@/types/album'
 import { getCreatedAtTxt } from '@/utils'
@@ -20,6 +22,21 @@ interface PostListItemProps {
 
 const PostListItem: FC<PostListItemProps> = ({ post }) => {
   const { t } = useTranslation('common')
+
+  const menuOptions: MenuOption[] = [
+    {
+      label: t('EDIT'),
+      click: () => {
+        // console.log('edit', post)
+      }
+    },
+    {
+      label: t('DELETE'),
+      click: () => {
+        // console.log('delete', post)
+      }
+    }
+  ]
 
   return (
     <Paper
@@ -39,6 +56,8 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
           <Typography variant="caption">
             {getCreatedAtTxt(t, post.createdAt)}
           </Typography>
+
+          <MaxHeightMenu options={menuOptions} />
         </Box>
       </Box>
 

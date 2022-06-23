@@ -2,17 +2,20 @@ import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import { useEffect } from 'react'
 import type { FC } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 
 import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
 import CreatePostDialogImageList from '@/components/album/CreatePostDialogImageList/CreatePostDialogImageList'
+import FieldMultiSelect from '@/components/mui/FormFieldMultiSelect/FormFieldMultiSelect'
+import FieldSelect from '@/components/mui/FormFieldSelect/FormFieldSelect'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 import { PostAudiences } from '@/constants/album'
 import albumHttpService from '@/http-services/album'
 import { addPost } from '@/redux-actions'
+import { selectCategoryList } from '@/redux-selectors'
 import { uploadFile } from '@/utils/file'
 
 interface CreatePostDialogProps {
@@ -25,20 +28,30 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({
   handleClose
 }) => {
   const { t } = useTranslation('common')
+  const categories = useSelector(selectCategoryList)
   const dispatch = useDispatch()
-  dispatch
   const formik = useFormik<{
     title: string
     description: string
+    audience: PostAudiences
+    categoriesId: string[]
     files: File[]
   }>({
-    initialValues: { title: '', description: '', files: [] },
+    initialValues: {
+      title: '',
+      description: '',
+      audience: PostAudiences.ALL,
+      categoriesId: [],
+      files: []
+    },
     validationSchema: yup.object({
       title: yup
         .string()
         .max(20, t('POST_TITLE_MAX_MESSAGE'))
         .required(t('POST_TITLE_REQUIRED_MESSAGE')),
       description: yup.string().max(100, t('POST_DESCRIPTION_MAX_MESSAGE')),
+      audience: yup.mixed().oneOf(Object.values(PostAudiences)),
+      categoriesId: yup.array(),
       files: yup
         .mixed()
         .test(
@@ -74,7 +87,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({
             values: {
               assets: uploadedFiles,
               audience: PostAudiences.ALL,
-              categoriesId: [],
+              categoriesId: values.categoriesId,
               title: values.title,
               description: values.description
             }
@@ -93,6 +106,14 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({
         })
     }
   })
+  const audienceOptions = [
+    { label: t('POST_AUDIENCE_ALL'), value: PostAudiences.ALL },
+    { label: t('POST_AUDIENCE_VIEWER'), value: PostAudiences.VIEWER }
+  ]
+  const categoryOptions = categories.map((category) => ({
+    label: category.name,
+    value: category._id
+  }))
 
   useEffect(() => {
     if (isOpen) {
@@ -106,7 +127,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({
     <Dialog
       open={isOpen}
       onClose={handleClose}
-      title={t('CREATE_CATEGORY_DIALOG_TITLE')}
+      title={t('CREATE_POST_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={
@@ -122,6 +143,18 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({
             label={t('POST_DESCRIPTION')}
             formik={formik}
             name="description"
+          />
+          <FieldSelect
+            label={t('POST_AUDIENCE')}
+            formik={formik}
+            name="audience"
+            options={audienceOptions}
+          />
+          <FieldMultiSelect
+            label={t('POST_CATEGORIES')}
+            formik={formik}
+            name="categoriesId"
+            options={categoryOptions}
           />
           <Button
             fullWidth
