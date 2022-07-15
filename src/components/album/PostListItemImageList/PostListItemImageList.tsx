@@ -38,7 +38,10 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
           className="__d-relative"
           sx={{ textAlign: 'center', maxHeight: ROW_HEIGHT * 2 }}
         >
-          <img src={assetsWithSrc[0].src} style={{ maxWidth: '100%' }} />
+          <img
+            src={assetsWithSrc[0].src}
+            style={{ maxWidth: '100%', maxHeight: ROW_HEIGHT * 2 }}
+          />
         </Box>
       )
     }

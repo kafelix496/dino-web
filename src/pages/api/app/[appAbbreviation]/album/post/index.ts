@@ -35,28 +35,30 @@ export default async function handler(
     const userDoc = createDocument(CollectionsName.USER, userSchema)
     const currentUser: User = await userDoc.findOne({ _id: currentUserId })
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
-    // if the user access-level is none, return error
-    if (currentUserAppAccessLevel === AccessLevels.NONE) {
-      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
-    }
 
     const postDoc = createDocument(CollectionsName.ALBUM_POST, postSchema)
 
     switch (req.method) {
       case 'GET': {
         const { page, category } = req.query
-        const audience =
-          currentUserAppAccessLevel === AccessLevels.VIEWER
-            ? PostAudiences.VIEWER
-            : PostAudiences.ALL
+        const audienceMatch =
+          currentUserAppAccessLevel === AccessLevels.NONE
+            ? {
+                $eq: ['$audience', PostAudiences.ALL]
+              }
+            : {}
 
         const match = category
           ? {
               $match: {
                 $expr: {
                   $and: [
+                    audienceMatch,
                     {
-                      $eq: ['$audience', audience]
+                      $in: [
+                        new mongoose.Types.ObjectId(category as string),
+                        '$categories'
+                      ]
                     }
                   ]
                 }
@@ -65,17 +67,7 @@ export default async function handler(
           : {
               $match: {
                 $expr: {
-                  $and: [
-                    {
-                      $eq: ['$audience', audience]
-                    },
-                    {
-                      $in: [
-                        new mongoose.Types.ObjectId(category as string),
-                        '$categories'
-                      ]
-                    }
-                  ]
+                  $and: [audienceMatch]
                 }
               }
             }
@@ -149,8 +141,8 @@ export default async function handler(
       case 'POST': {
         const {
           assets: assetsInput,
+          audiences,
           categoriesId,
-          audience,
           title,
           description
         } = req.body ?? {}
@@ -167,8 +159,8 @@ export default async function handler(
 
         const post = await postDoc.create({
           assets: assets.map((asset) => asset._id),
+          audiences,
           categories: categoriesId ?? [],
-          audience,
           title,
           description
         })
@@ -199,6 +191,7 @@ export default async function handler(
         return res.status(405).json({ message: 'SEM_METHOD_NOT_ALLOWED' })
     }
   } catch (error) {
+    console.log('error', error)
     res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
   }
 }

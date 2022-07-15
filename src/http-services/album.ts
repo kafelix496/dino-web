@@ -63,7 +63,8 @@ const albumHttpService = {
       .get<{ total: number; posts: Post[] }>(
         `${process.env.PAGE_URL ?? ''}/api/app/${
           Apps.familyAlbum
-        }/album/post?page=${data.page}&category=${data.category}`,
+        }/album/post?page=${data.page}` +
+          (data.category ? `&category=${data.category}` : ''),
         config
       )
       .then((res) => res.data),

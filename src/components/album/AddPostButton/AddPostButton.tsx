@@ -37,7 +37,9 @@ const AddPostButton = () => {
         </Button>
       </Box>
 
-      <CreatePostDialog isOpen={dialogState.isOpen} handleClose={handleClose} />
+      {dialogState.isOpen ? (
+        <CreatePostDialog handleClose={handleClose} />
+      ) : null}
     </Box>
   )
 }

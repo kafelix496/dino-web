@@ -25,10 +25,12 @@ const SettingsDrawer = dynamic(() => import('./SettingsDrawer/SettingsDrawer'))
 
 interface LayoutProps {
   children: ReactNode
+  isErrorPage: boolean
   isSidebarNavOpen: boolean
 }
 
 const Layout: FC<LayoutProps> = ({
+  isErrorPage,
   isSidebarNavOpen: isSidebarNavOpenInit,
   children
 }) => {
@@ -51,34 +53,46 @@ const Layout: FC<LayoutProps> = ({
       </Head>
 
       <Box className="__d-flex">
-        <Header
-          hasSidebarNav={!!DrawerContent}
-          setSidebarNavOpen={setSidebarNavOpen}
-          setSettingsOpen={setSettingsOpen}
-        />
+        {isErrorPage && (
+          <Box className="__d-grow __d-h-screen" component="main">
+            <Paper elevation={0} square={true}>
+              {children}
+            </Paper>
+          </Box>
+        )}
 
-        <SidebarNavDrawer
-          DrawerContent={DrawerContent}
-          isSidebarNavOpen={isSidebarNavOpen}
-          setSidebarNavOpen={setSidebarNavOpen}
-        />
+        {!isErrorPage && (
+          <>
+            <Header
+              hasSidebarNav={!!DrawerContent}
+              setSidebarNavOpen={setSidebarNavOpen}
+              setSettingsOpen={setSettingsOpen}
+            />
 
-        <SettingsDrawer
-          isSettingsOpen={isSettingsOpen}
-          setSettingsOpen={setSettingsOpen}
-        />
+            <SidebarNavDrawer
+              DrawerContent={DrawerContent}
+              isSidebarNavOpen={isSidebarNavOpen}
+              setSidebarNavOpen={setSidebarNavOpen}
+            />
 
-        <Box className="__d-grow __d-h-screen" component="main">
-          <Toolbar />
+            <SettingsDrawer
+              isSettingsOpen={isSettingsOpen}
+              setSettingsOpen={setSettingsOpen}
+            />
 
-          <Paper
-            elevation={0}
-            square={true}
-            sx={{ height: (theme) => `calc(100% - ${theme.spacing(8)})` }}
-          >
-            {children}
-          </Paper>
-        </Box>
+            <Box className="__d-grow __d-h-screen" component="main">
+              <Toolbar />
+
+              <Paper
+                elevation={0}
+                square={true}
+                sx={{ height: (theme) => `calc(100% - ${theme.spacing(8)})` }}
+              >
+                {children}
+              </Paper>
+            </Box>
+          </>
+        )}
       </Box>
     </ThemeProvider>
   )

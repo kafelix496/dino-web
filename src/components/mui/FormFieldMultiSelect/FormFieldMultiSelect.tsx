@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { FC } from 'react'
 
 import Autocomplete from '@mui/material/Autocomplete'
@@ -21,9 +22,7 @@ const FieldMultiSelect: FC<FieldMultiSelectProps> = ({
   name,
   options
 }) => {
-  const originalValue = formik.values[name].map(
-    (value: unknown) => options.find((option) => option.value === value)!
-  )
+  const [selected, setSelected] = useState<FieldMultiSelectProps['options']>([])
 
   return (
     <Autocomplete
@@ -33,12 +32,16 @@ const FieldMultiSelect: FC<FieldMultiSelectProps> = ({
       options={options}
       getOptionLabel={(option) => option.label}
       onChange={(_, values) => {
+        setSelected(values)
+
         formik.setFieldValue(
           name,
           values.map(({ value }) => value)
         )
       }}
-      value={originalValue}
+      onBlur={formik.handleBlur}
+      isOptionEqualToValue={(option, value) => option.value === value.value}
+      value={selected}
       renderOption={(props, option, { selected }) => (
         <li {...props}>
           <Checkbox checked={selected} />
@@ -46,13 +49,7 @@ const FieldMultiSelect: FC<FieldMultiSelectProps> = ({
         </li>
       )}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label={label}
-          name={name}
-          margin="dense"
-          onChange={formik.handleChange}
-        />
+        <TextField {...params} label={label} name={name} margin="dense" />
       )}
     />
   )

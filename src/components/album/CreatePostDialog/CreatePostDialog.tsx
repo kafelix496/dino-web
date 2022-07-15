@@ -1,10 +1,10 @@
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
-import { useEffect } from 'react'
 import type { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 
+import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
@@ -19,14 +19,10 @@ import { selectCategoryList } from '@/redux-selectors'
 import { uploadFile } from '@/utils/file'
 
 interface CreatePostDialogProps {
-  isOpen: boolean
   handleClose: () => void
 }
 
-const CreatePostDialog: FC<CreatePostDialogProps> = ({
-  isOpen,
-  handleClose
-}) => {
+const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
   const { t } = useTranslation('common')
   const categories = useSelector(selectCategoryList)
   const dispatch = useDispatch()
@@ -86,7 +82,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({
           albumHttpService.createPost({
             values: {
               assets: uploadedFiles,
-              audience: PostAudiences.ALL,
+              audience: values.audience,
               categoriesId: values.categoriesId,
               title: values.title,
               description: values.description
@@ -115,17 +111,9 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({
     value: category._id
   }))
 
-  useEffect(() => {
-    if (isOpen) {
-      formik.resetForm()
-    }
-    // I don't know why I can't pass test if I put formik in here
-    // I don't think it's important, so I'll ignore it
-  }, [isOpen])
-
   return (
     <Dialog
-      open={isOpen}
+      open={true}
       onClose={handleClose}
       title={t('CREATE_POST_DIALOG_TITLE')}
       wrapBodyWithForm={true}
@@ -176,6 +164,12 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({
           </Button>
 
           <CreatePostDialogImageList files={formik.values.files} />
+
+          {formik.submitCount >= 1 ? (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {formik.errors.files as string}
+            </Alert>
+          ) : null}
         </>
       }
       actionsJsx={
