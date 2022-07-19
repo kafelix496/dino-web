@@ -80,6 +80,9 @@ export default async function handler(
                 total: [{ $count: 'count' }],
                 posts: [
                   {
+                    $sort: { createdAt: -1 }
+                  },
+                  {
                     $skip: (parseInt(page as string) - 1) * 25
                   },
                   {
