@@ -45,4 +45,14 @@ export const generateUuid = (): string => {
   return uuidv1()
 }
 
+export const getCreatedAtTxt = (
+  t: (text: string) => string,
+  dbTime: string
+): string => `${t('CREATED_AT')}: ${convertTime.dbToJs(dbTime)}`
+
+export const getUpdatedAtTxt = (
+  t: (text: string) => string,
+  dbTime: string
+): string => `${t('UPDATED_AT')}: ${convertTime.dbToJs(dbTime)}`
+
 export const isServer = () => typeof window !== 'undefined'

@@ -33,7 +33,10 @@ const MyApp = ({
   return (
     <CacheProvider value={emotionCache}>
       <SessionProvider session={pageProps.session}>
-        <Layout isSidebarNavOpen={pageProps.isSidebarNavOpen}>
+        <Layout
+          isErrorPage={pageProps.isErrorPage}
+          isSidebarNavOpen={pageProps.isSidebarNavOpen}
+        >
           <Component {...pageProps} />
         </Layout>
       </SessionProvider>
@@ -62,8 +65,10 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
       )
     )
 
+    const isErrorPage = /^\/(4\d\d)|(5\d\d)/.test(appContext.ctx.pathname)
+
     // except error page, fetch user before the page is loaded
-    if (!/^\/(4\d\d)|(5\d\d)/.test(appContext.ctx.pathname)) {
+    if (!isErrorPage) {
       const user = await userHttpService.getCurrentUser({
         headers: { Cookie: appContext.ctx.req?.headers.cookie ?? '' }
       })
@@ -76,6 +81,7 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
       appProps,
       pageProps: {
         ...appProps,
+        isErrorPage,
         isSidebarNavOpen:
           nookies.get(appContext.ctx)[Cookies.sidebarNav] === 'true'
       }

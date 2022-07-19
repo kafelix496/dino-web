@@ -3,7 +3,7 @@ import type { ThunkAction } from 'redux-thunk'
 import type { RootState } from '@/redux-types'
 import { ActionType } from '@/redux-types/album'
 import type { Action } from '@/redux-types/album'
-import type { Category } from '@/types/album'
+import type { Category, Post } from '@/types/album'
 
 export const setCategories = (
   categories: Category[]
@@ -35,5 +35,22 @@ export const deleteCategory = (
 ): ThunkAction<void, RootState, unknown, Action> => {
   return (dispatch) => {
     dispatch({ type: ActionType.DELETE_CATEGORY, id })
+  }
+}
+
+export const setPostData = (
+  total: number,
+  posts: Post[]
+): ThunkAction<void, RootState, unknown, Action> => {
+  return (dispatch) => {
+    dispatch({ type: ActionType.SET_POST_DATA, total, posts })
+  }
+}
+
+export const addPost = (
+  post: Post
+): ThunkAction<void, RootState, unknown, Action> => {
+  return (dispatch) => {
+    dispatch({ type: ActionType.ADD_POST, post })
   }
 }

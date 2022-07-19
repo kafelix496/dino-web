@@ -2,6 +2,7 @@ import type { FC } from 'react'
 import { useState } from 'react'
 
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
@@ -32,7 +33,7 @@ const MaxHeightMenu: FC<MaxHeightMenuProps> = ({
   }
 
   return (
-    <div>
+    <Box>
       <IconButton onClick={handleClick} {...extraIconButtonProps}>
         <MoreVertIcon />
       </IconButton>
@@ -51,7 +52,7 @@ const MaxHeightMenu: FC<MaxHeightMenuProps> = ({
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </Box>
   )
 }
 

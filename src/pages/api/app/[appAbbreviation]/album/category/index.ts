@@ -27,10 +27,6 @@ export default async function handler(
     const userDoc = createDocument(CollectionsName.USER, userSchema)
     const currentUser: User = await userDoc.findOne({ _id: currentUserId })
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
-    // if the user access-level is none, return error
-    if (currentUserAppAccessLevel === AccessLevels.NONE) {
-      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
-    }
 
     const categoryDoc = createDocument(
       CollectionsName.ALBUM_CATEGORY,

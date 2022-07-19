@@ -4,23 +4,25 @@ import type { Store } from 'redux'
 
 import Box from '@mui/material/Box'
 
-import AssetList from '@/components/album/AssetList/AssetList'
+import AddPostButton from '@/components/album/AddPostButton/AddPostButton'
+import PostList from '@/components/album/PostList/PostList'
 import { Apps } from '@/constants'
+import { PostAudiences } from '@/constants/album'
 import albumHttpService from '@/http-services/album'
-import { setCategories } from '@/redux-actions'
+import { setCategories, setPostData } from '@/redux-actions'
 import { wrapper } from '@/redux-store'
 import type { RootState } from '@/redux-types'
 
 const Page: NextPage = () => {
   return (
     <Box
-      className="__d-flex __d-justify-center __d-items-center __d-h-full"
-      sx={{ py: 2 }}
+      className="__d-flex __d-justify-center __d-items-start __d-h-full"
+      sx={{ pt: 5, overflow: 'auto' }}
     >
-      <Box sx={{ width: '100%', height: 700, maxHeight: '100%' }}>
-        <Box className="__d-w-full __d-h-full">
-          <AssetList assets={[]} />
-        </Box>
+      <Box className="__d-w-full __d-h-full">
+        <AddPostButton />
+
+        <PostList />
       </Box>
     </Box>
   )
@@ -31,14 +33,26 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store: Store<RootState, any>): GetServerSideProps =>
     async ({ query, req, locale }) => {
       try {
-        const appAbbreviation = query.appAbbreviation as Apps
+        const { appAbbreviation, categoryId } = query as unknown as {
+          appAbbreviation: Apps
+          audience: PostAudiences
+          categoryId?: string
+        }
         if (appAbbreviation !== Apps.familyAlbum) {
           return { redirect: { permanent: false, destination: '/404' } }
         }
+
         const categories = await albumHttpService.getCategories({
           headers: { Cookie: req.headers.cookie ?? '' }
         })
         store.dispatch(setCategories(categories))
+        const postData = await albumHttpService.getPosts(
+          { page: 1, category: categoryId },
+          {
+            headers: { Cookie: req.headers.cookie ?? '' }
+          }
+        )
+        store.dispatch(setPostData(postData.total, postData.posts))
 
         return {
           props: {

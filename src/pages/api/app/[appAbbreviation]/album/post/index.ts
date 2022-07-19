@@ -3,13 +3,14 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
+import { PostAudiences } from '@/constants/album'
 import { CollectionsName } from '@/constants/collection'
 import assetSchema from '@/models/album/assetSchema'
 import postSchema from '@/models/album/postSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { Post, ReactionResponse } from '@/types/album'
+import type { AssetDefault, Post, ReactionResponse } from '@/types/album'
 import {
   generateLookupForComments,
   generateLookupForReactions,
@@ -34,33 +35,25 @@ export default async function handler(
     const userDoc = createDocument(CollectionsName.USER, userSchema)
     const currentUser: User = await userDoc.findOne({ _id: currentUserId })
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
-    // if the user access-level is not super admin or admin, return error
-    if (
-      currentUserAppAccessLevel !== AccessLevels.SUPER_ADMIN &&
-      currentUserAppAccessLevel !== AccessLevels.ADMIN
-    ) {
-      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
-    }
 
     const postDoc = createDocument(CollectionsName.ALBUM_POST, postSchema)
 
     switch (req.method) {
       case 'GET': {
-        const { page, audience, category } = req.query
+        const { page, category } = req.query
+        const audienceMatch =
+          currentUserAppAccessLevel === AccessLevels.NONE
+            ? {
+                $eq: ['$audience', PostAudiences.ALL]
+              }
+            : {}
 
-        if (Array.isArray(page) || !/^[1-9](\d+)?$/.test(page as string)) {
-          return res.status(401).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
-        }
-
-        const [result]: { total: number; posts: Post[] }[] =
-          await postDoc.aggregate([
-            {
+        const match = category
+          ? {
               $match: {
                 $expr: {
                   $and: [
-                    {
-                      $eq: ['$audience', audience]
-                    },
+                    audienceMatch,
                     {
                       $in: [
                         new mongoose.Types.ObjectId(category as string),
@@ -70,7 +63,18 @@ export default async function handler(
                   ]
                 }
               }
-            },
+            }
+          : {
+              $match: {
+                $expr: {
+                  $and: [audienceMatch]
+                }
+              }
+            }
+
+        const [result]: { total: number; posts: Post[] }[] =
+          await postDoc.aggregate([
+            match,
             {
               $facet: {
                 total: [{ $count: 'count' }],
@@ -116,6 +120,7 @@ export default async function handler(
 
         return res.status(200).json({
           ...result,
+          total: result?.total ?? 0,
           posts: result.posts.map((post) => ({
             ...post,
             reaction: transformReactionsForClient(
@@ -134,24 +139,30 @@ export default async function handler(
       }
 
       case 'POST': {
-        const { assetsKey, categoriesId, audience } = req.body ?? {}
+        const {
+          assets: assetsInput,
+          audiences,
+          categoriesId,
+          title,
+          description
+        } = req.body ?? {}
 
         const assetDoc = createDocument(
           CollectionsName.ALBUM_ASSET,
           assetSchema
         )
 
-        const assets = await assetDoc.create(
-          (assetsKey as string[]).map((key) => ({ key }))
-        )
+        const assets: AssetDefault[] = await assetDoc.create(assetsInput)
         if (!assets) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
         const post = await postDoc.create({
           assets: assets.map((asset) => asset._id),
+          audiences,
           categories: categoriesId ?? [],
-          audience
+          title,
+          description
         })
         if (!post) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
@@ -180,6 +191,7 @@ export default async function handler(
         return res.status(405).json({ message: 'SEM_METHOD_NOT_ALLOWED' })
     }
   } catch (error) {
+    console.log('error', error)
     res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
   }
 }

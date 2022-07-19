@@ -6,7 +6,8 @@ import { ActionType } from '@/redux-types/album'
 import type { Action, State } from '@/redux-types/album'
 
 const initialState: State = {
-  categories: []
+  categories: [],
+  postData: { total: 0, posts: [] }
 }
 
 const reducer = (state: State = initialState, action: AnyAction) => {
@@ -48,6 +49,26 @@ const reducer = (state: State = initialState, action: AnyAction) => {
         categories: state.categories.filter(
           (category) => category._id !== action.id
         )
+      }
+    }
+
+    case ActionType.SET_POST_DATA: {
+      return {
+        ...state,
+        postData: {
+          total: action.total,
+          posts: action.posts
+        }
+      }
+    }
+
+    case ActionType.ADD_POST: {
+      return {
+        ...state,
+        postData: {
+          total: state.postData.total + 1,
+          posts: state.postData.posts.concat(action.post)
+        }
       }
     }
 

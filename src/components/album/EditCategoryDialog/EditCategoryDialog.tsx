@@ -74,7 +74,7 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
     <Dialog
       open={isOpen}
       onClose={handleClose}
-      title={t('EDIT_PROJECT_DIALOG_TITLE')}
+      title={t('EDIT_CATEGORY_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={

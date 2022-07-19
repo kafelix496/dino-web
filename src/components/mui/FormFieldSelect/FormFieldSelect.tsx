@@ -1,28 +1,30 @@
 import type { FC } from 'react'
 
+import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 
-interface FieldTextProps {
-  autoFocus?: boolean
+interface FieldSelectProps {
   required?: boolean
   fullWidth?: boolean
   label?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formik: { [key: string]: any }
   name: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options: { label: string; value: any }[]
 }
 
-const FieldText: FC<FieldTextProps> = ({
-  autoFocus = false,
+const FieldSelect: FC<FieldSelectProps> = ({
   required = false,
   fullWidth = true,
   label = '',
   formik,
-  name
+  name,
+  options
 }) => {
   return (
     <TextField
-      autoFocus={autoFocus}
+      select
       required={required}
       fullWidth={fullWidth}
       name={name}
@@ -33,8 +35,14 @@ const FieldText: FC<FieldTextProps> = ({
       onBlur={formik.handleBlur}
       error={formik.touched[name] && Boolean(formik.errors[name])}
       helperText={formik.touched[name] && formik.errors[name]}
-    />
+    >
+      {options.map((option) => (
+        <MenuItem key={option.value} value={option.value}>
+          {option.label}
+        </MenuItem>
+      ))}
+    </TextField>
   )
 }
 
-export default FieldText
+export default FieldSelect

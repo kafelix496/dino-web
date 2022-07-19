@@ -10,6 +10,10 @@ const assetSchema = new mongoose.Schema(
     key: {
       type: String,
       required: true
+    },
+    extension: {
+      type: String,
+      required: true
     }
   },
   {

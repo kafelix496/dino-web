@@ -27,6 +27,15 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: PostAudiences
+    },
+    title: {
+      type: String,
+      required: true,
+      maxLength: 20
+    },
+    description: {
+      type: String,
+      maxLength: 100
     }
   },
   {

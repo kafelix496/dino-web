@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 
 import { Apps } from '@/constants'
@@ -24,7 +25,7 @@ const appList = [
   },
   {
     link: {
-      pathname: `/app/${Apps.familyAlbum}/album/list`
+      pathname: `/app/${Apps.familyAlbum}/album`
     },
     name: 'APP_NAME_FAMILY_ALBUM',
     shouldAdmin: false,
@@ -47,7 +48,7 @@ const Page: NextPage = () => {
   const canAccessAdminPage = hasAccessAdminPage(user)
 
   return (
-    <>
+    <Container>
       <Typography variant="h3">{t('HOME_PAGE_TITLE')}</Typography>
       <Typography variant="h6">{t('HOME_PAGE_DESCRIPTION')}</Typography>
 
@@ -79,7 +80,7 @@ const Page: NextPage = () => {
           )
         })}
       </Box>
-    </>
+    </Container>
   )
 }
 

@@ -48,10 +48,6 @@ export default async function handler(
       case 'GET': {
         const { parent, parentId, page } = req.query
 
-        if (Array.isArray(page) || !/^[1-9](\d+)?$/.test(page as string)) {
-          return res.status(401).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
-        }
-
         const commentDoc = createDocument(
           CollectionsName.ALBUM_COMMENT,
           commentSchema
