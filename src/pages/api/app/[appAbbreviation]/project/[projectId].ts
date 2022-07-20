@@ -82,19 +82,26 @@ export default async function handler(
       }
 
       case 'DELETE': {
-        await projectDoc.findOneAndDelete({
-          $and: [
-            { _id: projectId },
-            {
-              $or: [
-                { ownerId: currentUserId },
-                { accessUsers: { $elemMatch: { accessUserId: currentUserId } } }
-              ]
-            }
-          ]
-        })
+        const deletedProject: Project | null =
+          await projectDoc.findOneAndDelete({
+            $and: [
+              { _id: projectId },
+              {
+                $or: [
+                  { ownerId: currentUserId },
+                  {
+                    accessUsers: { $elemMatch: { accessUserId: currentUserId } }
+                  }
+                ]
+              }
+            ]
+          })
 
-        return res.status(200).end()
+        if (!deletedProject) {
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
+        }
+
+        return res.status(200).json(deletedProject)
       }
 
       default:

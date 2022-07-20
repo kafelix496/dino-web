@@ -3,23 +3,23 @@ import { getToken } from 'next-auth/jwt'
 
 import { AccessLevels, Apps } from '@/constants'
 import { CollectionsName } from '@/constants/collection'
-import reactionSchema from '@/models/album/reactionSchema'
+import categorySchema from '@/models/album/categorySchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { ReactionResponse } from '@/types/album'
+import type { Post } from '@/types/album'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ReactionResponse | { message?: string }>
+  res: NextApiResponse<Post | { message?: string }>
 ) {
   try {
     const token = await getToken({ req })
     const currentUserId = token!.sub!
-    const { appAbbreviation, reactionId } = req.query as {
+    const { appAbbreviation, postId } = req.query as {
       appAbbreviation: Apps
-      reactionId: string
+      postId: unknown
     }
     if (appAbbreviation !== Apps.familyAlbum) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
@@ -43,21 +43,19 @@ export default async function handler(
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
 
+    const postDoc = createDocument(CollectionsName.ALBUM_POST, categorySchema)
+
     switch (req.method) {
       case 'DELETE': {
-        const reactionDoc = createDocument(
-          CollectionsName.ALBUM_REACTION,
-          reactionSchema
-        )
+        const deletedPost: Post | null = await postDoc.findOneAndDelete({
+          _id: postId
+        })
 
-        const deletedReaction: ReactionResponse | null =
-          await reactionDoc.findOneAndDelete({ _id: reactionId })
-
-        if (!deletedReaction) {
+        if (!deletedPost) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(200).json(deletedReaction)
+        return res.status(200).json(deletedPost)
       }
 
       default:

@@ -67,9 +67,14 @@ export default async function handler(
       }
 
       case 'DELETE': {
-        await commentDoc.findOneAndDelete({ _id: commentId })
+        const deletedComment: CommentResponse | null =
+          await commentDoc.findOneAndDelete({ _id: commentId })
 
-        return res.status(200).end()
+        if (!deletedComment) {
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
+        }
+
+        return res.status(200).json(deletedComment)
       }
 
       default:
