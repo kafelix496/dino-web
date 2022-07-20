@@ -45,7 +45,7 @@ export default async function handler(
           reactionSchema
         )
 
-        await reactionDoc.deleteOne({ _id: reactionId })
+        await reactionDoc.findOneAndDelete({ _id: reactionId })
 
         return res.status(200).end()
       }

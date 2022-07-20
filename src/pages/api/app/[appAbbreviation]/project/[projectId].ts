@@ -82,7 +82,7 @@ export default async function handler(
       }
 
       case 'DELETE': {
-        await projectDoc.deleteOne({
+        await projectDoc.findOneAndDelete({
           $and: [
             { _id: projectId },
             {

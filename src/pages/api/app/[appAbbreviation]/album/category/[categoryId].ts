@@ -61,7 +61,7 @@ export default async function handler(
       }
 
       case 'DELETE': {
-        await categoryDoc.deleteOne({ _id: categoryId })
+        await categoryDoc.findOneAndDelete({ _id: categoryId })
 
         return res.status(200).end()
       }

@@ -61,7 +61,7 @@ export default async function handler(
       }
 
       case 'DELETE': {
-        await commentDoc.deleteOne({ _id: commentId })
+        await commentDoc.findOneAndDelete({ _id: commentId })
 
         return res.status(200).end()
       }
