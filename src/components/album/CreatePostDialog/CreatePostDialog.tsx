@@ -165,7 +165,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
 
           <CreatePostDialogImageList files={formik.values.files} />
 
-          {formik.submitCount >= 1 ? (
+          {formik.submitCount >= 1 && formik.errors.files ? (
             <Alert severity="error" sx={{ mt: 2 }}>
               {formik.errors.files as string}
             </Alert>
