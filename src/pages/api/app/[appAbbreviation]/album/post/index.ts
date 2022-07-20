@@ -144,7 +144,7 @@ export default async function handler(
       case 'POST': {
         const {
           assets: assetsInput,
-          audiences,
+          audience,
           categoriesId,
           title,
           description
@@ -162,7 +162,7 @@ export default async function handler(
 
         const post = await postDoc.create({
           assets: assets.map((asset) => asset._id),
-          audiences,
+          audience,
           categories: categoriesId ?? [],
           title,
           description
