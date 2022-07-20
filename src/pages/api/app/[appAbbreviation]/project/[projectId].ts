@@ -56,7 +56,7 @@ export default async function handler(
       case 'PUT': {
         const { title, description } = req.body ?? {}
 
-        const project: Project = await projectDoc.findOneAndUpdate(
+        const project: Project | null = await projectDoc.findOneAndUpdate(
           {
             $and: [
               { _id: projectId },

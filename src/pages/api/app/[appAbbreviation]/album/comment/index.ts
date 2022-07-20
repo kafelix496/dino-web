@@ -34,7 +34,12 @@ export default async function handler(
     await dbConnect()
 
     const userDoc = createDocument(CollectionsName.USER, userSchema)
-    const currentUser: User = await userDoc.findOne({ _id: currentUserId })
+    const currentUser: User | null = await userDoc.findOne({
+      _id: currentUserId
+    })
+    if (!currentUser) {
+      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
+    }
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
     // if the user access-level is not super admin or admin, return error
     if (
@@ -123,6 +128,7 @@ export default async function handler(
           parentId,
           content
         })
+
         if (!comment) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
