@@ -11,7 +11,8 @@ export enum ActionType {
   EDIT_CATEGORY = 'familyAlbum/editCategory',
   DELETE_CATEGORY = 'familyAlbum/deleteCategory',
   SET_POST_DATA = 'familyAlbum/setPostData',
-  ADD_POST = 'familyAlbum/addPost'
+  ADD_POST = 'familyAlbum/addPost',
+  DELETE_POST = 'familyAlbum/deletePost'
 }
 
 export interface setCategoriesAction {
@@ -46,6 +47,11 @@ export interface addPostAction {
   post: Post
 }
 
+export interface deletePostAction {
+  type: ActionType.DELETE_POST
+  id: string
+}
+
 export type Action =
   | setCategoriesAction
   | addCategoryAction
@@ -53,3 +59,4 @@ export type Action =
   | deleteCategoryAction
   | setPostDataAction
   | addPostAction
+  | deletePostAction

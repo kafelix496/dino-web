@@ -38,7 +38,9 @@ const albumHttpService = {
   ): Promise<Category> =>
     axios
       .put<Category>(
-        `/api/app/${Apps.familyAlbum}/album/category/${data.id}`,
+        `${process.env.PAGE_URL ?? ''}/api/app/${
+          Apps.familyAlbum
+        }/album/category/${data.id}`,
         data.values,
         config
       )
@@ -48,10 +50,15 @@ const albumHttpService = {
       id: string
     },
     config?: AxiosRequestConfig
-  ): Promise<void> =>
+  ): Promise<Category> =>
     axios
-      .delete(`/api/app/${Apps.familyAlbum}/album/category/${data.id}`, config)
-      .then(() => undefined),
+      .delete<Category>(
+        `${process.env.PAGE_URL ?? ''}/api/app/${
+          Apps.familyAlbum
+        }/album/category/${data.id}`,
+        config
+      )
+      .then((res) => res.data),
   getPosts: (
     data: {
       page: number
@@ -78,6 +85,20 @@ const albumHttpService = {
       .post<Post>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post`,
         data.values,
+        config
+      )
+      .then((res) => res.data),
+  deletePost: (
+    data: {
+      id: string
+    },
+    config?: AxiosRequestConfig
+  ): Promise<Post> =>
+    axios
+      .delete<Post>(
+        `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post/${
+          data.id
+        }`,
         config
       )
       .then((res) => res.data)

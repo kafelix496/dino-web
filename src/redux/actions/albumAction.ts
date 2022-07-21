@@ -54,3 +54,11 @@ export const addPost = (
     dispatch({ type: ActionType.ADD_POST, post })
   }
 }
+
+export const deletePost = (
+  id: string
+): ThunkAction<void, RootState, unknown, Action> => {
+  return (dispatch) => {
+    dispatch({ type: ActionType.DELETE_POST, id })
+  }
+}

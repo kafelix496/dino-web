@@ -7,12 +7,12 @@ import categorySchema from '@/models/album/categorySchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { Post } from '@/types/album'
+import type { PostRaw } from '@/types/album'
 import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Post | { message?: string }>
+  res: NextApiResponse<PostRaw | { message?: string }>
 ) {
   try {
     const token = await getToken({ req })
@@ -46,8 +46,24 @@ export default async function handler(
     const postDoc = createDocument(CollectionsName.ALBUM_POST, categorySchema)
 
     switch (req.method) {
+      case 'PUT': {
+        const { audience, categoriesId, title, description } = req.body ?? {}
+
+        const post: PostRaw | null = await postDoc.findOneAndUpdate(
+          { _id: postId },
+          { audience, categoriesId, title, description },
+          { new: true, runValidators: true }
+        )
+
+        if (!post) {
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
+        }
+
+        return res.status(200).json(post)
+      }
+
       case 'DELETE': {
-        const deletedPost: Post | null = await postDoc.findOneAndDelete({
+        const deletedPost: PostRaw | null = await postDoc.findOneAndDelete({
           _id: postId
         })
 
