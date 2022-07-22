@@ -1,9 +1,17 @@
 import type { ThunkAction } from 'redux-thunk'
 
+import { selectCategory } from '@/redux-selectors'
 import type { RootState } from '@/redux-types'
 import { ActionType } from '@/redux-types/album'
 import type { Action } from '@/redux-types/album'
-import type { Category, Post } from '@/types/album'
+import type {
+  AssetDefault,
+  Category,
+  Comment,
+  Post,
+  PostRaw
+} from '@/types/album'
+import { getDefaultReaction } from '@/utils/album'
 
 export const setCategories = (
   categories: Category[]
@@ -48,10 +56,30 @@ export const setPostData = (
 }
 
 export const addPost = (
-  post: Post
+  post: PostRaw,
+  assets: AssetDefault[]
 ): ThunkAction<void, RootState, unknown, Action> => {
-  return (dispatch) => {
-    dispatch({ type: ActionType.ADD_POST, post })
+  return (dispatch, getState) => {
+    const rootState = getState()
+
+    dispatch({
+      type: ActionType.ADD_POST,
+      post: {
+        ...post,
+        assets: post.assets
+          .map((assetId) => assets.find((asset) => asset._id === assetId))
+          .filter((asset) => asset !== undefined) as AssetDefault[],
+        categories: post.categories
+          .map((categoryId) => selectCategory(categoryId, rootState))
+          .filter((category) => category !== undefined) as Category[],
+        reaction: {
+          _id: null,
+          status: null,
+          items: getDefaultReaction()
+        },
+        comments: [] as Comment[]
+      }
+    })
   }
 }
 

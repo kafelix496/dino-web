@@ -89,8 +89,8 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
             }
           })
         )
-        .then((post) => {
-          dispatch(addPost(post))
+        .then(({ post, assets }) => {
+          dispatch(addPost(post, assets))
 
           handleClose()
         })

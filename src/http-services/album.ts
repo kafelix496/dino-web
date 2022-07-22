@@ -2,7 +2,13 @@ import axios from 'axios'
 
 import { Apps } from '@/constants'
 import type { AxiosRequestConfig } from '@/types'
-import type { Category, Post, PostRequest } from '@/types/album'
+import type {
+  AssetDefault,
+  Category,
+  Post,
+  PostRaw,
+  PostRequest
+} from '@/types/album'
 
 const albumHttpService = {
   getCategories: (config?: AxiosRequestConfig): Promise<Category[]> =>
@@ -80,9 +86,9 @@ const albumHttpService = {
       values: PostRequest
     },
     config?: AxiosRequestConfig
-  ): Promise<Post> =>
+  ): Promise<{ post: PostRaw; assets: AssetDefault[] }> =>
     axios
-      .post<Post>(
+      .post<{ post: PostRaw; assets: AssetDefault[] }>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post`,
         data.values,
         config
