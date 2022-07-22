@@ -67,7 +67,17 @@ const reducer = (state: State = initialState, action: AnyAction) => {
         ...state,
         postData: {
           total: state.postData.total + 1,
-          posts: state.postData.posts.concat(action.post)
+          posts: [action.post].concat(state.postData.posts)
+        }
+      }
+    }
+
+    case ActionType.DELETE_POST: {
+      return {
+        ...state,
+        postData: {
+          total: state.postData.total + 1,
+          posts: state.postData.posts.filter((post) => post._id !== action.id)
         }
       }
     }

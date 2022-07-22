@@ -28,13 +28,13 @@ const commentSchema = new mongoose.Schema(
 )
 
 commentSchema.set('timestamps', true)
-commentSchema.post('remove', async function (next) {
+commentSchema.post('findOneAndDelete', async function (doc, next) {
   await createDocument(
     CollectionsName.ALBUM_REACTION,
     reactionSchema
   ).deleteMany({
     parent: CollectionsName.ALBUM_COMMENT,
-    parentId: this._id
+    parentId: doc._id
   })
 
   next()

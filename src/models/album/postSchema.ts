@@ -44,15 +44,15 @@ const postSchema = new mongoose.Schema(
 )
 
 postSchema.set('timestamps', true)
-postSchema.post('remove', async function (next) {
+postSchema.post('findOneAndDelete', async function (doc, next) {
   await createDocument(CollectionsName.ALBUM_ASSET, assetSchema).deleteMany({
-    _id: { $in: this.assets }
+    _id: { $in: doc.assets }
   })
 
   await createDocument(CollectionsName.ALBUM_COMMENT, commentSchema).deleteMany(
     {
       parent: CollectionsName.ALBUM_POST,
-      parentId: this._id
+      parentId: doc._id
     }
   )
 
@@ -61,7 +61,7 @@ postSchema.post('remove', async function (next) {
     reactionSchema
   ).deleteMany({
     parent: CollectionsName.ALBUM_POST,
-    parentId: this._id
+    parentId: doc._id
   })
 
   next()

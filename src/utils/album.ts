@@ -4,11 +4,11 @@ import { Reactions } from '@/constants/album'
 import { CollectionsName } from '@/constants/collection'
 import type { Reaction, ReactionResponse } from '@/types/album'
 
-export const getDefaultReaction = () =>
+export const getDefaultReaction = (): Reaction['items'] =>
   Object.values(Reactions).map((reactionType) => ({
     type: reactionType,
     total: 0
-  }))
+  })) as Reaction['items']
 
 export const byReactionStatus = groupBy<ReactionResponse>((reaction) => {
   switch (reaction.status) {

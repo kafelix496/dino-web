@@ -10,11 +10,15 @@ import postSchema from '@/models/album/postSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { AssetDefault, Post, ReactionResponse } from '@/types/album'
+import type {
+  AssetDefault,
+  Post,
+  PostRaw,
+  ReactionResponse
+} from '@/types/album'
 import {
   generateLookupForComments,
   generateLookupForReactions,
-  getDefaultReaction,
   transformReactionsForClient
 } from '@/utils/album'
 import { dbConnect } from '@/utils/db-utils'
@@ -22,7 +26,9 @@ import { dbConnect } from '@/utils/db-utils'
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<
-    Post | { total: number; posts: Post[] } | { message?: string }
+    | { post: PostRaw; assets: AssetDefault[] }
+    | { total: number; posts: Post[] }
+    | { message?: string }
   >
 ) {
   try {
@@ -33,7 +39,12 @@ export default async function handler(
     await dbConnect()
 
     const userDoc = createDocument(CollectionsName.USER, userSchema)
-    const currentUser: User = await userDoc.findOne({ _id: currentUserId })
+    const currentUser: User | null = await userDoc.findOne({
+      _id: currentUserId
+    })
+    if (!currentUser) {
+      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
+    }
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
 
     const postDoc = createDocument(CollectionsName.ALBUM_POST, postSchema)
@@ -79,6 +90,9 @@ export default async function handler(
               $facet: {
                 total: [{ $count: 'count' }],
                 posts: [
+                  {
+                    $sort: { createdAt: -1 }
+                  },
                   {
                     $skip: (parseInt(page as string) - 1) * 25
                   },
@@ -141,7 +155,7 @@ export default async function handler(
       case 'POST': {
         const {
           assets: assetsInput,
-          audiences,
+          audience,
           categoriesId,
           title,
           description
@@ -157,9 +171,9 @@ export default async function handler(
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        const post = await postDoc.create({
+        const post: PostRaw = await postDoc.create({
           assets: assets.map((asset) => asset._id),
-          audiences,
+          audience,
           categories: categoriesId ?? [],
           title,
           description
@@ -168,30 +182,13 @@ export default async function handler(
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        const newPost = await postDoc
-          .findOne({ _id: post._id })
-          .populate('assets')
-          .populate('categories')
-        if (!newPost) {
-          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
-        }
-
-        return res.status(201).json({
-          ...newPost._doc,
-          reaction: {
-            _id: null,
-            status: null,
-            items: getDefaultReaction()
-          },
-          comments: []
-        })
+        return res.status(201).json({ post, assets })
       }
 
       default:
         return res.status(405).json({ message: 'SEM_METHOD_NOT_ALLOWED' })
     }
   } catch (error) {
-    console.log('error', error)
     res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
   }
 }

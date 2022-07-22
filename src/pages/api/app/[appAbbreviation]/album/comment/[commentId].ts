@@ -28,7 +28,12 @@ export default async function handler(
     await dbConnect()
 
     const userDoc = createDocument(CollectionsName.USER, userSchema)
-    const currentUser: User = await userDoc.findOne({ _id: currentUserId })
+    const currentUser: User | null = await userDoc.findOne({
+      _id: currentUserId
+    })
+    if (!currentUser) {
+      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
+    }
     const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
     // if the user access-level is not super admin or admin, return error
     if (
@@ -47,11 +52,12 @@ export default async function handler(
       case 'PUT': {
         const { content } = req.body ?? {}
 
-        const comment: CommentResponse = await commentDoc.findOneAndUpdate(
-          { _id: commentId },
-          { content: content ?? '' },
-          { new: true, runValidators: true }
-        )
+        const comment: CommentResponse | null =
+          await commentDoc.findOneAndUpdate(
+            { _id: commentId },
+            { content: content ?? '' },
+            { new: true, runValidators: true }
+          )
 
         if (!comment) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
@@ -61,9 +67,14 @@ export default async function handler(
       }
 
       case 'DELETE': {
-        await commentDoc.deleteOne({ _id: commentId })
+        const deletedComment: CommentResponse | null =
+          await commentDoc.findOneAndDelete({ _id: commentId })
 
-        return res.status(200).end()
+        if (!deletedComment) {
+          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
+        }
+
+        return res.status(200).json(deletedComment)
       }
 
       default:

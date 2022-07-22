@@ -9,7 +9,7 @@ import { dbConnect } from '@/utils/db-utils'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<User | { message: string }>
+  res: NextApiResponse<User | null | { message: string }>
 ) {
   try {
     const token = await getToken({ req })
@@ -21,7 +21,7 @@ export default async function handler(
       case 'GET': {
         const userDoc = createDocument(CollectionsName.USER, userSchema)
 
-        const user: User = await userDoc.findOne({ _id: userId })
+        const user: User | null = await userDoc.findOne({ _id: userId })
 
         return res.status(200).json(user)
       }

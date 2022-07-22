@@ -68,15 +68,20 @@ export interface PostRequest {
   description?: string
 }
 
-export interface Post {
+export interface PostRaw {
   _id: string
   audience: PostAudiences
-  categories: Category[]
-  assets: AssetDefault[]
-  reaction: Reaction
-  comments: Comment[]
+  categories: string[]
+  assets: string[]
   title: string
   description: string
   createdAt: string
   updatedAt: string
+}
+
+export interface Post extends Omit<PostRaw, 'categories' | 'assets'> {
+  categories: Category[]
+  assets: AssetDefault[]
+  reaction: Reaction
+  comments: Comment[]
 }
