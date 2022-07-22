@@ -18,10 +18,10 @@ export default async function handler(
     switch (req.method) {
       case 'GET': {
         const { url, fields } = getUploadUrl(key, {
-          bucket: process.env.AWS_BUCKET_NAME,
-          region: process.env.AWS_BUCKET_REGION,
-          accessKeyId: process.env.AWS_ACCESS_KEY,
-          secretAccessKey: process.env.AWS_SECRET_KEY
+          bucket: process.env.DINO_AWS_BUCKET_NAME,
+          region: process.env.DINO_AWS_BUCKET_REGION,
+          accessKeyId: process.env.DINO_AWS_ACCESS_KEY,
+          secretAccessKey: process.env.DINO_AWS_SECRET_KEY
         })
 
         return res.status(200).json({ url, fields })
