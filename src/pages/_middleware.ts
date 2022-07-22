@@ -7,9 +7,9 @@ const PUBLIC_FILE = /\.(.*)$/
 
 export function middleware(request: NextRequest) {
   const savedLocale = Object.values(Locales).includes(
-    request.cookies[Cookies.locale] as Locales
+    request.cookies.get(Cookies.locale) as Locales
   )
-    ? request.cookies[Cookies.locale]
+    ? request.cookies.get(Cookies.locale) ?? 'en'
     : 'en'
   const shouldHandleLocale =
     !PUBLIC_FILE.test(request.nextUrl.pathname) &&

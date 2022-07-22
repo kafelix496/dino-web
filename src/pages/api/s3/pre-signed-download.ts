@@ -7,10 +7,7 @@ export default async function handler(
   res: NextApiResponse<{ url: string } | { message: string }>
 ) {
   try {
-    const key = req.query.key
-    if (Array.isArray(key)) {
-      return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
-    }
+    const key = req.query.key as string
 
     switch (req.method) {
       case 'GET': {
