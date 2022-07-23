@@ -3,6 +3,7 @@ import { appWithTranslation } from 'next-i18next'
 import App from 'next/app'
 import type { AppContext, AppProps } from 'next/app'
 import nookies from 'nookies'
+import { Provider } from 'react-redux'
 import type { Store } from 'redux'
 
 import { Locales, PaletteModes } from '@/constants'
@@ -27,20 +28,24 @@ const clientSideEmotionCache = createEmotionCache()
 
 const MyApp = ({
   Component,
-  pageProps: { ...pageProps },
-  emotionCache = clientSideEmotionCache
+  emotionCache = clientSideEmotionCache,
+  ...rest
 }: MyAppProps) => {
+  const { store, props } = wrapper.useWrappedStore(rest)
+
   return (
-    <CacheProvider value={emotionCache}>
-      <SessionProvider session={pageProps.session}>
-        <Layout
-          isErrorPage={pageProps.isErrorPage}
-          isSidebarNavOpen={pageProps.isSidebarNavOpen}
-        >
-          <Component {...pageProps} />
-        </Layout>
-      </SessionProvider>
-    </CacheProvider>
+    <Provider store={store}>
+      <CacheProvider value={emotionCache}>
+        <SessionProvider session={props.pageProps.session}>
+          <Layout
+            isErrorPage={props.pageProps.isErrorPage}
+            isSidebarNavOpen={props.pageProps.isSidebarNavOpen}
+          >
+            <Component {...props.pageProps} />
+          </Layout>
+        </SessionProvider>
+      </CacheProvider>
+    </Provider>
   )
 }
 
@@ -89,4 +94,4 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
   }
 )
 
-export default wrapper.withRedux(appWithTranslation(MyApp))
+export default appWithTranslation(MyApp)
