@@ -16,7 +16,7 @@ import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import { POST_MAX_WIDTH } from '@/constants/album'
 import useDialogStatus from '@/hooks/useDialogStatus'
 import type { Post } from '@/types/album'
-import { getCreatedAtTxt } from '@/utils'
+import { getCreatedAtTxt, getUpdatedAtTxt } from '@/utils'
 
 interface PostListItemProps {
   post: Post
@@ -51,11 +51,23 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
         }}
       >
         <Box className="__d-flex">
-          <Box className="__d-flex __d-items-center __d-grow">
+          <Box className="__d-flex __d-flex-col __d-justify-center __d-grow">
             <Typography>{post.title}</Typography>
-          </Box>
-          <Box className="__d-flex __d-items-center">
+
+            <Typography variant="caption" sx={{ mt: 1 }}>
+              {getCreatedAtTxt(t, post.createdAt)}
+            </Typography>
+
             <Typography variant="caption">
+              {getUpdatedAtTxt(t, post.createdAt)}
+            </Typography>
+          </Box>
+
+          <Box className="__d-flex __d-items-center">
+            <Typography
+              variant="caption"
+              sx={{ display: { xs: 'none', md: 'block' } }}
+            >
               {getCreatedAtTxt(t, post.createdAt)}
             </Typography>
 
