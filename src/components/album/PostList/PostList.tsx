@@ -31,9 +31,11 @@ const PostList = () => {
         className="__d-w-full __d-h-full __d-flex-center __d-flex-col"
         sx={{ pb: 5 }}
       >
-        {postData.posts.map((post) => (
-          <PostListItem key={post._id} post={post} />
-        ))}
+        {postData.posts
+          .filter((post) => !post.temporaryDeleted)
+          .map((post) => (
+            <PostListItem key={post._id} post={post} />
+          ))}
       </Box>
     </Box>
   )
