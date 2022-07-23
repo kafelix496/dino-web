@@ -49,7 +49,8 @@ export const getUploadUrl = (
     Fields: { key },
     Expires: 60,
     Conditions: [
-      ['content-length-range', 0, config?.fileSize ?? 5000000] // up to 5 MB
+      ['starts-with', '$Content-Type', ''],
+      ['content-length-range', 0, config?.fileSize ?? 10000000] // up to 10 MB
     ]
   })
 
