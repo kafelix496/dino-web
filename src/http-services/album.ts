@@ -35,7 +35,7 @@ const albumHttpService = {
         config
       )
       .then((res) => res.data),
-  editCategory: (
+  updateCategory: (
     data: {
       id: string
       values: Pick<Category, 'name'>

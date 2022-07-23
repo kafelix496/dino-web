@@ -31,7 +31,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       }
     }
 
-    case ActionType.EDIT_PROJECT: {
+    case ActionType.UPDATE_PROJECT: {
       return {
         ...state,
         projects: state.projects.map((project) =>

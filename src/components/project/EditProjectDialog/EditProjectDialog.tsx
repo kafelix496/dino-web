@@ -11,7 +11,7 @@ import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 import { Apps } from '@/constants'
 import projectHttpService from '@/http-services/project'
-import { editProject, setProjects } from '@/redux-actions'
+import { setProjects, updateProject } from '@/redux-actions'
 
 interface EditProjectDialogProps {
   appAbbreviation: Apps
@@ -44,14 +44,14 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true)
 
-      dispatch(editProject(id, values))
+      dispatch(updateProject(id, values))
 
       handleClose()
 
       projectHttpService
-        .editProject({ appAbbreviation, id, values })
+        .updateProject({ appAbbreviation, id, values })
         .then((project) => {
-          dispatch(editProject(id, project))
+          dispatch(updateProject(id, project))
         })
         .catch(() => {
           projectHttpService
@@ -82,7 +82,7 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
     <Dialog
       open={isOpen}
       onClose={handleClose}
-      title={t('EDIT_PROJECT_DIALOG_TITLE')}
+      title={t('UPDATE_PROJECT_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={

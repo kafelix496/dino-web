@@ -84,4 +84,5 @@ export interface Post extends Omit<PostRaw, 'categories' | 'assets'> {
   assets: AssetDefault[]
   reaction: Reaction
   comments: Comment[]
+  temporaryDeleted?: boolean
 }

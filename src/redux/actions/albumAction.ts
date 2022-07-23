@@ -29,12 +29,12 @@ export const addCategory = (
   }
 }
 
-export const editCategory = (
+export const updateCategory = (
   id: string,
   category: Category | Pick<Category, 'name'>
 ): ThunkAction<void, RootState, unknown, Action> => {
   return (dispatch) => {
-    dispatch({ type: ActionType.EDIT_CATEGORY, id, category })
+    dispatch({ type: ActionType.UPDATE_CATEGORY, id, category })
   }
 }
 
@@ -79,6 +79,39 @@ export const addPost = (
         },
         comments: [] as Comment[]
       }
+    })
+  }
+}
+
+export const updatePost = (
+  id: string,
+  post: Post | Partial<Omit<Post, '_id'>>
+): ThunkAction<void, RootState, unknown, Action> => {
+  return (dispatch) => {
+    dispatch({ type: ActionType.UPDATE_POST, id, post })
+  }
+}
+
+export const temporaryDeletePost = (
+  id: string
+): ThunkAction<void, RootState, unknown, Action> => {
+  return (dispatch) => {
+    dispatch({
+      type: ActionType.UPDATE_POST,
+      id,
+      post: { temporaryDeleted: true }
+    })
+  }
+}
+
+export const undoTemporaryDeletedPost = (
+  id: string
+): ThunkAction<void, RootState, unknown, Action> => {
+  return (dispatch) => {
+    dispatch({
+      type: ActionType.UPDATE_POST,
+      id,
+      post: { temporaryDeleted: false }
     })
   }
 }

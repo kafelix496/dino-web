@@ -32,7 +32,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       }
     }
 
-    case ActionType.EDIT_CATEGORY: {
+    case ActionType.UPDATE_CATEGORY: {
       return {
         ...state,
         categories: state.categories.map((category) =>
@@ -68,6 +68,18 @@ const reducer = (state: State = initialState, action: AnyAction) => {
         postData: {
           total: state.postData.total + 1,
           posts: [action.post].concat(state.postData.posts)
+        }
+      }
+    }
+
+    case ActionType.UPDATE_POST: {
+      return {
+        ...state,
+        postData: {
+          ...state.postData,
+          posts: state.postData.posts.map((post) =>
+            post._id === action.id ? { ...post, ...action.post } : post
+          )
         }
       }
     }
