@@ -4,6 +4,7 @@ import type { FC } from 'react'
 import Box from '@mui/material/Box'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
+import Skeleton from '@mui/material/Skeleton'
 
 import type { AssetDefault } from '@/types/album'
 import { getFileUrl } from '@/utils/file'
@@ -38,10 +39,21 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
           className="__d-relative"
           sx={{ textAlign: 'center', maxHeight: ROW_HEIGHT * 2 }}
         >
-          <img
-            src={assetsWithSrc[0].src}
-            style={{ maxWidth: '100%', maxHeight: ROW_HEIGHT * 2 }}
-          />
+          {!assetsWithSrc[0].src && (
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              width={'100%'}
+              height={ROW_HEIGHT * 2}
+            />
+          )}
+
+          {assetsWithSrc[0].src && (
+            <img
+              src={assetsWithSrc[0].src}
+              style={{ maxWidth: '100%', maxHeight: ROW_HEIGHT * 2 }}
+            />
+          )}
         </Box>
       )
     }
@@ -57,7 +69,16 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
           >
             {assetsWithSrc.map((asset) => (
               <ImageListItem key={asset._id}>
-                <img src={asset.src} />
+                {!asset.src && (
+                  <Skeleton
+                    variant="rectangular"
+                    animation="wave"
+                    width={'100%'}
+                    height={ROW_HEIGHT}
+                  />
+                )}
+
+                {asset.src && <img src={asset.src} />}
               </ImageListItem>
             ))}
           </ImageList>
@@ -75,7 +96,16 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
             rowHeight={ROW_HEIGHT}
           >
             <ImageListItem>
-              <img src={assetsWithSrc[0].src} />
+              {!assetsWithSrc[0].src && (
+                <Skeleton
+                  variant="rectangular"
+                  animation="wave"
+                  width={'100%'}
+                  height={ROW_HEIGHT}
+                />
+              )}
+
+              {assetsWithSrc[0].src && <img src={assetsWithSrc[0].src} />}
             </ImageListItem>
           </ImageList>
           <ImageList
@@ -86,7 +116,16 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
           >
             {assetsWithSrc.slice(1).map((asset) => (
               <ImageListItem key={asset._id}>
-                <img src={asset.src} />
+                {!asset.src && (
+                  <Skeleton
+                    variant="rectangular"
+                    animation="wave"
+                    width={'100%'}
+                    height={ROW_HEIGHT}
+                  />
+                )}
+
+                {asset.src && <img src={asset.src} />}
               </ImageListItem>
             ))}
           </ImageList>
