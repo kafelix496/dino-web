@@ -13,7 +13,7 @@ import DeletePostDialog from '@/components/album/DeletePostDialog/DeletePostDial
 import PostListItemImageList from '@/components/album/PostListItemImageList/PostListItemImageList'
 import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
-import { POST_WIDTH } from '@/constants/album'
+import { POST_MAX_WIDTH } from '@/constants/album'
 import useDialogStatus from '@/hooks/useDialogStatus'
 import type { Post } from '@/types/album'
 import { getCreatedAtTxt } from '@/utils'
@@ -46,8 +46,8 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
         sx={{
           padding: (theme: Theme) => theme.spacing(2),
           marginTop: (theme: Theme) => theme.spacing(4),
-          width: POST_WIDTH,
-          maxWidth: '100%'
+          width: '90%',
+          maxWidth: POST_MAX_WIDTH
         }}
       >
         <Box className="__d-flex">

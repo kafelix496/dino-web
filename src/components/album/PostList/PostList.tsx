@@ -27,7 +27,10 @@ const PostList = () => {
 
   return (
     <Box className="__d-flex-center __d-flex-col">
-      <Box className="__d-h-full" sx={{ pb: 5 }}>
+      <Box
+        className="__d-w-full __d-h-full __d-flex-center __d-flex-col"
+        sx={{ pb: 5 }}
+      >
         {postData.posts.map((post) => (
           <PostListItem key={post._id} post={post} />
         ))}
