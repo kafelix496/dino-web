@@ -30,15 +30,15 @@ const appList = [
     name: 'APP_NAME_FAMILY_ALBUM',
     shouldAdmin: false,
     needAuth: true
-  },
-  {
-    link: {
-      pathname: `/app/${Apps.moneyTracker}/project/list`
-    },
-    name: 'APP_NAME_MONEY_TRACKER',
-    shouldAdmin: false,
-    needAuth: true
   }
+  // {
+  //   link: {
+  //     pathname: `/app/${Apps.moneyTracker}/project/list`
+  //   },
+  //   name: 'APP_NAME_MONEY_TRACKER',
+  //   shouldAdmin: false,
+  //   needAuth: true
+  // }
 ]
 
 const Page: NextPage = () => {
@@ -64,7 +64,7 @@ const Page: NextPage = () => {
                 key={app.name}
                 variant="contained"
                 disabled
-                sx={{ mr: 1 }}
+                sx={{ mt: 1, ml: 1 }}
               >
                 {t(app.name)}
               </Button>
@@ -73,7 +73,7 @@ const Page: NextPage = () => {
 
           return (
             <Link key={app.name} href={app.link}>
-              <Button variant="contained" sx={{ mr: 1 }}>
+              <Button variant="contained" sx={{ mt: 1, ml: 1 }}>
                 {t(app.name)}
               </Button>
             </Link>
