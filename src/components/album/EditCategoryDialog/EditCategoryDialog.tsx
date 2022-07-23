@@ -10,7 +10,7 @@ import Button from '@mui/material/Button'
 import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 import albumHttpService from '@/http-services/album'
-import { editCategory, setCategories } from '@/redux-actions'
+import { setCategories, updateCategory } from '@/redux-actions'
 
 interface EditCategoryDialogProps {
   isOpen: boolean
@@ -38,14 +38,14 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true)
 
-      dispatch(editCategory(id, values))
+      dispatch(updateCategory(id, values))
 
       handleClose()
 
       albumHttpService
-        .editCategory({ id, values })
+        .updateCategory({ id, values })
         .then((category) => {
-          dispatch(editCategory(id, category))
+          dispatch(updateCategory(id, category))
         })
         .catch(() => {
           albumHttpService.getCategories().then((categories) => {
@@ -74,7 +74,7 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
     <Dialog
       open={isOpen}
       onClose={handleClose}
-      title={t('EDIT_CATEGORY_DIALOG_TITLE')}
+      title={t('UPDATE_CATEGORY_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={

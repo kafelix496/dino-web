@@ -64,13 +64,6 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
           </Box>
 
           <Box className="__d-flex __d-items-center">
-            <Typography
-              variant="caption"
-              sx={{ display: { xs: 'none', md: 'block' } }}
-            >
-              {getCreatedAtTxt(t, post.createdAt)}
-            </Typography>
-
             <MaxHeightMenu options={menuOptions} />
           </Box>
         </Box>

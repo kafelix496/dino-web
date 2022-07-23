@@ -8,7 +8,11 @@ import Typography from '@mui/material/Typography'
 
 import Dialog from '@/components/Dialog/Dialog'
 import albumHttpService from '@/http-services/album'
-import { deletePost } from '@/redux-actions'
+import {
+  deletePost,
+  temporaryDeletePost,
+  undoTemporaryDeletedPost
+} from '@/redux-actions'
 
 interface DeletePostDialogProps {
   id: string
@@ -28,16 +32,17 @@ const DeletePostDialog: FC<DeletePostDialogProps> = ({
   const handleDelete = () => {
     setSubmitting(true)
 
-    dispatch(deletePost(id))
+    dispatch(temporaryDeletePost(id))
 
     handleClose()
 
     albumHttpService
       .deletePost({ id })
+      .then(() => {
+        dispatch(deletePost(id))
+      })
       .catch(() => {
-        // albumHttpService.getCategories().then((categories) => {
-        //   dispatch(setCategories(categories))
-        // })
+        dispatch(undoTemporaryDeletedPost(id))
 
         alert(t('ERROR_ALERT_MESSAGE'))
       })

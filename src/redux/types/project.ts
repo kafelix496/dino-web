@@ -7,7 +7,7 @@ export interface State {
 export enum ActionType {
   SET_PROJECTS = 'project/setProjects',
   ADD_PROJECT = 'project/addProject',
-  EDIT_PROJECT = 'project/editProject',
+  UPDATE_PROJECT = 'project/updateProject',
   DELETE_PROJECT = 'project/deleteProject'
 }
 
@@ -21,8 +21,8 @@ export interface addProjectAction {
   project: Project
 }
 
-export interface editProjectAction {
-  type: ActionType.EDIT_PROJECT
+export interface updateProjectAction {
+  type: ActionType.UPDATE_PROJECT
   id: string
   project: Pick<Project, 'title' | 'description'>
 }
@@ -35,5 +35,5 @@ export interface deleteProjectAction {
 export type Action =
   | setProjectsAction
   | addProjectAction
-  | editProjectAction
+  | updateProjectAction
   | deleteProjectAction

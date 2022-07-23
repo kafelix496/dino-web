@@ -28,7 +28,7 @@ const projectHttpService = {
         config
       )
       .then((res) => res.data),
-  editProject: (
+  updateProject: (
     data: {
       appAbbreviation: Apps
       id: string

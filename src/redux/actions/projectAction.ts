@@ -21,12 +21,12 @@ export const addProject = (
   }
 }
 
-export const editProject = (
+export const updateProject = (
   id: string,
   project: Project | Pick<Project, 'title' | 'description'>
 ): ThunkAction<void, RootState, unknown, Action> => {
   return (dispatch) => {
-    dispatch({ type: ActionType.EDIT_PROJECT, id, project })
+    dispatch({ type: ActionType.UPDATE_PROJECT, id, project })
   }
 }
 
