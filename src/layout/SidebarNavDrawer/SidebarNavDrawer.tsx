@@ -1,15 +1,11 @@
-import { useTranslation } from 'next-i18next'
 import type { ComponentType, FC } from 'react'
 
-import CloseIcon from '@mui/icons-material/Close'
 import type { CSSObject, Theme } from '@mui/material'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 
-import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 import { DRAWER_WIDTH } from '@/constants'
 
 import type { SetSidebarNavOpen } from '../useSidebarNavState'
@@ -40,11 +36,8 @@ interface SidebarNavDrawerProps {
 
 const SidebarNavDrawer: FC<SidebarNavDrawerProps> = ({
   DrawerContent,
-  isSidebarNavOpen,
-  setSidebarNavOpen
+  isSidebarNavOpen
 }) => {
-  const { t } = useTranslation('common')
-
   return (
     <>
       {DrawerContent && (
@@ -66,15 +59,7 @@ const SidebarNavDrawer: FC<SidebarNavDrawerProps> = ({
           variant="permanent"
           anchor="left"
         >
-          <Toolbar className="__d-flex __d-justify-between">
-            <Typography>{t('SETTINGS')}</Typography>
-            <TooltipIconButton
-              title={t('CLOSE')}
-              iconButtonProps={{ onClick: () => setSidebarNavOpen(false) }}
-            >
-              <CloseIcon />
-            </TooltipIconButton>
-          </Toolbar>
+          <Toolbar className="__d-flex __d-justify-between"></Toolbar>
           <Divider />
           <Box
             className="__d-relative"
