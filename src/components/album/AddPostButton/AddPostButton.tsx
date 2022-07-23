@@ -6,7 +6,7 @@ import Button from '@mui/material/Button'
 
 import CreatePostDialog from '@/components/album/CreatePostDialog/CreatePostDialog'
 import { AccessLevels, Apps } from '@/constants'
-import { POST_WIDTH } from '@/constants/album'
+import { POST_MAX_WIDTH } from '@/constants/album'
 import useDialogStatus from '@/hooks/useDialogStatus'
 import { selectUser } from '@/redux-selectors'
 
@@ -25,7 +25,13 @@ const AddPostButton = () => {
 
   return (
     <Box className="__d-flex-center __d-flex-col">
-      <Box className="__d-h-full" sx={{ width: POST_WIDTH }}>
+      <Box
+        className="__d-h-full"
+        sx={{
+          width: '90%',
+          maxWidth: POST_MAX_WIDTH
+        }}
+      >
         <Button
           fullWidth
           variant="outlined"
