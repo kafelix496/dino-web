@@ -1,6 +1,15 @@
 import { PostAudiences, Reactions } from '@/constants/album'
 import { CollectionsName } from '@/constants/collection'
 
+export interface DrawerMenuItem {
+  id: string
+  iconComponent: JSX.Element
+  label: string
+  url: string
+  selected: boolean
+  editable: boolean
+}
+
 export interface ReactionResponse {
   _id: string
   parent:

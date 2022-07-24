@@ -15,7 +15,7 @@ interface CreateCategoryDialogProps {
   handleClose: () => void
 }
 
-const CreateProjectDialog: FC<CreateCategoryDialogProps> = ({
+const CreateCategoryDialog: FC<CreateCategoryDialogProps> = ({
   handleClose
 }) => {
   const { t } = useTranslation('common')
@@ -82,4 +82,4 @@ const CreateProjectDialog: FC<CreateCategoryDialogProps> = ({
   )
 }
 
-export default CreateProjectDialog
+export default CreateCategoryDialog
