@@ -22,14 +22,14 @@ const reducer = (state: State = initialState, action: AnyAction) => {
     case ActionType.SET_PALETTE_MODE: {
       return {
         ...state,
-        paletteMode: action.value
+        paletteMode: _action.value
       }
     }
 
     case ActionType.SET_LOCALE: {
       return {
         ...state,
-        locale: action.value
+        locale: _action.value
       }
     }
 

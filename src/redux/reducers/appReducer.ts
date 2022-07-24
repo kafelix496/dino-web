@@ -2,11 +2,11 @@ import { HYDRATE } from 'next-redux-wrapper'
 import type { AnyAction } from 'redux'
 
 import type { HydrateAction } from '@/redux-types'
-import { ActionType } from '@/redux-types/user'
-import type { Action, State } from '@/redux-types/user'
+import { ActionType } from '@/redux-types/app'
+import type { Action, State } from '@/redux-types/app'
 
 const initialState: State = {
-  user: null
+  toastMessages: []
 }
 
 const reducer = (state: State = initialState, action: AnyAction) => {
@@ -14,13 +14,16 @@ const reducer = (state: State = initialState, action: AnyAction) => {
 
   switch (_action.type) {
     case HYDRATE: {
-      return { ...state, ..._action.payload.user }
+      return { ...state, ..._action.payload.album }
     }
 
-    case ActionType.SET_USER: {
+    case ActionType.ENQUEUE_ALERT: {
       return {
         ...state,
-        user: _action.user
+        toastMessages: state.toastMessages.concat({
+          severity: _action.severity,
+          message: _action.message
+        })
       }
     }
 

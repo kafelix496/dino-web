@@ -27,7 +27,7 @@
         "./src/layout/*"
       ],
       "@/types": [
-        "./src/types/index"
+        "./src/types/app"
       ],
       "@/types/*": [
         "./src/types/*"

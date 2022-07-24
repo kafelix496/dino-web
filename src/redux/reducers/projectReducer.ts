@@ -20,14 +20,14 @@ const reducer = (state: State = initialState, action: AnyAction) => {
     case ActionType.SET_PROJECTS: {
       return {
         ...state,
-        projects: action.projects
+        projects: _action.projects
       }
     }
 
     case ActionType.ADD_PROJECT: {
       return {
         ...state,
-        projects: state.projects.concat(action.project)
+        projects: state.projects.concat(_action.project)
       }
     }
 
@@ -35,8 +35,8 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       return {
         ...state,
         projects: state.projects.map((project) =>
-          project._id === action.id
-            ? { ...project, ...action.project }
+          project._id === _action.id
+            ? { ...project, ..._action.project }
             : project
         )
       }
@@ -45,7 +45,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
     case ActionType.DELETE_PROJECT: {
       return {
         ...state,
-        projects: state.projects.filter((project) => project._id !== action.id)
+        projects: state.projects.filter((project) => project._id !== _action.id)
       }
     }
 

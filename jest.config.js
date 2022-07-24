@@ -24,7 +24,7 @@ module.exports = {
     '@/layout': '<rootDir>/src/layout/Layout',
     '@/layout/(.*)': '<rootDir>/src/layout/$1',
     '@/types/(.*)': '<rootDir>/src/types/$1',
-    '@/types': '<rootDir>/src/types/index.ts',
+    '@/types': '<rootDir>/src/types/app.ts',
     '@/http-services/(.*)': '<rootDir>/src/http-services/$1',
     '@/constants/(.*)': '<rootDir>/src/constants/$1',
     '@/constants': '<rootDir>/src/constants/index.ts',

@@ -36,3 +36,8 @@ export interface Project {
   updatedAt: string
   accessUsers: AccessUser[]
 }
+
+export interface ToastMessage {
+  severity: string
+  message: string
+}
