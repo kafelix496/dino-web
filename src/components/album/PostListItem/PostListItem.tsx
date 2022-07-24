@@ -88,11 +88,12 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
         </Box>
       </Paper>
 
-      <DeletePostDialog
-        id={post._id}
-        isOpen={deleteCategoryDialogState.isOpen}
-        handleClose={handleDeleteCategoryClose}
-      ></DeletePostDialog>
+      {deleteCategoryDialogState.isOpen && (
+        <DeletePostDialog
+          id={post._id}
+          handleClose={handleDeleteCategoryClose}
+        ></DeletePostDialog>
+      )}
     </>
   )
 }

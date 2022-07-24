@@ -76,21 +76,23 @@ const ProjectItem: FC<ProjectItemProps> = ({
         </CardActions>
       </Card>
 
-      <EditProjectDialog
-        appAbbreviation={appAbbreviation}
-        isOpen={dialogState.name === 'edit' && dialogState.isOpen}
-        handleClose={handleClose}
-        id={id}
-        title={title}
-        description={description}
-      />
+      {dialogState.name === 'edit' && dialogState.isOpen && (
+        <EditProjectDialog
+          appAbbreviation={appAbbreviation}
+          handleClose={handleClose}
+          id={id}
+          title={title}
+          description={description}
+        />
+      )}
 
-      <DeleteProjectDialog
-        appAbbreviation={appAbbreviation}
-        isOpen={dialogState.name === 'delete' && dialogState.isOpen}
-        handleClose={handleClose}
-        id={id}
-      />
+      {dialogState.name === 'delete' && dialogState.isOpen && (
+        <DeleteProjectDialog
+          appAbbreviation={appAbbreviation}
+          handleClose={handleClose}
+          id={id}
+        />
+      )}
     </>
   )
 }

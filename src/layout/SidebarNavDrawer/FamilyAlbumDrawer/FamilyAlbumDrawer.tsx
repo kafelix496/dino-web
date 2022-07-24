@@ -192,23 +192,24 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
 
       {canEditCategory && (
         <>
-          <CreateCategoryDialog
-            isOpen={createCategoryDialogState.isOpen}
-            handleClose={handleCreateCategoryClose}
-          />
+          {createCategoryDialogState.isOpen && (
+            <CreateCategoryDialog handleClose={handleCreateCategoryClose} />
+          )}
 
-          <EditCategoryDialog
-            isOpen={editCategoryDialogState.isOpen}
-            handleClose={handleEditCategoryClose}
-            id={dataRef.current?.categoryId as string}
-            name={dataRef.current?.name as string}
-          />
+          {editCategoryDialogState.isOpen && (
+            <EditCategoryDialog
+              handleClose={handleEditCategoryClose}
+              id={dataRef.current?.categoryId as string}
+              name={dataRef.current?.name as string}
+            />
+          )}
 
-          <DeleteCategoryDialog
-            isOpen={deleteCategoryDialogState.isOpen}
-            handleClose={handleDeleteCategoryClose}
-            id={dataRef.current?.categoryId as string}
-          />
+          {deleteCategoryDialogState.isOpen && (
+            <DeleteCategoryDialog
+              handleClose={handleDeleteCategoryClose}
+              id={dataRef.current?.categoryId as string}
+            />
+          )}
         </>
       )}
     </div>

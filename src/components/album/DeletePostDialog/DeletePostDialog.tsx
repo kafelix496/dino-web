@@ -16,15 +16,10 @@ import {
 
 interface DeletePostDialogProps {
   id: string
-  isOpen: boolean
   handleClose: () => void
 }
 
-const DeletePostDialog: FC<DeletePostDialogProps> = ({
-  id,
-  isOpen,
-  handleClose
-}) => {
+const DeletePostDialog: FC<DeletePostDialogProps> = ({ id, handleClose }) => {
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
   const [isSubmitting, setSubmitting] = useState(false)
@@ -53,7 +48,7 @@ const DeletePostDialog: FC<DeletePostDialogProps> = ({
 
   return (
     <Dialog
-      open={isOpen}
+      open={true}
       onClose={handleClose}
       title={t('DELETE_CATEGORY_DIALOG_TITLE')}
       contentJsx={

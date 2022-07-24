@@ -8,7 +8,6 @@ describe('CreateProjectDialog component', () => {
     render(
       <CreateProjectDialog
         appAbbreviation={Apps.moneyTracker}
-        isOpen={true}
         handleClose={jest.fn()}
       />
     )
@@ -25,7 +24,6 @@ describe('CreateProjectDialog component', () => {
     render(
       <CreateProjectDialog
         appAbbreviation={Apps.moneyTracker}
-        isOpen={true}
         handleClose={jest.fn()}
       />
     )

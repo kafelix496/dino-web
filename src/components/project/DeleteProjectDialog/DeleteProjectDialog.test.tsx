@@ -8,7 +8,6 @@ describe('DeleteProjectDialog component', () => {
     render(
       <DeleteProjectDialog
         appAbbreviation={Apps.moneyTracker}
-        isOpen={true}
         handleClose={jest.fn()}
         id=""
       />

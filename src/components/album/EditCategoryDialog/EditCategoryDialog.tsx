@@ -1,6 +1,5 @@
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
-import { useEffect } from 'react'
 import type { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
@@ -13,14 +12,12 @@ import albumHttpService from '@/http-services/album'
 import { setCategories, updateCategory } from '@/redux-actions'
 
 interface EditCategoryDialogProps {
-  isOpen: boolean
   handleClose: () => void
   id: string
   name: string
 }
 
 const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
-  isOpen,
   handleClose,
   id,
   name
@@ -28,7 +25,7 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
   const formik = useFormik({
-    initialValues: { name: '' },
+    initialValues: { name },
     validationSchema: yup.object({
       name: yup
         .string()
@@ -60,19 +57,9 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
     }
   })
 
-  useEffect(() => {
-    if (isOpen) {
-      formik.resetForm()
-      formik.setTouched({ name: true })
-      formik.setValues({ name })
-    }
-    // I don't know why I can't pass test if I put formik in here
-    // I don't think it's important, so I'll ignore it
-  }, [isOpen, name])
-
   return (
     <Dialog
-      open={isOpen}
+      open={true}
       onClose={handleClose}
       title={t('UPDATE_CATEGORY_DIALOG_TITLE')}
       wrapBodyWithForm={true}

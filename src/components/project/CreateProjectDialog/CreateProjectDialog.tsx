@@ -1,6 +1,5 @@
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
-import { useEffect } from 'react'
 import type { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
@@ -15,13 +14,11 @@ import { addProject } from '@/redux-actions'
 
 interface CreateProjectDialogProps {
   appAbbreviation: Apps
-  isOpen: boolean
   handleClose: () => void
 }
 
 const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
   appAbbreviation,
-  isOpen,
   handleClose
 }) => {
   const { t } = useTranslation('common')
@@ -57,17 +54,9 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
     }
   })
 
-  useEffect(() => {
-    if (isOpen) {
-      formik.resetForm()
-    }
-    // I don't know why I can't pass test if I put formik in here
-    // I don't think it's important, so I'll ignore it
-  }, [isOpen])
-
   return (
     <Dialog
-      open={isOpen}
+      open={true}
       onClose={handleClose}
       title={t('CREATE_PROJECT_DIALOG_TITLE')}
       wrapBodyWithForm={true}

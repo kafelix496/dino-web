@@ -12,13 +12,11 @@ import { deleteCategory, setCategories } from '@/redux-actions'
 
 interface DeleteCategoryDialogProps {
   id: string
-  isOpen: boolean
   handleClose: () => void
 }
 
 const DeleteCategoryDialog: FC<DeleteCategoryDialogProps> = ({
   id,
-  isOpen,
   handleClose
 }) => {
   const { t } = useTranslation('common')
@@ -48,7 +46,7 @@ const DeleteCategoryDialog: FC<DeleteCategoryDialogProps> = ({
 
   return (
     <Dialog
-      open={isOpen}
+      open={true}
       onClose={handleClose}
       title={t('DELETE_CATEGORY_DIALOG_TITLE')}
       contentJsx={
