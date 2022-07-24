@@ -23,6 +23,9 @@
       "@/layout": [
         "./src/layout/Layout"
       ],
+      "@/layout/*": [
+        "./src/layout/*"
+      ],
       "@/types": [
         "./src/types/index"
       ],
