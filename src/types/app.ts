@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig as _AxiosRequestConfig } from 'axios'
 
-import { AccessLevels } from '@/constants'
+import { AccessLevels, AlertColor } from '@/constants'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AxiosRequestConfig = _AxiosRequestConfig<any>
@@ -38,6 +38,7 @@ export interface Project {
 }
 
 export interface ToastMessage {
-  severity: string
+  id: string
+  severity: AlertColor
   message: string
 }

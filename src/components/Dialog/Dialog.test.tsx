@@ -9,7 +9,7 @@ const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
   const mockSubmitCallback = jest.fn()
   const mockContentText = 'CONTENT_JSX'
   const mockActionsText = 'ACTIONS_JSX'
-  const TestComp = (props: {
+  const TestComponent = (props: {
     wrapBodyWithForm?: boolean
     handleFormSubmit?: () => void
     contentJsx?: JSX.Element
@@ -35,43 +35,48 @@ const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
     mockSubmitCallback,
     mockContentText,
     mockActionsText,
-    TestComp
+    TestComponent
   }
 }
 
 describe('Dialog component', () => {
   it('should not render when isOpen prop is false', async () => {
-    const { mockTitle, TestComp } = setup({ initialOpenStatus: false })
+    const { mockTitle, TestComponent } = setup({ initialOpenStatus: false })
 
-    render(<TestComp />)
+    render(<TestComponent />)
 
     const dialogTitle = screen.queryByText(mockTitle)
     expect(dialogTitle).not.toBeInTheDocument()
   })
 
   it('should render when isOpen prop is true', async () => {
-    const { mockTitle, TestComp } = setup({ initialOpenStatus: true })
+    const { mockTitle, TestComponent } = setup({ initialOpenStatus: true })
 
-    render(<TestComp />)
+    render(<TestComponent />)
 
     const dialogTitle = screen.queryByText(mockTitle)
     expect(dialogTitle).toBeInTheDocument()
   })
 
   it('should not render form tag by default', () => {
-    const { TestComp } = setup({ initialOpenStatus: true })
+    const { TestComponent } = setup({ initialOpenStatus: true })
 
-    render(<TestComp />)
+    render(<TestComponent />)
 
     const form = screen.queryByTestId('form')
     expect(form).not.toBeInTheDocument()
   })
 
   it('should render form tag if wrapBodyWithForm is true and handleFormSubmit is passed', () => {
-    const { mockSubmitCallback, TestComp } = setup({ initialOpenStatus: true })
+    const { mockSubmitCallback, TestComponent } = setup({
+      initialOpenStatus: true
+    })
 
     render(
-      <TestComp wrapBodyWithForm={true} handleFormSubmit={mockSubmitCallback} />
+      <TestComponent
+        wrapBodyWithForm={true}
+        handleFormSubmit={mockSubmitCallback}
+      />
     )
 
     const form = screen.queryByTestId('form')
@@ -79,33 +84,33 @@ describe('Dialog component', () => {
   })
 
   it("should render contentJsx element if it's passed", () => {
-    const { mockContentText, TestComp } = setup({
+    const { mockContentText, TestComponent } = setup({
       initialOpenStatus: true
     })
 
-    render(<TestComp contentJsx={<div>{mockContentText}</div>} />)
+    render(<TestComponent contentJsx={<div>{mockContentText}</div>} />)
 
     const dialogContent = screen.queryByText(mockContentText)
     expect(dialogContent).toBeInTheDocument()
   })
 
   it("should not render contentJsx element if it's not passed", () => {
-    const { mockContentText, TestComp } = setup({
+    const { mockContentText, TestComponent } = setup({
       initialOpenStatus: true
     })
 
-    render(<TestComp />)
+    render(<TestComponent />)
 
     const dialogContent = screen.queryByText(mockContentText)
     expect(dialogContent).not.toBeInTheDocument()
   })
 
   it("should not render actionsJsx element if it's not passed", () => {
-    const { mockActionsText, TestComp } = setup({
+    const { mockActionsText, TestComponent } = setup({
       initialOpenStatus: true
     })
 
-    render(<TestComp />)
+    render(<TestComponent />)
 
     const dialogActions = screen.queryByText(mockActionsText)
     expect(dialogActions).not.toBeInTheDocument()

@@ -1,3 +1,4 @@
+import { AlertColor } from '@/constants'
 import type { ToastMessage } from '@/types'
 
 export interface State {
@@ -5,13 +6,19 @@ export interface State {
 }
 
 export enum ActionType {
-  ENQUEUE_ALERT = 'app/enqueueAlert'
+  ENQUEUE_ALERT = 'app/enqueueAlert',
+  DELETE_ALERT = 'app/deleteAlert'
 }
 
 export interface enqueueAlertAction {
   type: ActionType.ENQUEUE_ALERT
-  severity: string
+  severity: AlertColor
   message: string
 }
 
-export type Action = enqueueAlertAction
+export interface deleteAlertAction {
+  type: ActionType.DELETE_ALERT
+  id: string
+}
+
+export type Action = enqueueAlertAction | deleteAlertAction

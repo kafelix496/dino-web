@@ -30,3 +30,10 @@ export enum Apps {
   familyAlbum = 'fa',
   moneyTracker = 'mt'
 }
+
+export enum AlertColor {
+  SUCCESS = 'success',
+  INFO = 'info',
+  WARNING = 'warning',
+  ERROR = 'error'
+}

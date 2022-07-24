@@ -5,7 +5,7 @@ import { fireEvent, render, screen } from '@/utils/test-utils'
 import SidebarNavButton from './SidebarNavButton'
 
 const setup = () => {
-  const TestComp = () => {
+  const TestComponent = () => {
     const [isSidebarNavOpen, setSidebarNavOpen] = useState(false)
 
     return (
@@ -18,14 +18,14 @@ const setup = () => {
     )
   }
 
-  return { TestComp }
+  return { TestComponent }
 }
 
 describe('SidebarNavButton component', () => {
   it('should toggle sidebar navigation open status when the user clicks sidebar navigation button', () => {
-    const { TestComp } = setup()
+    const { TestComponent } = setup()
 
-    render(<TestComp />)
+    render(<TestComponent />)
 
     const sidebarNavButton = screen.getByLabelText('MAIN_MENU')
     const sidebarNavOpenStatus = screen.getByTestId('sidebar-nav-open-status')
