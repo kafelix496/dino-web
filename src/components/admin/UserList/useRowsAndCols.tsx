@@ -2,14 +2,15 @@ import { useTranslation } from 'next-i18next'
 import type { TFunction } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Avatar from '@mui/material/Avatar'
 import type { GridColDef } from '@mui/x-data-grid'
 
-import { AccessLevels, Apps } from '@/constants'
+import { AccessLevels, AlertColor, Apps } from '@/constants'
 import useUpdateEffect from '@/hooks/useUpdateEffect'
 import adminUserHttpService from '@/http-services/adminUser'
+import { enqueueAlert } from '@/redux-actions'
 import { selectUser } from '@/redux-selectors'
 import type { User } from '@/types'
 
@@ -43,6 +44,7 @@ const getSuperAdminPermissionOptions = (t: TFunction) =>
 const useRowsAndCols = (users: User[]) => {
   const router = useRouter()
   const user = useSelector(selectUser)
+  const dispatch = useDispatch()
   const { t } = useTranslation()
   const [rows, setRows] = useState<User[]>(users)
   const [isLoading, setLoading] = useState<boolean>(false)
@@ -132,7 +134,7 @@ const useRowsAndCols = (users: User[]) => {
                   setRows(users)
                 })
 
-              alert(t('ERROR_ALERT_MESSAGE'))
+              dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
             })
 
           return {
@@ -175,7 +177,7 @@ const useRowsAndCols = (users: User[]) => {
         setLoading(false)
         setRows([])
 
-        alert(t('ERROR_ALERT_MESSAGE'))
+        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
       })
   }, [t, appAbbreviation])
 

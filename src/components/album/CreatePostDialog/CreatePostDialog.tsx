@@ -12,9 +12,10 @@ import CreatePostDialogImageList from '@/components/album/CreatePostDialogImageL
 import FieldMultiSelect from '@/components/mui/FormFieldMultiSelect/FormFieldMultiSelect'
 import FieldSelect from '@/components/mui/FormFieldSelect/FormFieldSelect'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
+import { AlertColor } from '@/constants'
 import { PostAudiences } from '@/constants/album'
 import albumHttpService from '@/http-services/album'
-import { addPost } from '@/redux-actions'
+import { addPost, enqueueAlert } from '@/redux-actions'
 import { selectCategoryList } from '@/redux-selectors'
 import { uploadFile } from '@/utils/file'
 
@@ -95,7 +96,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
           handleClose()
         })
         .catch(() => {
-          alert(t('ERROR_ALERT_MESSAGE'))
+          dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
         })
         .finally(() => {
           setSubmitting(false)

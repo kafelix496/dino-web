@@ -8,8 +8,9 @@ import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
+import { AlertColor } from '@/constants'
 import albumHttpService from '@/http-services/album'
-import { addCategory } from '@/redux-actions'
+import { addCategory, enqueueAlert } from '@/redux-actions'
 
 interface CreateCategoryDialogProps {
   handleClose: () => void
@@ -39,7 +40,7 @@ const CreateCategoryDialog: FC<CreateCategoryDialogProps> = ({
           handleClose()
         })
         .catch(() => {
-          alert(t('ERROR_ALERT_MESSAGE'))
+          dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
         })
         .finally(() => {
           setSubmitting(false)

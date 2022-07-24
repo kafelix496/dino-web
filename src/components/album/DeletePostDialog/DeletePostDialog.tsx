@@ -7,9 +7,11 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import Dialog from '@/components/Dialog/Dialog'
+import { AlertColor } from '@/constants'
 import albumHttpService from '@/http-services/album'
 import {
   deletePost,
+  enqueueAlert,
   temporaryDeletePost,
   undoTemporaryDeletedPost
 } from '@/redux-actions'
@@ -39,7 +41,7 @@ const DeletePostDialog: FC<DeletePostDialogProps> = ({ id, handleClose }) => {
       .catch(() => {
         dispatch(undoTemporaryDeletedPost(id))
 
-        alert(t('ERROR_ALERT_MESSAGE'))
+        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
       })
       .finally(() => {
         setSubmitting(false)
