@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 import type { AxiosRequestConfig } from '@/types'
 import type {
   AssetDefault,

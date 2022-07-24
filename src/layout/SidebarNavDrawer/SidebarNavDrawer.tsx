@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import Toolbar from '@mui/material/Toolbar'
 
-import { DRAWER_WIDTH } from '@/constants'
+import { DRAWER_WIDTH } from '@/constants/app'
 
 import type { SetSidebarNavOpen } from '../useSidebarNavState'
 

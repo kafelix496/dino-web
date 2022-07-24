@@ -10,7 +10,7 @@ import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
 
-import { PaletteModes } from '@/constants'
+import { PaletteModes } from '@/constants/app'
 import ToastList from '@/layout/ToastList/ToastList'
 import { selectPaletteMode } from '@/redux-selectors'
 

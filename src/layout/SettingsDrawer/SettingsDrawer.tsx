@@ -14,7 +14,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
 import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
-import { DRAWER_WIDTH, Locales, PaletteModes } from '@/constants'
+import { DRAWER_WIDTH, Locales, PaletteModes } from '@/constants/app'
 import { setLocale, setPaletteMode } from '@/redux-actions'
 import { selectLocale, selectPaletteMode } from '@/redux-selectors'
 

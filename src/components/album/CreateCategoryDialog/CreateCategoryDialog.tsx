@@ -8,7 +8,7 @@ import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
-import { AlertColor } from '@/constants'
+import { AlertColor } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import { addCategory, enqueueAlert } from '@/redux-actions'
 

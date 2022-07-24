@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import Dialog from '@/components/Dialog/Dialog'
-import { AlertColor, Apps } from '@/constants'
+import { AlertColor, Apps } from '@/constants/app'
 import projectHttpService from '@/http-services/project'
 import { deleteProject, enqueueAlert, setProjects } from '@/redux-actions'
 

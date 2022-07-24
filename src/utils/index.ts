@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { v1 as uuidv1 } from 'uuid'
 
-import { AccessLevels, Apps } from '@/constants'
+import { AccessLevels, Apps } from '@/constants/app'
 import type { User } from '@/types'
 
 export const isValidApp = (app: unknown): boolean => {

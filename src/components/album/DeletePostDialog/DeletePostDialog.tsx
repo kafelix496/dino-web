@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import Dialog from '@/components/Dialog/Dialog'
-import { AlertColor } from '@/constants'
+import { AlertColor } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import {
   deletePost,

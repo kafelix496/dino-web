@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig as _AxiosRequestConfig } from 'axios'
 
-import { AccessLevels, AlertColor } from '@/constants'
+import { AccessLevels, AlertColor } from '@/constants/app'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AxiosRequestConfig = _AxiosRequestConfig<any>

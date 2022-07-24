@@ -1,4 +1,4 @@
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 import { fireEvent, render, screen } from '@/utils/test-utils'
 
 import NewProjectButton from './NewProjectButton'

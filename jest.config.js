@@ -27,7 +27,6 @@ module.exports = {
     '@/types': '<rootDir>/src/types/app.ts',
     '@/http-services/(.*)': '<rootDir>/src/http-services/$1',
     '@/constants/(.*)': '<rootDir>/src/constants/$1',
-    '@/constants': '<rootDir>/src/constants/index.ts',
     '@/components/(.*)': '<rootDir>/src/components/$1',
     '@/pages/(.*)': '<rootDir>/src/pages/$1',
     '@/hooks/(.*)': '<rootDir>/src/hooks/$1',

@@ -8,7 +8,7 @@ import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
-import { AlertColor, Apps } from '@/constants'
+import { AlertColor, Apps } from '@/constants/app'
 import projectHttpService from '@/http-services/project'
 import { addProject, enqueueAlert } from '@/redux-actions'
 

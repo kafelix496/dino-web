@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add'
 import Button from '@mui/material/Button'
 
 import CreateProjectDialog from '@/components/project/CreateProjectDialog/CreateProjectDialog'
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 import useDialogStatus from '@/hooks/useDialogStatus'
 
 interface NewProjectButtonProps {

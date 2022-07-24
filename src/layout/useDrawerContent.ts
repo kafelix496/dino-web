@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 
 const AdminDrawer = dynamic(
   () => import('./SidebarNavDrawer/AdminDrawer/AdminDrawer')

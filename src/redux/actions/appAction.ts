@@ -1,6 +1,6 @@
 import type { ThunkAction } from 'redux-thunk'
 
-import { AlertColor } from '@/constants'
+import { AlertColor } from '@/constants/app'
 import type { RootState } from '@/redux-types'
 import { ActionType } from '@/redux-types/app'
 import type { Action } from '@/redux-types/app'

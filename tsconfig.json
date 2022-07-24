@@ -35,9 +35,6 @@
       "@/http-services/*": [
         "./src/http-services/*"
       ],
-      "@/constants": [
-        "./src/constants/index"
-      ],
       "@/constants/*": [
         "./src/constants/*"
       ],

@@ -1,7 +1,7 @@
 import nookies from 'nookies'
 import { useState } from 'react'
 
-import { COOKIES_OPTION } from '@/constants'
+import { COOKIES_OPTION } from '@/constants/app'
 import { Cookies } from '@/constants/cookies'
 
 export type SetSidebarNavOpen = (

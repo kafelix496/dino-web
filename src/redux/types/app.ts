@@ -1,4 +1,4 @@
-import { AlertColor } from '@/constants'
+import { AlertColor } from '@/constants/app'
 import type { ToastMessage } from '@/types'
 
 export interface State {

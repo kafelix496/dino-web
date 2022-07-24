@@ -1,4 +1,4 @@
-import { AccessLevels } from '@/constants'
+import { AccessLevels } from '@/constants/app'
 
 export const getMockUser = () => ({
   _id: '62503637c7f67e97a1b74e22',

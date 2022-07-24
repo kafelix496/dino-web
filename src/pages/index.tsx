@@ -9,7 +9,7 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 import { selectUser } from '@/redux-selectors'
 import { hasAccessAdminPage } from '@/utils'
 

@@ -5,8 +5,8 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
 import CreatePostDialog from '@/components/album/CreatePostDialog/CreatePostDialog'
-import { AccessLevels, Apps } from '@/constants'
 import { POST_MAX_WIDTH } from '@/constants/album'
+import { AccessLevels, Apps } from '@/constants/app'
 import useDialogStatus from '@/hooks/useDialogStatus'
 import { selectUser } from '@/redux-selectors'
 

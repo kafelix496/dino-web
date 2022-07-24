@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 import { selectProjectList } from '@/redux-selectors'
 import { getCreatedAtTxt, getUpdatedAtTxt } from '@/utils'
 

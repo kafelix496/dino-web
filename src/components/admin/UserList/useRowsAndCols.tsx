@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Avatar from '@mui/material/Avatar'
 import type { GridColDef } from '@mui/x-data-grid'
 
-import { AccessLevels, AlertColor, Apps } from '@/constants'
+import { AccessLevels, AlertColor, Apps } from '@/constants/app'
 import useUpdateEffect from '@/hooks/useUpdateEffect'
 import adminUserHttpService from '@/http-services/adminUser'
 import { enqueueAlert } from '@/redux-actions'

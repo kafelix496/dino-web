@@ -1,7 +1,7 @@
 import { HYDRATE } from 'next-redux-wrapper'
 import type { AnyAction } from 'redux'
 
-import { Locales, PaletteModes } from '@/constants'
+import { Locales, PaletteModes } from '@/constants/app'
 import type { HydrateAction } from '@/redux-types'
 import { ActionType } from '@/redux-types/setting'
 import type { Action, State } from '@/redux-types/setting'

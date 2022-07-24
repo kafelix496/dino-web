@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { AccessLevels, Apps } from '@/constants'
+import { AccessLevels, Apps } from '@/constants/app'
 import type { AxiosRequestConfig, User } from '@/types'
 
 const adminUserHttpService = {
