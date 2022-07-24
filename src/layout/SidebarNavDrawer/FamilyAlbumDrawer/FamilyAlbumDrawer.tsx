@@ -1,9 +1,8 @@
 import { useTranslation } from 'next-i18next'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useRef } from 'react'
 import type { FC } from 'react'
 import { useSelector } from 'react-redux'
+import FamilyAlbumDrawerMenuItem from 'src/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'
 
 import AddIcon from '@mui/icons-material/Add'
 import AllInboxIcon from '@mui/icons-material/AllInbox'
@@ -18,13 +17,10 @@ import ListItemText from '@mui/material/ListItemText'
 import Tooltip from '@mui/material/Tooltip'
 
 import CreateCategoryDialog from '@/components/album/CreateCategoryDialog/CreateCategoryDialog'
-import DeleteCategoryDialog from '@/components/album/DeleteCategoryDialog/DeleteCategoryDialog'
-import EditCategoryDialog from '@/components/album/EditCategoryDialog/EditCategoryDialog'
-import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
-import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import { AccessLevels, Apps } from '@/constants'
 import useDialogStatus from '@/hooks/useDialogStatus'
 import { selectCategoryList, selectUser } from '@/redux-selectors'
+import type { DrawerMenuItem } from '@/types/album'
 
 interface FamilyAlbumDrawerProps {
   isSidebarNavOpen: boolean
@@ -36,29 +32,14 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
   const router = useRouter()
   const { t } = useTranslation('common')
   const user = useSelector(selectUser)
-  const dataRef = useRef<Record<string, unknown> | undefined>(undefined)
-  const {
-    state: createCategoryDialogState,
-    handleOpen: handleCreateCategoryOpen,
-    handleClose: handleCreateCategoryClose
-  } = useDialogStatus()
-  const {
-    state: editCategoryDialogState,
-    handleOpen: handleEditCategoryOpen,
-    handleClose: handleEditCategoryClose
-  } = useDialogStatus()
-  const {
-    state: deleteCategoryDialogState,
-    handleOpen: handleDeleteCategoryOpen,
-    handleClose: handleDeleteCategoryClose
-  } = useDialogStatus()
+  const { state, handleOpen, handleClose } = useDialogStatus()
 
   const categoryId = router.query.categoryId
   const canEditCategory =
     user!.accessLevel[Apps.familyAlbum] === AccessLevels.SUPER_ADMIN ||
     user!.accessLevel[Apps.familyAlbum] === AccessLevels.ADMIN
   const categories = useSelector(selectCategoryList)
-  const menus = [
+  const menus: DrawerMenuItem[] = [
     {
       id: '',
       iconComponent: <AllInboxIcon />,
@@ -77,24 +58,6 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
       editable: true
     }))
   )
-  const menuOptions: MenuOption[] = [
-    {
-      label: t('EDIT'),
-      click: (data) => {
-        dataRef.current = data
-
-        handleEditCategoryOpen()
-      }
-    },
-    {
-      label: t('DELETE'),
-      click: (data) => {
-        dataRef.current = data
-
-        handleDeleteCategoryOpen()
-      }
-    }
-  ]
   const addCategoryMenu = {
     iconComponent: <AddIcon />,
     label: t('DRAWER_MENU_ITEM_ADD_CATEGORY')
@@ -109,47 +72,13 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
           overflowY: 'auto'
         }}
       >
-        {menus.map((menu, index) => (
-          <ListItem
-            key={index}
-            className={!isSidebarNavOpen ? '__d-justify-center' : ''}
-            sx={{ height: (theme: Theme) => theme.spacing(8) }}
-            secondaryAction={
-              isSidebarNavOpen &&
-              canEditCategory &&
-              menu.editable && (
-                <MaxHeightMenu
-                  options={menuOptions.map((menuOption) => ({
-                    ...menuOption,
-                    data: { categoryId: menu.id, name: menu.label }
-                  }))}
-                  extraIconButtonProps={{ edge: 'end' }}
-                />
-              )
-            }
-            disablePadding={isSidebarNavOpen}
-          >
-            <Link href={menu.url} replace shallow={true}>
-              <ListItemButton
-                selected={menu.selected}
-                sx={{ height: (theme: Theme) => theme.spacing(6) }}
-              >
-                <Tooltip title={!isSidebarNavOpen ? menu.label : ''}>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 'initial',
-                      width: (theme: Theme) => `${theme.spacing(3)}`
-                    }}
-                  >
-                    {menu.iconComponent}
-                  </ListItemIcon>
-                </Tooltip>
-                {isSidebarNavOpen ? (
-                  <ListItemText primary={menu.label} sx={{ ml: 3 }} />
-                ) : null}
-              </ListItemButton>
-            </Link>
-          </ListItem>
+        {menus.map((menu) => (
+          <FamilyAlbumDrawerMenuItem
+            key={menu.id}
+            isSidebarNavOpen={isSidebarNavOpen}
+            canEditCategory={canEditCategory}
+            menu={menu}
+          />
         ))}
       </List>
 
@@ -165,7 +94,7 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
               <ListItemButton
                 sx={{ height: (theme: Theme) => theme.spacing(6) }}
                 onClick={() => {
-                  handleCreateCategoryOpen()
+                  handleOpen()
                 }}
               >
                 <Tooltip title={!isSidebarNavOpen ? addCategoryMenu.label : ''}>
@@ -192,23 +121,7 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
 
       {canEditCategory && (
         <>
-          <CreateCategoryDialog
-            isOpen={createCategoryDialogState.isOpen}
-            handleClose={handleCreateCategoryClose}
-          />
-
-          <EditCategoryDialog
-            isOpen={editCategoryDialogState.isOpen}
-            handleClose={handleEditCategoryClose}
-            id={dataRef.current?.categoryId as string}
-            name={dataRef.current?.name as string}
-          />
-
-          <DeleteCategoryDialog
-            isOpen={deleteCategoryDialogState.isOpen}
-            handleClose={handleDeleteCategoryClose}
-            id={dataRef.current?.categoryId as string}
-          />
+          {state.isOpen && <CreateCategoryDialog handleClose={handleClose} />}
         </>
       )}
     </div>

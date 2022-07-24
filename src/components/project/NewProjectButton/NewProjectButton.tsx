@@ -29,11 +29,12 @@ const NewProjectButton: FC<NewProjectButtonProps> = ({ appAbbreviation }) => {
         {t('BUTTON_NEW')}
       </Button>
 
-      <CreateProjectDialog
-        appAbbreviation={appAbbreviation}
-        isOpen={dialogState.isOpen}
-        handleClose={handleClose}
-      />
+      {dialogState.isOpen && (
+        <CreateProjectDialog
+          appAbbreviation={appAbbreviation}
+          handleClose={handleClose}
+        />
+      )}
     </>
   )
 }

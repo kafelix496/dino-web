@@ -14,14 +14,12 @@ import { deleteProject, setProjects } from '@/redux-actions'
 interface DeleteProjectDialogProps {
   appAbbreviation: Apps
   id: string
-  isOpen: boolean
   handleClose: () => void
 }
 
 const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
   appAbbreviation,
   id,
-  isOpen,
   handleClose
 }) => {
   const { t } = useTranslation('common')
@@ -51,7 +49,7 @@ const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
 
   return (
     <Dialog
-      open={isOpen}
+      open={true}
       onClose={handleClose}
       title={t('DELETE_PROJECT_DIALOG_TITLE')}
       contentJsx={<Typography>{t('DELETE_PROJECT_DIALOG_CONTENT')}</Typography>}

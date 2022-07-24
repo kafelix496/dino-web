@@ -1,6 +1,5 @@
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
-import { useEffect } from 'react'
 import type { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
@@ -15,7 +14,6 @@ import { setProjects, updateProject } from '@/redux-actions'
 
 interface EditProjectDialogProps {
   appAbbreviation: Apps
-  isOpen: boolean
   handleClose: () => void
   id: string
   title: string
@@ -24,7 +22,6 @@ interface EditProjectDialogProps {
 
 const EditProjectDialog: FC<EditProjectDialogProps> = ({
   appAbbreviation,
-  isOpen,
   handleClose,
   id,
   title,
@@ -33,7 +30,7 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
   const formik = useFormik({
-    initialValues: { title: '', description: '' },
+    initialValues: { title, description },
     validationSchema: yup.object({
       title: yup
         .string()
@@ -68,19 +65,9 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
     }
   })
 
-  useEffect(() => {
-    if (isOpen) {
-      formik.resetForm()
-      formik.setTouched({ title: true })
-      formik.setValues({ title, description })
-    }
-    // I don't know why I can't pass test if I put formik in here
-    // I don't think it's important, so I'll ignore it
-  }, [isOpen, title, description])
-
   return (
     <Dialog
-      open={isOpen}
+      open={true}
       onClose={handleClose}
       title={t('UPDATE_PROJECT_DIALOG_TITLE')}
       wrapBodyWithForm={true}

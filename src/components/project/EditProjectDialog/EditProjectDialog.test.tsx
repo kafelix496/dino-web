@@ -8,7 +8,6 @@ describe('EditProjectDialog component', () => {
     render(
       <EditProjectDialog
         appAbbreviation={Apps.moneyTracker}
-        isOpen={true}
         handleClose={jest.fn()}
         id=""
         title=""
@@ -28,7 +27,6 @@ describe('EditProjectDialog component', () => {
     render(
       <EditProjectDialog
         appAbbreviation={Apps.moneyTracker}
-        isOpen={true}
         handleClose={jest.fn()}
         id=""
         title=""
