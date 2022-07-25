@@ -27,11 +27,7 @@ const setup = () => {
       }, 1000)
     }, [dispatch])
 
-    return (
-      <div>
-        <ToastList />
-      </div>
-    )
+    return <ToastList />
   }
 
   return {
