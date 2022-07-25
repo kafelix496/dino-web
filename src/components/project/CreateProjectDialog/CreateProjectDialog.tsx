@@ -8,9 +8,9 @@ import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
-import { Apps } from '@/constants'
+import { AlertColor, Apps } from '@/constants/app'
 import projectHttpService from '@/http-services/project'
-import { addProject } from '@/redux-actions'
+import { addProject, enqueueAlert } from '@/redux-actions'
 
 interface CreateProjectDialogProps {
   appAbbreviation: Apps
@@ -46,7 +46,7 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
           handleClose()
         })
         .catch(() => {
-          alert(t('ERROR_ALERT_MESSAGE'))
+          dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
         })
         .finally(() => {
           setSubmitting(false)

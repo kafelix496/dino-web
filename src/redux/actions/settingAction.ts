@@ -1,7 +1,7 @@
 import nookies from 'nookies'
 import type { ThunkAction } from 'redux-thunk'
 
-import { COOKIES_OPTION, Locales, PaletteModes } from '@/constants'
+import { COOKIES_OPTION, Locales, PaletteModes } from '@/constants/app'
 import { Cookies } from '@/constants/cookies'
 import type { RootState } from '@/redux-types'
 import { ActionType } from '@/redux-types/setting'

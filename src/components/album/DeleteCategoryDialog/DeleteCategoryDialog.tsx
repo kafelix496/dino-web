@@ -7,8 +7,9 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import Dialog from '@/components/Dialog/Dialog'
+import { AlertColor } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
-import { deleteCategory, setCategories } from '@/redux-actions'
+import { deleteCategory, enqueueAlert, setCategories } from '@/redux-actions'
 
 interface DeleteCategoryDialogProps {
   id: string
@@ -37,7 +38,7 @@ const DeleteCategoryDialog: FC<DeleteCategoryDialogProps> = ({
           dispatch(setCategories(categories))
         })
 
-        alert(t('ERROR_ALERT_MESSAGE'))
+        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
       })
       .finally(() => {
         setSubmitting(false)

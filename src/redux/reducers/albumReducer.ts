@@ -21,14 +21,14 @@ const reducer = (state: State = initialState, action: AnyAction) => {
     case ActionType.SET_CATEGORIES: {
       return {
         ...state,
-        categories: action.categories
+        categories: _action.categories
       }
     }
 
     case ActionType.ADD_CATEGORY: {
       return {
         ...state,
-        categories: state.categories.concat(action.category)
+        categories: state.categories.concat(_action.category)
       }
     }
 
@@ -36,8 +36,8 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       return {
         ...state,
         categories: state.categories.map((category) =>
-          category._id === action.id
-            ? { ...category, ...action.category }
+          category._id === _action.id
+            ? { ...category, ..._action.category }
             : category
         )
       }
@@ -47,7 +47,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       return {
         ...state,
         categories: state.categories.filter(
-          (category) => category._id !== action.id
+          (category) => category._id !== _action.id
         )
       }
     }
@@ -56,8 +56,8 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       return {
         ...state,
         postData: {
-          total: action.total,
-          posts: action.posts
+          total: _action.total,
+          posts: _action.posts
         }
       }
     }
@@ -67,7 +67,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
         ...state,
         postData: {
           total: state.postData.total + 1,
-          posts: [action.post].concat(state.postData.posts)
+          posts: [_action.post].concat(state.postData.posts)
         }
       }
     }
@@ -78,7 +78,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
         postData: {
           ...state.postData,
           posts: state.postData.posts.map((post) =>
-            post._id === action.id ? { ...post, ...action.post } : post
+            post._id === _action.id ? { ...post, ..._action.post } : post
           )
         }
       }
@@ -89,7 +89,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
         ...state,
         postData: {
           total: state.postData.total + 1,
-          posts: state.postData.posts.filter((post) => post._id !== action.id)
+          posts: state.postData.posts.filter((post) => post._id !== _action.id)
         }
       }
     }

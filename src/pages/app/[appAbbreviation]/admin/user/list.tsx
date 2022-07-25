@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 
 import UserList from '@/components/admin/UserList/UserList'
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 import adminUserHttpService from '@/http-services/adminUser'
 import type { User } from '@/types'
 

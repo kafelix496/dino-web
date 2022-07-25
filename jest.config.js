@@ -21,13 +21,12 @@ module.exports = {
 
     /* Handle typescript custom absolute imports */
     '@/mock-data/(.*)': '<rootDir>/src/__mocks__/data/$1',
-    '@/layout': '<rootDir>/src/layout/Layout',
     '@/layout/(.*)': '<rootDir>/src/layout/$1',
+    '@/layout': '<rootDir>/src/layout/Layout',
     '@/types/(.*)': '<rootDir>/src/types/$1',
-    '@/types': '<rootDir>/src/types/index.ts',
+    '@/types': '<rootDir>/src/types/app.ts',
     '@/http-services/(.*)': '<rootDir>/src/http-services/$1',
     '@/constants/(.*)': '<rootDir>/src/constants/$1',
-    '@/constants': '<rootDir>/src/constants/index.ts',
     '@/components/(.*)': '<rootDir>/src/components/$1',
     '@/pages/(.*)': '<rootDir>/src/pages/$1',
     '@/hooks/(.*)': '<rootDir>/src/hooks/$1',
@@ -54,7 +53,9 @@ module.exports = {
   setupFiles: [
     '<rootDir>/src/__mocks__/react-i18next.js',
     '<rootDir>/src/__mocks__/next.js',
-    '<rootDir>/src/__mocks__/next-auth.js'
+    '<rootDir>/src/__mocks__/next-auth.js',
+    '<rootDir>/src/__mocks__/mongoose.js',
+    '<rootDir>/src/__mocks__/uuid.js'
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
 }

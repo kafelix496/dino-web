@@ -5,7 +5,7 @@ import { fireEvent, render, screen } from '@/utils/test-utils'
 import SettingsDrawer from './SettingsDrawer'
 
 const setup = () => {
-  const TestComp = () => {
+  const TestComponent = () => {
     const [isSettingsOpen, setSettingsOpen] = useState(true)
 
     return (
@@ -16,7 +16,7 @@ const setup = () => {
     )
   }
 
-  return { TestComp }
+  return { TestComponent }
 }
 
 const SELECTED_BUTTON_CLASS = 'MuiButton-contained'
@@ -24,9 +24,9 @@ const UNSELECTED_BUTTON_CLASS = 'MuiButton-outlined'
 
 describe('SettingsDrawer component', () => {
   it('should change selected theme mode', () => {
-    const { TestComp } = setup()
+    const { TestComponent } = setup()
 
-    render(<TestComp />)
+    render(<TestComponent />)
 
     const lightModeButton = screen.getByText('THEME_MODE_LIGHT')
     fireEvent.click(lightModeButton)
@@ -42,9 +42,9 @@ describe('SettingsDrawer component', () => {
   })
 
   it('should change selected locale', () => {
-    const { TestComp } = setup()
+    const { TestComponent } = setup()
 
-    render(<TestComp />)
+    render(<TestComponent />)
 
     const englishLocaleButton = screen.getByText('LOCALE_EN')
     fireEvent.click(englishLocaleButton)

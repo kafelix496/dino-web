@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux'
 
 import albumReducer from './albumReducer'
+import appReducer from './appReducer'
 import projectReducer from './projectReducer'
 import settingsReducer from './settingReducer'
 import userReducer from './userReducer'
 
 const combinedReducers = combineReducers({
-  setting: settingsReducer,
+  album: albumReducer,
+  app: appReducer,
   project: projectReducer,
-  user: userReducer,
-  album: albumReducer
+  setting: settingsReducer,
+  user: userReducer
 })
 
 export default combinedReducers

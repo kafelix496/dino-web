@@ -1,5 +1,6 @@
 import { createWrapper } from 'next-redux-wrapper'
-import { applyMiddleware, createStore } from 'redux'
+// TODO: replace this when I install @reduxjs/toolkit
+import { applyMiddleware, legacy_createStore as createStore } from 'redux'
 import type { Middleware, Store } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'

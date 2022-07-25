@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { Locales } from '@/constants'
+import { Locales } from '@/constants/app'
 import { Cookies } from '@/constants/cookies'
 
 const PUBLIC_FILE = /\.(.*)$/

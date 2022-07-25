@@ -7,9 +7,9 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import Dialog from '@/components/Dialog/Dialog'
-import { Apps } from '@/constants'
+import { AlertColor, Apps } from '@/constants/app'
 import projectHttpService from '@/http-services/project'
-import { deleteProject, setProjects } from '@/redux-actions'
+import { deleteProject, enqueueAlert, setProjects } from '@/redux-actions'
 
 interface DeleteProjectDialogProps {
   appAbbreviation: Apps
@@ -40,7 +40,7 @@ const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
           dispatch(setProjects(projects))
         })
 
-        alert(t('ERROR_ALERT_MESSAGE'))
+        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
       })
       .finally(() => {
         setSubmitting(false)

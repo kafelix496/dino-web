@@ -5,7 +5,7 @@ import { fireEvent, render, screen } from '@/utils/test-utils'
 import SettingsButton from './SettingsButton'
 
 const setup = () => {
-  const TestComp = () => {
+  const TestComponent = () => {
     const [isSettingsOpen, setSettingsOpen] = useState(false)
 
     return (
@@ -16,14 +16,14 @@ const setup = () => {
     )
   }
 
-  return { TestComp }
+  return { TestComponent }
 }
 
 describe('SettingsButton component', () => {
   it('should set settings open status true when the user clicks settings button', () => {
-    const { TestComp } = setup()
+    const { TestComponent } = setup()
 
-    render(<TestComp />)
+    render(<TestComponent />)
 
     const settingsButton = screen.getByLabelText('TOGGLE_SETTINGS_DRAWER')
     const settingsOpenStatus = screen.getByTestId('settings-open-status')

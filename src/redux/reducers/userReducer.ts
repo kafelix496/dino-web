@@ -20,7 +20,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
     case ActionType.SET_USER: {
       return {
         ...state,
-        user: action.user
+        user: _action.user
       }
     }
 

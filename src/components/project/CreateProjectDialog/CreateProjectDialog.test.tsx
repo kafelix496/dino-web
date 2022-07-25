@@ -1,4 +1,4 @@
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 import { act, fireEvent, render, screen } from '@/utils/test-utils'
 
 import CreateProjectDialog from './CreateProjectDialog'

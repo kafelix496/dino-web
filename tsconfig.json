@@ -27,16 +27,13 @@
         "./src/layout/*"
       ],
       "@/types": [
-        "./src/types/index"
+        "./src/types/app"
       ],
       "@/types/*": [
         "./src/types/*"
       ],
       "@/http-services/*": [
         "./src/http-services/*"
-      ],
-      "@/constants": [
-        "./src/constants/index"
       ],
       "@/constants/*": [
         "./src/constants/*"

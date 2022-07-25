@@ -13,7 +13,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Tooltip from '@mui/material/Tooltip'
 
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 
 interface AdminDrawerProps {
   isSidebarNavOpen: boolean

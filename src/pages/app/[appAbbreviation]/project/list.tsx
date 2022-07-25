@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper'
 
 import NewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
 import ProjectList from '@/components/project/ProjectList/ProjectList'
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 import projectHttpService from '@/http-services/project'
 import { setProjects } from '@/redux-actions'
 import { wrapper } from '@/redux-store'

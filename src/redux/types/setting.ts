@@ -1,4 +1,4 @@
-import { Locales, PaletteModes } from '@/constants'
+import { Locales, PaletteModes } from '@/constants/app'
 
 export interface State {
   paletteMode: PaletteModes

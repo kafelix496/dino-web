@@ -6,7 +6,7 @@ import nookies from 'nookies'
 import { Provider } from 'react-redux'
 import type { Store } from 'redux'
 
-import { Locales, PaletteModes } from '@/constants'
+import { Locales, PaletteModes } from '@/constants/app'
 import { Cookies } from '@/constants/cookies'
 import userHttpService from '@/http-services/user'
 import Layout from '@/layout'

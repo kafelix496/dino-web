@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { AccessLevels } from '@/constants'
+import { AccessLevels } from '@/constants/app'
 
 const userSchema = new mongoose.Schema(
   {

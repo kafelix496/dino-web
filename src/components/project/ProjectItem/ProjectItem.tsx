@@ -14,7 +14,7 @@ import Box from '@mui/system/Box'
 
 import DeleteProjectDialog from '@/components/project/DeleteProjectDialog/DeleteProjectDialog'
 import EditProjectDialog from '@/components/project/EditProjectDialog/EditProjectDialog'
-import { Apps } from '@/constants'
+import { Apps } from '@/constants/app'
 import useDialogStatus from '@/hooks/useDialogStatus'
 
 interface ProjectItemProps {
