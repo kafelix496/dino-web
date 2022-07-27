@@ -65,7 +65,7 @@ aws --endpoint-url=http://localhost:4566 --profile dino-local s3 rm s3://local.f
 ```
 - Remove all files in the bucket
 ```zsh
-aws --endpoint-url=http://localhost:4566 --profile dino-local s3 rm --recursive s3://local.files/{fileName}
+aws --endpoint-url=http://localhost:4566 --profile dino-local s3 rm --recursive s3://local.files
 ```
 
 ## How to set a super-admin in your local dev environment
