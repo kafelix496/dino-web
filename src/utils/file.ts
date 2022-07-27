@@ -1,61 +1,6 @@
-import aws from 'aws-sdk'
 import axios from 'axios'
 
 import { generateUuid } from '@/utils'
-
-interface Config {
-  bucket: string
-  region: string
-  accessKeyId: string
-  secretAccessKey: string
-}
-
-const isProd = process.env.NODE_ENV === 'production'
-
-// Back-end
-export const getDownloadUrl = async (key: string, config: Config) => {
-  const s3 = new aws.S3({
-    region: config.region,
-    accessKeyId: config.accessKeyId,
-    secretAccessKey: config.secretAccessKey,
-    signatureVersion: 'v4',
-    ...(!isProd ? { endpoint: 'http://localhost:4566' } : {})
-  })
-
-  const url = await s3.getSignedUrlPromise('getObject', {
-    Bucket: config.bucket,
-    Key: key,
-    Expires: 60
-  })
-
-  return url
-}
-
-// Back-end
-export const getUploadUrl = (
-  key: string,
-  config: Config & { fileSize?: number }
-) => {
-  const s3 = new aws.S3({
-    region: config.region,
-    accessKeyId: config.accessKeyId,
-    secretAccessKey: config.secretAccessKey,
-    signatureVersion: 'v4',
-    ...(!isProd ? { endpoint: 'http://localhost:4566' } : {})
-  })
-
-  const post = s3.createPresignedPost({
-    Bucket: config.bucket,
-    Fields: { key },
-    Expires: 60,
-    Conditions: [
-      ['starts-with', '$Content-Type', ''],
-      ['content-length-range', 0, config?.fileSize ?? 10000000] // up to 10 MB
-    ]
-  })
-
-  return post
-}
 
 const getFileExtension = (type: string): string | null => {
   switch (type) {
@@ -101,7 +46,6 @@ const tryToUploadFile = async (key: string, file: File) => {
   }
 }
 
-// Front-end
 export const getFileUrl = (key: string) =>
   new Promise<{ url: string }>((resolve, reject) => {
     return axios
@@ -111,28 +55,35 @@ export const getFileUrl = (key: string) =>
       .catch(reject)
   })
 
-// Front-end
 export const uploadFile = (file: File) =>
   new Promise<{ key: string; extension: string }>((resolve, reject) => {
     try {
       const extension = getFileExtension(file.type)
 
       if (extension === null) {
-        reject('Unexpected file type')
-
-        return
+        throw new Error()
       }
 
       const key = generateUuid()
 
       tryToUploadFile(key, file).then((status) => {
-        if (status) {
-          resolve({ key, extension })
-        } else {
-          reject('Fail to upload file')
+        if (!status) {
+          throw new Error()
         }
+
+        resolve({ key, extension })
       })
     } catch (_) {
-      reject('Fail to upload file')
+      reject()
     }
+  })
+
+export const deleteFilesObject = (keys: string[]) =>
+  new Promise<void>((resolve, reject) => {
+    return axios
+      .post('/api/s3/delete-s3-objects', { keys })
+      .then(() => {
+        resolve(undefined)
+      })
+      .catch(reject)
   })

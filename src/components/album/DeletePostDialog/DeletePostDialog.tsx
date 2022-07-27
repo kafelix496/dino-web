@@ -15,13 +15,19 @@ import {
   temporaryDeletePost,
   undoTemporaryDeletedPost
 } from '@/redux-actions'
+import { deleteFilesObject } from '@/utils/file'
 
 interface DeletePostDialogProps {
   id: string
+  assetKeys: string[]
   handleClose: () => void
 }
 
-const DeletePostDialog: FC<DeletePostDialogProps> = ({ id, handleClose }) => {
+const DeletePostDialog: FC<DeletePostDialogProps> = ({
+  id,
+  assetKeys,
+  handleClose
+}) => {
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
   const [isSubmitting, setSubmitting] = useState(false)
@@ -36,6 +42,8 @@ const DeletePostDialog: FC<DeletePostDialogProps> = ({ id, handleClose }) => {
     albumHttpService
       .deletePost({ id })
       .then(() => {
+        deleteFilesObject(assetKeys)
+
         dispatch(deletePost(id))
       })
       .catch(() => {

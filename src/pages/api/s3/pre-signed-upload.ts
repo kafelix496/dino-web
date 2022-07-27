@@ -1,7 +1,7 @@
 import { PresignedPost } from 'aws-sdk/clients/s3'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { getUploadUrl } from '@/utils/file'
+import { getUploadUrl } from '@/utils/file.server'
 
 export default async function handler(
   req: NextApiRequest,

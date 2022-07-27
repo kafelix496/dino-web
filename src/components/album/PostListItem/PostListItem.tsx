@@ -91,6 +91,7 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
       {deleteCategoryDialogState.isOpen && (
         <DeletePostDialog
           id={post._id}
+          assetKeys={post.assets.map((asset) => asset.key)}
           handleClose={handleDeleteCategoryClose}
         ></DeletePostDialog>
       )}

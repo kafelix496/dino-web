@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { getDownloadUrl } from '@/utils/file'
+import { getDownloadUrl } from '@/utils/file.server'
 
 export default async function handler(
   req: NextApiRequest,
