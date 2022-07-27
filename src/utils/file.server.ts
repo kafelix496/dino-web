@@ -18,7 +18,7 @@ const generateS3Instance = (config: Config) =>
     ...(!isProd ? { endpoint: 'http://localhost:4566' } : {})
   })
 
-export const getDownloadUrl = async (key: string, config: Config) => {
+export const getSignedUrl = async (key: string, config: Config) => {
   const s3 = generateS3Instance(config)
 
   const url = await s3.getSignedUrlPromise('getObject', {
@@ -30,7 +30,7 @@ export const getDownloadUrl = async (key: string, config: Config) => {
   return url
 }
 
-export const getUploadUrl = (key: string, config: Config) => {
+export const createPresignedUrl = (key: string, config: Config) => {
   const s3 = generateS3Instance(config)
 
   const post = s3.createPresignedPost({

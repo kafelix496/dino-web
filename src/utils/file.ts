@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+import fileHttpService from '@/http-services/file'
 import { generateUuid } from '@/utils'
 
 const getFileExtension = (type: string): string | null => {
@@ -28,9 +29,7 @@ const getFileExtension = (type: string): string | null => {
 
 const tryToUploadFile = async (key: string, file: File) => {
   try {
-    const { url, fields } = await axios
-      .get(`/api/s3/pre-signed-upload?key=${key}`)
-      .then((response) => response.data)
+    const { url, fields } = await fileHttpService.createPresignedUrl({ key })
 
     const formData = new FormData()
     formData.append('Content-Type', file.type)
@@ -46,14 +45,7 @@ const tryToUploadFile = async (key: string, file: File) => {
   }
 }
 
-export const getFileUrl = (key: string) =>
-  new Promise<{ url: string }>((resolve, reject) => {
-    return axios
-      .get(`/api/s3/pre-signed-download?key=${key}`)
-      .then((response) => response.data)
-      .then(resolve)
-      .catch(reject)
-  })
+export const getFileUrl = (key: string) => fileHttpService.getSignedUrl({ key })
 
 export const uploadFile = (file: File) =>
   new Promise<{ key: string; extension: string }>((resolve, reject) => {
@@ -79,11 +71,4 @@ export const uploadFile = (file: File) =>
   })
 
 export const deleteFilesObject = (keys: string[]) =>
-  new Promise<void>((resolve, reject) => {
-    return axios
-      .post('/api/s3/delete-s3-objects', { keys })
-      .then(() => {
-        resolve(undefined)
-      })
-      .catch(reject)
-  })
+  fileHttpService.deleteObjects({ keys })

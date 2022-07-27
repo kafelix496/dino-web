@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { getDownloadUrl } from '@/utils/file.server'
+import { getSignedUrl } from '@/utils/file.server'
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +11,7 @@ export default async function handler(
 
     switch (req.method) {
       case 'GET': {
-        const url = await getDownloadUrl(key, {
+        const url = await getSignedUrl(key, {
           bucket: process.env.DINO_AWS_BUCKET_NAME,
           region: process.env.DINO_AWS_BUCKET_REGION,
           accessKeyId: process.env.DINO_AWS_ACCESS_KEY,
