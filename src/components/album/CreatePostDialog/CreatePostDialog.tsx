@@ -17,7 +17,7 @@ import { AlertColor } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import { addPost, enqueueAlert } from '@/redux-actions'
 import { selectCategoryList } from '@/redux-selectors'
-import { uploadFile } from '@/utils/file'
+import { deleteFilesObject, uploadFile } from '@/utils/file'
 
 interface CreatePostDialogProps {
   handleClose: () => void
@@ -75,12 +75,16 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
           }
         )
     }),
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true)
 
-      Promise.all(Array.from(values.files).map((file) => uploadFile(file)))
-        .then((uploadedFiles) =>
-          albumHttpService.createPost({
+      try {
+        const uploadedFiles = await Promise.all(
+          Array.from(values.files).map((file) => uploadFile(file))
+        )
+
+        const postResult = await albumHttpService
+          .createPost({
             values: {
               assets: uploadedFiles,
               audience: values.audience,
@@ -89,18 +93,22 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
               description: values.description
             }
           })
-        )
-        .then(({ post, assets }) => {
-          dispatch(addPost(post, assets))
+          .catch(() => {
+            // if something wrong on the database,
+            // delete all files uploaded
+            deleteFilesObject(uploadedFiles.map((file) => file.key))
 
-          handleClose()
-        })
-        .catch(() => {
-          dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
-        })
-        .finally(() => {
-          setSubmitting(false)
-        })
+            throw new Error()
+          })
+
+        dispatch(addPost(postResult.post, postResult.assets))
+
+        handleClose()
+      } catch (_) {
+        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
+      }
+
+      setSubmitting(false)
     }
   })
   const audienceOptions = [

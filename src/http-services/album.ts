@@ -99,9 +99,9 @@ const albumHttpService = {
       id: string
     },
     config?: AxiosRequestConfig
-  ): Promise<Post> =>
+  ): Promise<PostRaw> =>
     axios
-      .delete<Post>(
+      .delete<PostRaw>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post/${
           data.id
         }`,

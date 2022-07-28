@@ -1,7 +1,7 @@
 import { PresignedPost } from 'aws-sdk/clients/s3'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { getUploadUrl } from '@/utils/file'
+import { createPresignedUrl } from '@/utils/file.server'
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,7 +14,7 @@ export default async function handler(
 
     switch (req.method) {
       case 'GET': {
-        const { url, fields } = getUploadUrl(key, {
+        const { url, fields } = createPresignedUrl(key, {
           bucket: process.env.DINO_AWS_BUCKET_NAME,
           region: process.env.DINO_AWS_BUCKET_REGION,
           accessKeyId: process.env.DINO_AWS_ACCESS_KEY,
