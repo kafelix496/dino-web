@@ -3,8 +3,6 @@ import type { FC } from 'react'
 
 import type { Theme } from '@mui/material'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import ButtonGroup from '@mui/material/ButtonGroup'
 import Divider from '@mui/material/Divider'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
@@ -80,12 +78,12 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
           <PostListItemImageList assets={post.assets} />
         </Box>
 
-        <Box sx={{ mt: 2 }}>
+        {/*<Box sx={{ mt: 2 }}>
           <ButtonGroup fullWidth variant="outlined">
             <Button>{t('BUTTON_LIKE')}</Button>
             <Button>{t('BUTTON_COMMENTS')}</Button>
           </ButtonGroup>
-        </Box>
+        </Box>*/}
       </Paper>
 
       {deleteCategoryDialogState.isOpen && (
