@@ -55,7 +55,8 @@ module.exports = {
     '<rootDir>/src/__mocks__/next.js',
     '<rootDir>/src/__mocks__/next-auth.js',
     '<rootDir>/src/__mocks__/mongoose.js',
-    '<rootDir>/src/__mocks__/uuid.js'
+    '<rootDir>/src/__mocks__/uuid.js',
+    '<rootDir>/src/__mocks__/file-http-service.js'
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
 }

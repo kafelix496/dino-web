@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import head from 'ramda/src/head'
 import type { FC } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
@@ -7,66 +7,24 @@ import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import Skeleton from '@mui/material/Skeleton'
 
+import PostListItemAssetListItemForCount1 from '@/components/album/PostListItemAssetListForCount1/PostListItemAssetListItemForCount1'
+import { POST_ROW_HEIGHT } from '@/constants/album'
 import type { AssetDefault } from '@/types/album'
-import { getFileUrl, heicToPng, urlToBlob } from '@/utils/file'
 
-interface PostListItemImageListProps {
+import { useAssetsSrc } from './useAssetsSrc'
+
+interface PostListItemAssetListProps {
   assets: AssetDefault[]
 }
 
 const GAP = 16
-const ROW_HEIGHT = 250
 
-const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
-  const [assetsWithSrc, setAssetsWithSrc] = useState<AssetDefault[]>(assets)
-
-  useEffect(() => {
-    Promise.all<Promise<AssetDefault>[]>(
-      assets.map(
-        (asset) =>
-          new Promise((resolve) => {
-            getFileUrl(asset.key)
-              .then(({ url }) => {
-                if (asset.extension === 'heic') {
-                  return urlToBlob(url)
-                    .then((blob) => heicToPng(blob))
-                    .then((blob) => URL.createObjectURL(blob as Blob))
-                }
-
-                return url
-              })
-              .then((url) => {
-                resolve({ ...asset, src: url as string })
-              })
-          })
-      )
-    ).then((_assetsWithSrc) => setAssetsWithSrc(_assetsWithSrc))
-  }, [assets])
+const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
+  const { assetsWithSrc } = useAssetsSrc(assets)
 
   switch (assetsWithSrc.length) {
     case 1: {
-      return (
-        <Box
-          className="__d-relative"
-          sx={{ textAlign: 'center', maxHeight: ROW_HEIGHT * 2 }}
-        >
-          {!assetsWithSrc[0].src && (
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              width={'100%'}
-              height={ROW_HEIGHT * 2}
-            />
-          )}
-
-          {assetsWithSrc[0].src && (
-            <img
-              src={assetsWithSrc[0].src}
-              style={{ maxWidth: '100%', maxHeight: ROW_HEIGHT * 2 }}
-            />
-          )}
-        </Box>
-      )
+      return <PostListItemAssetListItemForCount1 asset={head(assetsWithSrc)!} />
     }
 
     case 2: {
@@ -76,7 +34,7 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
             variant="quilted"
             cols={1}
             gap={GAP}
-            rowHeight={ROW_HEIGHT}
+            rowHeight={POST_ROW_HEIGHT}
           >
             {assetsWithSrc.map((asset) => (
               <ImageListItem key={asset._id}>
@@ -84,8 +42,8 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
                   <Skeleton
                     variant="rectangular"
                     animation="wave"
-                    width={'100%'}
-                    height={ROW_HEIGHT}
+                    width="100%"
+                    height={POST_ROW_HEIGHT}
                   />
                 )}
 
@@ -104,7 +62,7 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
             variant="quilted"
             cols={2}
             gap={GAP}
-            rowHeight={ROW_HEIGHT}
+            rowHeight={POST_ROW_HEIGHT}
           >
             {assetsWithSrc.map((asset, index) => (
               <ImageListItem key={asset._id} cols={index === 0 ? 2 : 1}>
@@ -112,8 +70,8 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
                   <Skeleton
                     variant="rectangular"
                     animation="wave"
-                    width={'100%'}
-                    height={ROW_HEIGHT}
+                    width="100%"
+                    height={POST_ROW_HEIGHT}
                   />
                 )}
 
@@ -132,7 +90,7 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
             variant="quilted"
             cols={2}
             gap={GAP}
-            rowHeight={ROW_HEIGHT}
+            rowHeight={POST_ROW_HEIGHT}
           >
             {assetsWithSrc.slice(0, 4).map((asset, index) => (
               <ImageListItem key={asset._id}>
@@ -140,19 +98,19 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
                   <Skeleton
                     variant="rectangular"
                     animation="wave"
-                    width={'100%'}
-                    height={ROW_HEIGHT}
+                    width="100%"
+                    height={POST_ROW_HEIGHT}
                   />
                 )}
 
-                {asset.src && index < 3 && <img src={asset.src} />}
-
-                {asset.src && index === 3 && assetsWithSrc.length === 4 && (
-                  <img src={asset.src} />
-                )}
+                {asset.src &&
+                  (index < 3 ||
+                    (index === 3 && assetsWithSrc.length === 4)) && (
+                    <img src={asset.src} />
+                  )}
 
                 {asset.src && index === 3 && assetsWithSrc.length > 4 && (
-                  <Box sx={{ height: ROW_HEIGHT }}>
+                  <Box sx={{ height: POST_ROW_HEIGHT }}>
                     <img
                       src={asset.src}
                       className="__d-w-full __d-h-full __d-object-cover __d-opacity-75"
@@ -177,4 +135,4 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
   }
 }
 
-export default PostListItemImageList
+export default PostListItemAssetList

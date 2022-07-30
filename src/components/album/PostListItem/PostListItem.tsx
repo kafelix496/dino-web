@@ -20,25 +20,21 @@ interface PostListItemProps {
   post: Post
 }
 
-const PostListItemImageList = dynamic(
+const PostListItemAssetList = dynamic(
   () =>
-    import('@/components/album/PostListItemImageList/PostListItemImageList'),
+    import('@/components/album/PostListItemAssetList/PostListItemAssetList'),
   { ssr: false }
 )
 
 const PostListItem: FC<PostListItemProps> = ({ post }) => {
   const { t } = useTranslation('common')
-  const {
-    state: deleteCategoryDialogState,
-    handleOpen: handleDeleteCategoryOpen,
-    handleClose: handleDeleteCategoryClose
-  } = useDialogStatus()
+  const { state, handleOpen, handleClose } = useDialogStatus()
 
   const menuOptions: MenuOption[] = [
     {
       label: t('DELETE'),
       click: () => {
-        handleDeleteCategoryOpen()
+        handleOpen()
       }
     }
   ]
@@ -81,7 +77,7 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
 
         <Divider sx={{ mt: 2 }} />
         <Box sx={{ mt: 2 }}>
-          <PostListItemImageList assets={post.assets} />
+          <PostListItemAssetList assets={post.assets} />
         </Box>
 
         {/*<Box sx={{ mt: 2 }}>
@@ -92,11 +88,11 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
         </Box>*/}
       </Paper>
 
-      {deleteCategoryDialogState.isOpen && (
+      {state.isOpen && (
         <DeletePostDialog
           id={post._id}
           assetKeys={post.assets.map((asset) => asset.key)}
-          handleClose={handleDeleteCategoryClose}
+          handleClose={handleClose}
         ></DeletePostDialog>
       )}
     </>
