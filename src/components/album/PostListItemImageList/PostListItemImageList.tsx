@@ -8,14 +8,14 @@ import ImageListItem from '@mui/material/ImageListItem'
 import Skeleton from '@mui/material/Skeleton'
 
 import type { AssetDefault } from '@/types/album'
-import { getFileUrl } from '@/utils/file'
-
-const GAP = 16
-const ROW_HEIGHT = 250
+import { getFileUrl, heicToPng, urlToBlob } from '@/utils/file'
 
 interface PostListItemImageListProps {
   assets: AssetDefault[]
 }
+
+const GAP = 16
+const ROW_HEIGHT = 250
 
 const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
   const [assetsWithSrc, setAssetsWithSrc] = useState<AssetDefault[]>(assets)
@@ -25,9 +25,19 @@ const PostListItemImageList: FC<PostListItemImageListProps> = ({ assets }) => {
       assets.map(
         (asset) =>
           new Promise((resolve) => {
-            getFileUrl(asset.key).then(({ url }) => {
-              resolve({ ...asset, src: url })
-            })
+            getFileUrl(asset.key)
+              .then(({ url }) => {
+                if (asset.extension === 'heic') {
+                  return urlToBlob(url)
+                    .then((blob) => heicToPng(blob))
+                    .then((blob) => URL.createObjectURL(blob as Blob))
+                }
+
+                return url
+              })
+              .then((url) => {
+                resolve({ ...asset, src: url as string })
+              })
           })
       )
     ).then((_assetsWithSrc) => setAssetsWithSrc(_assetsWithSrc))

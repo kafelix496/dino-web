@@ -1,25 +1,31 @@
 import axios from 'axios'
 
+import { FileInputExtensions } from '@/constants/app'
 import fileHttpService from '@/http-services/file'
 import { generateUuid } from '@/utils'
 
 const getFileExtension = (type: string): string | null => {
   switch (type) {
-    case 'image/png': {
+    case FileInputExtensions.PNG: {
       return 'png'
     }
 
-    case 'image/jpeg': {
+    case FileInputExtensions.JPEG: {
       return 'jpeg'
     }
 
-    case 'video/mp4': {
+    case FileInputExtensions.HEIC: {
+      return 'heic'
+    }
+
+    case FileInputExtensions.MP4: {
       return 'mp4'
     }
 
-    case 'video/quicktime': {
-      return 'mov'
-    }
+    // TODO: Add more file types
+    // case FileInputExtensions.MOV: {
+    //   return 'mov'
+    // }
 
     default: {
       return null
@@ -72,3 +78,26 @@ export const uploadFile = (file: File) =>
 
 export const deleteFilesObject = (keys: string[]) =>
   fileHttpService.deleteObjects({ keys })
+
+const isInputFileType = (type: string, blob: Blob) =>
+  new RegExp(`^${type}`).test(blob.type)
+
+export const isImageFileType = (blob: Blob) => isInputFileType('image', blob)
+
+export const isVideoFileType = (blob: Blob) => isInputFileType('video', blob)
+
+export const urlToBlob = (url: string): Promise<Blob> =>
+  axios.get(url, { responseType: 'blob' }).then((response) => response.data)
+
+// TODO: One day, this will be removed when most of the browsers support displaying heic files
+export const heicToPng = (blob: Blob): Promise<Blob> =>
+  import('heic2any')
+    .then((heic2any) => heic2any.default)
+    .then(
+      (heic2any) =>
+        heic2any({
+          blob,
+          toType: 'image/png',
+          quality: 1
+        }) as unknown as Promise<Blob>
+    )

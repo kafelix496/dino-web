@@ -8,12 +8,12 @@ import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
-import CreatePostDialogImageList from '@/components/album/CreatePostDialogImageList/CreatePostDialogImageList'
+import CreatePostDialogAssetList from '@/components/album/CreatePostDialogAssetList/CreatePostDialogAssetList'
 import FieldMultiSelect from '@/components/mui/FormFieldMultiSelect/FormFieldMultiSelect'
 import FieldSelect from '@/components/mui/FormFieldSelect/FormFieldSelect'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 import { PostAudiences } from '@/constants/album'
-import { AlertColor } from '@/constants/app'
+import { AlertColor, FileInputExtensions } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import { addPost, enqueueAlert } from '@/redux-actions'
 import { selectCategoryList } from '@/redux-selectors'
@@ -54,25 +54,23 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
         .test(
           'filesMinLength',
           t('POST_FILES_MIN_LENGTH_WARNING'),
-          (files: File[]) => !!files?.length
+          (files: File[]) => !!files.length
         )
         .test(
           'filesMaxLength',
           t('POST_FILES_MAX_LENGTH_WARNING'),
-          (files: File[]) => !!files?.length
+          (files: File[]) => !!files.length
         )
         .test(
           'filesFormat',
           t('POST_FILES_FORMAT_WARNING'),
-          (files: File[]) => {
-            return !Array.from(files).some(
+          (files: File[]) =>
+            !Array.from(files).some(
               (file) =>
-                file.type !== 'image/jpeg' &&
-                file.type !== 'image/png' &&
-                file.type !== 'video/quicktime' &&
-                file.type !== 'video/mp4'
+                !(Object.values(FileInputExtensions) as string[]).includes(
+                  file.type
+                )
             )
-          }
         )
     }),
     onSubmit: async (values, { setSubmitting }) => {
@@ -119,6 +117,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
     label: category.name,
     value: category._id
   }))
+  const inputAccept = Object.values(FileInputExtensions).join(', ')
 
   return (
     <Dialog
@@ -165,14 +164,14 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
               hidden
               type="file"
               name="files"
-              accept="image/jpeg, image/png, video/quicktime, video/mp4"
+              accept={inputAccept}
               onChange={(event) => {
                 formik.setFieldValue('files', event.target.files)
               }}
             />
           </Button>
 
-          <CreatePostDialogImageList files={formik.values.files} />
+          <CreatePostDialogAssetList files={formik.values.files} />
 
           {formik.submitCount >= 1 && formik.errors.files ? (
             <Alert severity="error" sx={{ mt: 2 }}>

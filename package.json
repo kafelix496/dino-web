@@ -28,6 +28,7 @@
     "axios": "0.26.1",
     "dayjs": "1.10.7",
     "formik": "2.2.9",
+    "heic2any": "0.0.3",
     "mongodb": "4.8.0",
     "mongoose": "6.4.5",
     "next": "12.2.2",
