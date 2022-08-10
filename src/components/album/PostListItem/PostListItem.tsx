@@ -1,16 +1,14 @@
 import { useTranslation } from 'next-i18next'
+import dynamic from 'next/dynamic'
 import type { FC } from 'react'
 
 import type { Theme } from '@mui/material'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import ButtonGroup from '@mui/material/ButtonGroup'
 import Divider from '@mui/material/Divider'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
 import DeletePostDialog from '@/components/album/DeletePostDialog/DeletePostDialog'
-import PostListItemImageList from '@/components/album/PostListItemImageList/PostListItemImageList'
 import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import { POST_MAX_WIDTH } from '@/constants/album'
@@ -21,6 +19,12 @@ import { getCreatedAtTxt, getUpdatedAtTxt } from '@/utils'
 interface PostListItemProps {
   post: Post
 }
+
+const PostListItemImageList = dynamic(
+  () =>
+    import('@/components/album/PostListItemImageList/PostListItemImageList'),
+  { ssr: false }
+)
 
 const PostListItem: FC<PostListItemProps> = ({ post }) => {
   const { t } = useTranslation('common')
@@ -80,12 +84,12 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
           <PostListItemImageList assets={post.assets} />
         </Box>
 
-        <Box sx={{ mt: 2 }}>
+        {/*<Box sx={{ mt: 2 }}>
           <ButtonGroup fullWidth variant="outlined">
             <Button>{t('BUTTON_LIKE')}</Button>
             <Button>{t('BUTTON_COMMENTS')}</Button>
           </ButtonGroup>
-        </Box>
+        </Box>*/}
       </Paper>
 
       {deleteCategoryDialogState.isOpen && (

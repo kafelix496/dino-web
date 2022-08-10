@@ -6,6 +6,15 @@ export const COOKIES_OPTION = {
   path: '/'
 }
 
+export enum FileInputExtensions {
+  PNG = 'image/png',
+  JPEG = 'image/jpeg',
+  HEIC = 'image/heic',
+  MP4 = 'video/mp4'
+  // TODO: Add more file types
+  // MOV = 'video/quicktime'
+}
+
 export enum PaletteModes {
   LIGHT = 'light',
   DARK = 'dark'
