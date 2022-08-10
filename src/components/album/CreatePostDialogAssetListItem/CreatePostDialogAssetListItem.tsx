@@ -3,6 +3,7 @@ import type { FC } from 'react'
 
 import Skeleton from '@mui/material/Skeleton'
 
+import { FileInputExtensions } from '@/constants/app'
 import { heicToPng, isImageFileType, isVideoFileType } from '@/utils/file'
 
 interface CreatePostDialogAssetListItemProps {
@@ -20,7 +21,7 @@ const CreatePostDialogAssetListItem: FC<CreatePostDialogAssetListItemProps> = ({
   useEffect(() => {
     setIsLoading(true)
 
-    if (file.type === 'image/heic') {
+    if (file.type === FileInputExtensions.HEIC) {
       heicToPng(file).then((blob) => {
         setSrc(URL.createObjectURL(blob as Blob))
       })

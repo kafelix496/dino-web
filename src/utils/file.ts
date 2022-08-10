@@ -97,7 +97,7 @@ export const heicToPng = (blob: Blob): Promise<Blob> =>
       (heic2any) =>
         heic2any({
           blob,
-          toType: 'image/png',
+          toType: FileInputExtensions.PNG,
           quality: 1
         }) as unknown as Promise<Blob>
     )
