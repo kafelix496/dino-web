@@ -53,7 +53,7 @@ const tryToUploadFile = async (key: string, file: File) => {
 
 export const getFileUrl = (key: string) => fileHttpService.getSignedUrl({ key })
 
-export const uploadFile = (file: File) =>
+export const uploadFile = (file: File, path = '') =>
   new Promise<{ key: string; extension: string }>((resolve, reject) => {
     try {
       const extension = getFileExtension(file.type)
@@ -62,7 +62,7 @@ export const uploadFile = (file: File) =>
         throw new Error()
       }
 
-      const key = generateUuid()
+      const key = `${path}${generateUuid()}`
 
       tryToUploadFile(key, file).then((status) => {
         if (!status) {

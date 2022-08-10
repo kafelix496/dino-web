@@ -6,6 +6,10 @@ export const COOKIES_OPTION = {
   path: '/'
 }
 
+export enum S3Paths {
+  ALBUM = 'album/'
+}
+
 export enum FileInputExtensions {
   PNG = 'image/png',
   JPEG = 'image/jpeg',
