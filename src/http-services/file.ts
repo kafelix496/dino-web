@@ -48,7 +48,7 @@ const fileHttpService = {
     axios
       .post<DeleteObjectsResponse>(
         `${process.env.PAGE_URL ?? ''}/api/s3/delete-s3-objects`,
-        data.keys,
+        data,
         config
       )
       .then((res) => res.data)

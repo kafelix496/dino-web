@@ -13,7 +13,7 @@ import FieldMultiSelect from '@/components/mui/FormFieldMultiSelect/FormFieldMul
 import FieldSelect from '@/components/mui/FormFieldSelect/FormFieldSelect'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 import { PostAudiences } from '@/constants/album'
-import { AlertColor, FileInputExtensions } from '@/constants/app'
+import { AlertColor, FileInputExtensions, S3Paths } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import { addPost, enqueueAlert } from '@/redux-actions'
 import { selectCategoryList } from '@/redux-selectors'
@@ -78,7 +78,9 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
 
       try {
         const uploadedFiles = await Promise.all(
-          Array.from(values.files).map((file) => uploadFile(file))
+          Array.from(values.files).map((file) =>
+            uploadFile(file, S3Paths.ALBUM)
+          )
         )
 
         const postResult = await albumHttpService
