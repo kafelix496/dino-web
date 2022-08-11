@@ -7,15 +7,12 @@ interface Config {
   secretAccessKey: string
 }
 
-const isProd = process.env.NODE_ENV === 'production'
-
 const generateS3Instance = (config: Config) =>
   new aws.S3({
     region: config.region,
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,
-    signatureVersion: 'v4',
-    ...(!isProd ? { endpoint: 'http://localhost:4566' } : {})
+    signatureVersion: 'v4'
   })
 
 export const getSignedUrl = async (key: string, config: Config) => {
