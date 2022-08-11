@@ -10,6 +10,21 @@ export enum S3Paths {
   ALBUM = 'album/'
 }
 
+export enum FileTypes {
+  IMAGE = 'image',
+  // AUDIO = 'audio',
+  VIDEO = 'video'
+}
+
+export enum FileExtensions {
+  PNG = 'png',
+  JPEG = 'jpeg',
+  HEIC = 'heic',
+  MP4 = 'mp4'
+  // TODO: Add more file extensions
+  // MOV = 'mov'
+}
+
 export enum FileInputExtensions {
   PNG = 'image/png',
   JPEG = 'image/jpeg',
