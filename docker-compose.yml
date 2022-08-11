@@ -11,19 +11,19 @@ services:
     ports:
       - 27017:27017
 
-  localstack:
-    container_name: dino-localstack
-    image: localstack/localstack
-    ports:
-      - 4510-4559:4510-4559
-      - 4566:4566
-    environment:
-      - SERVICES=s3
-      - DATA_DIR=/tmp/localstack/data
-    volumes:
-      - localstack:/tmp/localstack
+  # localstack:
+  #   container_name: dino-localstack
+  #   image: localstack/localstack
+  #   ports:
+  #     - 4510-4559:4510-4559
+  #     - 4566:4566
+  #   environment:
+  #     - SERVICES=s3
+  #     - DATA_DIR=/tmp/localstack/data
+  #   volumes:
+  #     - localstack:/tmp/localstack
 
 volumes:
   mongodb-data:
   mongodb-config:
-  localstack:
+  # localstack:
