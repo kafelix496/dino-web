@@ -5,7 +5,7 @@ import { CollectionsName } from '@/constants/collection'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import { dbConnect } from '@/utils/db-utils'
+import { dbConnect } from '@/utils/database'
 
 export default async function handler(
   req: NextApiRequest,
