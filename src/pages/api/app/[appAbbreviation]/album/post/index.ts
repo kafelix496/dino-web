@@ -21,7 +21,7 @@ import {
   generateLookupForReactions,
   transformReactionsForClient
 } from '@/utils/album'
-import { dbConnect } from '@/utils/db-utils'
+import { dbConnect } from '@/utils/database'
 
 export default async function handler(
   req: NextApiRequest,

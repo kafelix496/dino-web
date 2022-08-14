@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
-import { AccessLevels, Apps } from '@/constants/app'
+import { Apps } from '@/constants/app'
 import { CollectionsName } from '@/constants/collection'
 import assetSchema from '@/models/album/assetSchema'
 import userSchema from '@/models/common/userSchema'
@@ -14,7 +14,7 @@ import {
   generateLookupForReactions,
   transformReactionsForClient
 } from '@/utils/album'
-import { dbConnect } from '@/utils/db-utils'
+import { dbConnect } from '@/utils/database'
 
 export default async function handler(
   req: NextApiRequest,

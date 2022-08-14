@@ -8,7 +8,7 @@ import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
 import type { ReactionResponse } from '@/types/album'
-import { dbConnect } from '@/utils/db-utils'
+import { dbConnect } from '@/utils/database'
 
 export default async function handler(
   req: NextApiRequest,
