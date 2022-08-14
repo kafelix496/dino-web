@@ -1,6 +1,6 @@
 import { AlertColor } from '@/constants/app'
 import * as reduxActions from '@/redux-actions'
-import { render, screen } from '@/utils/test-utils'
+import { render, screen } from '@/utils/testing-library'
 
 import ToastListItem from './ToastListItem'
 

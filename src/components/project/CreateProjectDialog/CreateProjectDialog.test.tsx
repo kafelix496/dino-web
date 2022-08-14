@@ -1,5 +1,5 @@
 import { Apps } from '@/constants/app'
-import { act, fireEvent, render, screen } from '@/utils/test-utils'
+import { act, fireEvent, render, screen } from '@/utils/testing-library'
 
 import CreateProjectDialog from './CreateProjectDialog'
 

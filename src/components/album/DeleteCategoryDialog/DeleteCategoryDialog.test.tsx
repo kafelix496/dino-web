@@ -1,4 +1,4 @@
-import { act, render, screen } from '@/utils/test-utils'
+import { act, render, screen } from '@/utils/testing-library'
 
 import DeleteCategoryDialog from './DeleteCategoryDialog'
 

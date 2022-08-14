@@ -1,5 +1,5 @@
 import { Apps } from '@/constants/app'
-import { fireEvent, render, screen } from '@/utils/test-utils'
+import { fireEvent, render, screen } from '@/utils/testing-library'
 
 import ProjectItem from './ProjectItem'
 

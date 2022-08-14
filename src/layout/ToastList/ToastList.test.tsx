@@ -4,7 +4,7 @@ import { config } from 'react-transition-group'
 
 import { AlertColor } from '@/constants/app'
 import { enqueueAlert } from '@/redux-actions'
-import { act, render, screen } from '@/utils/test-utils'
+import { act, render, screen } from '@/utils/testing-library'
 
 import ToastList from './ToastList'
 
