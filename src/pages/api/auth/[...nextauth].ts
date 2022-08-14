@@ -6,7 +6,8 @@ import { MongooseAdapter } from '@/utils/database'
 export default NextAuth({
   session: {
     strategy: 'jwt',
-    maxAge: 24 * 60 * 60
+    // 60 seconds * 60 minutes * 24 hours * 30 days
+    maxAge: 60 * 60 * 24 * 30
   },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
