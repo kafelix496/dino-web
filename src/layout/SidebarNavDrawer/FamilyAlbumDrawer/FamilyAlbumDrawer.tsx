@@ -16,10 +16,11 @@ import ListItemText from '@mui/material/ListItemText'
 import Tooltip from '@mui/material/Tooltip'
 
 import CreateCategoryDialog from '@/components/album/CreateCategoryDialog/CreateCategoryDialog'
-import { AccessLevels, Apps } from '@/constants/app'
+import { Apps } from '@/constants/app'
 import useDialogStatus from '@/hooks/useDialogStatus'
+import { useIsAdmin } from '@/hooks/useIsAdmin'
 import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'
-import { selectCategoryList, selectUser } from '@/redux-selectors'
+import { selectCategoryList } from '@/redux-selectors'
 import type { DrawerMenuItem } from '@/types/album'
 
 interface FamilyAlbumDrawerProps {
@@ -31,13 +32,9 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
 }) => {
   const router = useRouter()
   const { t } = useTranslation('common')
-  const user = useSelector(selectUser)
   const { state, openDialog, closeDialog } = useDialogStatus()
-
+  const canEditCategory = useIsAdmin()
   const categoryId = router.query.categoryId
-  const canEditCategory =
-    user!.accessLevel[Apps.familyAlbum] === AccessLevels.SUPER_ADMIN ||
-    user!.accessLevel[Apps.familyAlbum] === AccessLevels.ADMIN
   const categories = useSelector(selectCategoryList)
   const menus: DrawerMenuItem[] = [
     {

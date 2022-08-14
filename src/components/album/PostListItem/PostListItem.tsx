@@ -13,6 +13,7 @@ import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import { POST_MAX_WIDTH } from '@/constants/album'
 import useDialogStatus from '@/hooks/useDialogStatus'
+import { useIsAdmin } from '@/hooks/useIsAdmin'
 import type { Post } from '@/types/album'
 import { getCreatedAtTxt, getUpdatedAtTxt } from '@/utils'
 
@@ -23,6 +24,7 @@ interface PostListItemProps {
 const PostListItem: FC<PostListItemProps> = ({ post }) => {
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
+  const canEditPost = useIsAdmin()
 
   const menuOptions: MenuOption[] = [
     {
@@ -57,9 +59,11 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
             </Typography>
           </Box>
 
-          <Box className="__d-flex __d-items-center">
-            <MaxHeightMenu options={menuOptions} />
-          </Box>
+          {canEditPost && (
+            <Box className="__d-flex __d-items-center">
+              <MaxHeightMenu options={menuOptions} />
+            </Box>
+          )}
         </Box>
 
         {post.description && (
