@@ -13,7 +13,7 @@ import DeleteCategoryDialog from '@/components/album/DeleteCategoryDialog/Delete
 import EditCategoryDialog from '@/components/album/EditCategoryDialog/EditCategoryDialog'
 import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
-import useDialogStatus from '@/hooks/useDialogStatus'
+import { useDialogStatus } from '@/hooks/useDialogStatus'
 import type { DrawerMenuItem } from '@/types/album'
 
 interface FamilyAlbumDrawerMenuItemProps {

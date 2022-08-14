@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router'
 
 import { AccessLevels, Apps } from '@/constants/app'
-import { useIsAdmin } from '@/hooks/useIsAdmin'
 import { getMockUser } from '@/mock-data/user.mockData'
 import { selectUser } from '@/redux-selectors'
 import { renderHook } from '@/utils/testing-library'
+
+import { useIsAdmin } from './useIsAdmin'
 
 jest.mock('@/redux-selectors', () => {
   const originalModule = jest.requireActual('@/redux-selectors')

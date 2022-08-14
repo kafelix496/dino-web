@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import type { FC } from 'react'
 
@@ -10,31 +11,36 @@ import CardActions from '@mui/material/CardActions'
 import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 import Box from '@mui/system/Box'
 
 import DeleteProjectDialog from '@/components/project/DeleteProjectDialog/DeleteProjectDialog'
 import EditProjectDialog from '@/components/project/EditProjectDialog/EditProjectDialog'
 import { Apps } from '@/constants/app'
-import useDialogStatus from '@/hooks/useDialogStatus'
+import { useDialogStatus } from '@/hooks/useDialogStatus'
+import { useCreatedAtText, useUpdatedAtText } from '@/hooks/useTimestampText'
 
-interface ProjectItemProps {
+interface ProjectListItemProps {
   appAbbreviation: Apps
   id: string
   title: string
-  subTitle: string | JSX.Element
-  tooltip: string | JSX.Element
   description?: string
+  createdAt: string
+  updatedAt: string
 }
 
-const ProjectItem: FC<ProjectItemProps> = ({
+const ProjectListItem: FC<ProjectListItemProps> = ({
   appAbbreviation,
   id,
   title,
-  subTitle,
-  tooltip,
-  description = ''
+  description = '',
+  createdAt,
+  updatedAt
 }) => {
+  const { t } = useTranslation('common')
   const { state: dialogState, openDialog, closeDialog } = useDialogStatus()
+  const createdAtText = useCreatedAtText(createdAt)
+  const updatedAtText = useUpdatedAtText(updatedAt)
 
   return (
     <>
@@ -48,9 +54,33 @@ const ProjectItem: FC<ProjectItemProps> = ({
           }
         }}
       >
-        <Tooltip followCursor title={tooltip}>
+        <Tooltip
+          followCursor
+          title={
+            <>
+              <Typography variant="subtitle2" color="inherit">
+                {createdAtText}
+              </Typography>
+              <Typography variant="subtitle2" color="inherit">
+                {updatedAtText}
+              </Typography>
+              {description ? (
+                <Typography variant="subtitle2" color="inherit">
+                  {`${t('PROJECT_DESCRIPTION')}: ${description}`}
+                </Typography>
+              ) : null}
+            </>
+          }
+        >
           <Box>
-            <CardHeader title={title} subheader={subTitle} />
+            <CardHeader
+              title={title}
+              subheader={
+                <Typography variant="subtitle2" color="text.secondary">
+                  {createdAtText}
+                </Typography>
+              }
+            />
           </Box>
         </Tooltip>
         <CardActions disableSpacing className="__d-justify-end">
@@ -97,4 +127,4 @@ const ProjectItem: FC<ProjectItemProps> = ({
   )
 }
 
-export default ProjectItem
+export default ProjectListItem

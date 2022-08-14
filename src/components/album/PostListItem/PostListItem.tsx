@@ -1,4 +1,5 @@
 import { useTranslation } from 'next-i18next'
+import dynamic from 'next/dynamic'
 import type { FC } from 'react'
 
 import type { Theme } from '@mui/material'
@@ -12,14 +13,18 @@ import PostListItemAssetList from '@/components/album/PostListItemAssetList/Post
 import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import { POST_MAX_WIDTH } from '@/constants/album'
-import useDialogStatus from '@/hooks/useDialogStatus'
+import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useIsAdmin } from '@/hooks/useIsAdmin'
 import type { Post } from '@/types/album'
-import { getCreatedAtTxt, getUpdatedAtTxt } from '@/utils'
 
 interface PostListItemProps {
   post: Post
 }
+
+const PostListItemTime = dynamic(
+  () => import('@/components/album/PostListItemTime/PostListItemTime'),
+  { ssr: false }
+)
 
 const PostListItem: FC<PostListItemProps> = ({ post }) => {
   const { t } = useTranslation('common')
@@ -50,13 +55,12 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
           <Box className="__d-flex __d-flex-col __d-justify-center __d-grow">
             <Typography>{post.title}</Typography>
 
-            <Typography variant="caption" sx={{ mt: 1 }}>
-              {getCreatedAtTxt(t, post.createdAt)}
-            </Typography>
+            <Box sx={{ mt: 1 }} />
 
-            <Typography variant="caption">
-              {getUpdatedAtTxt(t, post.createdAt)}
-            </Typography>
+            <PostListItemTime
+              createdAt={post.createdAt}
+              updatedAt={post.updatedAt}
+            />
           </Box>
 
           {canEditPost && (

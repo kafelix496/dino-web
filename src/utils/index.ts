@@ -37,22 +37,12 @@ export const hasAccessAdminPage = (user: User | null): boolean =>
 
 export const convertTime = {
   dbToJs(date: string): string {
-    return dayjs(date).format('MM/DD/YYYY h:mm a')
+    return dayjs(date).format('MM/DD/YYYY hh:mm a')
   }
 }
 
 export const generateUuid = (): string => {
   return uuidv1()
 }
-
-export const getCreatedAtTxt = (
-  t: (text: string) => string,
-  dbTime: string
-): string => `${t('CREATED_AT')}: ${convertTime.dbToJs(dbTime)}`
-
-export const getUpdatedAtTxt = (
-  t: (text: string) => string,
-  dbTime: string
-): string => `${t('UPDATED_AT')}: ${convertTime.dbToJs(dbTime)}`
 
 export const isServer = () => typeof window !== 'undefined'
