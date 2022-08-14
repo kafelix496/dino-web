@@ -36,7 +36,6 @@ declare module 'next-auth' {
 }
 
 declare module 'ramda' {
-  export function compose(...rest: any[]): any
   export function flip(...rest: any[]): any
   export function transduce(...rest: any[]): any
 }

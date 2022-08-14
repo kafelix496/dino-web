@@ -4,7 +4,7 @@ import DeleteCategoryDialog from './DeleteCategoryDialog'
 
 describe('DeleteCategoryDialog component', () => {
   test('the button should not be disabled at the beginning', async () => {
-    render(<DeleteCategoryDialog isOpen={true} handleClose={jest.fn()} id="" />)
+    render(<DeleteCategoryDialog id="" closeDialog={jest.fn()} />)
 
     await act(async () => {
       const createButton = await screen.findByRole('button', {

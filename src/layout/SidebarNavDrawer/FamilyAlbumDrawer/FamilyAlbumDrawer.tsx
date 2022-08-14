@@ -32,7 +32,7 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
   const router = useRouter()
   const { t } = useTranslation('common')
   const user = useSelector(selectUser)
-  const { state, handleOpen, handleClose } = useDialogStatus()
+  const { state, openDialog, closeDialog } = useDialogStatus()
 
   const categoryId = router.query.categoryId
   const canEditCategory =
@@ -94,7 +94,7 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
               <ListItemButton
                 sx={{ height: (theme: Theme) => theme.spacing(6) }}
                 onClick={() => {
-                  handleOpen()
+                  openDialog()
                 }}
               >
                 <Tooltip title={!isSidebarNavOpen ? addCategoryMenu.label : ''}>
@@ -121,7 +121,7 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
 
       {canEditCategory && (
         <>
-          {state.isOpen && <CreateCategoryDialog handleClose={handleClose} />}
+          {state.isOpen && <CreateCategoryDialog closeDialog={closeDialog} />}
         </>
       )}
     </div>

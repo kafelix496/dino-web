@@ -14,7 +14,7 @@ interface NewProjectButtonProps {
 
 const NewProjectButton: FC<NewProjectButtonProps> = ({ appAbbreviation }) => {
   const { t } = useTranslation('common')
-  const { state: dialogState, handleOpen, handleClose } = useDialogStatus()
+  const { state: dialogState, openDialog, closeDialog } = useDialogStatus()
 
   return (
     <>
@@ -23,7 +23,7 @@ const NewProjectButton: FC<NewProjectButtonProps> = ({ appAbbreviation }) => {
         variant="contained"
         startIcon={<AddIcon />}
         onClick={() => {
-          handleOpen()
+          openDialog()
         }}
       >
         {t('BUTTON_NEW')}
@@ -32,7 +32,7 @@ const NewProjectButton: FC<NewProjectButtonProps> = ({ appAbbreviation }) => {
       {dialogState.isOpen && (
         <CreateProjectDialog
           appAbbreviation={appAbbreviation}
-          handleClose={handleClose}
+          closeDialog={closeDialog}
         />
       )}
     </>

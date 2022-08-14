@@ -34,7 +34,7 @@ const ProjectItem: FC<ProjectItemProps> = ({
   tooltip,
   description = ''
 }) => {
-  const { state: dialogState, handleOpen, handleClose } = useDialogStatus()
+  const { state: dialogState, openDialog, closeDialog } = useDialogStatus()
 
   return (
     <>
@@ -61,14 +61,14 @@ const ProjectItem: FC<ProjectItemProps> = ({
           </Link>
           <IconButton
             onClick={() => {
-              handleOpen('edit')
+              openDialog('edit')
             }}
           >
             <EditIcon />
           </IconButton>
           <IconButton
             onClick={() => {
-              handleOpen('delete')
+              openDialog('delete')
             }}
           >
             <DeleteIcon />
@@ -79,18 +79,18 @@ const ProjectItem: FC<ProjectItemProps> = ({
       {dialogState.name === 'edit' && dialogState.isOpen && (
         <EditProjectDialog
           appAbbreviation={appAbbreviation}
-          handleClose={handleClose}
           id={id}
           title={title}
           description={description}
+          closeDialog={closeDialog}
         />
       )}
 
       {dialogState.name === 'delete' && dialogState.isOpen && (
         <DeleteProjectDialog
           appAbbreviation={appAbbreviation}
-          handleClose={handleClose}
           id={id}
+          closeDialog={closeDialog}
         />
       )}
     </>

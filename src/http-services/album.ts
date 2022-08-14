@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Apps } from '@/constants/app'
 import type { AxiosRequestConfig } from '@/types'
 import type {
+  Asset,
   AssetDefault,
   Category,
   Post,
@@ -105,6 +106,20 @@ const albumHttpService = {
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post/${
           data.id
         }`,
+        config
+      )
+      .then((res) => res.data),
+  getAsset: (
+    data: {
+      id: string
+    },
+    config?: AxiosRequestConfig
+  ): Promise<Asset> =>
+    axios
+      .get<Asset>(
+        `${process.env.PAGE_URL ?? ''}/api/app/${
+          Apps.familyAlbum
+        }/album/asset/${data.id}`,
         config
       )
       .then((res) => res.data)

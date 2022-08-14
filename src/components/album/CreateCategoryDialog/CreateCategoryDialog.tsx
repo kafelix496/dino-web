@@ -13,11 +13,11 @@ import albumHttpService from '@/http-services/album'
 import { addCategory, enqueueAlert } from '@/redux-actions'
 
 interface CreateCategoryDialogProps {
-  handleClose: () => void
+  closeDialog: () => void
 }
 
 const CreateCategoryDialog: FC<CreateCategoryDialogProps> = ({
-  handleClose
+  closeDialog
 }) => {
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
@@ -37,7 +37,7 @@ const CreateCategoryDialog: FC<CreateCategoryDialogProps> = ({
         .then((category) => {
           dispatch(addCategory(category))
 
-          handleClose()
+          closeDialog()
         })
         .catch(() => {
           dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
@@ -51,7 +51,7 @@ const CreateCategoryDialog: FC<CreateCategoryDialogProps> = ({
   return (
     <Dialog
       open={true}
-      onClose={handleClose}
+      onClose={closeDialog}
       title={t('CREATE_CATEGORY_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
@@ -66,7 +66,7 @@ const CreateCategoryDialog: FC<CreateCategoryDialogProps> = ({
       }
       actionsJsx={
         <>
-          <Button color="secondary" variant="outlined" onClick={handleClose}>
+          <Button color="secondary" variant="outlined" onClick={closeDialog}>
             {t('BUTTON_CANCEL')}
           </Button>
           <Button

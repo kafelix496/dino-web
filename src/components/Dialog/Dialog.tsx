@@ -20,8 +20,9 @@ const CustomizedDialogAction = styled((props: DialogActionsProps) => (
 
 interface DialogProps {
   open: boolean
-  onClose: () => void
+  onClose?: () => void
   title: string
+  fullScreen?: boolean
   wrapBodyWithForm?: boolean
   handleFormSubmit?: (event?: FormEvent<HTMLFormElement> | undefined) => void
   contentJsx?: JSX.Element
@@ -32,6 +33,7 @@ const Dialog: FC<DialogProps> = ({
   open,
   onClose,
   title,
+  fullScreen,
   wrapBodyWithForm,
   handleFormSubmit,
   contentJsx,
@@ -42,11 +44,17 @@ const Dialog: FC<DialogProps> = ({
       return
     }
 
-    onClose()
+    if (typeof onClose === 'function') {
+      onClose()
+    }
   }
 
   return (
-    <MuiDialog open={open} onClose={handleClose}>
+    <MuiDialog
+      open={open}
+      onClose={handleClose}
+      fullScreen={fullScreen ?? false}
+    >
       <DialogTitle>{title}</DialogTitle>
       {wrapBodyWithForm && handleFormSubmit ? (
         <form data-testid="form" onSubmit={handleFormSubmit} noValidate>

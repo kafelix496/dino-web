@@ -14,12 +14,12 @@ import { addProject, enqueueAlert } from '@/redux-actions'
 
 interface CreateProjectDialogProps {
   appAbbreviation: Apps
-  handleClose: () => void
+  closeDialog: () => void
 }
 
 const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
   appAbbreviation,
-  handleClose
+  closeDialog
 }) => {
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
@@ -43,7 +43,7 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
         .then((project) => {
           dispatch(addProject(project))
 
-          handleClose()
+          closeDialog()
         })
         .catch(() => {
           dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
@@ -57,7 +57,7 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
   return (
     <Dialog
       open={true}
-      onClose={handleClose}
+      onClose={closeDialog}
       title={t('CREATE_PROJECT_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
@@ -79,7 +79,7 @@ const CreateProjectDialog: FC<CreateProjectDialogProps> = ({
       }
       actionsJsx={
         <>
-          <Button color="secondary" variant="outlined" onClick={handleClose}>
+          <Button color="secondary" variant="outlined" onClick={closeDialog}>
             {t('BUTTON_CANCEL')}
           </Button>
           <Button

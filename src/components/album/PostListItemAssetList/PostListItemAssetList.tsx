@@ -4,8 +4,8 @@ import type { FC } from 'react'
 import Box from '@mui/material/Box'
 import ImageList from '@mui/material/ImageList'
 
-import PostListItemAssetListItem from '@/components/album/PostListItemAssetListItem/PostListItemAssetListItem'
-import { POST_ROW_HEIGHT } from '@/constants/album'
+import PostAsset from '@/components/album/PostAsset/PostAsset'
+import { POST_ROW_HEIGHT, PostAssetTargets } from '@/constants/album'
 import type { AssetDefault } from '@/types/album'
 
 import { useAssetsSrc } from './useAssetsSrc'
@@ -29,8 +29,8 @@ const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
             gap={GAP}
             rowHeight={POST_ROW_HEIGHT * 2}
           >
-            <PostListItemAssetListItem
-              isSingle={true}
+            <PostAsset
+              target={PostAssetTargets.SINGLE}
               withAddIcon={false}
               asset={head(assetsWithSrc)!}
             />
@@ -49,9 +49,9 @@ const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
             rowHeight={POST_ROW_HEIGHT}
           >
             {assetsWithSrc.map((asset) => (
-              <PostListItemAssetListItem
+              <PostAsset
                 key={asset._id}
-                isSingle={false}
+                target={PostAssetTargets.MULTIPLE}
                 withAddIcon={false}
                 asset={asset}
               />
@@ -71,10 +71,10 @@ const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
             rowHeight={POST_ROW_HEIGHT}
           >
             {assetsWithSrc.map((asset, index) => (
-              <PostListItemAssetListItem
+              <PostAsset
                 key={asset._id}
                 cols={index === 0 ? 2 : 1}
-                isSingle={false}
+                target={PostAssetTargets.MULTIPLE}
                 withAddIcon={false}
                 asset={asset}
               />
@@ -94,9 +94,9 @@ const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
             rowHeight={POST_ROW_HEIGHT}
           >
             {assetsWithSrc.slice(0, 4).map((asset, index) => (
-              <PostListItemAssetListItem
+              <PostAsset
                 key={asset._id}
-                isSingle={false}
+                target={PostAssetTargets.MULTIPLE}
                 withAddIcon={index === 3 && assetsWithSrc.length > 4}
                 asset={asset}
               />

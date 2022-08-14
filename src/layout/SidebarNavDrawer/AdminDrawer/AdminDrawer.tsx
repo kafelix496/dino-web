@@ -48,7 +48,7 @@ const AdminDrawer: FC<AdminDrawerProps> = ({ isSidebarNavOpen }) => {
           sx={{ height: (theme: Theme) => theme.spacing(8) }}
           disablePadding={isSidebarNavOpen}
         >
-          <Link href={menu.url} replace shallow={false}>
+          <Link href={menu.url} replace>
             <ListItemButton
               selected={menu.selected}
               sx={{ height: (theme: Theme) => theme.spacing(6) }}

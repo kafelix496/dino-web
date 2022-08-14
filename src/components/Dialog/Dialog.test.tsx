@@ -16,14 +16,14 @@ const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
     actionsJsx?: JSX.Element
   }) => {
     const [isOpen, setOpen] = useState(initialOpenStatus)
-    const handleClose = useCallback(() => {
+    const handleCloseDialog = useCallback(() => {
       setOpen(false)
     }, [])
 
     return (
       <Dialog
         open={isOpen}
-        onClose={handleClose}
+        onClose={handleCloseDialog}
         title={mockTitle}
         {...props}
       />

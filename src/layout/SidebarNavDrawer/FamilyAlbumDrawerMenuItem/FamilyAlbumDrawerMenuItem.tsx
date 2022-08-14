@@ -28,19 +28,19 @@ const FamilyAlbumDrawerMenuItem: FC<FamilyAlbumDrawerMenuItemProps> = ({
   menu
 }) => {
   const { t } = useTranslation('common')
-  const { state, handleOpen, handleClose } = useDialogStatus()
+  const { state, openDialog, closeDialog } = useDialogStatus()
 
   const menuOptions: MenuOption[] = [
     {
       label: t('EDIT'),
       click: () => {
-        handleOpen('edit')
+        openDialog('edit')
       }
     },
     {
       label: t('DELETE'),
       click: () => {
-        handleOpen('delete')
+        openDialog('delete')
       }
     }
   ]
@@ -91,14 +91,14 @@ const FamilyAlbumDrawerMenuItem: FC<FamilyAlbumDrawerMenuItemProps> = ({
         <>
           {state.isOpen && state.name === 'edit' && (
             <EditCategoryDialog
-              handleClose={handleClose}
               id={menu.id}
               name={menu.label}
+              closeDialog={closeDialog}
             />
           )}
 
           {state.isOpen && state.name === 'delete' && (
-            <DeleteCategoryDialog handleClose={handleClose} id={menu.id} />
+            <DeleteCategoryDialog id={menu.id} closeDialog={closeDialog} />
           )}
         </>
       )}

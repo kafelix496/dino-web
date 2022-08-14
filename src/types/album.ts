@@ -64,6 +64,7 @@ export interface AssetDefault {
 export interface Asset extends AssetDefault {
   reaction: Reaction
   comments: Comment[]
+  siblings: string[]
 }
 
 export interface Category {

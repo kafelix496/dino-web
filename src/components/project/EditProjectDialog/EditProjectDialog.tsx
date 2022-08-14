@@ -14,18 +14,18 @@ import { enqueueAlert, setProjects, updateProject } from '@/redux-actions'
 
 interface EditProjectDialogProps {
   appAbbreviation: Apps
-  handleClose: () => void
   id: string
   title: string
   description: string
+  closeDialog: () => void
 }
 
 const EditProjectDialog: FC<EditProjectDialogProps> = ({
   appAbbreviation,
-  handleClose,
   id,
   title,
-  description
+  description,
+  closeDialog
 }) => {
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
@@ -43,7 +43,7 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
 
       dispatch(updateProject(id, values))
 
-      handleClose()
+      closeDialog()
 
       projectHttpService
         .updateProject({ appAbbreviation, id, values })
@@ -68,7 +68,7 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
   return (
     <Dialog
       open={true}
-      onClose={handleClose}
+      onClose={closeDialog}
       title={t('UPDATE_PROJECT_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
@@ -90,7 +90,7 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
       }
       actionsJsx={
         <>
-          <Button color="secondary" variant="outlined" onClick={handleClose}>
+          <Button color="secondary" variant="outlined" onClick={closeDialog}>
             {t('BUTTON_CANCEL')}
           </Button>
           <Button
