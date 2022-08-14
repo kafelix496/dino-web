@@ -1,10 +1,10 @@
-import { act, fireEvent, render, screen } from '@/utils/test-utils'
+import { act, fireEvent, render, screen } from '@/utils/testing-library'
 
 import CreateCategoryDialog from './CreateCategoryDialog'
 
 describe('CreateCategoryDialog component', () => {
   test('the button should be disabled at the beginning', async () => {
-    render(<CreateCategoryDialog isOpen={true} handleClose={jest.fn()} />)
+    render(<CreateCategoryDialog closeDialog={jest.fn()} />)
 
     await act(async () => {
       const createButton = await screen.findByRole('button', {
@@ -15,7 +15,7 @@ describe('CreateCategoryDialog component', () => {
   })
 
   it('should enable the button when the user types something on the name', async () => {
-    render(<CreateCategoryDialog isOpen={true} handleClose={jest.fn()} />)
+    render(<CreateCategoryDialog closeDialog={jest.fn()} />)
 
     const titleInput = screen.getByRole('textbox', {
       name: 'CATEGORY_NAME'

@@ -1,8 +1,26 @@
 import { groupBy } from 'ramda'
 
-import { Reactions } from '@/constants/album'
+import { POST_MAX_ASSET_WIDTH, Reactions } from '@/constants/album'
+import { FileExtensions } from '@/constants/app'
 import { CollectionsName } from '@/constants/collection'
+import assetHttpService from '@/http-services/asset'
+import type { AxiosRequestConfig } from '@/types'
 import type { Reaction, ReactionResponse } from '@/types/album'
+
+export const getAssetUrl = (
+  data: { key: string; extension: FileExtensions },
+  config?: AxiosRequestConfig
+): Promise<string> =>
+  assetHttpService
+    .getSignedUrl(
+      {
+        key: data.key,
+        width: POST_MAX_ASSET_WIDTH,
+        ...(data.extension === FileExtensions.HEIC ? { format: 'jpeg' } : {})
+      },
+      config
+    )
+    .then(({ url }) => url)
 
 export const getDefaultReaction = (): Reaction['items'] =>
   Object.values(Reactions).map((reactionType) => ({

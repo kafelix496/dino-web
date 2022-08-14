@@ -1,5 +1,5 @@
 import { Apps } from '@/constants/app'
-import { act, fireEvent, render, screen } from '@/utils/test-utils'
+import { act, fireEvent, render, screen } from '@/utils/testing-library'
 
 import CreateProjectDialog from './CreateProjectDialog'
 
@@ -8,7 +8,7 @@ describe('CreateProjectDialog component', () => {
     render(
       <CreateProjectDialog
         appAbbreviation={Apps.moneyTracker}
-        handleClose={jest.fn()}
+        closeDialog={jest.fn()}
       />
     )
 
@@ -24,7 +24,7 @@ describe('CreateProjectDialog component', () => {
     render(
       <CreateProjectDialog
         appAbbreviation={Apps.moneyTracker}
-        handleClose={jest.fn()}
+        closeDialog={jest.fn()}
       />
     )
 

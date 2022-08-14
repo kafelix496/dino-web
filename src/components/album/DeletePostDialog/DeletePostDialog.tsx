@@ -20,13 +20,13 @@ import { deleteFilesObject } from '@/utils/file'
 interface DeletePostDialogProps {
   id: string
   assetKeys: string[]
-  handleClose: () => void
+  closeDialog: () => void
 }
 
 const DeletePostDialog: FC<DeletePostDialogProps> = ({
   id,
   assetKeys,
-  handleClose
+  closeDialog
 }) => {
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
@@ -37,7 +37,7 @@ const DeletePostDialog: FC<DeletePostDialogProps> = ({
 
     dispatch(temporaryDeletePost(id))
 
-    handleClose()
+    closeDialog()
 
     albumHttpService
       .deletePost({ id })
@@ -59,14 +59,14 @@ const DeletePostDialog: FC<DeletePostDialogProps> = ({
   return (
     <Dialog
       open={true}
-      onClose={handleClose}
+      onClose={closeDialog}
       title={t('DELETE_CATEGORY_DIALOG_TITLE')}
       contentJsx={
         <Typography>{t('DELETE_CATEGORY_DIALOG_CONTENT')}</Typography>
       }
       actionsJsx={
         <>
-          <Button color="secondary" variant="outlined" onClick={handleClose}>
+          <Button color="secondary" variant="outlined" onClick={closeDialog}>
             {t('BUTTON_CANCEL')}
           </Button>
           <Button

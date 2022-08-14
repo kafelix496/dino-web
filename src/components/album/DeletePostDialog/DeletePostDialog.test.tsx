@@ -1,10 +1,10 @@
-import { act, render, screen } from '@/utils/test-utils'
+import { act, render, screen } from '@/utils/testing-library'
 
 import DeletePostDialog from './DeletePostDialog'
 
 describe('DeletePostDialog component', () => {
   test('the button should not be disabled at the beginning', async () => {
-    render(<DeletePostDialog isOpen={true} handleClose={jest.fn()} id="" />)
+    render(<DeletePostDialog id="" assetKeys={[]} closeDialog={jest.fn()} />)
 
     await act(async () => {
       const createButton = await screen.findByRole('button', {

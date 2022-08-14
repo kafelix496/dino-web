@@ -20,10 +20,10 @@ import { selectCategoryList } from '@/redux-selectors'
 import { deleteFilesObject, uploadFile } from '@/utils/file'
 
 interface CreatePostDialogProps {
-  handleClose: () => void
+  closeDialog: () => void
 }
 
-const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
+const CreatePostDialog: FC<CreatePostDialogProps> = ({ closeDialog }) => {
   const { t } = useTranslation('common')
   const categories = useSelector(selectCategoryList)
   const dispatch = useDispatch()
@@ -103,7 +103,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
 
         dispatch(addPost(postResult.post, postResult.assets))
 
-        handleClose()
+        closeDialog()
       } catch (_) {
         dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
       }
@@ -124,7 +124,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
   return (
     <Dialog
       open={true}
-      onClose={handleClose}
+      onClose={closeDialog}
       title={t('CREATE_POST_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
@@ -184,7 +184,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ handleClose }) => {
       }
       actionsJsx={
         <>
-          <Button color="secondary" variant="outlined" onClick={handleClose}>
+          <Button color="secondary" variant="outlined" onClick={closeDialog}>
             {t('BUTTON_CANCEL')}
           </Button>
           <Button

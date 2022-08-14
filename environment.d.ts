@@ -10,6 +10,15 @@ declare global {
       GOOGLE_SECRET: string
       NEXTAUTH_SECRET: string
       PAGE_URL: string
+      DINO_IMAGE_KIT_URL_ENDPOINT_1: string
+      DINO_IMAGE_KIT_ACCESS_KEY_1: string
+      DINO_IMAGE_KIT_SECRET_KEY_1: string
+      DINO_IMAGE_KIT_URL_ENDPOINT_2: string
+      DINO_IMAGE_KIT_ACCESS_KEY_2: string
+      DINO_IMAGE_KIT_SECRET_KEY_2: string
+      DINO_IMAGE_KIT_URL_ENDPOINT_3: string
+      DINO_IMAGE_KIT_ACCESS_KEY_3: string
+      DINO_IMAGE_KIT_SECRET_KEY_3: string
     }
   }
 }
@@ -27,7 +36,6 @@ declare module 'next-auth' {
 }
 
 declare module 'ramda' {
-  export function compose(...rest: any[]): any
   export function flip(...rest: any[]): any
   export function transduce(...rest: any[]): any
 }

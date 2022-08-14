@@ -13,7 +13,7 @@ interface CreatePostDialogAssetListItemProps {
 const CreatePostDialogAssetListItem: FC<CreatePostDialogAssetListItemProps> = ({
   file
 }) => {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [src, setSrc] = useState('')
   const isImage = isImageFileType(file)
   const isVideo = isVideoFileType(file)
@@ -49,6 +49,9 @@ const CreatePostDialogAssetListItem: FC<CreatePostDialogAssetListItemProps> = ({
             display: isLoading ? 'none' : ''
           }}
           src={src}
+          onError={() => {
+            setIsLoading(false)
+          }}
           onLoad={() => {
             setIsLoading(false)
           }}
@@ -63,6 +66,9 @@ const CreatePostDialogAssetListItem: FC<CreatePostDialogAssetListItemProps> = ({
             display: isLoading ? 'none' : ''
           }}
           src={src}
+          onError={() => {
+            setIsLoading(false)
+          }}
           onLoadStart={() => {
             setIsLoading(false)
           }}

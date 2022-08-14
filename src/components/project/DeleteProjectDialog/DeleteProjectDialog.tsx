@@ -14,13 +14,13 @@ import { deleteProject, enqueueAlert, setProjects } from '@/redux-actions'
 interface DeleteProjectDialogProps {
   appAbbreviation: Apps
   id: string
-  handleClose: () => void
+  closeDialog: () => void
 }
 
 const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
   appAbbreviation,
   id,
-  handleClose
+  closeDialog
 }) => {
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
@@ -31,7 +31,7 @@ const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
 
     dispatch(deleteProject(id))
 
-    handleClose()
+    closeDialog()
 
     projectHttpService
       .deleteProject({ appAbbreviation, id })
@@ -50,12 +50,12 @@ const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
   return (
     <Dialog
       open={true}
-      onClose={handleClose}
+      onClose={closeDialog}
       title={t('DELETE_PROJECT_DIALOG_TITLE')}
       contentJsx={<Typography>{t('DELETE_PROJECT_DIALOG_CONTENT')}</Typography>}
       actionsJsx={
         <>
-          <Button color="secondary" variant="outlined" onClick={handleClose}>
+          <Button color="secondary" variant="outlined" onClick={closeDialog}>
             {t('BUTTON_CANCEL')}
           </Button>
           <Button

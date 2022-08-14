@@ -1,4 +1,5 @@
 import { PostAudiences, Reactions } from '@/constants/album'
+import { FileExtensions, FileTypes } from '@/constants/app'
 import { CollectionsName } from '@/constants/collection'
 
 export interface DrawerMenuItem {
@@ -53,7 +54,8 @@ export interface Comment {
 export interface AssetDefault {
   _id: string
   key: string
-  extension: string
+  type: FileTypes
+  extension: FileExtensions
   src?: string
   createdAt: string
   updatedAt: string
@@ -62,6 +64,7 @@ export interface AssetDefault {
 export interface Asset extends AssetDefault {
   reaction: Reaction
   comments: Comment[]
+  siblings: string[]
 }
 
 export interface Category {

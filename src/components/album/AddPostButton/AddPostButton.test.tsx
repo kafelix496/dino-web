@@ -1,7 +1,7 @@
 import { AccessLevels, Apps } from '@/constants/app'
 import { getMockUser } from '@/mock-data/user.mockData'
 import { selectUser } from '@/redux-selectors'
-import { render, screen } from '@/utils/test-utils'
+import { render, screen } from '@/utils/testing-library'
 
 import AddPostButton from './AddPostButton'
 

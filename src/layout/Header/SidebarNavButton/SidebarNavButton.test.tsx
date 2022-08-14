@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { fireEvent, render, screen } from '@/utils/test-utils'
+import { fireEvent, render, screen } from '@/utils/testing-library'
 
 import SidebarNavButton from './SidebarNavButton'
 

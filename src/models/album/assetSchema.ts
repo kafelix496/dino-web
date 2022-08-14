@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 
+import { FileExtensions, FileTypes } from '@/constants/app'
 import { CollectionsName } from '@/constants/collection'
 import commentSchema from '@/models/album/commentSchema'
 import reactionSchema from '@/models/album/reactionSchema'
@@ -11,8 +12,14 @@ const assetSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    type: {
+      type: String,
+      enum: Object.values(FileTypes),
+      required: true
+    },
     extension: {
       type: String,
+      enum: Object.values(FileExtensions),
       required: true
     }
   },

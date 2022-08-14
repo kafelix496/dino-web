@@ -3,18 +3,18 @@ import { useCallback, useState } from 'react'
 const useDialogStatus = () => {
   const [state, dispatch] = useState({ isOpen: false, name: '' })
 
-  const handleOpen = (name = '') => {
+  const openDialog = useCallback((name = '') => {
     dispatch((state) => ({ ...state, isOpen: true, name }))
-  }
+  }, [])
 
-  const handleClose = useCallback(() => {
+  const closeDialog = useCallback(() => {
     dispatch((state) => ({ ...state, isOpen: false, name: '' }))
   }, [])
 
   return {
     state,
-    handleOpen,
-    handleClose
+    openDialog,
+    closeDialog
   }
 }
 

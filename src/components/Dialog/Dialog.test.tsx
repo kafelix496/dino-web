@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { render, screen } from '@/utils/test-utils'
+import { render, screen } from '@/utils/testing-library'
 
 import Dialog from './Dialog'
 
@@ -16,14 +16,14 @@ const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
     actionsJsx?: JSX.Element
   }) => {
     const [isOpen, setOpen] = useState(initialOpenStatus)
-    const handleClose = useCallback(() => {
+    const handleCloseDialog = useCallback(() => {
       setOpen(false)
     }, [])
 
     return (
       <Dialog
         open={isOpen}
-        onClose={handleClose}
+        onClose={handleCloseDialog}
         title={mockTitle}
         {...props}
       />

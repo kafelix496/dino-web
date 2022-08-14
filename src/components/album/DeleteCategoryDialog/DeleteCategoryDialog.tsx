@@ -13,12 +13,12 @@ import { deleteCategory, enqueueAlert, setCategories } from '@/redux-actions'
 
 interface DeleteCategoryDialogProps {
   id: string
-  handleClose: () => void
+  closeDialog: () => void
 }
 
 const DeleteCategoryDialog: FC<DeleteCategoryDialogProps> = ({
   id,
-  handleClose
+  closeDialog
 }) => {
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
@@ -29,7 +29,7 @@ const DeleteCategoryDialog: FC<DeleteCategoryDialogProps> = ({
 
     dispatch(deleteCategory(id))
 
-    handleClose()
+    closeDialog()
 
     albumHttpService
       .deleteCategory({ id })
@@ -48,14 +48,14 @@ const DeleteCategoryDialog: FC<DeleteCategoryDialogProps> = ({
   return (
     <Dialog
       open={true}
-      onClose={handleClose}
+      onClose={closeDialog}
       title={t('DELETE_CATEGORY_DIALOG_TITLE')}
       contentJsx={
         <Typography>{t('DELETE_CATEGORY_DIALOG_CONTENT')}</Typography>
       }
       actionsJsx={
         <>
-          <Button color="secondary" variant="outlined" onClick={handleClose}>
+          <Button color="secondary" variant="outlined" onClick={closeDialog}>
             {t('BUTTON_CANCEL')}
           </Button>
           <Button

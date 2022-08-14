@@ -56,12 +56,35 @@ export default async function handler(
           assetSchema
         )
 
-        const [asset]: Asset[] = await assetDoc.aggregate([
+        const [asset]: (Omit<Asset, 'siblings'> & {
+          siblings: { assets: string }[]
+        })[] = await assetDoc.aggregate([
           {
             $match: { _id: new mongoose.Types.ObjectId(assetId as string) }
           },
           generateLookupForComments(1, CollectionsName.ALBUM_ASSET),
-          generateLookupForReactions(CollectionsName.ALBUM_ASSET)
+          generateLookupForReactions(CollectionsName.ALBUM_ASSET),
+          {
+            $lookup: {
+              from: CollectionsName.ALBUM_POST,
+              pipeline: [
+                {
+                  $match: {
+                    assets: {
+                      $in: [new mongoose.Types.ObjectId(assetId as string)]
+                    }
+                  }
+                },
+                {
+                  $project: { _id: 0, assets: 1 }
+                },
+                {
+                  $unwind: '$assets'
+                }
+              ],
+              as: 'siblings'
+            }
+          }
         ])
 
         if (!asset) {
@@ -70,6 +93,7 @@ export default async function handler(
 
         return res.status(200).json({
           ...asset,
+          siblings: asset.siblings.map((sibling) => sibling.assets),
           reaction: transformReactionsForClient(
             currentUserId,
             asset.reaction as unknown as ReactionResponse[]

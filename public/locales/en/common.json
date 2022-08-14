@@ -11,6 +11,8 @@
   "BUTTON_DELETE": "Delete",
   "BUTTON_LIKE": "Like",
   "BUTTON_NEW": "New",
+  "BUTTON_NEXT": "Next",
+  "BUTTON_PREV": "Previous",
   "CATEGORY_NAME": "Name",
   "CATEGORY_NAME_MAX_MESSAGE": "Name should be of maximum 10 characters length",
   "CATEGORY_NAME_REQUIRED_MESSAGE": "Name is required",

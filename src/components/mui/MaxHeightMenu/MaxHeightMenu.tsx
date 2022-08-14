@@ -28,7 +28,7 @@ const MaxHeightMenu: FC<MaxHeightMenuProps> = ({
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
-  const handleClose = () => {
+  const handleCloseDialog = () => {
     setAnchorEl(null)
   }
 
@@ -38,14 +38,14 @@ const MaxHeightMenu: FC<MaxHeightMenuProps> = ({
         <MoreVertIcon />
       </IconButton>
 
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleCloseDialog}>
         {options.map(({ label, click, data }) => (
           <MenuItem
             key={label}
             onClick={() => {
               click(data)
 
-              handleClose()
+              handleCloseDialog()
             }}
           >
             {label}

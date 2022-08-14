@@ -4,6 +4,26 @@ import { FileInputExtensions } from '@/constants/app'
 import fileHttpService from '@/http-services/file'
 import { generateUuid } from '@/utils'
 
+const getFileType = (type: string): string | null => {
+  switch (type) {
+    case FileInputExtensions.PNG:
+    case FileInputExtensions.JPEG:
+    case FileInputExtensions.HEIC: {
+      return 'image'
+    }
+
+    // TODO: Add more file types
+    // case FileInputExtensions.MOV:
+    case FileInputExtensions.MP4: {
+      return 'video'
+    }
+
+    default: {
+      return null
+    }
+  }
+}
+
 const getFileExtension = (type: string): string | null => {
   switch (type) {
     case FileInputExtensions.PNG: {
@@ -54,27 +74,30 @@ const tryToUploadFile = async (key: string, file: File) => {
 export const getFileUrl = (key: string) => fileHttpService.getSignedUrl({ key })
 
 export const uploadFile = (file: File, path = '') =>
-  new Promise<{ key: string; extension: string }>((resolve, reject) => {
-    try {
-      const extension = getFileExtension(file.type)
+  new Promise<{ key: string; type: string; extension: string }>(
+    (resolve, reject) => {
+      try {
+        const type = getFileType(file.type)
+        const extension = getFileExtension(file.type)
 
-      if (extension === null) {
-        throw new Error()
-      }
-
-      const key = `${path}${generateUuid()}`
-
-      tryToUploadFile(key, file).then((status) => {
-        if (!status) {
+        if (type === null || extension === null) {
           throw new Error()
         }
 
-        resolve({ key, extension })
-      })
-    } catch (_) {
-      reject()
+        const key = `${path}${generateUuid()}`
+
+        tryToUploadFile(key, file).then((status) => {
+          if (!status) {
+            throw new Error()
+          }
+
+          resolve({ key, type, extension })
+        })
+      } catch (_) {
+        reject()
+      }
     }
-  })
+  )
 
 export const deleteFilesObject = (keys: string[]) =>
   fileHttpService.deleteObjects({ keys })

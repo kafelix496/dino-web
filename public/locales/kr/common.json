@@ -11,6 +11,8 @@
   "BUTTON_DELETE": "삭제",
   "BUTTON_LIKE": "좋아요",
   "BUTTON_NEW": "새로 만들기",
+  "BUTTON_NEXT": "다음",
+  "BUTTON_PREV": "이전",
   "CATEGORY_NAME": "이름",
   "CATEGORY_NAME_MAX_MESSAGE": "이름은 10 글자를 넘을 수 없습니다.",
   "CATEGORY_NAME_REQUIRED_MESSAGE": "이름은 반드시 입력되어야 합니다.",

@@ -13,7 +13,7 @@ import { selectUser } from '@/redux-selectors'
 const AddPostButton = () => {
   const { t } = useTranslation('common')
   const user = useSelector(selectUser)
-  const { state: dialogState, handleOpen, handleClose } = useDialogStatus()
+  const { state: dialogState, openDialog, closeDialog } = useDialogStatus()
 
   const canAddPost =
     user!.accessLevel[Apps.familyAlbum] === AccessLevels.SUPER_ADMIN ||
@@ -36,7 +36,7 @@ const AddPostButton = () => {
           fullWidth
           variant="outlined"
           onClick={() => {
-            handleOpen()
+            openDialog()
           }}
         >
           {t('ALBUM_ADD_POST')}
@@ -44,7 +44,7 @@ const AddPostButton = () => {
       </Box>
 
       {dialogState.isOpen ? (
-        <CreatePostDialog handleClose={handleClose} />
+        <CreatePostDialog closeDialog={closeDialog} />
       ) : null}
     </Box>
   )

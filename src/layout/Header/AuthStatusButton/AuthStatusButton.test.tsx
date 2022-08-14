@@ -2,7 +2,7 @@ import { signIn, signOut } from 'next-auth/react'
 
 import { getMockUser } from '@/mock-data/user.mockData'
 import { selectUser } from '@/redux-selectors'
-import { fireEvent, render, screen } from '@/utils/test-utils'
+import { fireEvent, render, screen } from '@/utils/testing-library'
 
 import AuthStatusButton from './AuthStatusButton'
 

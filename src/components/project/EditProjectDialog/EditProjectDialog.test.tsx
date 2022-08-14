@@ -1,5 +1,5 @@
 import { Apps } from '@/constants/app'
-import { act, fireEvent, render, screen } from '@/utils/test-utils'
+import { act, fireEvent, render, screen } from '@/utils/testing-library'
 
 import EditProjectDialog from './EditProjectDialog'
 
@@ -8,10 +8,10 @@ describe('EditProjectDialog component', () => {
     render(
       <EditProjectDialog
         appAbbreviation={Apps.moneyTracker}
-        handleClose={jest.fn()}
         id=""
         title=""
         description=""
+        closeDialog={jest.fn()}
       />
     )
 
@@ -27,10 +27,10 @@ describe('EditProjectDialog component', () => {
     render(
       <EditProjectDialog
         appAbbreviation={Apps.moneyTracker}
-        handleClose={jest.fn()}
         id=""
         title=""
         description=""
+        closeDialog={jest.fn()}
       />
     )
 

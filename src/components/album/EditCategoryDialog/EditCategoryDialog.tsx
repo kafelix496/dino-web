@@ -13,13 +13,13 @@ import albumHttpService from '@/http-services/album'
 import { enqueueAlert, setCategories, updateCategory } from '@/redux-actions'
 
 interface EditCategoryDialogProps {
-  handleClose: () => void
   id: string
   name: string
+  closeDialog: () => void
 }
 
 const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
-  handleClose,
+  closeDialog,
   id,
   name
 }) => {
@@ -38,7 +38,7 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
 
       dispatch(updateCategory(id, values))
 
-      handleClose()
+      closeDialog()
 
       albumHttpService
         .updateCategory({ id, values })
@@ -61,7 +61,7 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
   return (
     <Dialog
       open={true}
-      onClose={handleClose}
+      onClose={closeDialog}
       title={t('UPDATE_CATEGORY_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
@@ -76,7 +76,7 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
       }
       actionsJsx={
         <>
-          <Button color="secondary" variant="outlined" onClick={handleClose}>
+          <Button color="secondary" variant="outlined" onClick={closeDialog}>
             {t('BUTTON_CANCEL')}
           </Button>
           <Button
