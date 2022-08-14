@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-const useDialogStatus = () => {
+export const useDialogStatus = () => {
   const [state, dispatch] = useState({ isOpen: false, name: '' })
 
   const openDialog = useCallback((name = '') => {
@@ -17,5 +17,3 @@ const useDialogStatus = () => {
     closeDialog
   }
 }
-
-export default useDialogStatus

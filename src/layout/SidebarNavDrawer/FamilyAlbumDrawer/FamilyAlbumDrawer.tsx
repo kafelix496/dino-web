@@ -17,7 +17,7 @@ import Tooltip from '@mui/material/Tooltip'
 
 import CreateCategoryDialog from '@/components/album/CreateCategoryDialog/CreateCategoryDialog'
 import { Apps } from '@/constants/app'
-import useDialogStatus from '@/hooks/useDialogStatus'
+import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useIsAdmin } from '@/hooks/useIsAdmin'
 import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'
 import { selectCategoryList } from '@/redux-selectors'

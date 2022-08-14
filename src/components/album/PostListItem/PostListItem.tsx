@@ -13,7 +13,7 @@ import PostListItemAssetList from '@/components/album/PostListItemAssetList/Post
 import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import { POST_MAX_WIDTH } from '@/constants/album'
-import useDialogStatus from '@/hooks/useDialogStatus'
+import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useIsAdmin } from '@/hooks/useIsAdmin'
 import type { Post } from '@/types/album'
 
