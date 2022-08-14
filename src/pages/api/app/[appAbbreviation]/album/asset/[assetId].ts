@@ -40,14 +40,6 @@ export default async function handler(
     if (!currentUser) {
       return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
     }
-    const currentUserAppAccessLevel = currentUser.accessLevel[appAbbreviation]
-    // if the user access-level is not super admin or admin, return error
-    if (
-      currentUserAppAccessLevel !== AccessLevels.SUPER_ADMIN &&
-      currentUserAppAccessLevel !== AccessLevels.ADMIN
-    ) {
-      return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
-    }
 
     switch (req.method) {
       case 'GET': {
