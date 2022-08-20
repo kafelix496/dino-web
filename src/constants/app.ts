@@ -6,6 +6,11 @@ export const COOKIES_OPTION = {
   path: '/'
 }
 
+export enum Actions {
+  EDIT = 'EDIT',
+  DELETE = 'DELETE'
+}
+
 export enum S3Paths {
   ALBUM = 'album/'
 }

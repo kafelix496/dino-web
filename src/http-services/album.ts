@@ -95,6 +95,22 @@ const albumHttpService = {
         config
       )
       .then((res) => res.data),
+  updatePost: (
+    data: {
+      id: string
+      values: PostRequest
+    },
+    config?: AxiosRequestConfig
+  ): Promise<PostRaw> =>
+    axios
+      .put<PostRaw>(
+        `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post/${
+          data.id
+        }`,
+        data.values,
+        config
+      )
+      .then((res) => res.data),
   deletePost: (
     data: {
       id: string

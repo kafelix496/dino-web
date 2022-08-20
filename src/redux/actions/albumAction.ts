@@ -1,6 +1,6 @@
 import type { ThunkAction } from 'redux-thunk'
 
-import { selectCategory } from '@/redux-selectors'
+import { selectCategory, selectPostData } from '@/redux-selectors'
 import type { RootState } from '@/redux-types'
 import { ActionType } from '@/redux-types/album'
 import type { Action } from '@/redux-types/album'
@@ -31,7 +31,7 @@ export const addCategory = (
 
 export const updateCategory = (
   id: string,
-  category: Category | Pick<Category, 'name'>
+  category: Category | Omit<Category, '_id'>
 ): ThunkAction<void, RootState, unknown, Action> => {
   return (dispatch) => {
     dispatch({ type: ActionType.UPDATE_CATEGORY, id, category })
@@ -85,10 +85,28 @@ export const addPost = (
 
 export const updatePost = (
   id: string,
-  post: Post | Partial<Omit<Post, '_id'>>
+  post: PostRaw
 ): ThunkAction<void, RootState, unknown, Action> => {
-  return (dispatch) => {
-    dispatch({ type: ActionType.UPDATE_POST, id, post })
+  return (dispatch, getState) => {
+    const rootState = getState()
+
+    const originalPost = selectPostData(rootState).posts.find(
+      (post) => post._id === id
+    )!
+
+    dispatch({
+      type: ActionType.UPDATE_POST,
+      id,
+      post: {
+        ...originalPost,
+        categories: post.categories
+          .map((categoryId) => selectCategory(categoryId, rootState))
+          .filter((category) => category !== undefined) as Category[],
+        audience: post.audience,
+        title: post.title,
+        description: post.description
+      }
+    })
   }
 }
 

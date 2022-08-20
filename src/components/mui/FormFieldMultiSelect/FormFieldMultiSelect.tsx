@@ -1,3 +1,4 @@
+import type { FormikProps } from 'formik'
 import { useState } from 'react'
 import type { FC } from 'react'
 
@@ -9,7 +10,7 @@ interface FieldMultiSelectProps {
   fullWidth?: boolean
   label?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formik: { [key: string]: any }
+  formik: FormikProps<any>
   name: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: { label: string; value: any }[]
@@ -22,7 +23,9 @@ const FieldMultiSelect: FC<FieldMultiSelectProps> = ({
   name,
   options
 }) => {
-  const [selected, setSelected] = useState<FieldMultiSelectProps['options']>([])
+  const [selected, setSelected] = useState<FieldMultiSelectProps['options']>(
+    options.filter((option) => formik.values[name].includes(option.value))
+  )
 
   return (
     <Autocomplete

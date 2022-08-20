@@ -4,19 +4,19 @@ import type { FC } from 'react'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 
-interface CreatePostDialogAssetListProps {
+interface PostFormDialogAssetListProps {
   files: Blob[]
 }
 
-const CreatePostDialogAssetListItem = dynamic(
+const PostFormDialogAssetListItem = dynamic(
   () =>
     import(
-      '@/components/album/CreatePostDialogAssetListItem/CreatePostDialogAssetListItem'
+      '@/components/album/PostFormDialogAssetListItem/PostFormDialogAssetListItem'
     ),
   { ssr: false }
 )
 
-const CreatePostDialogAssetList: FC<CreatePostDialogAssetListProps> = ({
+const PostFormDialogAssetList: FC<PostFormDialogAssetListProps> = ({
   files
 }) => {
   if (!files.length) {
@@ -33,11 +33,11 @@ const CreatePostDialogAssetList: FC<CreatePostDialogAssetListProps> = ({
     >
       {Array.from(files).map((file, index) => (
         <ImageListItem key={index} className="__d-text-center">
-          <CreatePostDialogAssetListItem file={file} />
+          <PostFormDialogAssetListItem file={file} />
         </ImageListItem>
       ))}
     </ImageList>
   )
 }
 
-export default CreatePostDialogAssetList
+export default PostFormDialogAssetList

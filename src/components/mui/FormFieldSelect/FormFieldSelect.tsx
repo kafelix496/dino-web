@@ -1,3 +1,4 @@
+import type { FormikProps } from 'formik'
 import type { FC } from 'react'
 
 import MenuItem from '@mui/material/MenuItem'
@@ -8,7 +9,7 @@ interface FieldSelectProps {
   fullWidth?: boolean
   label?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formik: { [key: string]: any }
+  formik: FormikProps<any>
   name: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: { label: string; value: any }[]
@@ -34,7 +35,7 @@ const FieldSelect: FC<FieldSelectProps> = ({
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
       error={formik.touched[name] && Boolean(formik.errors[name])}
-      helperText={formik.touched[name] && formik.errors[name]}
+      helperText={formik.touched[name] && (formik.errors[name] as string)}
     >
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>

@@ -73,9 +73,9 @@ export interface Category {
 }
 
 export interface PostRequest {
-  assets: { key: string; extension: string }[]
+  assets?: { key: string; extension: string }[]
   audience: PostAudiences
-  categoriesId?: string[]
+  categories?: string[]
   title: string
   description?: string
 }

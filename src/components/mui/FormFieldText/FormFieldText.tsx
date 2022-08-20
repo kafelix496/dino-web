@@ -1,3 +1,4 @@
+import type { FormikProps } from 'formik'
 import type { FC } from 'react'
 
 import TextField from '@mui/material/TextField'
@@ -9,7 +10,7 @@ interface FieldTextProps {
   label?: string
   multiline?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formik: { [key: string]: any }
+  formik: FormikProps<any>
   name: string
 }
 
@@ -35,7 +36,7 @@ const FieldText: FC<FieldTextProps> = ({
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
       error={formik.touched[name] && Boolean(formik.errors[name])}
-      helperText={formik.touched[name] && formik.errors[name]}
+      helperText={formik.touched[name] && (formik.errors[name] as string)}
     />
   )
 }

@@ -156,7 +156,7 @@ export default async function handler(
         const {
           assets: assetsInput,
           audience,
-          categoriesId,
+          categories,
           title,
           description
         } = req.body ?? {}
@@ -174,7 +174,7 @@ export default async function handler(
         const post: PostRaw = await postDoc.create({
           assets: assets.map((asset) => asset._id),
           audience,
-          categories: categoriesId ?? [],
+          categories: categories ?? [],
           title,
           description
         })
