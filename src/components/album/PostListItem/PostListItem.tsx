@@ -73,7 +73,9 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
         {post.description && (
           <Box sx={{ mt: 2 }}>
             <Divider />
-            <Typography sx={{ mt: 2 }}>{post.description}</Typography>
+            <Typography className="__d-whitespace-pre-wrap" sx={{ mt: 2 }}>
+              {post.description}
+            </Typography>
           </Box>
         )}
 

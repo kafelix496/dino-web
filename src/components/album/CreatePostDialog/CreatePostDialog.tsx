@@ -139,6 +139,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ closeDialog }) => {
           />
           <FieldText
             label={t('POST_DESCRIPTION')}
+            multiline={true}
             formik={formik}
             name="description"
           />

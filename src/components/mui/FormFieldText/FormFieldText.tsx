@@ -7,6 +7,7 @@ interface FieldTextProps {
   required?: boolean
   fullWidth?: boolean
   label?: string
+  multiline?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formik: { [key: string]: any }
   name: string
@@ -16,6 +17,7 @@ const FieldText: FC<FieldTextProps> = ({
   autoFocus = false,
   required = false,
   fullWidth = true,
+  multiline = false,
   label = '',
   formik,
   name
@@ -25,6 +27,7 @@ const FieldText: FC<FieldTextProps> = ({
       autoFocus={autoFocus}
       required={required}
       fullWidth={fullWidth}
+      multiline={multiline}
       name={name}
       label={label}
       margin="dense"
