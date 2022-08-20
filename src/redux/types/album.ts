@@ -29,7 +29,7 @@ export interface addCategoryAction {
 export interface updateCategoryAction {
   type: ActionType.UPDATE_CATEGORY
   id: string
-  category: Pick<Category, 'name'>
+  category: Category | Omit<Category, '_id'>
 }
 
 export interface deleteCategoryAction {
@@ -51,7 +51,7 @@ export interface addPostAction {
 export interface updatePostAction {
   type: ActionType.UPDATE_POST
   id: string
-  post: Partial<Omit<Post, '_id'>>
+  post: Post | Partial<Omit<Post, '_id'>>
 }
 
 export interface deletePostAction {

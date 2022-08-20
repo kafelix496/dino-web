@@ -9,10 +9,12 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
 import DeletePostDialog from '@/components/album/DeletePostDialog/DeletePostDialog'
+import PostFormDialog from '@/components/album/PostFormDialog/PostFormDialog'
 import PostListItemAssetList from '@/components/album/PostListItemAssetList/PostListItemAssetList'
 import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import { POST_MAX_WIDTH } from '@/constants/album'
+import { Actions } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useIsAdmin } from '@/hooks/useIsAdmin'
 import type { Post } from '@/types/album'
@@ -33,9 +35,15 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
 
   const menuOptions: MenuOption[] = [
     {
+      label: t('EDIT'),
+      click: () => {
+        openDialog(Actions.EDIT)
+      }
+    },
+    {
       label: t('DELETE'),
       click: () => {
-        openDialog()
+        openDialog(Actions.DELETE)
       }
     }
   ]
@@ -92,7 +100,11 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
         </Box>*/}
       </Paper>
 
-      {state.isOpen && (
+      {state.name === Actions.EDIT && state.isOpen && (
+        <PostFormDialog post={post} closeDialog={closeDialog}></PostFormDialog>
+      )}
+
+      {state.name === Actions.DELETE && state.isOpen && (
         <DeletePostDialog
           id={post._id}
           assetKeys={post.assets.map((asset) => asset.key)}

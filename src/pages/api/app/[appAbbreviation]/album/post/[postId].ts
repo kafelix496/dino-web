@@ -47,11 +47,11 @@ export default async function handler(
 
     switch (req.method) {
       case 'PUT': {
-        const { audience, categoriesId, title, description } = req.body ?? {}
+        const { audience, categories, title, description } = req.body ?? {}
 
         const post: PostRaw | null = await postDoc.findOneAndUpdate(
           { _id: postId },
-          { audience, categoriesId, title, description },
+          { audience, categories, title, description },
           { new: true, runValidators: true }
         )
 

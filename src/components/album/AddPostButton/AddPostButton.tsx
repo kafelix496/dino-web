@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
-import CreatePostDialog from '@/components/album/CreatePostDialog/CreatePostDialog'
+import PostFormDialog from '@/components/album/PostFormDialog/PostFormDialog'
 import { POST_MAX_WIDTH } from '@/constants/album'
 import { AccessLevels, Apps } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
@@ -43,9 +43,7 @@ const AddPostButton = () => {
         </Button>
       </Box>
 
-      {dialogState.isOpen ? (
-        <CreatePostDialog closeDialog={closeDialog} />
-      ) : null}
+      {dialogState.isOpen ? <PostFormDialog closeDialog={closeDialog} /> : null}
     </Box>
   )
 }

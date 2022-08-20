@@ -8,22 +8,25 @@ import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
-import CreatePostDialogAssetList from '@/components/album/CreatePostDialogAssetList/CreatePostDialogAssetList'
+import PostFormDialogAssetList from '@/components/album/PostFormDialogAssetList/PostFormDialogAssetList'
 import FieldMultiSelect from '@/components/mui/FormFieldMultiSelect/FormFieldMultiSelect'
 import FieldSelect from '@/components/mui/FormFieldSelect/FormFieldSelect'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 import { PostAudiences } from '@/constants/album'
 import { AlertColor, FileInputExtensions, S3Paths } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
-import { addPost, enqueueAlert } from '@/redux-actions'
+import { addPost, enqueueAlert, updatePost } from '@/redux-actions'
 import { selectCategoryList } from '@/redux-selectors'
+import type { Post } from '@/types/album'
 import { deleteFilesObject, uploadFile } from '@/utils/file'
 
-interface CreatePostDialogProps {
+interface PostFormDialogProps {
+  post?: Post
   closeDialog: () => void
 }
 
-const CreatePostDialog: FC<CreatePostDialogProps> = ({ closeDialog }) => {
+const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
+  const isCreating = !post
   const { t } = useTranslation('common')
   const categories = useSelector(selectCategoryList)
   const dispatch = useDispatch()
@@ -32,14 +35,16 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ closeDialog }) => {
     description: string
     audience: PostAudiences
     categoriesId: string[]
-    files: File[]
+    files?: File[]
   }>({
     initialValues: {
-      title: '',
-      description: '',
-      audience: PostAudiences.ALL,
-      categoriesId: [],
-      files: []
+      title: !isCreating ? post.title : '',
+      description: !isCreating ? post.description : '',
+      audience: !isCreating ? post.audience : PostAudiences.ALL,
+      categoriesId: !isCreating
+        ? post.categories.map((category) => category._id)
+        : [],
+      ...(isCreating ? { files: [] } : {})
     },
     validationSchema: yup.object({
       title: yup
@@ -49,59 +54,77 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ closeDialog }) => {
       description: yup.string().max(100, t('POST_DESCRIPTION_MAX_MESSAGE')),
       audience: yup.mixed().oneOf(Object.values(PostAudiences)),
       categoriesId: yup.array(),
-      files: yup
-        .mixed()
-        .test(
-          'filesMinLength',
-          t('POST_FILES_MIN_LENGTH_WARNING'),
-          (files: File[]) => !!files.length
-        )
-        .test(
-          'filesMaxLength',
-          t('POST_FILES_MAX_LENGTH_WARNING'),
-          (files: File[]) => !!files.length
-        )
-        .test(
-          'filesFormat',
-          t('POST_FILES_FORMAT_WARNING'),
-          (files: File[]) =>
-            !Array.from(files).some(
-              (file) =>
-                !(Object.values(FileInputExtensions) as string[]).includes(
-                  file.type
-                )
-            )
-        )
+      ...(isCreating
+        ? {
+            files: yup
+              .mixed()
+              .test(
+                'filesMinLength',
+                t('POST_FILES_MIN_LENGTH_WARNING'),
+                (files: File[]) => !!files.length
+              )
+              .test(
+                'filesMaxLength',
+                t('POST_FILES_MAX_LENGTH_WARNING'),
+                (files: File[]) => !!files.length
+              )
+              .test(
+                'filesFormat',
+                t('POST_FILES_FORMAT_WARNING'),
+                (files: File[]) =>
+                  !Array.from(files).some(
+                    (file) =>
+                      !(
+                        Object.values(FileInputExtensions) as string[]
+                      ).includes(file.type)
+                  )
+              )
+          }
+        : {})
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true)
 
       try {
-        const uploadedFiles = await Promise.all(
-          Array.from(values.files).map((file) =>
-            uploadFile(file, S3Paths.ALBUM)
+        if (isCreating) {
+          const uploadedFiles = await Promise.all(
+            Array.from(values.files!).map((file) =>
+              uploadFile(file, S3Paths.ALBUM)
+            )
           )
-        )
 
-        const postResult = await albumHttpService
-          .createPost({
+          const postResult = await albumHttpService
+            .createPost({
+              values: {
+                assets: uploadedFiles,
+                audience: values.audience,
+                categories: values.categoriesId,
+                title: values.title,
+                description: values.description
+              }
+            })
+            .catch(() => {
+              // if something wrong on the database,
+              // delete all files uploaded
+              deleteFilesObject(uploadedFiles.map((file) => file.key))
+
+              throw new Error()
+            })
+
+          dispatch(addPost(postResult.post, postResult.assets))
+        } else {
+          const updatedPost = await albumHttpService.updatePost({
+            id: post._id,
             values: {
-              assets: uploadedFiles,
               audience: values.audience,
-              categoriesId: values.categoriesId,
+              categories: values.categoriesId,
               title: values.title,
               description: values.description
             }
           })
-          .catch(() => {
-            // if something wrong on the database,
-            // delete all files uploaded
-            deleteFilesObject(uploadedFiles.map((file) => file.key))
 
-            throw new Error()
-          })
-
-        dispatch(addPost(postResult.post, postResult.assets))
+          dispatch(updatePost(updatedPost._id, { ...post, ...updatedPost }))
+        }
 
         closeDialog()
       } catch (_) {
@@ -125,7 +148,9 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ closeDialog }) => {
     <Dialog
       open={true}
       onClose={closeDialog}
-      title={t('CREATE_POST_DIALOG_TITLE')}
+      title={t(
+        isCreating ? 'CREATE_POST_DIALOG_TITLE' : 'EDIT_POST_DIALOG_TITLE'
+      )}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={
@@ -155,28 +180,32 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ closeDialog }) => {
             name="categoriesId"
             options={categoryOptions}
           />
-          <Button
-            fullWidth
-            variant="contained"
-            component="label"
-            sx={{ mt: 2 }}
-          >
-            {t('POST_CHOOSE_FILES')}
-            <input
-              multiple
-              hidden
-              type="file"
-              name="files"
-              accept={inputAccept}
-              onChange={(event) => {
-                formik.setFieldValue('files', event.target.files)
-              }}
-            />
-          </Button>
+          {isCreating && (
+            <Button
+              fullWidth
+              variant="contained"
+              component="label"
+              sx={{ mt: 2 }}
+            >
+              {t('POST_CHOOSE_FILES')}
+              <input
+                multiple
+                hidden
+                type="file"
+                name="files"
+                accept={inputAccept}
+                onChange={(event) => {
+                  formik.setFieldValue('files', event.target.files)
+                }}
+              />
+            </Button>
+          )}
 
-          <CreatePostDialogAssetList files={formik.values.files} />
+          {isCreating && (
+            <PostFormDialogAssetList files={formik.values.files!} />
+          )}
 
-          {formik.submitCount >= 1 && formik.errors.files ? (
+          {isCreating && formik.submitCount >= 1 && formik.errors.files ? (
             <Alert severity="error" sx={{ mt: 2 }}>
               {formik.errors.files as string}
             </Alert>
@@ -194,7 +223,7 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ closeDialog }) => {
             color="success"
             variant="contained"
           >
-            {t('BUTTON_CREATE')}
+            {t(isCreating ? 'BUTTON_CREATE' : 'BUTTON_EDIT')}
           </Button>
         </>
       }
@@ -202,4 +231,4 @@ const CreatePostDialog: FC<CreatePostDialogProps> = ({ closeDialog }) => {
   )
 }
 
-export default CreatePostDialog
+export default PostFormDialog
