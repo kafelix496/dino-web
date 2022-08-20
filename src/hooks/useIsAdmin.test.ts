@@ -5,7 +5,12 @@ import { getMockUser } from '@/mock-data/user.mockData'
 import { selectUser } from '@/redux-selectors'
 import { renderHook } from '@/utils/testing-library'
 
-import { useIsAdmin } from './useIsAdmin'
+import { useIsAdminOrAbove, useIsSuperAdmin } from './useIsAdmin'
+
+enum SetupType {
+  useIsAdminOrAbove = 'useIsAdminOrAbove',
+  useIsSuperAdmin = 'useIsSuperAdmin'
+}
 
 jest.mock('@/redux-selectors', () => {
   const originalModule = jest.requireActual('@/redux-selectors')
@@ -30,11 +35,13 @@ jest.mock('next/router', () => {
 const setup = ({
   isLogin,
   appAbbreviation,
-  accessLevel
+  accessLevel,
+  type
 }: {
   isLogin: boolean
   appAbbreviation: unknown
   accessLevel: AccessLevels
+  type: SetupType
 }) => {
   if (isLogin) {
     const mockUser = getMockUser()
@@ -47,67 +54,151 @@ const setup = ({
     query: { appAbbreviation: appAbbreviation }
   })
 
-  const { result } = renderHook(() => useIsAdmin())
+  const { result } = renderHook(() => {
+    if (type === SetupType.useIsAdminOrAbove) {
+      return useIsAdminOrAbove()
+    }
+
+    if (type === SetupType.useIsSuperAdmin) {
+      return useIsSuperAdmin()
+    }
+
+    return
+  })
 
   return result
 }
 
 describe('#useIsAdmin', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
+  describe('#useIsSuperAdmin', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+    })
+
+    it('should return false if the user is not logged in', () => {
+      const result = setup({
+        isLogin: false,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.NONE,
+        type: SetupType.useIsSuperAdmin
+      })
+
+      expect(result.current).toBe(false)
+    })
+
+    it('should return false if the appAbbreviation is not valid', () => {
+      const result = setup({
+        isLogin: true,
+        appAbbreviation: 'fake',
+        accessLevel: AccessLevels.NONE,
+        type: SetupType.useIsSuperAdmin
+      })
+
+      expect(result.current).toBe(false)
+    })
+
+    it('should return false if the user is not super admin', () => {
+      const result1 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.NONE,
+        type: SetupType.useIsSuperAdmin
+      })
+
+      expect(result1.current).toBe(false)
+
+      const result2 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.EDITOR,
+        type: SetupType.useIsSuperAdmin
+      })
+
+      expect(result2.current).toBe(false)
+
+      const result3 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.ADMIN,
+        type: SetupType.useIsSuperAdmin
+      })
+
+      expect(result3.current).toBe(false)
+
+      const result4 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.SUPER_ADMIN,
+        type: SetupType.useIsSuperAdmin
+      })
+
+      expect(result4.current).toBe(true)
+    })
   })
 
-  it('should return false if the user is not logged in', () => {
-    const result = setup({
-      isLogin: false,
-      appAbbreviation: Apps.familyAlbum,
-      accessLevel: AccessLevels.NONE
+  describe('#useIsAdminOrAbove', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
     })
 
-    expect(result.current).toBe(false)
-  })
+    it('should return false if the user is not logged in', () => {
+      const result = setup({
+        isLogin: false,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.NONE,
+        type: SetupType.useIsAdminOrAbove
+      })
 
-  it('should return false if the appAbbreviation is not valid', () => {
-    const result = setup({
-      isLogin: true,
-      appAbbreviation: 'fake',
-      accessLevel: AccessLevels.NONE
+      expect(result.current).toBe(false)
     })
 
-    expect(result.current).toBe(false)
-  })
+    it('should return false if the appAbbreviation is not valid', () => {
+      const result = setup({
+        isLogin: true,
+        appAbbreviation: 'fake',
+        accessLevel: AccessLevels.NONE,
+        type: SetupType.useIsAdminOrAbove
+      })
 
-  it('should return false if the user is not admin or super admin', () => {
-    const result1 = setup({
-      isLogin: true,
-      appAbbreviation: Apps.familyAlbum,
-      accessLevel: AccessLevels.NONE
+      expect(result.current).toBe(false)
     })
 
-    expect(result1.current).toBe(false)
+    it('should return false if the user is not admin or super admin', () => {
+      const result1 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.NONE,
+        type: SetupType.useIsAdminOrAbove
+      })
 
-    const result2 = setup({
-      isLogin: true,
-      appAbbreviation: Apps.familyAlbum,
-      accessLevel: AccessLevels.EDITOR
+      expect(result1.current).toBe(false)
+
+      const result2 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.EDITOR,
+        type: SetupType.useIsAdminOrAbove
+      })
+
+      expect(result2.current).toBe(false)
+
+      const result3 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.ADMIN,
+        type: SetupType.useIsAdminOrAbove
+      })
+
+      expect(result3.current).toBe(true)
+
+      const result4 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.SUPER_ADMIN,
+        type: SetupType.useIsAdminOrAbove
+      })
+
+      expect(result4.current).toBe(true)
     })
-
-    expect(result2.current).toBe(false)
-
-    const result3 = setup({
-      isLogin: true,
-      appAbbreviation: Apps.familyAlbum,
-      accessLevel: AccessLevels.ADMIN
-    })
-
-    expect(result3.current).toBe(true)
-
-    const result4 = setup({
-      isLogin: true,
-      appAbbreviation: Apps.familyAlbum,
-      accessLevel: AccessLevels.SUPER_ADMIN
-    })
-
-    expect(result4.current).toBe(true)
   })
 })

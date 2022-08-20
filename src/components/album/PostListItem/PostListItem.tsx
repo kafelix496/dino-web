@@ -16,7 +16,7 @@ import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import { POST_MAX_WIDTH } from '@/constants/album'
 import { Actions } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
-import { useIsAdmin } from '@/hooks/useIsAdmin'
+import { useIsAdminOrAbove, useIsSuperAdmin } from '@/hooks/useIsAdmin'
 import type { Post } from '@/types/album'
 
 interface PostListItemProps {
@@ -31,22 +31,27 @@ const PostListItemTime = dynamic(
 const PostListItem: FC<PostListItemProps> = ({ post }) => {
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
-  const canEditPost = useIsAdmin()
+  const canEditPost = useIsAdminOrAbove()
+  const canDeletePost = useIsSuperAdmin()
 
-  const menuOptions: MenuOption[] = [
-    {
-      label: t('EDIT'),
-      click: () => {
-        openDialog(Actions.EDIT)
-      }
-    },
-    {
-      label: t('DELETE'),
-      click: () => {
-        openDialog(Actions.DELETE)
-      }
-    }
-  ]
+  const menuOptions: MenuOption[] = new Array<MenuOption>().concat(
+    canEditPost
+      ? {
+          label: t('EDIT'),
+          click: () => {
+            openDialog(Actions.EDIT)
+          }
+        }
+      : [],
+    canDeletePost
+      ? {
+          label: t('DELETE'),
+          click: () => {
+            openDialog(Actions.DELETE)
+          }
+        }
+      : []
+  )
 
   return (
     <>
@@ -71,7 +76,7 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
             />
           </Box>
 
-          {canEditPost && (
+          {(canEditPost || canDeletePost) && (
             <Box className="__d-flex __d-items-center">
               <MaxHeightMenu options={menuOptions} />
             </Box>
@@ -100,11 +105,11 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
         </Box>*/}
       </Paper>
 
-      {state.name === Actions.EDIT && state.isOpen && (
+      {canEditPost && state.name === Actions.EDIT && state.isOpen && (
         <PostFormDialog post={post} closeDialog={closeDialog}></PostFormDialog>
       )}
 
-      {state.name === Actions.DELETE && state.isOpen && (
+      {canDeletePost && state.name === Actions.DELETE && state.isOpen && (
         <DeletePostDialog
           id={post._id}
           assetKeys={post.assets.map((asset) => asset.key)}
