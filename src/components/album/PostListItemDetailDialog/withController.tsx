@@ -16,18 +16,11 @@ const withController = <T extends PostListItemDetailDialogProps>(
   WrappedComponent: ComponentType<T>
 ) => {
   const ComponentWithController = (
-    props: Omit<T, 'asset' | 'closeDialog' | 'handleClose'> & {
-      asset: Asset | null
-    }
+    props: Omit<T, 'asset' | 'closeDialog' | 'handleClose'>
   ) => {
-    const { asset } = props
-
-    const [assetWithSrc, setAssetWithSrc] = useState<Asset | null>(
-      asset ?? null
-    )
+    const [assetWithSrc, setAssetWithSrc] = useState<Asset | null>(null)
     const router = useRouter()
     const { state, openDialog, closeDialog } = useDialogStatus()
-
     const { assetId } = router.query
 
     const handleClose = useCallback(() => {

@@ -2,15 +2,15 @@ import { useTranslation } from 'next-i18next'
 import type { TFunction } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import Avatar from '@mui/material/Avatar'
 import type { GridColDef } from '@mui/x-data-grid'
 
 import { AccessLevels, AlertColor, Apps } from '@/constants/app'
+import { useUserAccessLevel } from '@/hooks/useUserAccessLevel'
 import adminUserHttpService from '@/http-services/adminUser'
 import { enqueueAlert } from '@/redux-actions'
-import { selectUser } from '@/redux-selectors'
 import type { User } from '@/types'
 
 const getAdminPermissionOptions = (t: TFunction) => [
@@ -42,26 +42,24 @@ const getSuperAdminPermissionOptions = (t: TFunction) =>
 
 const useRowsAndCols = () => {
   const router = useRouter()
-  const user = useSelector(selectUser)
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const [rows, setRows] = useState<User[]>([])
   const [isLoading, setLoading] = useState<boolean>(false)
-
+  const { userAccessLevel } = useUserAccessLevel()
   const appAbbreviation = router.query.appAbbreviation as Apps
-  const userAppAccessLevel = user?.accessLevel[appAbbreviation as Apps]
 
   const valueOptions = useMemo(() => {
-    if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
+    if (userAccessLevel === AccessLevels.SUPER_ADMIN) {
       return getSuperAdminPermissionOptions(t)
     }
 
-    if (userAppAccessLevel === AccessLevels.ADMIN) {
+    if (userAccessLevel === AccessLevels.ADMIN) {
       return getAdminPermissionOptions(t)
     }
 
     return []
-  }, [t, userAppAccessLevel])
+  }, [t, userAccessLevel])
 
   const refinedColumns: GridColDef[] = useMemo(
     () => [
