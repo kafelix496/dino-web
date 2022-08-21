@@ -19,10 +19,10 @@ const customRender = (
   options?: Omit<RenderOptions, 'wrapper'>
 ) => render(ui, { wrapper: Providers, ...options })
 
-const customRenderHook = (
-  callback: (props: unknown) => unknown,
-  options?: Omit<RenderHookOptions<unknown>, 'wrapper'>
-) => renderHook(callback, { wrapper: Providers, ...options })
+const customRenderHook = <T = unknown, U = unknown>(
+  callback: (props: U) => T,
+  options?: Omit<RenderHookOptions<U>, 'wrapper'>
+) => renderHook<T, U>(callback, { wrapper: Providers, ...options })
 
 export * from '@testing-library/react'
 export { customRender as render }

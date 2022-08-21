@@ -31,11 +31,11 @@ const PostListItemTime = dynamic(
 const PostListItem: FC<PostListItemProps> = ({ post }) => {
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
-  const canEditPost = useIsAdminOrAbove()
-  const canDeletePost = useIsSuperAdmin()
+  const { isAdminOrAbove } = useIsAdminOrAbove()
+  const { isSuperAdmin } = useIsSuperAdmin()
 
   const menuOptions: MenuOption[] = new Array<MenuOption>().concat(
-    canEditPost
+    isAdminOrAbove
       ? {
           label: t('EDIT'),
           click: () => {
@@ -43,7 +43,7 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
           }
         }
       : [],
-    canDeletePost
+    isSuperAdmin
       ? {
           label: t('DELETE'),
           click: () => {
@@ -76,7 +76,7 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
             />
           </Box>
 
-          {(canEditPost || canDeletePost) && (
+          {(isAdminOrAbove || isSuperAdmin) && (
             <Box className="__d-flex __d-items-center">
               <MaxHeightMenu options={menuOptions} />
             </Box>
@@ -105,11 +105,11 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
         </Box>*/}
       </Paper>
 
-      {canEditPost && state.name === Actions.EDIT && state.isOpen && (
+      {isAdminOrAbove && state.name === Actions.EDIT && state.isOpen && (
         <PostFormDialog post={post} closeDialog={closeDialog}></PostFormDialog>
       )}
 
-      {canDeletePost && state.name === Actions.DELETE && state.isOpen && (
+      {isSuperAdmin && state.name === Actions.DELETE && state.isOpen && (
         <DeletePostDialog
           id={post._id}
           assetKeys={post.assets.map((asset) => asset.key)}

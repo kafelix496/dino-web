@@ -5,37 +5,40 @@ import { AccessLevels, Apps } from '@/constants/app'
 import { selectUser } from '@/redux-selectors'
 import { isValidApp } from '@/utils'
 
-export const useIsSuperAdmin = () => {
+export const useIsSuperAdmin = (): { isSuperAdmin: boolean } => {
   const user = useSelector(selectUser)
   const router = useRouter()
   const targetApp = router.query.appAbbreviation as Apps
 
   if (user === null) {
-    return false
+    return { isSuperAdmin: false }
   }
 
   if (!isValidApp(targetApp)) {
-    return false
+    return { isSuperAdmin: false }
   }
 
-  return user.accessLevel[targetApp] === AccessLevels.SUPER_ADMIN
+  return {
+    isSuperAdmin: user.accessLevel[targetApp] === AccessLevels.SUPER_ADMIN
+  }
 }
 
-export const useIsAdminOrAbove = () => {
+export const useIsAdminOrAbove = (): { isAdminOrAbove: boolean } => {
   const user = useSelector(selectUser)
   const router = useRouter()
   const targetApp = router.query.appAbbreviation as Apps
 
   if (user === null) {
-    return false
+    return { isAdminOrAbove: false }
   }
 
   if (!isValidApp(targetApp)) {
-    return false
+    return { isAdminOrAbove: false }
   }
 
-  return (
-    user.accessLevel[targetApp] === AccessLevels.SUPER_ADMIN ||
-    user.accessLevel[targetApp] === AccessLevels.ADMIN
-  )
+  return {
+    isAdminOrAbove:
+      user.accessLevel[targetApp] === AccessLevels.SUPER_ADMIN ||
+      user.accessLevel[targetApp] === AccessLevels.ADMIN
+  }
 }

@@ -28,24 +28,24 @@ describe('#useUserAccessLevel', () => {
 
     const { result } = renderHook(() => useUserAccessLevel())
 
-    expect(result.current).toEqual({ userAccessLevel: AccessLevels.NONE })
+    expect(result.current.userAccessLevel).toBe(AccessLevels.NONE)
   })
 
   it("should return user's AccessLevels", () => {
     ;(useRouter as jest.Mock).mockReturnValue({
       query: { appAbbreviation: Apps.familyAlbum }
     })
-    const fakeUser = getMockUser()
-    fakeUser.accessLevel[Apps.familyAlbum] = AccessLevels.EDITOR
+    const mockUser = getMockUser()
+    mockUser.accessLevel[Apps.familyAlbum] = AccessLevels.EDITOR
 
     const { result } = renderHook(() => {
       const dispatch = useDispatch()
 
-      dispatch(setUser(fakeUser))
+      dispatch(setUser(mockUser))
 
       return useUserAccessLevel()
     })
 
-    expect(result.current).toEqual({ userAccessLevel: AccessLevels.EDITOR })
+    expect(result.current.userAccessLevel).toBe(AccessLevels.EDITOR)
   })
 })

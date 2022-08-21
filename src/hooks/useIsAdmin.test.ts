@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
 
 import { AccessLevels, Apps } from '@/constants/app'
 import { getMockUser } from '@/mock-data/user.mockData'
-import { selectUser } from '@/redux-selectors'
+import { setUser } from '@/redux-actions'
 import { renderHook } from '@/utils/testing-library'
 
 import { useIsAdminOrAbove, useIsSuperAdmin } from './useIsAdmin'
@@ -11,16 +12,6 @@ enum SetupType {
   useIsAdminOrAbove = 'useIsAdminOrAbove',
   useIsSuperAdmin = 'useIsSuperAdmin'
 }
-
-jest.mock('@/redux-selectors', () => {
-  const originalModule = jest.requireActual('@/redux-selectors')
-
-  return {
-    __esModule: true,
-    ...originalModule,
-    selectUser: jest.fn()
-  }
-})
 
 jest.mock('next/router', () => {
   const originalModule = jest.requireActual('next/router')
@@ -43,18 +34,20 @@ const setup = ({
   accessLevel: AccessLevels
   type: SetupType
 }) => {
-  if (isLogin) {
-    const mockUser = getMockUser()
-    mockUser.accessLevel[appAbbreviation as Apps] = accessLevel
-    ;(selectUser as jest.Mock).mockReturnValueOnce(mockUser)
-  } else {
-    ;(selectUser as jest.Mock).mockReturnValueOnce(null)
-  }
   ;(useRouter as jest.Mock).mockReturnValueOnce({
     query: { appAbbreviation: appAbbreviation }
   })
 
   const { result } = renderHook(() => {
+    const dispatch = useDispatch()
+    if (isLogin) {
+      const mockUser = getMockUser()
+      mockUser.accessLevel[appAbbreviation as Apps] = accessLevel
+      dispatch(setUser(mockUser))
+    } else {
+      dispatch(setUser(null))
+    }
+
     if (type === SetupType.useIsAdminOrAbove) {
       return useIsAdminOrAbove()
     }
@@ -83,7 +76,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsSuperAdmin
       })
 
-      expect(result.current).toBe(false)
+      expect(result.current).toEqual({ isSuperAdmin: false })
     })
 
     it('should return false if the appAbbreviation is not valid', () => {
@@ -94,7 +87,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsSuperAdmin
       })
 
-      expect(result.current).toBe(false)
+      expect(result.current).toEqual({ isSuperAdmin: false })
     })
 
     it('should return false if the user is not super admin', () => {
@@ -105,7 +98,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsSuperAdmin
       })
 
-      expect(result1.current).toBe(false)
+      expect(result1.current).toEqual({ isSuperAdmin: false })
 
       const result2 = setup({
         isLogin: true,
@@ -114,7 +107,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsSuperAdmin
       })
 
-      expect(result2.current).toBe(false)
+      expect(result2.current).toEqual({ isSuperAdmin: false })
 
       const result3 = setup({
         isLogin: true,
@@ -123,7 +116,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsSuperAdmin
       })
 
-      expect(result3.current).toBe(false)
+      expect(result3.current).toEqual({ isSuperAdmin: false })
 
       const result4 = setup({
         isLogin: true,
@@ -132,7 +125,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsSuperAdmin
       })
 
-      expect(result4.current).toBe(true)
+      expect(result4.current).toEqual({ isSuperAdmin: true })
     })
   })
 
@@ -149,7 +142,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsAdminOrAbove
       })
 
-      expect(result.current).toBe(false)
+      expect(result.current).toEqual({ isAdminOrAbove: false })
     })
 
     it('should return false if the appAbbreviation is not valid', () => {
@@ -160,7 +153,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsAdminOrAbove
       })
 
-      expect(result.current).toBe(false)
+      expect(result.current).toEqual({ isAdminOrAbove: false })
     })
 
     it('should return false if the user is not admin or super admin', () => {
@@ -171,7 +164,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsAdminOrAbove
       })
 
-      expect(result1.current).toBe(false)
+      expect(result1.current).toEqual({ isAdminOrAbove: false })
 
       const result2 = setup({
         isLogin: true,
@@ -180,7 +173,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsAdminOrAbove
       })
 
-      expect(result2.current).toBe(false)
+      expect(result2.current).toEqual({ isAdminOrAbove: false })
 
       const result3 = setup({
         isLogin: true,
@@ -189,7 +182,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsAdminOrAbove
       })
 
-      expect(result3.current).toBe(true)
+      expect(result3.current).toEqual({ isAdminOrAbove: true })
 
       const result4 = setup({
         isLogin: true,
@@ -198,7 +191,7 @@ describe('#useIsAdmin', () => {
         type: SetupType.useIsAdminOrAbove
       })
 
-      expect(result4.current).toBe(true)
+      expect(result4.current).toEqual({ isAdminOrAbove: true })
     })
   })
 })

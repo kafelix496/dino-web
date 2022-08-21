@@ -11,7 +11,7 @@ import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
 const AddPostButton = () => {
   const { t } = useTranslation('common')
   const { state: dialogState, openDialog, closeDialog } = useDialogStatus()
-  const isAdminOrAbove = useIsAdminOrAbove()
+  const { isAdminOrAbove } = useIsAdminOrAbove()
 
   if (!isAdminOrAbove) {
     return null

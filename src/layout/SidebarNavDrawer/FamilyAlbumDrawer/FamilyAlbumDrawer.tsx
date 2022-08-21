@@ -31,7 +31,7 @@ const FamilyAlbumDrawer: FC = () => {
   const router = useRouter()
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
-  const isAdminOrAbove = useIsAdminOrAbove()
+  const { isAdminOrAbove } = useIsAdminOrAbove()
   const categoryId = router.query.categoryId
   const categories = useSelector(selectCategoryList)
   const menus: DrawerMenuItem[] = [
