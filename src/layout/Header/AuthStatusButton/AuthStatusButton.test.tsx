@@ -1,20 +1,37 @@
 import { signIn, signOut } from 'next-auth/react'
+import { useDispatch } from 'react-redux'
 
+import { AccessLevels, Apps } from '@/constants/app'
 import { getMockUser } from '@/mock-data/user.mockData'
-import { selectUser } from '@/redux-selectors'
+import { setUser } from '@/redux-actions'
 import { fireEvent, render, screen } from '@/utils/testing-library'
 
 import AuthStatusButton from './AuthStatusButton'
 
-jest.mock('@/redux-selectors', () => {
-  const originalModule = jest.requireActual('@/redux-selectors')
+const setup = ({
+  isLogin,
+  appAbbreviation,
+  accessLevel
+}: {
+  isLogin: boolean
+  appAbbreviation?: unknown
+  accessLevel?: AccessLevels
+}) => {
+  const TestComponent = () => {
+    const dispatch = useDispatch()
+    if (isLogin) {
+      const mockUser = getMockUser()
+      mockUser.accessLevel[appAbbreviation as Apps] = accessLevel!
+      dispatch(setUser(mockUser))
+    } else {
+      dispatch(setUser(null))
+    }
 
-  return {
-    __esModule: true,
-    ...originalModule,
-    selectUser: jest.fn()
+    return <AuthStatusButton />
   }
-})
+
+  return { TestComponent }
+}
 
 describe('AuthStatusButton component', () => {
   beforeEach(() => {
@@ -22,9 +39,9 @@ describe('AuthStatusButton component', () => {
   })
 
   it('should render a sign in button', () => {
-    ;(selectUser as jest.Mock).mockReturnValueOnce(null)
+    const { TestComponent } = setup({ isLogin: false })
 
-    render(<AuthStatusButton />)
+    render(<TestComponent />)
 
     const authButton = screen.getByRole('button', {
       name: 'SIGN_IN'
@@ -36,10 +53,13 @@ describe('AuthStatusButton component', () => {
   })
 
   it('should render a sign out button', () => {
-    const mockUser = getMockUser()
-    ;(selectUser as jest.Mock).mockReturnValueOnce(mockUser)
+    const { TestComponent } = setup({
+      isLogin: true,
+      appAbbreviation: Apps.familyAlbum,
+      accessLevel: AccessLevels.ADMIN
+    })
 
-    render(<AuthStatusButton />)
+    render(<TestComponent />)
 
     const authButton = screen.getByRole('button', {
       name: 'SIGN_OUT'

@@ -8,6 +8,7 @@ import Avatar from '@mui/material/Avatar'
 import type { GridColDef } from '@mui/x-data-grid'
 
 import { AccessLevels, AlertColor, Apps } from '@/constants/app'
+import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
 import { useUserAccessLevel } from '@/hooks/useUserAccessLevel'
 import adminUserHttpService from '@/http-services/adminUser'
 import { enqueueAlert } from '@/redux-actions'
@@ -47,6 +48,7 @@ const useRowsAndCols = () => {
   const [rows, setRows] = useState<User[]>([])
   const [isLoading, setLoading] = useState<boolean>(false)
   const { userAccessLevel } = useUserAccessLevel()
+  const { isAdminOrAbove } = useIsAdminOrAbove()
   const appAbbreviation = router.query.appAbbreviation as Apps
 
   const valueOptions = useMemo(() => {
@@ -158,6 +160,10 @@ const useRowsAndCols = () => {
   )
 
   useEffect(() => {
+    if (!isAdminOrAbove) {
+      return
+    }
+
     setLoading(true)
 
     adminUserHttpService
@@ -172,7 +178,7 @@ const useRowsAndCols = () => {
 
         dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
       })
-  }, [dispatch, appAbbreviation, t])
+  }, [dispatch, appAbbreviation, t, isAdminOrAbove])
 
   return { isLoading, rows: refinedRows, columns: refinedColumns }
 }

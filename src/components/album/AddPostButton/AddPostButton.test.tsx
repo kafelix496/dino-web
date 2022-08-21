@@ -1,57 +1,48 @@
-import { AccessLevels, Apps } from '@/constants/app'
-import { getMockUser } from '@/mock-data/user.mockData'
-import { selectUser } from '@/redux-selectors'
+import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
 import { render, screen } from '@/utils/testing-library'
 
 import AddPostButton from './AddPostButton'
 
-jest.mock('@/redux-selectors', () => {
-  const originalModule = jest.requireActual('@/redux-selectors')
+jest.mock('@/hooks/useIsAdmin', () => {
+  const originalModule = jest.requireActual('@/hooks/useIsAdmin')
 
   return {
     __esModule: true,
     ...originalModule,
-    selectUser: jest.fn(),
-    addPost: jest.fn()
+    useIsAdminOrAbove: jest.fn()
   }
 })
+
+const setup = ({ isAdminOrAbove }: { isAdminOrAbove: boolean }) => {
+  const TestComponent = () => {
+    ;(useIsAdminOrAbove as jest.Mock).mockReturnValue({
+      isAdminOrAbove
+    })
+
+    return <AddPostButton />
+  }
+
+  return { TestComponent }
+}
 
 describe('#AddPostButton', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it("should render add button component if user's fa permission is super admin", () => {
-    const mockUser = getMockUser()
+  it("should render add button component if user's Apps.familyAlbum permission is admin or super admin", () => {
+    const { TestComponent } = setup({ isAdminOrAbove: true })
 
-    mockUser.accessLevel[Apps.familyAlbum] = AccessLevels.SUPER_ADMIN
-    ;(selectUser as jest.Mock).mockReturnValueOnce(mockUser)
-
-    render(<AddPostButton />)
+    render(<TestComponent />)
 
     const mockButtonText = screen.getByText('ALBUM_ADD_POST')
     expect(mockButtonText).toBeInTheDocument()
   })
 
-  it("should render add button component if user's fa permission is admin", () => {
-    const mockUser = getMockUser()
+  it("should render add button component if user's Apps.familyAlbum permission is not super admin or admin", () => {
+    const { TestComponent } = setup({ isAdminOrAbove: false })
 
-    mockUser.accessLevel[Apps.familyAlbum] = AccessLevels.ADMIN
-    ;(selectUser as jest.Mock).mockReturnValueOnce(mockUser)
-
-    render(<AddPostButton />)
-
-    const mockButtonText = screen.getByText('ALBUM_ADD_POST')
-    expect(mockButtonText).toBeInTheDocument()
-  })
-
-  it("should render add button component if user's fa permission is not super admin or admin", () => {
-    const mockUser = getMockUser()
-
-    mockUser.accessLevel[Apps.familyAlbum] = AccessLevels.EDITOR
-    ;(selectUser as jest.Mock).mockReturnValueOnce(mockUser)
-
-    render(<AddPostButton />)
+    render(<TestComponent />)
 
     const mockButtonText = screen.queryByText('ALBUM_ADD_POST')
     expect(mockButtonText).not.toBeInTheDocument()
