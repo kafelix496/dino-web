@@ -21,7 +21,7 @@ const AuthStatusButton: FC = () => {
   }
 
   const signOut = () => {
-    nextAuthSignOut()
+    nextAuthSignOut({ callbackUrl: '/' })
   }
 
   if (user) {
