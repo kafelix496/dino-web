@@ -1,19 +1,23 @@
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import type { ReactElement } from 'react'
 
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 
 import UserList from '@/components/admin/UserList/UserList'
-import { Apps } from '@/constants/app'
-import adminUserHttpService from '@/http-services/adminUser'
+import { Apps, Locales } from '@/constants/app'
+import BaseLayout from '@/layout/BaseLayout'
+import RootLayout from '@/layout/RootLayout'
+import AdminDrawer from '@/layout/SidebarNavDrawer/AdminDrawer/AdminDrawer'
+import type { NextPageWithLayout } from '@/pages/_app'
 import type { User } from '@/types'
 
 interface PageProps {
   users: User[]
 }
 
-const Page: NextPage<PageProps> = ({ users }) => {
+const Page: NextPageWithLayout<PageProps> = () => {
   return (
     <Container className="__d-h-full">
       <Box
@@ -22,7 +26,7 @@ const Page: NextPage<PageProps> = ({ users }) => {
       >
         <Box sx={{ width: '100%', height: 700, maxHeight: '100%' }}>
           <Box className="__d-w-full __d-h-full">
-            <UserList users={users} />
+            <UserList />
           </Box>
         </Box>
       </Box>
@@ -30,35 +34,30 @@ const Page: NextPage<PageProps> = ({ users }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  query,
-  req,
-  locale
-}) => {
-  try {
-    const appAbbreviation = query.appAbbreviation as Apps
-    const users = await adminUserHttpService.getUsers(
-      { appAbbreviation },
-      {
-        headers: { Cookie: req.headers.cookie ?? '' }
-      }
-    )
+Page.getLayout = (page: ReactElement) => {
+  return (
+    <RootLayout>
+      <BaseLayout DrawerContent={AdminDrawer}>{page}</BaseLayout>
+    </RootLayout>
+  )
+}
 
-    return {
-      props: {
-        ...(await serverSideTranslations(locale ?? 'default', ['common'])),
-        users
-      }
-    }
-  } catch (error) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const errrorStatus = (error as Record<string, any>)?.response?.status
-    if (errrorStatus === 400 || errrorStatus === 401 || errrorStatus === 404) {
-      return { redirect: { permanent: false, destination: `/${errrorStatus}` } }
-    }
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = Object.values(Locales).flatMap((locale) =>
+    Object.values(Apps).map((appAbbreviation) => ({
+      params: { appAbbreviation },
+      locale
+    }))
+  )
+  return { paths, fallback: false }
+}
 
-    return { redirect: { permanent: false, destination: '/400' } }
-  }
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const translation = await serverSideTranslations(locale ?? 'default', [
+    'common'
+  ])
+
+  return { props: { ...translation } }
 }
 
 export default Page

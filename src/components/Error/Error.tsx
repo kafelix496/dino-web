@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
 interface ErrorProps {
-  statusCode: 400 | 401 | 404 | 500
+  statusCode: 404 | 500
 }
 
 const Error: FC<ErrorProps> = ({ statusCode }) => {

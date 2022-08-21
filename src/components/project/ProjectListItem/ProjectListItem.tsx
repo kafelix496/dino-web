@@ -39,8 +39,8 @@ const ProjectListItem: FC<ProjectListItemProps> = ({
 }) => {
   const { t } = useTranslation('common')
   const { state: dialogState, openDialog, closeDialog } = useDialogStatus()
-  const createdAtText = useCreatedAtText(createdAt)
-  const updatedAtText = useUpdatedAtText(updatedAt)
+  const { createdAtText } = useCreatedAtText(createdAt)
+  const { updatedAtText } = useUpdatedAtText(updatedAt)
 
   return (
     <>

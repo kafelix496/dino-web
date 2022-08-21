@@ -1,25 +1,19 @@
 import { useTranslation } from 'next-i18next'
-import { useSelector } from 'react-redux'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
 import PostFormDialog from '@/components/album/PostFormDialog/PostFormDialog'
 import { POST_MAX_WIDTH } from '@/constants/album'
-import { AccessLevels, Apps } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
-import { selectUser } from '@/redux-selectors'
+import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
 
 const AddPostButton = () => {
   const { t } = useTranslation('common')
-  const user = useSelector(selectUser)
   const { state: dialogState, openDialog, closeDialog } = useDialogStatus()
+  const { isAdminOrAbove } = useIsAdminOrAbove()
 
-  const canAddPost =
-    user!.accessLevel[Apps.familyAlbum] === AccessLevels.SUPER_ADMIN ||
-    user!.accessLevel[Apps.familyAlbum] === AccessLevels.ADMIN
-
-  if (!canAddPost) {
+  if (!isAdminOrAbove) {
     return null
   }
 

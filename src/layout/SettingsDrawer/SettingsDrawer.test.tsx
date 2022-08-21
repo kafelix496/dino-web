@@ -1,19 +1,17 @@
-import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
+import { setSettingNavOpenStatus } from '@/redux-actions'
 import { fireEvent, render, screen } from '@/utils/testing-library'
 
 import SettingsDrawer from './SettingsDrawer'
 
 const setup = () => {
   const TestComponent = () => {
-    const [isSettingsOpen, setSettingsOpen] = useState(true)
+    const dispatch = useDispatch()
 
-    return (
-      <SettingsDrawer
-        isSettingsOpen={isSettingsOpen}
-        setSettingsOpen={setSettingsOpen}
-      />
-    )
+    dispatch(setSettingNavOpenStatus(true))
+
+    return <SettingsDrawer />
   }
 
   return { TestComponent }

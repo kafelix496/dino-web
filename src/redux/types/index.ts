@@ -1,5 +1,3 @@
-import { HYDRATE } from 'next-redux-wrapper'
-
 import type { State as albumState } from './album'
 import type { State as AppState } from './app'
 import type { State as ProjectState } from './project'
@@ -12,9 +10,4 @@ export interface RootState {
   project: ProjectState
   setting: SettingState
   user: UserState
-}
-
-export interface HydrateAction {
-  type: typeof HYDRATE
-  payload: RootState
 }

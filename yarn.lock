@@ -5687,11 +5687,6 @@ next-pwa@5.5.4:
     workbox-webpack-plugin "^6.5.3"
     workbox-window "^6.5.3"
 
-next-redux-wrapper@8.0.0-rc.1:
-  version "8.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/next-redux-wrapper/-/next-redux-wrapper-8.0.0-rc.1.tgz#d953fa953c785a82b7c0626779e0d76060f3fbf4"
-  integrity sha512-UJfKG5lfieU4kAzi4mDNrDrmWbgO9XfgcXcvnvixL1EyK31hr2m0X5x1YTNOvDg6CK9iPXWwl8izX9JjC79vLg==
-
 next@12.2.2:
   version "12.2.2"
   resolved "https://registry.yarnpkg.com/next/-/next-12.2.2.tgz#029bf5e4a18a891ca5d05b189b7cd983fd22c072"

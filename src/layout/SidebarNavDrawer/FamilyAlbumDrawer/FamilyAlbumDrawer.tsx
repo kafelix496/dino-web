@@ -20,20 +20,18 @@ import { Apps } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
 import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'
-import { selectCategoryList } from '@/redux-selectors'
+import {
+  selectCategoryList,
+  selectSidebarNavOpenStatus
+} from '@/redux-selectors'
 import type { DrawerMenuItem } from '@/types/album'
 
-interface FamilyAlbumDrawerProps {
-  isSidebarNavOpen: boolean
-}
-
-const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
-  isSidebarNavOpen
-}) => {
+const FamilyAlbumDrawer: FC = () => {
+  const isSidebarNavOpen = useSelector(selectSidebarNavOpenStatus)
   const router = useRouter()
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
-  const canEditCategory = useIsAdminOrAbove()
+  const { isAdminOrAbove } = useIsAdminOrAbove()
   const categoryId = router.query.categoryId
   const categories = useSelector(selectCategoryList)
   const menus: DrawerMenuItem[] = [
@@ -73,13 +71,13 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
           <FamilyAlbumDrawerMenuItem
             key={menu.id}
             isSidebarNavOpen={isSidebarNavOpen}
-            canEditCategory={canEditCategory}
+            canEditCategory={isAdminOrAbove}
             menu={menu}
           />
         ))}
       </List>
 
-      {canEditCategory && (
+      {isAdminOrAbove && (
         <>
           <Divider />
           <List>
@@ -116,7 +114,7 @@ const FamilyAlbumDrawer: FC<FamilyAlbumDrawerProps> = ({
         </>
       )}
 
-      {canEditCategory && (
+      {isAdminOrAbove && (
         <>
           {state.isOpen && <CreateCategoryDialog closeDialog={closeDialog} />}
         </>

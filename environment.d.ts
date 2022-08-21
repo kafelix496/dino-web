@@ -46,11 +46,4 @@ declare module 'react-redux' {
     | Dispatch<AnyAction>
 }
 
-// TODO:
-// after I update to react18, it complains about this
-// but I want to remove this one day
-declare module 'next-i18next' {
-  export function useTranslation(ns: string): { t: (key: string) => string }
-}
-
 export {}

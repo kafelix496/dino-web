@@ -13,8 +13,8 @@ const PostListItemTime: FC<PostListItemTimeProps> = ({
   createdAt,
   updatedAt
 }) => {
-  const createdAtText = useCreatedAtText(createdAt)
-  const updatedAtText = useUpdatedAtText(updatedAt)
+  const { createdAtText } = useCreatedAtText(createdAt)
+  const { updatedAtText } = useUpdatedAtText(updatedAt)
 
   return (
     <>

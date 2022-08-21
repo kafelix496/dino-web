@@ -6,8 +6,8 @@ import { useIsFirstRender } from './useIsFirstRender'
 export const useUpdateEffect = (
   effect: EffectCallback,
   deps?: DependencyList
-) => {
-  const isFirst = useIsFirstRender()
+): void => {
+  const { isFirst } = useIsFirstRender()
 
   useEffect(() => {
     if (!isFirst) {

@@ -2,16 +2,10 @@ import type { FC } from 'react'
 
 import { DataGrid } from '@mui/x-data-grid'
 
-import type { User } from '@/types'
-
 import useRowsAndCols from './useRowsAndCols'
 
-interface UserListProps {
-  users: User[]
-}
-
-const UserList: FC<UserListProps> = ({ users }) => {
-  const { isLoading, rows, columns } = useRowsAndCols(users)
+const UserList: FC = () => {
+  const { isLoading, rows, columns } = useRowsAndCols()
 
   return (
     <DataGrid

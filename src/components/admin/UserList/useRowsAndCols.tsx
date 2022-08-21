@@ -1,17 +1,17 @@
 import { useTranslation } from 'next-i18next'
 import type { TFunction } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useMemo, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import Avatar from '@mui/material/Avatar'
 import type { GridColDef } from '@mui/x-data-grid'
 
 import { AccessLevels, AlertColor, Apps } from '@/constants/app'
-import { useUpdateEffect } from '@/hooks/useUpdateEffect'
+import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
+import { useUserAccessLevel } from '@/hooks/useUserAccessLevel'
 import adminUserHttpService from '@/http-services/adminUser'
 import { enqueueAlert } from '@/redux-actions'
-import { selectUser } from '@/redux-selectors'
 import type { User } from '@/types'
 
 const getAdminPermissionOptions = (t: TFunction) => [
@@ -41,28 +41,27 @@ const getSuperAdminPermissionOptions = (t: TFunction) =>
     }
   ].concat(getAdminPermissionOptions(t))
 
-const useRowsAndCols = (users: User[]) => {
+const useRowsAndCols = () => {
   const router = useRouter()
-  const user = useSelector(selectUser)
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const [rows, setRows] = useState<User[]>(users)
+  const [rows, setRows] = useState<User[]>([])
   const [isLoading, setLoading] = useState<boolean>(false)
-
+  const { userAccessLevel } = useUserAccessLevel()
+  const { isAdminOrAbove } = useIsAdminOrAbove()
   const appAbbreviation = router.query.appAbbreviation as Apps
-  const userAppAccessLevel = user!.accessLevel[appAbbreviation as Apps]
 
   const valueOptions = useMemo(() => {
-    if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
+    if (userAccessLevel === AccessLevels.SUPER_ADMIN) {
       return getSuperAdminPermissionOptions(t)
     }
 
-    if (userAppAccessLevel === AccessLevels.ADMIN) {
+    if (userAccessLevel === AccessLevels.ADMIN) {
       return getAdminPermissionOptions(t)
     }
 
     return []
-  }, [t, userAppAccessLevel])
+  }, [t, userAccessLevel])
 
   const refinedColumns: GridColDef[] = useMemo(
     () => [
@@ -147,9 +146,7 @@ const useRowsAndCols = (users: User[]) => {
         }
       }
     ],
-    // change valueOptions means t and appAbbreviation was changed
-    // so we don't need to put another dependency
-    [setRows, valueOptions]
+    [setRows, valueOptions, t, appAbbreviation, dispatch]
   )
 
   const refinedRows = useMemo(
@@ -159,12 +156,14 @@ const useRowsAndCols = (users: User[]) => {
         id: row._id,
         permission: row.accessLevel[appAbbreviation]
       })),
-    // change rows means appAbbreviation was changed
-    // so we don't need to put another dependency
-    [rows]
+    [rows, appAbbreviation]
   )
 
-  useUpdateEffect(() => {
+  useEffect(() => {
+    if (!isAdminOrAbove) {
+      return
+    }
+
     setLoading(true)
 
     adminUserHttpService
@@ -179,7 +178,7 @@ const useRowsAndCols = (users: User[]) => {
 
         dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
       })
-  }, [t, appAbbreviation])
+  }, [dispatch, appAbbreviation, t, isAdminOrAbove])
 
   return { isLoading, rows: refinedRows, columns: refinedColumns }
 }

@@ -1,7 +1,8 @@
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
+import type { ReactElement } from 'react'
 import { useSelector } from 'react-redux'
 
 import Box from '@mui/material/Box'
@@ -10,6 +11,9 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 
 import { Apps } from '@/constants/app'
+import BaseLayout from '@/layout/BaseLayout'
+import RootLayout from '@/layout/RootLayout'
+import type { NextPageWithLayout } from '@/pages/_app'
 import { selectUser } from '@/redux-selectors'
 import { hasAccessAdminPage } from '@/utils'
 
@@ -41,7 +45,7 @@ const appList = [
   // }
 ]
 
-const Page: NextPage = () => {
+const Page: NextPageWithLayout = () => {
   const { t } = useTranslation('common')
   const user = useSelector(selectUser)
 
@@ -84,7 +88,15 @@ const Page: NextPage = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+Page.getLayout = (page: ReactElement) => {
+  return (
+    <RootLayout>
+      <BaseLayout>{page}</BaseLayout>
+    </RootLayout>
+  )
+}
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale ?? 'default', ['common']))

@@ -1,18 +1,30 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import type { ReactElement } from 'react'
 
 import Error from '@/components/Error/Error'
+import ErrorLayout from '@/layout/ErrorLayout'
+import RootLayout from '@/layout/RootLayout'
+import type { NextPageWithLayout } from '@/pages/_app'
 
-const Page: NextPage = () => {
+const Page: NextPageWithLayout = () => {
   return <Error statusCode={404} />
 }
 
+Page.getLayout = (page: ReactElement) => {
+  return (
+    <RootLayout>
+      <ErrorLayout>{page}</ErrorLayout>
+    </RootLayout>
+  )
+}
+
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? 'default', ['common']))
-    }
-  }
+  const translation = await serverSideTranslations(locale ?? 'default', [
+    'common'
+  ])
+
+  return { props: { ...translation } }
 }
 
 export default Page
