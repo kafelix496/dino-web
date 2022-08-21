@@ -1,7 +1,3 @@
-import { HYDRATE } from 'next-redux-wrapper'
-import type { AnyAction } from 'redux'
-
-import type { HydrateAction } from '@/redux-types'
 import { ActionType } from '@/redux-types/album'
 import type { Action, State } from '@/redux-types/album'
 
@@ -10,25 +6,19 @@ const initialState: State = {
   postData: { total: 0, posts: [] }
 }
 
-const reducer = (state: State = initialState, action: AnyAction) => {
-  const _action = action as Action | HydrateAction
-
-  switch (_action.type) {
-    case HYDRATE: {
-      return { ...state, ..._action.payload.album }
-    }
-
+const reducer = (state: State = initialState, action: Action) => {
+  switch (action.type) {
     case ActionType.SET_CATEGORIES: {
       return {
         ...state,
-        categories: _action.categories
+        categories: action.categories
       }
     }
 
     case ActionType.ADD_CATEGORY: {
       return {
         ...state,
-        categories: state.categories.concat(_action.category)
+        categories: state.categories.concat(action.category)
       }
     }
 
@@ -36,8 +26,8 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       return {
         ...state,
         categories: state.categories.map((category) =>
-          category._id === _action.id
-            ? { ...category, ..._action.category }
+          category._id === action.id
+            ? { ...category, ...action.category }
             : category
         )
       }
@@ -47,7 +37,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       return {
         ...state,
         categories: state.categories.filter(
-          (category) => category._id !== _action.id
+          (category) => category._id !== action.id
         )
       }
     }
@@ -56,8 +46,8 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       return {
         ...state,
         postData: {
-          total: _action.total,
-          posts: _action.posts
+          total: action.total,
+          posts: action.posts
         }
       }
     }
@@ -67,7 +57,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
         ...state,
         postData: {
           total: state.postData.total + 1,
-          posts: [_action.post].concat(state.postData.posts)
+          posts: [action.post].concat(state.postData.posts)
         }
       }
     }
@@ -78,7 +68,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
         postData: {
           ...state.postData,
           posts: state.postData.posts.map((post) =>
-            post._id === _action.id ? { ...post, ..._action.post } : post
+            post._id === action.id ? { ...post, ...action.post } : post
           )
         }
       }
@@ -89,7 +79,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
         ...state,
         postData: {
           total: state.postData.total + 1,
-          posts: state.postData.posts.filter((post) => post._id !== _action.id)
+          posts: state.postData.posts.filter((post) => post._id !== action.id)
         }
       }
     }

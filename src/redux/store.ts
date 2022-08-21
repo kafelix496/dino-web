@@ -1,7 +1,3 @@
-import { createWrapper } from 'next-redux-wrapper'
-import type { Store } from 'redux'
-
-import type { RootState } from '@/redux-types'
 import { configureStore } from '@reduxjs/toolkit'
 
 import combinedReducers from './reducers'
@@ -15,6 +11,3 @@ export const makeStore = () =>
   })
 
 export const store = makeStore()
-
-// export an assembled wrapper
-export const wrapper = createWrapper<Store<RootState>>(makeStore)

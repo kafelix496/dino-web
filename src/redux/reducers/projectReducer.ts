@@ -1,7 +1,3 @@
-import { HYDRATE } from 'next-redux-wrapper'
-import type { AnyAction } from 'redux'
-
-import type { HydrateAction } from '@/redux-types'
 import { ActionType } from '@/redux-types/project'
 import type { Action, State } from '@/redux-types/project'
 
@@ -9,25 +5,19 @@ const initialState: State = {
   projects: []
 }
 
-const reducer = (state: State = initialState, action: AnyAction) => {
-  const _action = action as Action | HydrateAction
-
-  switch (_action.type) {
-    case HYDRATE: {
-      return { ...state, ..._action.payload.project }
-    }
-
+const reducer = (state: State = initialState, action: Action) => {
+  switch (action.type) {
     case ActionType.SET_PROJECTS: {
       return {
         ...state,
-        projects: _action.projects
+        projects: action.projects
       }
     }
 
     case ActionType.ADD_PROJECT: {
       return {
         ...state,
-        projects: state.projects.concat(_action.project)
+        projects: state.projects.concat(action.project)
       }
     }
 
@@ -35,8 +25,8 @@ const reducer = (state: State = initialState, action: AnyAction) => {
       return {
         ...state,
         projects: state.projects.map((project) =>
-          project._id === _action.id
-            ? { ...project, ..._action.project }
+          project._id === action.id
+            ? { ...project, ...action.project }
             : project
         )
       }
@@ -45,7 +35,7 @@ const reducer = (state: State = initialState, action: AnyAction) => {
     case ActionType.DELETE_PROJECT: {
       return {
         ...state,
-        projects: state.projects.filter((project) => project._id !== _action.id)
+        projects: state.projects.filter((project) => project._id !== action.id)
       }
     }
 
