@@ -1,6 +1,6 @@
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import type { Dispatch, FC, ReactNode, SetStateAction } from 'react'
+import type { FC, ReactNode } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import CloseIcon from '@mui/icons-material/Close'
@@ -15,8 +15,16 @@ import Typography from '@mui/material/Typography'
 
 import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 import { DRAWER_WIDTH, Locales, PaletteModes } from '@/constants/app'
-import { setLocale, setPaletteMode } from '@/redux-actions'
-import { selectLocale, selectPaletteMode } from '@/redux-selectors'
+import {
+  setLocale,
+  setPaletteMode,
+  setSettingNavOpenStatus
+} from '@/redux-actions'
+import {
+  selectLocale,
+  selectPaletteMode,
+  selectSettingNavOpenStatus
+} from '@/redux-selectors'
 
 interface CustomStyledButtonProps {
   children: ReactNode
@@ -43,15 +51,8 @@ const CustomStyledButton: FC<CustomStyledButtonProps> = ({
   </Button>
 )
 
-interface SettingsDrawerProps {
-  isSettingsOpen: boolean
-  setSettingsOpen: Dispatch<SetStateAction<boolean>>
-}
-
-const SettingsDrawer: FC<SettingsDrawerProps> = ({
-  isSettingsOpen,
-  setSettingsOpen
-}) => {
+const SettingsDrawer: FC = () => {
+  const isSettingNavOpen = useSelector(selectSettingNavOpenStatus)
   const paletteMode = useSelector(selectPaletteMode)
   const locale = useSelector(selectLocale)
   const dispatch = useDispatch()
@@ -65,16 +66,20 @@ const SettingsDrawer: FC<SettingsDrawerProps> = ({
         '& .MuiDrawer-paper': { width: DRAWER_WIDTH }
       }}
       anchor="right"
-      open={isSettingsOpen}
+      open={isSettingNavOpen}
       onClose={() => {
-        setSettingsOpen(false)
+        dispatch(setSettingNavOpenStatus(false))
       }}
     >
       <Toolbar className="__d-flex __d-justify-between">
         <Typography>{t('SETTINGS')}</Typography>
         <TooltipIconButton
           title={t('CLOSE')}
-          iconButtonProps={{ onClick: () => setSettingsOpen(false) }}
+          iconButtonProps={{
+            onClick: () => {
+              dispatch(setSettingNavOpenStatus(false))
+            }
+          }}
         >
           <CloseIcon />
         </TooltipIconButton>

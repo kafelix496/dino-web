@@ -1,31 +1,32 @@
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
-import type { Dispatch, FC, SetStateAction } from 'react'
+import type { FC } from 'react'
+import { useDispatch } from 'react-redux'
 
+import MenuIcon from '@mui/icons-material/Menu'
+import SettingsIcon from '@mui/icons-material/Settings'
 import type { Theme } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Toolbar from '@mui/material/Toolbar'
 
-import type { SetSidebarNavOpen } from '../useSidebarNavState'
+import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
+import {
+  setSettingNavOpenStatus,
+  toggleSidebarNavOpenStatus
+} from '@/redux-actions'
+
 import AuthStatusButton from './AuthStatusButton/AuthStatusButton'
-import SettingsButton from './SettingsButton/SettingsButton'
-import SidebarNavButton from './SidebarNavButton/SidebarNavButton'
 import headerButtonMixin from './headerButtonMixin'
 
 interface HeaderProps {
   hasSidebarNav: boolean
-  setSidebarNavOpen: SetSidebarNavOpen
-  setSettingsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const Header: FC<HeaderProps> = ({
-  hasSidebarNav,
-  setSidebarNavOpen,
-  setSettingsOpen
-}) => {
+const Header: FC<HeaderProps> = ({ hasSidebarNav }) => {
   const { t } = useTranslation('common')
+  const dispatch = useDispatch()
 
   return (
     <Box>
@@ -36,7 +37,17 @@ const Header: FC<HeaderProps> = ({
       >
         <Toolbar>
           {hasSidebarNav && (
-            <SidebarNavButton setSidebarNavOpen={setSidebarNavOpen} />
+            <TooltipIconButton
+              title={t('MAIN_MENU')}
+              iconButtonProps={{
+                sx: { color: headerButtonMixin },
+                onClick: () => {
+                  dispatch(toggleSidebarNavOpenStatus())
+                }
+              }}
+            >
+              <MenuIcon />
+            </TooltipIconButton>
           )}
 
           <Link href="/">
@@ -54,7 +65,17 @@ const Header: FC<HeaderProps> = ({
             <AuthStatusButton />
 
             <Box sx={{ ml: 2 }}>
-              <SettingsButton setSettingsOpen={setSettingsOpen} />
+              <TooltipIconButton
+                title={t('TOGGLE_SETTINGS_DRAWER')}
+                iconButtonProps={{
+                  sx: { color: headerButtonMixin },
+                  onClick: () => {
+                    dispatch(setSettingNavOpenStatus(true))
+                  }
+                }}
+              >
+                <SettingsIcon />
+              </TooltipIconButton>
             </Box>
           </Box>
         </Toolbar>

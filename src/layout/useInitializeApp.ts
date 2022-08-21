@@ -5,7 +5,12 @@ import { useDispatch } from 'react-redux'
 import { Locales, PaletteModes } from '@/constants/app'
 import { Cookies } from '@/constants/cookies'
 import userHttpService from '@/http-services/user'
-import { setLocale, setPaletteMode, setUser } from '@/redux-actions'
+import {
+  setLocale,
+  setPaletteMode,
+  setSidebarNavOpenStatus,
+  setUser
+} from '@/redux-actions'
 
 export const useInitializeApp = () => {
   const [isInitialized, setIsInitialized] = useState(false)
@@ -29,6 +34,10 @@ export const useInitializeApp = () => {
           : Locales.EN
       )
     )
+
+    const savedSidebarNavOpenStatus =
+      nookies.get()[Cookies.sidebarNav] === 'true'
+    dispatch(setSidebarNavOpenStatus(!!savedSidebarNavOpenStatus))
 
     userHttpService.getCurrentUser().then((user) => {
       dispatch(setUser(user))

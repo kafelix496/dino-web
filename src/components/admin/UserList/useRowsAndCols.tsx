@@ -1,14 +1,13 @@
 import { useTranslation } from 'next-i18next'
 import type { TFunction } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Avatar from '@mui/material/Avatar'
 import type { GridColDef } from '@mui/x-data-grid'
 
 import { AccessLevels, AlertColor, Apps } from '@/constants/app'
-import { useUpdateEffect } from '@/hooks/useUpdateEffect'
 import adminUserHttpService from '@/http-services/adminUser'
 import { enqueueAlert } from '@/redux-actions'
 import { selectUser } from '@/redux-selectors'
@@ -41,12 +40,12 @@ const getSuperAdminPermissionOptions = (t: TFunction) =>
     }
   ].concat(getAdminPermissionOptions(t))
 
-const useRowsAndCols = (users: User[]) => {
+const useRowsAndCols = () => {
   const router = useRouter()
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const [rows, setRows] = useState<User[]>(users)
+  const [rows, setRows] = useState<User[]>([])
   const [isLoading, setLoading] = useState<boolean>(false)
 
   const appAbbreviation = router.query.appAbbreviation as Apps
@@ -147,9 +146,7 @@ const useRowsAndCols = (users: User[]) => {
         }
       }
     ],
-    // change valueOptions means t and appAbbreviation was changed
-    // so we don't need to put another dependency
-    [setRows, valueOptions]
+    [setRows, valueOptions, t, appAbbreviation, dispatch]
   )
 
   const refinedRows = useMemo(
@@ -159,12 +156,10 @@ const useRowsAndCols = (users: User[]) => {
         id: row._id,
         permission: row.accessLevel[appAbbreviation]
       })),
-    // change rows means appAbbreviation was changed
-    // so we don't need to put another dependency
-    [rows]
+    [rows, appAbbreviation]
   )
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     setLoading(true)
 
     adminUserHttpService
@@ -179,7 +174,7 @@ const useRowsAndCols = (users: User[]) => {
 
         dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
       })
-  }, [t, appAbbreviation])
+  }, [dispatch, appAbbreviation, t])
 
   return { isLoading, rows: refinedRows, columns: refinedColumns }
 }

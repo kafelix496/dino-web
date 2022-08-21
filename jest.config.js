@@ -22,7 +22,6 @@ module.exports = {
     /* Handle typescript custom absolute imports */
     '@/mock-data/(.*)': '<rootDir>/src/__mocks__/data/$1',
     '@/layout/(.*)': '<rootDir>/src/layout/$1',
-    '@/layout': '<rootDir>/src/layout/Layout',
     '@/types/(.*)': '<rootDir>/src/types/$1',
     '@/types': '<rootDir>/src/types/app.ts',
     '@/http-services/(.*)': '<rootDir>/src/http-services/$1',

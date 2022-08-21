@@ -2,6 +2,7 @@ import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import type { FC } from 'react'
+import { useSelector } from 'react-redux'
 
 import AttachMoney from '@mui/icons-material/AttachMoney'
 import PhotoLibrary from '@mui/icons-material/PhotoLibrary'
@@ -14,12 +15,10 @@ import ListItemText from '@mui/material/ListItemText'
 import Tooltip from '@mui/material/Tooltip'
 
 import { Apps } from '@/constants/app'
+import { selectSidebarNavOpenStatus } from '@/redux-selectors'
 
-interface AdminDrawerProps {
-  isSidebarNavOpen: boolean
-}
-
-const AdminDrawer: FC<AdminDrawerProps> = ({ isSidebarNavOpen }) => {
+const AdminDrawer: FC = () => {
+  const isSidebarNavOpen = useSelector(selectSidebarNavOpenStatus)
   const router = useRouter()
   const { t } = useTranslation('common')
 

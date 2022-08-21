@@ -7,7 +7,9 @@ import type { Action, State } from '@/redux-types/app'
 import { generateUuid } from '@/utils'
 
 const initialState: State = {
-  toastMessages: []
+  toastMessages: [],
+  isSidebarNavOpen: false,
+  isSettingNavOpen: false
 }
 
 const reducer = (state: State = initialState, action: AnyAction) => {
@@ -35,6 +37,27 @@ const reducer = (state: State = initialState, action: AnyAction) => {
         toastMessages: state.toastMessages.filter(
           (toastMessage) => toastMessage.id !== _action.id
         )
+      }
+    }
+
+    case ActionType.UPDATE_SIDEBAR_NAV_OPEN_STATUS: {
+      return {
+        ...state,
+        isSidebarNavOpen: action.status
+      }
+    }
+
+    case ActionType.TOGGLE_SIDEBAR_NAV_OPEN_STATUS: {
+      return {
+        ...state,
+        isSidebarNavOpen: !state.isSidebarNavOpen
+      }
+    }
+
+    case ActionType.UPDATE_SETTING_NAV_OPEN_STATUS: {
+      return {
+        ...state,
+        isSettingNavOpen: action.status
       }
     }
 
