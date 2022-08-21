@@ -1,7 +1,9 @@
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
-import type { Store } from 'redux'
+import { useEffect } from 'react'
+import type { ReactElement } from 'react'
+import { useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
@@ -9,15 +11,24 @@ import Paper from '@mui/material/Paper'
 
 import NewProjectButton from '@/components/project/NewProjectButton/NewProjectButton'
 import ProjectList from '@/components/project/ProjectList/ProjectList'
-import { Apps } from '@/constants/app'
+import { Apps, Locales } from '@/constants/app'
 import projectHttpService from '@/http-services/project'
+import BaseLayout from '@/layout/BaseLayout'
+import RootLayout from '@/layout/RootLayout'
+import MoneyTrackerDrawer from '@/layout/SidebarNavDrawer/MoneyTrackerDrawer/MoneyTrackerDrawer'
+import type { NextPageWithLayout } from '@/pages/_app'
 import { setProjects } from '@/redux-actions'
-import { wrapper } from '@/redux-store'
-import type { RootState } from '@/redux-types'
 
-const Page: NextPage = () => {
+const Page: NextPageWithLayout = () => {
   const router = useRouter()
+  const dispatch = useDispatch()
   const appAbbreviation = router.query.appAbbreviation as Apps
+
+  useEffect(() => {
+    projectHttpService.getProjects({ appAbbreviation }).then((projects) => {
+      dispatch(setProjects(projects))
+    })
+  }, [appAbbreviation, dispatch])
 
   return (
     <Container className="__d-h-full">
@@ -44,45 +55,30 @@ const Page: NextPage = () => {
   )
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (store: Store<RootState, any>): GetServerSideProps =>
-    async ({ query, req, locale }) => {
-      try {
-        const appAbbreviation = query.appAbbreviation as Apps
-        if (appAbbreviation !== Apps.moneyTracker) {
-          return { redirect: { permanent: false, destination: '/404' } }
-        }
+Page.getLayout = (page: ReactElement) => {
+  return (
+    <RootLayout>
+      <BaseLayout DrawerContent={MoneyTrackerDrawer}>{page}</BaseLayout>
+    </RootLayout>
+  )
+}
 
-        const projects = await projectHttpService.getProjects(
-          { appAbbreviation },
-          {
-            headers: { Cookie: req.headers.cookie ?? '' }
-          }
-        )
-        store.dispatch(setProjects(projects))
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = Object.values(Locales).flatMap((locale) =>
+    [Apps.moneyTracker].map((appAbbreviation) => ({
+      params: { appAbbreviation },
+      locale
+    }))
+  )
+  return { paths, fallback: false }
+}
 
-        return {
-          props: {
-            ...(await serverSideTranslations(locale ?? 'default', ['common']))
-          }
-        }
-      } catch (error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const errrorStatus = (error as Record<string, any>)?.response?.status
-        if (
-          errrorStatus === 400 ||
-          errrorStatus === 401 ||
-          errrorStatus === 404
-        ) {
-          return {
-            redirect: { permanent: false, destination: `/${errrorStatus}` }
-          }
-        }
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const translation = await serverSideTranslations(locale ?? 'default', [
+    'common'
+  ])
 
-        return { redirect: { permanent: false, destination: '/400' } }
-      }
-    }
-)
+  return { props: { ...translation } }
+}
 
 export default Page
