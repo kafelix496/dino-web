@@ -1,12 +1,11 @@
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import type { FC, ReactNode } from 'react'
+import type { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import CloseIcon from '@mui/icons-material/Close'
 import type { Theme } from '@mui/material'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
@@ -15,6 +14,7 @@ import Typography from '@mui/material/Typography'
 
 import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
 import { DRAWER_WIDTH, Locales, PaletteModes } from '@/constants/app'
+import SettingDrawerButton from '@/layout/SettingsDrawerButton/SettingsDrawerButton'
 import {
   setLocale,
   setPaletteMode,
@@ -25,31 +25,6 @@ import {
   selectPaletteMode,
   selectSettingNavOpenStatus
 } from '@/redux-selectors'
-
-interface CustomStyledButtonProps {
-  children: ReactNode
-  selected: boolean
-  onClick: () => void
-}
-
-const CustomStyledButton: FC<CustomStyledButtonProps> = ({
-  selected = false,
-  onClick,
-  children
-}) => (
-  <Button
-    fullWidth
-    variant={selected ? 'contained' : 'outlined'}
-    sx={[
-      {
-        borderColor: (theme: Theme) => `${theme.palette.primary.main}!important`
-      }
-    ]}
-    onClick={onClick}
-  >
-    {children}
-  </Button>
-)
 
 const SettingsDrawer: FC = () => {
   const isSettingNavOpen = useSelector(selectSettingNavOpenStatus)
@@ -96,7 +71,7 @@ const SettingsDrawer: FC = () => {
           sx={{ borderRadius: 5 }}
         >
           {Object.values(PaletteModes).map((mode) => (
-            <CustomStyledButton
+            <SettingDrawerButton
               key={mode}
               selected={paletteMode === mode}
               onClick={() => {
@@ -104,7 +79,7 @@ const SettingsDrawer: FC = () => {
               }}
             >
               {t(`THEME_MODE_${mode.toUpperCase()}`)}
-            </CustomStyledButton>
+            </SettingDrawerButton>
           ))}
         </ButtonGroup>
 
@@ -118,17 +93,21 @@ const SettingsDrawer: FC = () => {
           sx={{ borderRadius: 5 }}
         >
           {Object.values(Locales).map((_locale) => (
-            <CustomStyledButton
+            <SettingDrawerButton
               key={_locale}
               selected={locale === _locale}
               onClick={() => {
                 dispatch(setLocale(_locale))
 
-                router.push(router.asPath, router.asPath, { locale: _locale })
+                router.push(
+                  { pathname: router.pathname, query: router.query },
+                  router.asPath,
+                  { locale: _locale }
+                )
               }}
             >
               {t(`LOCALE_${_locale.toUpperCase()}`)}
-            </CustomStyledButton>
+            </SettingDrawerButton>
           ))}
         </ButtonGroup>
       </Box>
