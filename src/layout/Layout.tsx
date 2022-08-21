@@ -1,6 +1,6 @@
 import { useTranslation } from 'next-i18next'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import { useSelector } from 'react-redux'
@@ -15,35 +15,32 @@ import ToastList from '@/layout/ToastList/ToastList'
 import { selectPaletteMode } from '@/redux-selectors'
 
 import Header from './Header/Header'
+import SettingsDrawer from './SettingsDrawer/SettingsDrawer'
+import SidebarNavDrawer from './SidebarNavDrawer/SidebarNavDrawer'
 import useDrawerContent from './useDrawerContent'
+import { useInitializeApp } from './useInitializeApp'
 import useSidebarNavState from './useSidebarNavState'
 import useTheme from './useTheme'
 
-const SidebarNavDrawer = dynamic(
-  () => import('./SidebarNavDrawer/SidebarNavDrawer')
-)
-const SettingsDrawer = dynamic(() => import('./SettingsDrawer/SettingsDrawer'))
-
 interface LayoutProps {
   children: ReactNode
-  isErrorPage: boolean
-  isSidebarNavOpen: boolean
 }
 
-const Layout: FC<LayoutProps> = ({
-  isErrorPage,
-  isSidebarNavOpen: isSidebarNavOpenInit,
-  children
-}) => {
+const Layout: FC<LayoutProps> = ({ children }) => {
+  const { isInitialized } = useInitializeApp()
   const { t } = useTranslation('common')
+  const router = useRouter()
   const paletteMode = useSelector(selectPaletteMode)
-  const [isSidebarNavOpen, setSidebarNavOpen] =
-    useSidebarNavState(isSidebarNavOpenInit)
+  const [isSidebarNavOpen, setSidebarNavOpen] = useSidebarNavState(
+    true
+    // nookies.get()[Cookies.sidebarNav] === 'true'
+  )
   const [isSettingsOpen, setSettingsOpen] = useState(false)
   const { theme } = useTheme({
     isDarkMode: paletteMode === PaletteModes.DARK
   })
   const DrawerContent = useDrawerContent()
+  const isErrorPage = /^\/(4\d\d)|(5\d\d)/.test(router.pathname)
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,7 +50,10 @@ const Layout: FC<LayoutProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Box className="__d-flex">
+      <Box
+        className={`__d-flex${!isInitialized ? ' __d-opacity-0' : ''}`}
+        sx={{ transition: 'opacity 0.2s linear' }}
+      >
         {isErrorPage && (
           <Box className="__d-grow __d-h-screen" component="main">
             <Paper elevation={0} square={true}>

@@ -14,5 +14,7 @@ export const makeStore = () =>
     devTools: process.env.NODE_ENV !== 'production'
   })
 
+export const store = makeStore()
+
 // export an assembled wrapper
 export const wrapper = createWrapper<Store<RootState>>(makeStore)

@@ -50,7 +50,7 @@ const useRowsAndCols = (users: User[]) => {
   const [isLoading, setLoading] = useState<boolean>(false)
 
   const appAbbreviation = router.query.appAbbreviation as Apps
-  const userAppAccessLevel = user!.accessLevel[appAbbreviation as Apps]
+  const userAppAccessLevel = user?.accessLevel[appAbbreviation as Apps]
 
   const valueOptions = useMemo(() => {
     if (userAppAccessLevel === AccessLevels.SUPER_ADMIN) {
