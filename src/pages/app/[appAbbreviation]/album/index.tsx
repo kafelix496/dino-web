@@ -1,6 +1,6 @@
 import type { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import compose from 'ramda/src/compose'
+import { compose } from 'ramda'
 import { useEffect } from 'react'
 import type { ReactElement } from 'react'
 import { useDispatch } from 'react-redux'

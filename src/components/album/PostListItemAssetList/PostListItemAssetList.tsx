@@ -1,4 +1,4 @@
-import head from 'ramda/src/head'
+import { head } from 'ramda'
 import type { FC } from 'react'
 
 import Box from '@mui/material/Box'
