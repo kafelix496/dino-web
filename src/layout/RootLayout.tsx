@@ -26,7 +26,12 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => {
       <Head>
         <title>{t('TAB_TITLE')}</title>
         <meta name="description" content={t('TAB_DESCRIPTION')} />
-        <meta name="theme-color" content={isDarkMode ? '#ffffff' : '#000000'} />
+        <meta
+          name="theme-color"
+          content={
+            isDarkMode ? theme.palette.common.black : theme.palette.common.white
+          }
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
