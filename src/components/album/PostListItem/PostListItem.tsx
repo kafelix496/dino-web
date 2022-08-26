@@ -96,13 +96,6 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
         <Box sx={{ mt: 2 }}>
           <PostListItemAssetList assets={post.assets} />
         </Box>
-
-        {/*<Box sx={{ mt: 2 }}>
-          <ButtonGroup fullWidth variant="outlined">
-            <Button>{t('BUTTON_LIKE')}</Button>
-            <Button>{t('BUTTON_COMMENTS')}</Button>
-          </ButtonGroup>
-        </Box>*/}
       </Paper>
 
       {isAdminOrAbove && state.name === Actions.EDIT && state.isOpen && (

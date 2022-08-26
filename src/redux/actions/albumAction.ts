@@ -4,14 +4,7 @@ import { selectCategory, selectPostData } from '@/redux-selectors'
 import type { RootState } from '@/redux-types'
 import { ActionType } from '@/redux-types/album'
 import type { Action } from '@/redux-types/album'
-import type {
-  AssetDefault,
-  Category,
-  Comment,
-  Post,
-  PostRaw
-} from '@/types/album'
-import { getDefaultReaction } from '@/utils/album'
+import type { AssetDefault, Category, Post, PostRaw } from '@/types/album'
 
 export const setCategories = (
   categories: Category[]
@@ -46,13 +39,7 @@ export const addPost = (
           .filter((asset) => asset !== undefined) as AssetDefault[],
         categories: post.categories
           .map((categoryId) => selectCategory(categoryId, rootState))
-          .filter((category) => category !== undefined) as Category[],
-        reaction: {
-          _id: null,
-          status: null,
-          items: getDefaultReaction()
-        },
-        comments: [] as Comment[]
+          .filter((category) => category !== undefined) as Category[]
       }
     })
   }

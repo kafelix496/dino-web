@@ -10,17 +10,7 @@ import postSchema from '@/models/album/postSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type {
-  AssetDefault,
-  Post,
-  PostRaw,
-  ReactionResponse
-} from '@/types/album'
-import {
-  generateLookupForComments,
-  generateLookupForReactions,
-  transformReactionsForClient
-} from '@/utils/album'
+import type { AssetDefault, Post, PostRaw } from '@/types/album'
 import { dbConnect } from '@/utils/database'
 
 export default async function handler(
@@ -114,9 +104,7 @@ export default async function handler(
                       foreignField: '_id',
                       as: 'assets'
                     }
-                  },
-                  generateLookupForComments(1, CollectionsName.ALBUM_POST),
-                  generateLookupForReactions(CollectionsName.ALBUM_POST)
+                  }
                 ]
               }
             },
@@ -135,20 +123,7 @@ export default async function handler(
         return res.status(200).json({
           ...result,
           total: result?.total ?? 0,
-          posts: result.posts.map((post) => ({
-            ...post,
-            reaction: transformReactionsForClient(
-              currentUserId,
-              post.reaction as unknown as ReactionResponse[]
-            ),
-            comments: post.comments.map((comment) => ({
-              ...comment,
-              reaction: transformReactionsForClient(
-                currentUserId,
-                comment.reaction as unknown as ReactionResponse[]
-              )
-            }))
-          }))
+          posts: result.posts
         })
       }
 

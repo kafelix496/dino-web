@@ -5,7 +5,5 @@ export enum CollectionsName {
   SESSION = 'sessions',
   ALBUM_POST = 'album.posts',
   ALBUM_ASSET = 'album.assets',
-  ALBUM_CATEGORY = 'album.categories',
-  ALBUM_REACTION = 'album.reactions',
-  ALBUM_COMMENT = 'album.comments'
+  ALBUM_CATEGORY = 'album.categories'
 }
