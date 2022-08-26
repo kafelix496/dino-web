@@ -15,33 +15,6 @@ const reducer = (state: State = initialState, action: Action) => {
       }
     }
 
-    case ActionType.ADD_CATEGORY: {
-      return {
-        ...state,
-        categories: state.categories.concat(action.category)
-      }
-    }
-
-    case ActionType.UPDATE_CATEGORY: {
-      return {
-        ...state,
-        categories: state.categories.map((category) =>
-          category._id === action.id
-            ? { ...category, ...action.category }
-            : category
-        )
-      }
-    }
-
-    case ActionType.DELETE_CATEGORY: {
-      return {
-        ...state,
-        categories: state.categories.filter(
-          (category) => category._id !== action.id
-        )
-      }
-    }
-
     case ActionType.SET_POST_DATA: {
       return {
         ...state,

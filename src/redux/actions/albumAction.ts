@@ -21,31 +21,6 @@ export const setCategories = (
   }
 }
 
-export const addCategory = (
-  category: Category
-): ThunkAction<void, RootState, unknown, Action> => {
-  return (dispatch) => {
-    dispatch({ type: ActionType.ADD_CATEGORY, category })
-  }
-}
-
-export const updateCategory = (
-  id: string,
-  category: Category | Omit<Category, '_id'>
-): ThunkAction<void, RootState, unknown, Action> => {
-  return (dispatch) => {
-    dispatch({ type: ActionType.UPDATE_CATEGORY, id, category })
-  }
-}
-
-export const deleteCategory = (
-  id: string
-): ThunkAction<void, RootState, unknown, Action> => {
-  return (dispatch) => {
-    dispatch({ type: ActionType.DELETE_CATEGORY, id })
-  }
-}
-
 export const setPostData = (
   total: number,
   posts: Post[]

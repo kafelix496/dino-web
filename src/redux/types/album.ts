@@ -7,9 +7,6 @@ export interface State {
 
 export enum ActionType {
   SET_CATEGORIES = 'familyAlbum/setCategories',
-  ADD_CATEGORY = 'familyAlbum/addCategory',
-  UPDATE_CATEGORY = 'familyAlbum/updateCategory',
-  DELETE_CATEGORY = 'familyAlbum/deleteCategory',
   SET_POST_DATA = 'familyAlbum/setPostData',
   ADD_POST = 'familyAlbum/addPost',
   UPDATE_POST = 'familyAlbum/updatePost',
@@ -19,22 +16,6 @@ export enum ActionType {
 export interface setCategoriesAction {
   type: ActionType.SET_CATEGORIES
   categories: Category[]
-}
-
-export interface addCategoryAction {
-  type: ActionType.ADD_CATEGORY
-  category: Category
-}
-
-export interface updateCategoryAction {
-  type: ActionType.UPDATE_CATEGORY
-  id: string
-  category: Category | Omit<Category, '_id'>
-}
-
-export interface deleteCategoryAction {
-  type: ActionType.DELETE_CATEGORY
-  id: string
 }
 
 export interface setPostDataAction {
@@ -61,9 +42,6 @@ export interface deletePostAction {
 
 export type Action =
   | setCategoriesAction
-  | addCategoryAction
-  | updateCategoryAction
-  | deleteCategoryAction
   | setPostDataAction
   | addPostAction
   | updatePostAction
