@@ -12,22 +12,23 @@ import type {
 } from '@/types/album'
 
 const albumHttpService = {
-  getCategories: (config?: AxiosRequestConfig): Promise<Category[]> =>
-    axios
-      .get<Category[]>(
-        `${process.env.PAGE_URL ?? ''}/api/app/${
-          Apps.familyAlbum
-        }/album/category`,
-        config
-      )
-      .then((res) => res.data),
-  createCategory: (
+  getCategoriesUrl() {
+    return `${process.env.PAGE_URL ?? ''}/api/app/${
+      Apps.familyAlbum
+    }/album/category`
+  },
+  async getCategories(config?: AxiosRequestConfig): Promise<Category[]> {
+    return axios
+      .get<Category[]>(this.getCategoriesUrl(), config)
+      .then((res) => res.data)
+  },
+  async createCategory(
     data: {
       values: Pick<Category, 'name'>
     },
     config?: AxiosRequestConfig
-  ): Promise<Category> =>
-    axios
+  ): Promise<Category> {
+    return axios
       .post<Category>(
         `${process.env.PAGE_URL ?? ''}/api/app/${
           Apps.familyAlbum
@@ -35,15 +36,16 @@ const albumHttpService = {
         data.values,
         config
       )
-      .then((res) => res.data),
-  updateCategory: (
+      .then((res) => res.data)
+  },
+  async updateCategory(
     data: {
       id: string
-      values: Pick<Category, 'name'>
+      values: Omit<Category, '_id'>
     },
     config?: AxiosRequestConfig
-  ): Promise<Category> =>
-    axios
+  ): Promise<Category> {
+    return axios
       .put<Category>(
         `${process.env.PAGE_URL ?? ''}/api/app/${
           Apps.familyAlbum
@@ -51,21 +53,23 @@ const albumHttpService = {
         data.values,
         config
       )
-      .then((res) => res.data),
-  deleteCategory: (
+      .then((res) => res.data)
+  },
+  async deleteCategory(
     data: {
       id: string
     },
     config?: AxiosRequestConfig
-  ): Promise<Category> =>
-    axios
+  ): Promise<Category> {
+    return axios
       .delete<Category>(
         `${process.env.PAGE_URL ?? ''}/api/app/${
           Apps.familyAlbum
         }/album/category/${data.id}`,
         config
       )
-      .then((res) => res.data),
+      .then((res) => res.data)
+  },
   getPosts: (
     data: {
       page: number

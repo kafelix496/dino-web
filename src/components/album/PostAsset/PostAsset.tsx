@@ -78,14 +78,7 @@ const PostAsset: FC<PostAssetProps> = ({
         }
         onClick={handleClickAsset}
       >
-        {(!hasSrc || isAssetLoading) && (
-          <Skeleton
-            variant="rectangular"
-            animation="wave"
-            width="100%"
-            height="100%"
-          />
-        )}
+        {(!hasSrc || isAssetLoading) && <Skeleton width="100%" height="100%" />}
 
         {isImage && hasSrc && (
           <img

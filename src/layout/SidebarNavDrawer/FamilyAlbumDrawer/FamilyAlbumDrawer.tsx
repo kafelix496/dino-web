@@ -15,44 +15,45 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Tooltip from '@mui/material/Tooltip'
 
-import CreateCategoryDialog from '@/components/album/CreateCategoryDialog/CreateCategoryDialog'
+import CategoryFormDialog from '@/components/album/CategoryFormDialog/CategoryFormDialog'
 import { Apps } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
+import { useCategories } from '@/hooks/useHttpAlbum'
 import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
+import DrawerSkeleton from '@/layout/SidebarNavDrawer/DrawerSkeleton/DrawerSkeleton'
 import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'
-import {
-  selectCategoryList,
-  selectSidebarNavOpenStatus
-} from '@/redux-selectors'
+import { selectSidebarNavOpenStatus } from '@/redux-selectors'
 import type { DrawerMenuItem } from '@/types/album'
 
 const FamilyAlbumDrawer: FC = () => {
+  const { isLoading, categories } = useCategories()
   const isSidebarNavOpen = useSelector(selectSidebarNavOpenStatus)
   const router = useRouter()
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
   const { isAdminOrAbove } = useIsAdminOrAbove()
   const categoryId = router.query.categoryId
-  const categories = useSelector(selectCategoryList)
-  const menus: DrawerMenuItem[] = [
-    {
-      id: '',
-      iconComponent: <AllInboxIcon />,
-      label: t('DRAWER_MENU_ITEM_ALL'),
-      url: `/app/${Apps.familyAlbum}/album`,
-      selected: categoryId === undefined,
-      editable: false
-    }
-  ].concat(
-    categories.map((category) => ({
-      id: category._id,
-      iconComponent: <DeckIcon />,
-      label: category.name,
-      url: `/app/${Apps.familyAlbum}/album?categoryId=${category._id}`,
-      selected: categoryId === category._id,
-      editable: true
-    }))
-  )
+  const menus: DrawerMenuItem[] = !isLoading
+    ? [
+        {
+          id: '',
+          iconComponent: <AllInboxIcon />,
+          label: t('DRAWER_MENU_ITEM_ALL'),
+          url: `/app/${Apps.familyAlbum}/album`,
+          selected: categoryId === undefined,
+          editable: false
+        }
+      ].concat(
+        categories.map((category) => ({
+          id: category._id,
+          iconComponent: <DeckIcon />,
+          label: category.name,
+          url: `/app/${Apps.familyAlbum}/album?categoryId=${category._id}`,
+          selected: categoryId === category._id,
+          editable: true
+        }))
+      )
+    : []
   const addCategoryMenu = {
     iconComponent: <AddIcon />,
     label: t('DRAWER_MENU_ITEM_ADD_CATEGORY')
@@ -67,14 +68,16 @@ const FamilyAlbumDrawer: FC = () => {
           overflowY: 'auto'
         }}
       >
-        {menus.map((menu) => (
-          <FamilyAlbumDrawerMenuItem
-            key={menu.id}
-            isSidebarNavOpen={isSidebarNavOpen}
-            canEditCategory={isAdminOrAbove}
-            menu={menu}
-          />
-        ))}
+        {isLoading && [1, 2, 3].map((item) => <DrawerSkeleton key={item} />)}
+        {!isLoading &&
+          menus.map((menu) => (
+            <FamilyAlbumDrawerMenuItem
+              key={menu.id}
+              expanded={isSidebarNavOpen}
+              canEditCategory={isAdminOrAbove}
+              menu={menu}
+            />
+          ))}
       </List>
 
       {isAdminOrAbove && (
@@ -114,10 +117,8 @@ const FamilyAlbumDrawer: FC = () => {
         </>
       )}
 
-      {isAdminOrAbove && (
-        <>
-          {state.isOpen && <CreateCategoryDialog closeDialog={closeDialog} />}
-        </>
+      {isAdminOrAbove && state.isOpen && (
+        <CategoryFormDialog closeDialog={closeDialog} />
       )}
     </div>
   )

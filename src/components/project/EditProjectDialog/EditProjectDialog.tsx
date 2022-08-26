@@ -69,7 +69,7 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
     <Dialog
       open={true}
       onClose={closeDialog}
-      title={t('UPDATE_PROJECT_DIALOG_TITLE')}
+      title={t('EDIT_PROJECT_DIALOG_TITLE')}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={

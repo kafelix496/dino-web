@@ -1,7 +1,7 @@
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import type { FC } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
 import Alert from '@mui/material/Alert'
@@ -14,9 +14,9 @@ import FieldSelect from '@/components/mui/FormFieldSelect/FormFieldSelect'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 import { PostAudiences } from '@/constants/album'
 import { AlertColor, FileInputExtensions, S3Paths } from '@/constants/app'
+import { useCategories } from '@/hooks/useHttpAlbum'
 import albumHttpService from '@/http-services/album'
 import { addPost, enqueueAlert, updatePost } from '@/redux-actions'
-import { selectCategoryList } from '@/redux-selectors'
 import type { Post } from '@/types/album'
 import { deleteFilesObject, uploadFile } from '@/utils/file'
 
@@ -28,7 +28,7 @@ interface PostFormDialogProps {
 const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
   const isCreating = !post
   const { t } = useTranslation('common')
-  const categories = useSelector(selectCategoryList)
+  const { isLoading, categories, isError } = useCategories()
   const dispatch = useDispatch()
   const formik = useFormik<{
     title: string
@@ -218,7 +218,7 @@ const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
             {t('BUTTON_CANCEL')}
           </Button>
           <Button
-            disabled={formik.isSubmitting}
+            disabled={isLoading || isError || formik.isSubmitting}
             type="submit"
             color="success"
             variant="contained"

@@ -39,6 +39,12 @@ const useTheme = ({
                 tooltip: { sx: { fontSize: '0.8rem', fontWeight: 'bold' } }
               }
             }
+          },
+          MuiSkeleton: {
+            defaultProps: {
+              variant: 'rectangular',
+              animation: 'wave'
+            }
           }
         }
       }),

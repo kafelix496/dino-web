@@ -7,11 +7,9 @@ import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 
-type Data = Record<string, unknown>
 export interface MenuOption {
   label: string
-  click: (data: Data | undefined) => void
-  data?: Data
+  click: () => void
 }
 
 interface MaxHeightMenuProps {
@@ -39,11 +37,11 @@ const MaxHeightMenu: FC<MaxHeightMenuProps> = ({
       </IconButton>
 
       <Menu anchorEl={anchorEl} open={open} onClose={handleCloseDialog}>
-        {options.map(({ label, click, data }) => (
+        {options.map(({ label, click }) => (
           <MenuItem
             key={label}
             onClick={() => {
-              click(data)
+              click()
 
               handleCloseDialog()
             }}
