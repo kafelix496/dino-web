@@ -1,7 +1,6 @@
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import type { FC } from 'react'
-import { useSelector } from 'react-redux'
 
 import AddIcon from '@mui/icons-material/Add'
 import AllInboxIcon from '@mui/icons-material/AllInbox'
@@ -13,7 +12,6 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import Tooltip from '@mui/material/Tooltip'
 
 import CategoryFormDialog from '@/components/album/CategoryFormDialog/CategoryFormDialog'
 import { Apps } from '@/constants/app'
@@ -22,12 +20,10 @@ import { useCategories } from '@/hooks/useHttpAlbum'
 import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
 import DrawerSkeleton from '@/layout/SidebarNavDrawer/DrawerSkeleton/DrawerSkeleton'
 import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'
-import { selectSidebarNavOpenStatus } from '@/redux-selectors'
 import type { DrawerMenuItem } from '@/types/album'
 
 const FamilyAlbumDrawer: FC = () => {
   const { isLoading, categories } = useCategories()
-  const isSidebarNavOpen = useSelector(selectSidebarNavOpenStatus)
   const router = useRouter()
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
@@ -73,7 +69,7 @@ const FamilyAlbumDrawer: FC = () => {
           menus.map((menu) => (
             <FamilyAlbumDrawerMenuItem
               key={menu.id}
-              expanded={isSidebarNavOpen}
+              expanded={true}
               canEditCategory={isAdminOrAbove}
               menu={menu}
             />
@@ -85,9 +81,8 @@ const FamilyAlbumDrawer: FC = () => {
           <Divider />
           <List>
             <ListItem
-              className={!isSidebarNavOpen ? '__d-justify-center' : ''}
               sx={{ height: (theme: Theme) => theme.spacing(8) }}
-              disablePadding={isSidebarNavOpen}
+              disablePadding={true}
             >
               <ListItemButton
                 sx={{ height: (theme: Theme) => theme.spacing(6) }}
@@ -95,22 +90,15 @@ const FamilyAlbumDrawer: FC = () => {
                   openDialog()
                 }}
               >
-                <Tooltip title={!isSidebarNavOpen ? addCategoryMenu.label : ''}>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 'initial',
-                      width: (theme: Theme) => `${theme.spacing(3)}`
-                    }}
-                  >
-                    {addCategoryMenu.iconComponent}
-                  </ListItemIcon>
-                </Tooltip>
-                {isSidebarNavOpen ? (
-                  <ListItemText
-                    primary={addCategoryMenu.label}
-                    sx={{ ml: 3 }}
-                  />
-                ) : null}
+                <ListItemIcon
+                  sx={{
+                    minWidth: 'initial',
+                    width: (theme: Theme) => `${theme.spacing(3)}`
+                  }}
+                >
+                  {addCategoryMenu.iconComponent}
+                </ListItemIcon>
+                <ListItemText primary={addCategoryMenu.label} sx={{ ml: 3 }} />
               </ListItemButton>
             </ListItem>
           </List>
