@@ -42,7 +42,7 @@ const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
     validationSchema: yup.object({
       title: yup
         .string()
-        .max(20, t('POST_TITLE_MAX_MESSAGE'))
+        .max(25, t('POST_TITLE_MAX_MESSAGE'))
         .required(t('POST_TITLE_REQUIRED_MESSAGE')),
       description: yup.string().max(100, t('POST_DESCRIPTION_MAX_MESSAGE')),
       audience: yup.mixed().oneOf(Object.values(PostAudiences)),
