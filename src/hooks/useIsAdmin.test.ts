@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
 
 import { AccessLevels, Apps } from '@/constants/app'
+import { useCurrentUser } from '@/hooks/useHttpApp'
 import { getMockUser } from '@/mock-data/user.mockData'
-import { setUser } from '@/redux-actions'
 import { renderHook } from '@/utils/testing-library'
 
 import { useIsAdminOrAbove, useIsSuperAdmin } from './useIsAdmin'
@@ -39,13 +38,12 @@ const setup = ({
   })
 
   const { result } = renderHook(() => {
-    const dispatch = useDispatch()
     if (isLogin) {
       const mockUser = getMockUser()
       mockUser.accessLevel[appAbbreviation as Apps] = accessLevel
-      dispatch(setUser(mockUser))
+      ;(useCurrentUser as jest.Mock).mockReturnValueOnce({ user: mockUser })
     } else {
-      dispatch(setUser(null))
+      ;(useCurrentUser as jest.Mock).mockReturnValueOnce({ user: null })
     }
 
     if (type === SetupType.useIsAdminOrAbove) {

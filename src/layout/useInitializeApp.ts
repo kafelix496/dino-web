@@ -4,12 +4,10 @@ import { useDispatch } from 'react-redux'
 
 import { Locales, PaletteModes } from '@/constants/app'
 import { Cookies } from '@/constants/cookies'
-import userHttpService from '@/http-services/user'
 import {
   setLocale,
   setPaletteMode,
-  setSidebarNavOpenStatus,
-  setUser
+  setSidebarNavOpenStatus
 } from '@/redux-actions'
 
 export const useInitializeApp = () => {
@@ -39,13 +37,7 @@ export const useInitializeApp = () => {
       nookies.get()[Cookies.sidebarNav] === 'true'
     dispatch(setSidebarNavOpenStatus(!!savedSidebarNavOpenStatus))
 
-    userHttpService.getCurrentUser().then((user) => {
-      dispatch(setUser(user))
-
-      setTimeout(() => {
-        setIsInitialized(true)
-      }, 0)
-    })
+    setIsInitialized(true)
   }, [dispatch])
 
   return { isInitialized }

@@ -1,12 +1,11 @@
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
 
 import { AccessLevels, Apps } from '@/constants/app'
-import { selectUser } from '@/redux-selectors'
+import { useCurrentUser } from '@/hooks/useHttpApp'
 import { isValidApp } from '@/utils/app'
 
 export const useIsSuperAdmin = (): { isSuperAdmin: boolean } => {
-  const user = useSelector(selectUser)
+  const { user } = useCurrentUser()
   const router = useRouter()
   const targetApp = router.query.appAbbreviation as Apps
 
@@ -24,7 +23,7 @@ export const useIsSuperAdmin = (): { isSuperAdmin: boolean } => {
 }
 
 export const useIsAdminOrAbove = (): { isAdminOrAbove: boolean } => {
-  const user = useSelector(selectUser)
+  const { user } = useCurrentUser()
   const router = useRouter()
   const targetApp = router.query.appAbbreviation as Apps
 
