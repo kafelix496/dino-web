@@ -28,7 +28,7 @@ const FamilyAlbumDrawer: FC = () => {
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
   const { isAdminOrAbove } = useIsAdminOrAbove()
-  const categoryId = router.query.categoryId
+  const qpCategoryId = router.query.qpCategoryId
   const menus: DrawerMenuItem[] = !isLoading
     ? [
         {
@@ -36,7 +36,7 @@ const FamilyAlbumDrawer: FC = () => {
           iconComponent: <AllInboxIcon />,
           label: t('DRAWER_MENU_ITEM_ALL'),
           url: `/app/${Apps.familyAlbum}/album`,
-          selected: categoryId === undefined,
+          selected: qpCategoryId === undefined,
           editable: false
         }
       ].concat(
@@ -44,8 +44,8 @@ const FamilyAlbumDrawer: FC = () => {
           id: category._id,
           iconComponent: <DeckIcon />,
           label: category.name,
-          url: `/app/${Apps.familyAlbum}/album?categoryId=${category._id}`,
-          selected: categoryId === category._id,
+          url: `/app/${Apps.familyAlbum}/album?qpCategoryId=${category._id}`,
+          selected: qpCategoryId === category._id,
           editable: true
         }))
       )

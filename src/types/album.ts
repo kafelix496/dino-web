@@ -3,14 +3,14 @@ import { FileExtensions, FileTypes } from '@/constants/app'
 
 export interface PostQueryParamResponse {
   page: number
-  category: string | undefined
-  asset: string | undefined
+  qpCategoryId: string | undefined
+  qpAssetId: string | undefined
 }
 
 export interface PostQueryParamRequest {
   page?: number
-  category?: string | null
-  asset?: string | null
+  qpCategoryId?: string | null
+  qpAssetId?: string | null
 }
 
 export interface DrawerMenuItem {

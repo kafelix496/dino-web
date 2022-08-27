@@ -56,7 +56,7 @@ const PostListItemDetailDialog: FC<PostListItemDetailDialogProps> = ({
                 {
                   query: {
                     ...router.query,
-                    assetId: asset.siblings[currentIndex - 1]
+                    qpAssetId: asset.siblings[currentIndex - 1]
                   }
                 },
                 undefined,
@@ -75,7 +75,7 @@ const PostListItemDetailDialog: FC<PostListItemDetailDialogProps> = ({
                 {
                   query: {
                     ...router.query,
-                    assetId: asset.siblings[currentIndex + 1]
+                    qpAssetId: asset.siblings[currentIndex + 1]
                   }
                 },
                 undefined,

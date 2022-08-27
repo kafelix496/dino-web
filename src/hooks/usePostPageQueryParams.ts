@@ -13,15 +13,15 @@ export const usePostPageQueryParams = (): {
   patch: (newQueryParams: PostQueryParamRequest) => void
 } => {
   const router = useRouter()
-  const { page, category, asset } = router.query
+  const { page, qpCategoryId, qpAssetId } = router.query
 
   const postPageQueryParams = useMemo(
     () => ({
       page: isPositiveStringNumber(page) ? +page! : 1,
-      category: typeof category === 'string' ? category : undefined,
-      asset: typeof asset === 'string' ? asset : undefined
+      qpCategoryId: typeof qpCategoryId === 'string' ? qpCategoryId : undefined,
+      qpAssetId: typeof qpAssetId === 'string' ? qpAssetId : undefined
     }),
-    [page, category, asset]
+    [page, qpCategoryId, qpAssetId]
   )
   const patch = useCallback(
     (newQueryParams: PostQueryParamRequest) => {
@@ -32,17 +32,19 @@ export const usePostPageQueryParams = (): {
               ...(isPositiveStringNumber(String(newQueryParams.page))
                 ? { page: String(newQueryParams.page) }
                 : { page: 1 }),
-              ...(!isNil(newQueryParams.category)
-                ? { category: newQueryParams.category }
+              ...(!isNil(newQueryParams.qpCategoryId)
+                ? { qpCategoryId: newQueryParams.qpCategoryId }
                 : {}),
-              ...(!isNil(newQueryParams.asset)
-                ? { asset: newQueryParams.asset }
+              ...(!isNil(newQueryParams.qpAssetId)
+                ? { qpAssetId: newQueryParams.qpAssetId }
                 : {})
             }),
             omit(
-              new Array<'category' | 'asset'>()
-                .concat(newQueryParams.category === null ? ['category'] : [])
-                .concat(newQueryParams.asset === null ? ['asset'] : [])
+              new Array<'qpCategoryId' | 'qpAssetId'>()
+                .concat(
+                  newQueryParams.qpCategoryId === null ? ['qpCategoryId'] : []
+                )
+                .concat(newQueryParams.qpAssetId === null ? ['qpAssetId'] : [])
             )
           )(router.query)
         },

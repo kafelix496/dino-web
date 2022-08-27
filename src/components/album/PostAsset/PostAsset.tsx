@@ -40,7 +40,7 @@ const PostAsset: FC<PostAssetProps> = ({
         {
           query: {
             ...router.query,
-            assetId: asset._id
+            qpAssetId: asset._id
           }
         },
         undefined,

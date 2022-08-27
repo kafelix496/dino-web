@@ -21,12 +21,12 @@ const withController = <T extends PostListItemDetailDialogProps>(
     const [assetWithSrc, setAssetWithSrc] = useState<Asset | null>(null)
     const router = useRouter()
     const { state, openDialog, closeDialog } = useDialogStatus()
-    const { assetId } = router.query
+    const { qpAssetId } = router.query
 
     const handleClose = useCallback(() => {
       router.replace(
         {
-          query: { ...omit(['assetId'], router.query) }
+          query: { ...omit(['qpAssetId'], router.query) }
         },
         undefined,
         { shallow: true }
@@ -37,15 +37,15 @@ const withController = <T extends PostListItemDetailDialogProps>(
     }, [router, setAssetWithSrc, closeDialog])
 
     useEffect(() => {
-      if (assetId) {
+      if (qpAssetId) {
         openDialog()
       }
-    }, [assetId, router, openDialog])
+    }, [qpAssetId, router, openDialog])
 
     useUpdateEffect(() => {
-      if (assetId) {
+      if (qpAssetId) {
         albumHttpService
-          .getAsset({ id: assetId as string })
+          .getAsset({ id: qpAssetId as string })
           .then((asset) =>
             getAssetUrl({ key: asset.key, extension: asset.extension }).then(
               (src) => ({
@@ -61,7 +61,7 @@ const withController = <T extends PostListItemDetailDialogProps>(
             handleClose()
           })
       }
-    }, [assetId, openDialog, handleClose])
+    }, [qpAssetId, openDialog, handleClose])
 
     if (!state.isOpen || !assetWithSrc) {
       return <></>
