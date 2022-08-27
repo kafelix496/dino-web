@@ -1,9 +1,7 @@
 import type { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { compose } from 'ramda'
-import { useEffect } from 'react'
 import type { ReactElement } from 'react'
-import { useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box'
 
@@ -12,26 +10,16 @@ import PostList from '@/components/album/PostList/PostList'
 import PostListItemDetailDialog from '@/components/album/PostListItemDetailDialog/PostListItemDetailDialog'
 import withController from '@/components/album/PostListItemDetailDialog/withController'
 import { Apps, Locales } from '@/constants/app'
-import albumHttpService from '@/http-services/album'
 import BaseLayout from '@/layout/BaseLayout'
 import RootLayout from '@/layout/RootLayout'
 import FamilyAlbumDrawer from '@/layout/SidebarNavDrawer/FamilyAlbumDrawer/FamilyAlbumDrawer'
 import type { NextPageWithLayout } from '@/pages/_app'
-import { setCategories } from '@/redux-actions'
 
 const PostListItemDetailDialogWithController = compose(withController)(
   PostListItemDetailDialog
 )
 
 const Page: NextPageWithLayout = () => {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    albumHttpService.getCategories().then((categories) => {
-      dispatch(setCategories(categories))
-    })
-  }, [dispatch])
-
   return (
     <Box
       className="__d-flex __d-justify-center __d-items-start __d-h-full"

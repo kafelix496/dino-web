@@ -1,21 +1,21 @@
 import axios from 'axios'
 
-import { FileInputExtensions } from '@/constants/app'
+import { FileExtensions, FileInputExtensions, FileTypes } from '@/constants/app'
 import fileHttpService from '@/http-services/file'
 import { generateUuid } from '@/utils/app'
 
-const getFileType = (type: string): string | null => {
+const getFileType = (type: string): FileTypes | null => {
   switch (type) {
     case FileInputExtensions.PNG:
     case FileInputExtensions.JPEG:
     case FileInputExtensions.HEIC: {
-      return 'image'
+      return FileTypes.IMAGE
     }
 
     // TODO: Add more file types
     // case FileInputExtensions.MOV:
     case FileInputExtensions.MP4: {
-      return 'video'
+      return FileTypes.VIDEO
     }
 
     default: {
@@ -24,22 +24,22 @@ const getFileType = (type: string): string | null => {
   }
 }
 
-const getFileExtension = (type: string): string | null => {
+const getFileExtension = (type: string): FileExtensions | null => {
   switch (type) {
     case FileInputExtensions.PNG: {
-      return 'png'
+      return FileExtensions.PNG
     }
 
     case FileInputExtensions.JPEG: {
-      return 'jpeg'
+      return FileExtensions.JPEG
     }
 
     case FileInputExtensions.HEIC: {
-      return 'heic'
+      return FileExtensions.HEIC
     }
 
     case FileInputExtensions.MP4: {
-      return 'mp4'
+      return FileExtensions.MP4
     }
 
     // TODO: Add more file types
@@ -74,7 +74,7 @@ const tryToUploadFile = async (key: string, file: File) => {
 export const getFileUrl = (key: string) => fileHttpService.getSignedUrl({ key })
 
 export const uploadFile = (file: File, path = '') =>
-  new Promise<{ key: string; type: string; extension: string }>(
+  new Promise<{ key: string; type: FileTypes; extension: FileExtensions }>(
     (resolve, reject) => {
       try {
         const type = getFileType(file.type)

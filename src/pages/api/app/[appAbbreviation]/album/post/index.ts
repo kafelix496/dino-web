@@ -10,14 +10,12 @@ import postSchema from '@/models/album/postSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { AssetDefault, Post, PostRaw, PostsData } from '@/types/album'
+import type { AssetDefault, Post, PostsData } from '@/types/album'
 import { dbConnect } from '@/utils/database'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<
-    { post: PostRaw; assets: AssetDefault[] } | PostsData | { message?: string }
-  >
+  res: NextApiResponse<Post | PostsData | { message?: string }>
 ) {
   try {
     const token = await getToken({ req })
@@ -144,18 +142,22 @@ export default async function handler(
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        const post: PostRaw = await postDoc.create({
-          assets: assets.map((asset) => asset._id),
-          audience,
-          categories: categories ?? [],
-          title,
-          description
-        })
+        const post: Post = await postDoc
+          .create({
+            assets: assets.map((asset) => asset._id),
+            audience,
+            categories: categories ?? [],
+            title,
+            description
+          })
+          .then((savedPost) => postDoc.populate(savedPost, 'categories'))
+          .then((savedPost) => postDoc.populate(savedPost, 'assets'))
+
         if (!post) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
         }
 
-        return res.status(201).json({ post, assets })
+        return res.status(201).json(post)
       }
 
       default:

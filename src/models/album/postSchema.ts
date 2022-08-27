@@ -10,6 +10,20 @@ const minAssetLength = (value: AssetDefault[]) => value.length > 0
 
 const postSchema = new mongoose.Schema(
   {
+    title: {
+      type: String,
+      required: true,
+      maxLength: 20
+    },
+    description: {
+      type: String,
+      maxLength: 100
+    },
+    audience: {
+      type: String,
+      required: true,
+      enum: PostAudiences
+    },
     categories: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: CollectionsName.ALBUM_CATEGORY,
@@ -20,20 +34,6 @@ const postSchema = new mongoose.Schema(
       ref: CollectionsName.ALBUM_ASSET,
       required: true,
       validate: minAssetLength
-    },
-    audience: {
-      type: String,
-      required: true,
-      enum: PostAudiences
-    },
-    title: {
-      type: String,
-      required: true,
-      maxLength: 20
-    },
-    description: {
-      type: String,
-      maxLength: 100
     }
   },
   {

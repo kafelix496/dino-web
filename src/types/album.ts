@@ -41,28 +41,31 @@ export interface Category {
   name: string
 }
 
-export interface PostRequest {
-  title: string
-  description?: string
-  audience: PostAudiences
-  categories?: string[]
-  assets?: { key: string; extension: string }[]
-}
-
-export interface PostRaw {
-  _id: string
+export interface PostForm {
   title: string
   description: string
   audience: PostAudiences
   categories: string[]
-  assets: string[]
-  createdAt: string
-  updatedAt: string
+  files?: File[]
 }
 
-export interface Post extends Omit<PostRaw, 'categories' | 'assets'> {
+export interface PostRequest {
+  title: string
+  description: string
+  audience: PostAudiences
+  categories: string[]
+  assets?: { key: string; extension: string }[]
+}
+
+export interface Post {
+  _id: string
+  title: string
+  description: string
+  audience: PostAudiences
   categories: Category[]
   assets: AssetDefault[]
+  createdAt: string
+  updatedAt: string
 }
 
 export interface PostsData {

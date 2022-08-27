@@ -4,10 +4,9 @@ import { Apps } from '@/constants/app'
 import type { AxiosRequestConfig } from '@/types'
 import type {
   Asset,
-  AssetDefault,
   Category,
   Post,
-  PostRaw,
+  PostForm,
   PostRequest
 } from '@/types/album'
 
@@ -97,9 +96,9 @@ const albumHttpService = {
       values: PostRequest
     },
     config?: AxiosRequestConfig
-  ): Promise<{ post: PostRaw; assets: AssetDefault[] }> {
+  ): Promise<Post> {
     return axios
-      .post<{ post: PostRaw; assets: AssetDefault[] }>(
+      .post<Post>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post`,
         data.values,
         config
@@ -109,12 +108,12 @@ const albumHttpService = {
   async updatePost(
     data: {
       id: string
-      values: PostRequest
+      values: PostForm
     },
     config?: AxiosRequestConfig
-  ): Promise<PostRaw> {
+  ): Promise<Post> {
     return axios
-      .put<PostRaw>(
+      .put<Post>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post/${
           data.id
         }`,
@@ -128,9 +127,9 @@ const albumHttpService = {
       id: string
     },
     config?: AxiosRequestConfig
-  ): Promise<PostRaw> {
+  ): Promise<Post> {
     return axios
-      .delete<PostRaw>(
+      .delete<Post>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post/${
           data.id
         }`,

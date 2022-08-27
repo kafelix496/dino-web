@@ -3,12 +3,12 @@ import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import useSWR, { useSWRConfig } from 'swr'
 
-import { AlertColor } from '@/constants/app'
+import { AlertColor, S3Paths } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import { enqueueAlert } from '@/redux-actions'
-import type { Category, Post, PostsData } from '@/types/album'
+import type { Category, Post, PostForm, PostsData } from '@/types/album'
 import { generateUuid } from '@/utils/app'
-import { deleteFilesObject } from '@/utils/file'
+import { deleteFilesObject, uploadFile } from '@/utils/file'
 
 import { usePostPageQueryParams } from './usePostPageQueryParams'
 
@@ -151,6 +151,117 @@ export const usePostsData = ({
   }
 }
 
+export const useCreatePost = () => {
+  const { t } = useTranslation('common')
+  const dispatch = useDispatch()
+  const { postPageQueryParams } = usePostPageQueryParams()
+  const { mutate } = useSWRConfig()
+
+  const execute = useCallback(
+    async (values: PostForm) => {
+      return mutate(
+        albumHttpService.getPostsDataUrl({
+          page: postPageQueryParams.page,
+          category: postPageQueryParams.category
+        }),
+        Promise.all(
+          Array.from(values.files!).map((file) =>
+            uploadFile(file, S3Paths.ALBUM)
+          )
+        ).then((uploadedFiles) =>
+          albumHttpService
+            .createPost({
+              values: {
+                title: values.title,
+                description: values.description,
+                audience: values.audience,
+                categories: values.categories,
+                assets: uploadedFiles
+              }
+            })
+            .catch((error) => {
+              // if something wrong on the database,
+              // delete all files uploaded
+              deleteFilesObject(uploadedFiles.map((file) => file.key))
+
+              throw error
+            })
+        ),
+        {
+          populateCache: (newPost: Post, postsData: PostsData) => {
+            return {
+              total: postsData.total,
+              posts: postsData.posts.map((post) =>
+                post._id === newPost._id ? newPost : post
+              )
+            }
+          }
+        }
+      ).catch((error) => {
+        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
+
+        throw error
+      })
+    },
+    [mutate, dispatch, t, postPageQueryParams]
+  )
+
+  return { execute }
+}
+
+export const useUpdatePost = () => {
+  const { t } = useTranslation('common')
+  const dispatch = useDispatch()
+  const { postPageQueryParams } = usePostPageQueryParams()
+  const { mutate } = useSWRConfig()
+
+  const execute = useCallback(
+    async (id: string, values: PostForm) => {
+      return mutate(
+        albumHttpService.getPostsDataUrl({
+          page: postPageQueryParams.page,
+          category: postPageQueryParams.category
+        }),
+        albumHttpService.updatePost({ id, values }),
+        {
+          optimisticData: (postsData: PostsData) => {
+            return {
+              total: postsData.total,
+              posts: postsData.posts.map((post) =>
+                post._id === id
+                  ? {
+                      ...post,
+                      title: values.title,
+                      description: values.description,
+                      audience: values.audience,
+                      categories: values.categories
+                    }
+                  : post
+              )
+            }
+          },
+          populateCache: (newPost: Post, postsData: PostsData) => {
+            return {
+              total: postsData.total,
+              posts: postsData.posts.map((post) =>
+                post._id === id ? newPost : post
+              )
+            }
+          },
+          rollbackOnError: true
+        }
+      ).catch((error) => {
+        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
+
+        throw error
+      })
+    },
+    [mutate, dispatch, t, postPageQueryParams]
+  )
+
+  return { execute }
+}
+
 export const useDeletePost = () => {
   const { t } = useTranslation('common')
   const dispatch = useDispatch()
@@ -169,10 +280,10 @@ export const useDeletePost = () => {
           page: postPageQueryParams.page,
           category: postPageQueryParams.category
         }),
-        albumHttpService.deletePost({ id }).then((postRaw) => {
+        albumHttpService.deletePost({ id }).then((post) => {
           deleteFilesObject(assetKeys)
 
-          return postRaw
+          return post
         }),
         {
           optimisticData: (postsData: PostsData) => {
