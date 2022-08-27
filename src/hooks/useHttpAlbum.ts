@@ -7,7 +7,7 @@ import { AlertColor } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import { enqueueAlert } from '@/redux-actions'
 import type { Category, Post } from '@/types/album'
-import { generateUuid } from '@/utils'
+import { generateUuid } from '@/utils/app'
 
 export const useCategories = () => {
   const { data, error } = useSWR<Category[]>(

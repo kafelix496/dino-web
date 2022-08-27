@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import { FileInputExtensions } from '@/constants/app'
 import fileHttpService from '@/http-services/file'
-import { generateUuid } from '@/utils'
+import { generateUuid } from '@/utils/app'
 
 const getFileType = (type: string): string | null => {
   switch (type) {

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { AccessLevels, Apps } from '@/constants/app'
 import { selectUser } from '@/redux-selectors'
-import { isValidApp } from '@/utils'
+import { isValidApp } from '@/utils/app'
 
 export const useIsSuperAdmin = (): { isSuperAdmin: boolean } => {
   const user = useSelector(selectUser)

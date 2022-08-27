@@ -15,7 +15,7 @@ import BaseLayout from '@/layout/BaseLayout'
 import RootLayout from '@/layout/RootLayout'
 import type { NextPageWithLayout } from '@/pages/_app'
 import { selectUser } from '@/redux-selectors'
-import { hasAccessAdminPage } from '@/utils'
+import { hasAccessAdminPage } from '@/utils/app'
 
 const appList = [
   {
