@@ -1,17 +1,15 @@
-import { useRouter } from 'next/router'
-
 import Box from '@mui/material/Box'
 
 import PostListItem from '@/components/album/PostListItem/PostListItem'
 import PostListItemSkeleton from '@/components/album/PostListItemSkeleton/PostListItemSkeleton'
 import { usePostsData } from '@/hooks/useHttpAlbum'
+import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 
 const PostList = () => {
-  const router = useRouter()
-  const { page, category } = router.query
+  const { postPageQueryParams } = usePostPageQueryParams()
   const { isLoading, posts } = usePostsData({
-    page: (typeof page === 'string' ? +page : 1) || 1,
-    category: typeof category === 'string' ? category : undefined
+    page: postPageQueryParams.page,
+    category: postPageQueryParams.category
   })
 
   return (

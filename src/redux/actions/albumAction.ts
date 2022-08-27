@@ -71,35 +71,3 @@ export const updatePost = (
     })
   }
 }
-
-export const temporaryDeletePost = (
-  id: string
-): ThunkAction<void, RootState, unknown, Action> => {
-  return (dispatch) => {
-    dispatch({
-      type: ActionType.UPDATE_POST,
-      id,
-      post: { temporaryDeleted: true }
-    })
-  }
-}
-
-export const undoTemporaryDeletedPost = (
-  id: string
-): ThunkAction<void, RootState, unknown, Action> => {
-  return (dispatch) => {
-    dispatch({
-      type: ActionType.UPDATE_POST,
-      id,
-      post: { temporaryDeleted: false }
-    })
-  }
-}
-
-export const deletePost = (
-  id: string
-): ThunkAction<void, RootState, unknown, Action> => {
-  return (dispatch) => {
-    dispatch({ type: ActionType.DELETE_POST, id })
-  }
-}

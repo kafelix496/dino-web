@@ -9,8 +9,7 @@ export enum ActionType {
   SET_CATEGORIES = 'familyAlbum/setCategories',
   SET_POST_DATA = 'familyAlbum/setPostData',
   ADD_POST = 'familyAlbum/addPost',
-  UPDATE_POST = 'familyAlbum/updatePost',
-  DELETE_POST = 'familyAlbum/deletePost'
+  UPDATE_POST = 'familyAlbum/updatePost'
 }
 
 export interface setCategoriesAction {
@@ -35,14 +34,8 @@ export interface updatePostAction {
   post: Post | Partial<Omit<Post, '_id'>>
 }
 
-export interface deletePostAction {
-  type: ActionType.DELETE_POST
-  id: string
-}
-
 export type Action =
   | setCategoriesAction
   | setPostDataAction
   | addPostAction
   | updatePostAction
-  | deletePostAction

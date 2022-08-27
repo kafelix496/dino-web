@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getToken } from 'next-auth/jwt'
 
-import { PostAudiences } from '@/constants/album'
+import { POST_PAGE_SIZE, PostAudiences } from '@/constants/album'
 import { AccessLevels, Apps } from '@/constants/app'
 import { CollectionsName } from '@/constants/collection'
 import assetSchema from '@/models/album/assetSchema'
@@ -10,15 +10,13 @@ import postSchema from '@/models/album/postSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { AssetDefault, Post, PostRaw } from '@/types/album'
+import type { AssetDefault, Post, PostRaw, PostsData } from '@/types/album'
 import { dbConnect } from '@/utils/database'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<
-    | { post: PostRaw; assets: AssetDefault[] }
-    | { total: number; posts: Post[] }
-    | { message?: string }
+    { post: PostRaw; assets: AssetDefault[] } | PostsData | { message?: string }
   >
 ) {
   try {
@@ -84,10 +82,10 @@ export default async function handler(
                     $sort: { createdAt: -1 }
                   },
                   {
-                    $skip: (parseInt(page as string) - 1) * 25
+                    $skip: (parseInt(page as string) - 1) * POST_PAGE_SIZE
                   },
                   {
-                    $limit: 25
+                    $limit: POST_PAGE_SIZE
                   },
                   {
                     $lookup: {

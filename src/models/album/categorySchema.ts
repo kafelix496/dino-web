@@ -20,7 +20,7 @@ const categorySchema = new mongoose.Schema(
 
 categorySchema.set('timestamps', false)
 categorySchema.post('findOneAndDelete', async function (doc, next) {
-  await createDocument(CollectionsName.ALBUM_POST, postSchema).update(
+  await createDocument(CollectionsName.ALBUM_POST, postSchema).updateMany(
     {
       categories: doc._id
     },

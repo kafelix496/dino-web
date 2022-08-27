@@ -1,6 +1,18 @@
 import { PostAudiences } from '@/constants/album'
 import { FileExtensions, FileTypes } from '@/constants/app'
 
+export interface PostQueryParamResponse {
+  page: number
+  category: string | undefined
+  asset: string | undefined
+}
+
+export interface PostQueryParamRequest {
+  page?: number
+  category?: string | null
+  asset?: string | null
+}
+
 export interface DrawerMenuItem {
   id: string
   iconComponent: JSX.Element
@@ -51,5 +63,9 @@ export interface PostRaw {
 export interface Post extends Omit<PostRaw, 'categories' | 'assets'> {
   categories: Category[]
   assets: AssetDefault[]
-  temporaryDeleted?: boolean
+}
+
+export interface PostsData {
+  total: number
+  posts: Post[]
 }

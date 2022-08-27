@@ -6,8 +6,11 @@ import useSWR, { useSWRConfig } from 'swr'
 import { AlertColor } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import { enqueueAlert } from '@/redux-actions'
-import type { Category, Post } from '@/types/album'
+import type { Category, Post, PostsData } from '@/types/album'
 import { generateUuid } from '@/utils/app'
+import { deleteFilesObject } from '@/utils/file'
+
+import { usePostPageQueryParams } from './usePostPageQueryParams'
 
 export const useCategories = () => {
   const { data, error } = useSWR<Category[]>(
@@ -146,4 +149,48 @@ export const usePostsData = ({
     total: data?.total ?? 0,
     posts: data?.posts ?? []
   }
+}
+
+export const useDeletePost = () => {
+  const { t } = useTranslation('common')
+  const dispatch = useDispatch()
+  const { postPageQueryParams } = usePostPageQueryParams()
+  const { mutate } = useSWRConfig()
+
+  const execute = useCallback(
+    async (id: string, assetKeys: string[]) => {
+      const getNewPostsData = (postsData: PostsData): PostsData => ({
+        total: postsData.total - 1,
+        posts: postsData.posts.filter((post) => post._id !== id)
+      })
+
+      return mutate(
+        albumHttpService.getPostsDataUrl({
+          page: postPageQueryParams.page,
+          category: postPageQueryParams.category
+        }),
+        albumHttpService.deletePost({ id }).then((postRaw) => {
+          deleteFilesObject(assetKeys)
+
+          return postRaw
+        }),
+        {
+          optimisticData: (postsData: PostsData) => {
+            return getNewPostsData(postsData)
+          },
+          populateCache: (_, postsData: PostsData) => {
+            return getNewPostsData(postsData)
+          },
+          rollbackOnError: true
+        }
+      ).catch((error) => {
+        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
+
+        throw error
+      })
+    },
+    [mutate, dispatch, t, postPageQueryParams]
+  )
+
+  return { execute }
 }

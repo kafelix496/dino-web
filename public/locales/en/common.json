@@ -23,6 +23,8 @@
   "DELETE": "Delete",
   "DELETE_CATEGORY_DIALOG_CONTENT": "Are you sure? You can not undo this.",
   "DELETE_CATEGORY_DIALOG_TITLE": "Delete Category",
+  "DELETE_POST_DIALOG_CONTENT": "Are you sure? You can not undo this.",
+  "DELETE_POST_DIALOG_TITLE": "Delete Post",
   "DELETE_PROJECT_DIALOG_CONTENT": "Are you sure? You can not undo this.",
   "DELETE_PROJECT_DIALOG_TITLE": "Delete Project",
   "DRAWER_MENU_ITEM_ALL": "All",
