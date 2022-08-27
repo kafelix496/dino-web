@@ -9,7 +9,7 @@ const PostList = () => {
   const { postPageQueryParams } = usePostPageQueryParams()
   const { isLoading, posts } = usePostsData({
     page: postPageQueryParams.page,
-    category: postPageQueryParams.category
+    qpCategoryId: postPageQueryParams.qpCategoryId
   })
 
   return (

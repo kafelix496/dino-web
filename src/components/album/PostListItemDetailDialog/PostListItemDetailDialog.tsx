@@ -1,5 +1,4 @@
 import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
 import type { FC } from 'react'
 
 import Button from '@mui/material/Button'
@@ -7,6 +6,7 @@ import Button from '@mui/material/Button'
 import Dialog from '@/components/Dialog/Dialog'
 import PostAsset from '@/components/album/PostAsset/PostAsset'
 import { PostAssetTargets } from '@/constants/album'
+import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 import type { Asset } from '@/types/album'
 
 export interface PostListItemDetailDialogProps {
@@ -22,8 +22,8 @@ const PostListItemDetailDialog: FC<PostListItemDetailDialogProps> = ({
   closeDialog,
   handleClose
 }) => {
-  const router = useRouter()
   const { t } = useTranslation('common')
+  const { patch } = usePostPageQueryParams()
 
   const currentIndex = asset.siblings.findIndex(
     (sibling) => sibling === asset._id
@@ -52,16 +52,7 @@ const PostListItemDetailDialog: FC<PostListItemDetailDialogProps> = ({
             variant="contained"
             disabled={currentIndex === 0}
             onClick={() => {
-              router.replace(
-                {
-                  query: {
-                    ...router.query,
-                    qpAssetId: asset.siblings[currentIndex - 1]
-                  }
-                },
-                undefined,
-                { shallow: true }
-              )
+              patch({ qpAssetId: asset.siblings[currentIndex - 1] })
             }}
           >
             {t('BUTTON_PREV')}
@@ -71,16 +62,7 @@ const PostListItemDetailDialog: FC<PostListItemDetailDialogProps> = ({
             variant="contained"
             disabled={currentIndex === asset.siblings.length - 1}
             onClick={() => {
-              router.replace(
-                {
-                  query: {
-                    ...router.query,
-                    qpAssetId: asset.siblings[currentIndex + 1]
-                  }
-                },
-                undefined,
-                { shallow: true }
-              )
+              patch({ qpAssetId: asset.siblings[currentIndex + 1] })
             }}
           >
             {t('BUTTON_NEXT')}

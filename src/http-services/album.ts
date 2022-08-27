@@ -69,12 +69,12 @@ const albumHttpService = {
       )
       .then((res) => res.data)
   },
-  getPostsDataUrl(data: { page: number; category?: string }) {
+  getPostsDataUrl(data: { page: number; qpCategoryId?: string }) {
     return (
       `${process.env.PAGE_URL ?? ''}/api/app/${
         Apps.familyAlbum
       }/album/post?page=${data.page}` +
-      (data.category ? `&category=${data.category}` : '')
+      (data.qpCategoryId ? `&qpCategoryId=${data.qpCategoryId}` : '')
     )
   },
   async getPostsData(

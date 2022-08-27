@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
-import { omit } from 'ramda'
 import type { ComponentType } from 'react'
 import { useCallback } from 'react'
 import { useEffect, useState } from 'react'
 
 import { useDialogStatus } from '@/hooks/useDialogStatus'
+import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 import { useUpdateEffect } from '@/hooks/useUpdateEffect'
 import albumHttpService from '@/http-services/album'
 import type { Asset } from '@/types/album'
@@ -21,31 +21,25 @@ const withController = <T extends PostListItemDetailDialogProps>(
     const [assetWithSrc, setAssetWithSrc] = useState<Asset | null>(null)
     const router = useRouter()
     const { state, openDialog, closeDialog } = useDialogStatus()
-    const { qpAssetId } = router.query
+    const { postPageQueryParams, patch } = usePostPageQueryParams()
 
     const handleClose = useCallback(() => {
-      router.replace(
-        {
-          query: { ...omit(['qpAssetId'], router.query) }
-        },
-        undefined,
-        { shallow: true }
-      )
+      patch({ qpAssetId: null })
 
       setAssetWithSrc(null)
       closeDialog()
-    }, [router, setAssetWithSrc, closeDialog])
+    }, [patch, setAssetWithSrc, closeDialog])
 
     useEffect(() => {
-      if (qpAssetId) {
+      if (postPageQueryParams.qpAssetId) {
         openDialog()
       }
-    }, [qpAssetId, router, openDialog])
+    }, [postPageQueryParams.qpAssetId, router, openDialog])
 
     useUpdateEffect(() => {
-      if (qpAssetId) {
+      if (postPageQueryParams.qpAssetId) {
         albumHttpService
-          .getAsset({ id: qpAssetId as string })
+          .getAsset({ id: postPageQueryParams.qpAssetId as string })
           .then((asset) =>
             getAssetUrl({ key: asset.key, extension: asset.extension }).then(
               (src) => ({
@@ -61,7 +55,7 @@ const withController = <T extends PostListItemDetailDialogProps>(
             handleClose()
           })
       }
-    }, [qpAssetId, openDialog, handleClose])
+    }, [postPageQueryParams.qpAssetId, openDialog, handleClose])
 
     if (!state.isOpen || !assetWithSrc) {
       return <></>

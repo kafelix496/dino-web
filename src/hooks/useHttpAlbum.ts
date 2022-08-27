@@ -134,13 +134,13 @@ export const useDeleteCategory = () => {
 
 export const usePostsData = ({
   page,
-  category
+  qpCategoryId
 }: {
   page: number
-  category?: string
+  qpCategoryId?: string
 }) => {
   const { data, error } = useSWR<{ total: number; posts: Post[] }>(
-    albumHttpService.getPostsDataUrl({ page, category })
+    albumHttpService.getPostsDataUrl({ page, qpCategoryId })
   )
 
   return {

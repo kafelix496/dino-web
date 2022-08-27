@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import type { FC } from 'react'
 import { useState } from 'react'
 
@@ -9,6 +8,7 @@ import Skeleton from '@mui/material/Skeleton'
 
 import { POST_ROW_HEIGHT, PostAssetTargets } from '@/constants/album'
 import { FileTypes } from '@/constants/app'
+import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 import type { AssetDefault } from '@/types/album'
 
 interface PostAssetProps {
@@ -24,8 +24,8 @@ const PostAsset: FC<PostAssetProps> = ({
   withAddIcon,
   asset
 }) => {
-  const router = useRouter()
   const [isAssetLoading, setIsAssetLoading] = useState(true)
+  const { patch } = usePostPageQueryParams()
 
   const hasSrc = !!asset.src
   const isImage = asset.type === FileTypes.IMAGE
@@ -36,16 +36,7 @@ const PostAsset: FC<PostAssetProps> = ({
       target === PostAssetTargets.SINGLE ||
       target === PostAssetTargets.MULTIPLE
     ) {
-      router.replace(
-        {
-          query: {
-            ...router.query,
-            qpAssetId: asset._id
-          }
-        },
-        undefined,
-        { shallow: true }
-      )
+      patch({ qpAssetId: asset._id })
     }
   }
 
