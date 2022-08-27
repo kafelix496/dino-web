@@ -70,43 +70,50 @@ const albumHttpService = {
       )
       .then((res) => res.data)
   },
-  getPosts: (
+  getPostsDataUrl(data: { page: number; category?: string }) {
+    return (
+      `${process.env.PAGE_URL ?? ''}/api/app/${
+        Apps.familyAlbum
+      }/album/post?page=${data.page}` +
+      (data.category ? `&category=${data.category}` : '')
+    )
+  },
+  async getPostsData(
     data: {
       page: number
       category?: string
     },
     config?: AxiosRequestConfig
-  ): Promise<{ total: number; posts: Post[] }> =>
-    axios
+  ): Promise<{ total: number; posts: Post[] }> {
+    return axios
       .get<{ total: number; posts: Post[] }>(
-        `${process.env.PAGE_URL ?? ''}/api/app/${
-          Apps.familyAlbum
-        }/album/post?page=${data.page}` +
-          (data.category ? `&category=${data.category}` : ''),
+        this.getPostsDataUrl({ page: data.page }),
         config
       )
-      .then((res) => res.data),
-  createPost: (
+      .then((res) => res.data)
+  },
+  async createPost(
     data: {
       values: PostRequest
     },
     config?: AxiosRequestConfig
-  ): Promise<{ post: PostRaw; assets: AssetDefault[] }> =>
-    axios
+  ): Promise<{ post: PostRaw; assets: AssetDefault[] }> {
+    return axios
       .post<{ post: PostRaw; assets: AssetDefault[] }>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post`,
         data.values,
         config
       )
-      .then((res) => res.data),
-  updatePost: (
+      .then((res) => res.data)
+  },
+  async updatePost(
     data: {
       id: string
       values: PostRequest
     },
     config?: AxiosRequestConfig
-  ): Promise<PostRaw> =>
-    axios
+  ): Promise<PostRaw> {
+    return axios
       .put<PostRaw>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post/${
           data.id
@@ -114,28 +121,30 @@ const albumHttpService = {
         data.values,
         config
       )
-      .then((res) => res.data),
-  deletePost: (
+      .then((res) => res.data)
+  },
+  async deletePost(
     data: {
       id: string
     },
     config?: AxiosRequestConfig
-  ): Promise<PostRaw> =>
-    axios
+  ): Promise<PostRaw> {
+    return axios
       .delete<PostRaw>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post/${
           data.id
         }`,
         config
       )
-      .then((res) => res.data),
-  getAsset: (
+      .then((res) => res.data)
+  },
+  async getAsset(
     data: {
       id: string
     },
     config?: AxiosRequestConfig
-  ): Promise<Asset> =>
-    axios
+  ): Promise<Asset> {
+    return axios
       .get<Asset>(
         `${process.env.PAGE_URL ?? ''}/api/app/${
           Apps.familyAlbum
@@ -143,6 +152,7 @@ const albumHttpService = {
         config
       )
       .then((res) => res.data)
+  }
 }
 
 export default albumHttpService

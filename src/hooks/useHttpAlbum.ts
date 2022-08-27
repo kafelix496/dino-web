@@ -6,7 +6,7 @@ import useSWR, { useSWRConfig } from 'swr'
 import { AlertColor } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import { enqueueAlert } from '@/redux-actions'
-import type { Category } from '@/types/album'
+import type { Category, Post } from '@/types/album'
 import { generateUuid } from '@/utils'
 
 export const useCategories = () => {
@@ -127,4 +127,23 @@ export const useDeleteCategory = () => {
   )
 
   return { execute }
+}
+
+export const usePostsData = ({
+  page,
+  category
+}: {
+  page: number
+  category?: string
+}) => {
+  const { data, error } = useSWR<{ total: number; posts: Post[] }>(
+    albumHttpService.getPostsDataUrl({ page, category })
+  )
+
+  return {
+    isLoading: !data && !error,
+    isError: !!error,
+    total: data?.total ?? 0,
+    posts: data?.posts ?? []
+  }
 }
