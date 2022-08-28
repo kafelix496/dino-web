@@ -12,8 +12,7 @@ const getFileType = (type: string): FileTypes | null => {
       return FileTypes.IMAGE
     }
 
-    // TODO: Add more file types
-    // case FileInputExtensions.MOV:
+    case FileInputExtensions.MOV:
     case FileInputExtensions.MP4: {
       return FileTypes.VIDEO
     }
@@ -42,10 +41,9 @@ const getFileExtension = (type: string): FileExtensions | null => {
       return FileExtensions.MP4
     }
 
-    // TODO: Add more file types
-    // case FileInputExtensions.MOV: {
-    //   return 'mov'
-    // }
+    case FileInputExtensions.MOV: {
+      return FileExtensions.MOV
+    }
 
     default: {
       return null
@@ -84,7 +82,7 @@ export const uploadFile = (file: File, path = '') =>
           throw new Error()
         }
 
-        const key = `${path}${generateUuid()}`
+        const key = `${path}${generateUuid()}.${extension}`
 
         tryToUploadFile(key, file).then((status) => {
           if (!status) {
