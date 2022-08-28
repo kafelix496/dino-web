@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import { Locales, PaletteModes } from '@/constants/app'
 import { Cookies } from '@/constants/cookies'
+import { useCurrentUser } from '@/hooks/useHttpApp'
 import {
   setLocale,
   setPaletteMode,
@@ -11,10 +12,13 @@ import {
 } from '@/redux-actions'
 
 export const useInitializeApp = () => {
+  const { isLoading: isUserLoading } = useCurrentUser()
   const [isInitialized, setIsInitialized] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
+    let timer: NodeJS.Timeout | undefined
+
     const savedPaletteMode = nookies.get()[Cookies.paletteMode]
     dispatch(
       setPaletteMode(
@@ -37,8 +41,17 @@ export const useInitializeApp = () => {
       nookies.get()[Cookies.sidebarNav] === 'true'
     dispatch(setSidebarNavOpenStatus(!!savedSidebarNavOpenStatus))
 
-    setIsInitialized(true)
-  }, [dispatch])
+    if (!isUserLoading) {
+      timer = setTimeout(() => {
+        setIsInitialized(true)
+      }, 250)
+    }
+
+    return () => {
+      clearTimeout(timer)
+      timer = undefined
+    }
+  }, [dispatch, isUserLoading])
 
   return { isInitialized }
 }

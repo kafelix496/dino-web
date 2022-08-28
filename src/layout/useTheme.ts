@@ -1,8 +1,9 @@
 import { useMemo } from 'react'
 
-import { createTheme } from '@mui/material'
 import type { Theme } from '@mui/material'
 import { grey, indigo } from '@mui/material/colors'
+// import { createTheme } from '@mui/material'
+import { createTheme } from '@mui/material/styles'
 
 import { PaletteModes } from '@/constants/app'
 
