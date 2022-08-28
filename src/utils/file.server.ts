@@ -33,7 +33,7 @@ export const createPresignedUrl = (key: string, config: Config) => {
   const post = s3.createPresignedPost({
     Bucket: config.bucket,
     Fields: { key },
-    Expires: 60,
+    Expires: 120,
     Conditions: [
       ['starts-with', '$Content-Type', ''],
       ['content-length-range', 0, 200000000] // up to 200 MB
