@@ -75,7 +75,7 @@ const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
           }
         : {})
     }),
-    onSubmit: async (values, { setSubmitting }) => {
+    onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true)
 
       if (isCreating) {
