@@ -6,9 +6,9 @@ import { usePostPageQueryParams } from './usePostPageQueryParams'
 
 describe('#usePostPageQueryParams', () => {
   describe('#postPageQueryParams', () => {
-    it('should return current query params form post page query params', () => {
+    it('should return current query params form post qpPage query params', () => {
       const mockRouter = {
-        query: { page: '2', qpCategoryId: 'FAKE_CATEGORY' },
+        query: { qpPage: '2', qpCategoryId: 'FAKE_CATEGORY' },
         replace: jest.fn()
       }
       const { result } = renderHook(() => {
@@ -18,13 +18,13 @@ describe('#usePostPageQueryParams', () => {
       })
 
       expect(result.current.postPageQueryParams).toEqual({
-        page: 2,
+        qpPage: 2,
         qpCategoryId: 'FAKE_CATEGORY',
         qpAssetId: undefined
       })
     })
 
-    it('should return 1 if page is invalid query param', () => {
+    it('should return 1 if qpPage is invalid query param', () => {
       const mockRouter = {
         query: { query: 'INVALID', qpCategoryId: 'FAKE_CATEGORY' },
         replace: jest.fn()
@@ -36,7 +36,7 @@ describe('#usePostPageQueryParams', () => {
       })
 
       expect(result.current.postPageQueryParams).toEqual({
-        page: 1,
+        qpPage: 1,
         qpCategoryId: 'FAKE_CATEGORY',
         qpAssetId: undefined
       })
@@ -44,7 +44,7 @@ describe('#usePostPageQueryParams', () => {
   })
 
   describe('#patch', () => {
-    it('should patch with page: 1 if page parameter is invalid', () => {
+    it('should patch with qpPage: 1 if qpPage parameter is invalid', () => {
       const mockRouter = {
         query: { qpCategoryId: 'FAKE_CATEGORY' },
         replace: jest.fn()
@@ -56,11 +56,10 @@ describe('#usePostPageQueryParams', () => {
       })
 
       expect(mockRouter.replace).not.toHaveBeenCalled()
-      result.current.patch({ page: -1, qpAssetId: 'FAKE_ASSET' })
+      result.current.patch({ qpPage: -1, qpAssetId: 'FAKE_ASSET' })
       expect(mockRouter.replace).toHaveBeenCalledWith(
         {
           query: {
-            page: 1,
             qpCategoryId: 'FAKE_CATEGORY',
             qpAssetId: 'FAKE_ASSET'
           }
@@ -82,11 +81,11 @@ describe('#usePostPageQueryParams', () => {
       })
 
       expect(mockRouter.replace).not.toHaveBeenCalled()
-      result.current.patch({ page: 2, qpAssetId: 'FAKE_ASSET' })
+      result.current.patch({ qpPage: 2, qpAssetId: 'FAKE_ASSET' })
       expect(mockRouter.replace).toHaveBeenCalledWith(
         {
           query: {
-            page: '2',
+            qpPage: '2',
             qpCategoryId: 'FAKE_CATEGORY',
             qpAssetId: 'FAKE_ASSET'
           }
@@ -109,12 +108,12 @@ describe('#usePostPageQueryParams', () => {
 
       expect(mockRouter.replace).not.toHaveBeenCalled()
       result.current.patch({
-        page: 2,
+        qpPage: 2,
         qpCategoryId: null,
         qpAssetId: 'FAKE_ASSET'
       })
       expect(mockRouter.replace).toHaveBeenCalledWith(
-        { query: { page: '2', qpAssetId: 'FAKE_ASSET' } },
+        { query: { qpPage: '2', qpAssetId: 'FAKE_ASSET' } },
         undefined,
         { shallow: true }
       )

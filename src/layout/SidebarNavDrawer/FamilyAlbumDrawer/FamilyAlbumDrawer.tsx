@@ -23,7 +23,7 @@ import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDraw
 import type { DrawerMenuItem } from '@/types/album'
 
 const FamilyAlbumDrawer: FC = () => {
-  const { isLoading, categories } = useCategories()
+  const { isLoading, categories } = useCategories({ isReady: true })
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
   const { isAdminOrAbove } = useIsAdminOrAbove()

@@ -69,24 +69,24 @@ const albumHttpService = {
       )
       .then((res) => res.data)
   },
-  getPostsDataUrl(data: { page: number; qpCategoryId?: string }) {
+  getPostsDataUrl(data: { qpPage: number; qpCategoryId?: string }) {
     return (
       `${process.env.PAGE_URL ?? ''}/api/app/${
         Apps.familyAlbum
-      }/album/post?page=${data.page}` +
+      }/album/post?qpPage=${data.qpPage}` +
       (data.qpCategoryId ? `&qpCategoryId=${data.qpCategoryId}` : '')
     )
   },
   async getPostsData(
     data: {
-      page: number
+      qpPage: number
       category?: string
     },
     config?: AxiosRequestConfig
   ): Promise<{ total: number; posts: Post[] }> {
     return axios
       .get<{ total: number; posts: Post[] }>(
-        this.getPostsDataUrl({ page: data.page }),
+        this.getPostsDataUrl({ qpPage: data.qpPage }),
         config
       )
       .then((res) => res.data)

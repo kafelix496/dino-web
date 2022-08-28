@@ -30,7 +30,7 @@ const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
   const { t } = useTranslation('common')
   const { execute: executeCreate } = useCreatePost()
   const { execute: executeUpdate } = useUpdatePost()
-  const { isLoading, categories, isError } = useCategories()
+  const { isLoading, categories, isError } = useCategories({ isReady: true })
   const formik = useFormik<PostForm>({
     initialValues: {
       title: post?.title ?? '',

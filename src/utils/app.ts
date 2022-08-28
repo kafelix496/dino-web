@@ -53,4 +53,4 @@ export const generateUuid = (): string => {
   return uuidv1()
 }
 
-export const isServer = () => typeof window !== 'undefined'
+export const isServer = () => typeof window === 'undefined'

@@ -56,16 +56,11 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
   return (
     <>
       <Paper
-        sx={[
-          (theme: Theme) => ({
-            padding: theme.spacing(2),
-            marginTop: theme.spacing(4)
-          }),
-          {
-            width: '90%',
-            maxWidth: POST_MAX_WIDTH
-          }
-        ]}
+        sx={{
+          width: '90%',
+          maxWidth: POST_MAX_WIDTH,
+          padding: (theme: Theme) => theme.spacing(2)
+        }}
       >
         <Box className="__d-flex">
           <Box className="__d-flex __d-flex-col __d-justify-center __d-grow">

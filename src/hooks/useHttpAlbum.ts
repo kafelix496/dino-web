@@ -12,9 +12,9 @@ import { deleteFilesObject, uploadFile } from '@/utils/file'
 
 import { usePostPageQueryParams } from './usePostPageQueryParams'
 
-export const useCategories = () => {
+export const useCategories = ({ isReady }: { isReady: boolean }) => {
   const { data, error } = useSWR<Category[]>(
-    albumHttpService.getCategoriesUrl()
+    isReady ? albumHttpService.getCategoriesUrl() : null
   )
 
   return {
@@ -133,14 +133,16 @@ export const useDeleteCategory = () => {
 }
 
 export const usePostsData = ({
-  page,
+  isReady,
+  qpPage,
   qpCategoryId
 }: {
-  page: number
+  isReady: boolean
+  qpPage: number
   qpCategoryId?: string
 }) => {
   const { data, error } = useSWR<{ total: number; posts: Post[] }>(
-    albumHttpService.getPostsDataUrl({ page, qpCategoryId })
+    isReady ? albumHttpService.getPostsDataUrl({ qpPage, qpCategoryId }) : null
   )
 
   return {
@@ -161,7 +163,7 @@ export const useCreatePost = () => {
     async (values: PostForm) => {
       return mutate(
         albumHttpService.getPostsDataUrl({
-          page: postPageQueryParams.page,
+          qpPage: postPageQueryParams.qpPage,
           qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         Promise.all(
@@ -219,7 +221,7 @@ export const useUpdatePost = () => {
     async (id: string, values: PostForm) => {
       return mutate(
         albumHttpService.getPostsDataUrl({
-          page: postPageQueryParams.page,
+          qpPage: postPageQueryParams.qpPage,
           qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         albumHttpService.updatePost({ id, values }),
@@ -277,7 +279,7 @@ export const useDeletePost = () => {
 
       return mutate(
         albumHttpService.getPostsDataUrl({
-          page: postPageQueryParams.page,
+          qpPage: postPageQueryParams.qpPage,
           qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         albumHttpService.deletePost({ id }).then((post) => {

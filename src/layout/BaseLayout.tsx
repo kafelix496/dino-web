@@ -1,7 +1,10 @@
 import type { ComponentType } from 'react'
 import type { FC, ReactNode } from 'react'
 
+import type { Theme } from '@mui/material'
+import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
 import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
 
@@ -19,10 +22,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ DrawerContent, children }) => {
   const { isInitialized } = useInitializeApp()
 
   return (
-    <Box
-      className={`__d-flex${!isInitialized ? ' __d-opacity-0' : ''}`}
-      sx={{ transition: 'opacity 0.2s linear' }}
-    >
+    <Box className="__d-flex">
       <Header hasSidebarNav={!!DrawerContent} />
 
       {!!DrawerContent && <SidebarNavDrawer DrawerContent={DrawerContent} />}
@@ -35,11 +35,28 @@ const BaseLayout: FC<BaseLayoutProps> = ({ DrawerContent, children }) => {
         <Paper
           elevation={0}
           square={true}
+          className="__d-overflow-hidden"
           sx={{ height: (theme) => `calc(100% - ${theme.spacing(8)})` }}
         >
           {children}
         </Paper>
       </Box>
+
+      <Paper
+        elevation={0}
+        square={true}
+        className={
+          `__d-backdrop-paper` +
+          (isInitialized ? ' __d-backdrop-paper--initialized' : '')
+        }
+      >
+        <Backdrop
+          sx={{ color: (theme: Theme) => theme.palette.secondary.main }}
+          open={true}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Paper>
     </Box>
   )
 }
