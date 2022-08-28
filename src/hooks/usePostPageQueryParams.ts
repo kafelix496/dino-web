@@ -14,15 +14,15 @@ export const usePostPageQueryParams = (): {
   patch: (newQueryParams: PostQueryParamRequest) => void
 } => {
   const router = useRouter()
-  const { page, qpCategoryId, qpAssetId } = router.query
+  const { qpPage, qpCategoryId, qpAssetId } = router.query
 
   const postPageQueryParams = useMemo(
     () => ({
-      page: isPositiveStringNumber(page) ? +page! : 1,
+      qpPage: isPositiveStringNumber(qpPage) ? +qpPage! : 1,
       qpCategoryId: typeof qpCategoryId === 'string' ? qpCategoryId : undefined,
       qpAssetId: typeof qpAssetId === 'string' ? qpAssetId : undefined
     }),
-    [page, qpCategoryId, qpAssetId]
+    [qpPage, qpCategoryId, qpAssetId]
   )
   const patch = useCallback(
     (newQueryParams: PostQueryParamRequest) => {
@@ -30,9 +30,9 @@ export const usePostPageQueryParams = (): {
         {
           query: compose(
             mergeLeft({
-              ...(isPositiveStringNumber(String(newQueryParams.page))
-                ? { page: String(newQueryParams.page) }
-                : { page: 1 }),
+              ...(isPositiveStringNumber(String(newQueryParams.qpPage))
+                ? { qpPage: String(newQueryParams.qpPage) }
+                : { qpPage: 1 }),
               ...(!isNil(newQueryParams.qpCategoryId)
                 ? { qpCategoryId: newQueryParams.qpCategoryId }
                 : {}),

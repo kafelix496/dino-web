@@ -37,7 +37,7 @@ export default async function handler(
 
     switch (req.method) {
       case 'GET': {
-        const { page, qpCategoryId } = req.query
+        const { qpPage, qpCategoryId } = req.query
         const audienceMatch =
           currentUserAppAccessLevel === AccessLevels.NONE
             ? {
@@ -80,7 +80,7 @@ export default async function handler(
                     $sort: { createdAt: -1 }
                   },
                   {
-                    $skip: (parseInt(page as string) - 1) * POST_PAGE_SIZE
+                    $skip: (parseInt(qpPage as string) - 1) * POST_PAGE_SIZE
                   },
                   {
                     $limit: POST_PAGE_SIZE

@@ -133,14 +133,14 @@ export const useDeleteCategory = () => {
 }
 
 export const usePostsData = ({
-  page,
+  qpPage,
   qpCategoryId
 }: {
-  page: number
+  qpPage: number
   qpCategoryId?: string
 }) => {
   const { data, error } = useSWR<{ total: number; posts: Post[] }>(
-    albumHttpService.getPostsDataUrl({ page, qpCategoryId })
+    albumHttpService.getPostsDataUrl({ qpPage, qpCategoryId })
   )
 
   return {
@@ -161,7 +161,7 @@ export const useCreatePost = () => {
     async (values: PostForm) => {
       return mutate(
         albumHttpService.getPostsDataUrl({
-          page: postPageQueryParams.page,
+          qpPage: postPageQueryParams.qpPage,
           qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         Promise.all(
@@ -219,7 +219,7 @@ export const useUpdatePost = () => {
     async (id: string, values: PostForm) => {
       return mutate(
         albumHttpService.getPostsDataUrl({
-          page: postPageQueryParams.page,
+          qpPage: postPageQueryParams.qpPage,
           qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         albumHttpService.updatePost({ id, values }),
@@ -277,7 +277,7 @@ export const useDeletePost = () => {
 
       return mutate(
         albumHttpService.getPostsDataUrl({
-          page: postPageQueryParams.page,
+          qpPage: postPageQueryParams.qpPage,
           qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         albumHttpService.deletePost({ id }).then((post) => {

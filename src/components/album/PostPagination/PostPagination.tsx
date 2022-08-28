@@ -8,12 +8,12 @@ import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 const PostPagination = () => {
   const { postPageQueryParams, patch } = usePostPageQueryParams()
   const { total } = usePostsData({
-    page: postPageQueryParams.page,
+    qpPage: postPageQueryParams.qpPage,
     qpCategoryId: postPageQueryParams.qpCategoryId
   })
 
   const handleChange = (_, value: number) => {
-    patch({ page: value })
+    patch({ qpPage: value })
   }
 
   return (
@@ -30,7 +30,7 @@ const PostPagination = () => {
           showFirstButton
           showLastButton
           count={Math.ceil(total / POST_PAGE_SIZE)}
-          page={postPageQueryParams.page}
+          page={postPageQueryParams.qpPage}
           onChange={handleChange}
         />
       </Box>

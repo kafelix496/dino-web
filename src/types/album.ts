@@ -2,13 +2,13 @@ import { PostAudiences } from '@/constants/album'
 import { FileExtensions, FileTypes } from '@/constants/app'
 
 export interface PostQueryParamResponse {
-  page: number
+  qpPage: number
   qpCategoryId: string | undefined
   qpAssetId: string | undefined
 }
 
 export interface PostQueryParamRequest {
-  page?: number
+  qpPage?: number
   qpCategoryId?: string | null
   qpAssetId?: string | null
 }

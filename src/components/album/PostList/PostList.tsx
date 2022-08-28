@@ -9,7 +9,7 @@ import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 const PostList = () => {
   const { postPageQueryParams } = usePostPageQueryParams()
   const { isLoading, posts } = usePostsData({
-    page: postPageQueryParams.page,
+    qpPage: postPageQueryParams.qpPage,
     qpCategoryId: postPageQueryParams.qpCategoryId
   })
 
