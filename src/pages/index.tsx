@@ -3,7 +3,6 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
 import type { ReactElement } from 'react'
-import { useSelector } from 'react-redux'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -11,11 +10,11 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 
 import { Apps } from '@/constants/app'
+import { useCurrentUser } from '@/hooks/useHttpApp'
 import BaseLayout from '@/layout/BaseLayout'
 import RootLayout from '@/layout/RootLayout'
 import type { NextPageWithLayout } from '@/pages/_app'
-import { selectUser } from '@/redux-selectors'
-import { hasAccessAdminPage } from '@/utils'
+import { hasAccessAdminPage } from '@/utils/app'
 
 const appList = [
   {
@@ -47,7 +46,7 @@ const appList = [
 
 const Page: NextPageWithLayout = () => {
   const { t } = useTranslation('common')
-  const user = useSelector(selectUser)
+  const { user } = useCurrentUser()
 
   const canAccessAdminPage = hasAccessAdminPage(user)
 

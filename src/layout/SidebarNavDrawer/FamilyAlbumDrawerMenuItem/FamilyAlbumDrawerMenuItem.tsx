@@ -9,21 +9,22 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Tooltip from '@mui/material/Tooltip'
 
+import CategoryFormDialog from '@/components/album/CategoryFormDialog/CategoryFormDialog'
 import DeleteCategoryDialog from '@/components/album/DeleteCategoryDialog/DeleteCategoryDialog'
-import EditCategoryDialog from '@/components/album/EditCategoryDialog/EditCategoryDialog'
 import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
+import { Actions } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 import type { DrawerMenuItem } from '@/types/album'
 
 interface FamilyAlbumDrawerMenuItemProps {
-  isSidebarNavOpen: boolean
+  expanded: boolean
   canEditCategory: boolean
   menu: DrawerMenuItem
 }
 
 const FamilyAlbumDrawerMenuItem: FC<FamilyAlbumDrawerMenuItemProps> = ({
-  isSidebarNavOpen,
+  expanded,
   canEditCategory,
   menu
 }) => {
@@ -34,13 +35,13 @@ const FamilyAlbumDrawerMenuItem: FC<FamilyAlbumDrawerMenuItemProps> = ({
     {
       label: t('EDIT'),
       click: () => {
-        openDialog('edit')
+        openDialog(Actions.EDIT)
       }
     },
     {
       label: t('DELETE'),
       click: () => {
-        openDialog('delete')
+        openDialog(Actions.DELETE)
       }
     }
   ]
@@ -48,29 +49,26 @@ const FamilyAlbumDrawerMenuItem: FC<FamilyAlbumDrawerMenuItemProps> = ({
   return (
     <>
       <ListItem
-        className={!isSidebarNavOpen ? '__d-justify-center' : ''}
+        className={!expanded ? '__d-justify-center' : ''}
         sx={{ height: (theme: Theme) => theme.spacing(8) }}
         secondaryAction={
-          isSidebarNavOpen &&
+          expanded &&
           canEditCategory &&
           menu.editable && (
             <MaxHeightMenu
-              options={menuOptions.map((menuOption) => ({
-                ...menuOption,
-                data: { categoryId: menu.id, name: menu.label }
-              }))}
+              options={menuOptions}
               extraIconButtonProps={{ edge: 'end' }}
             />
           )
         }
-        disablePadding={isSidebarNavOpen}
+        disablePadding={expanded}
       >
         <Link href={menu.url} replace shallow={true}>
           <ListItemButton
             selected={menu.selected}
             sx={{ height: (theme: Theme) => theme.spacing(6) }}
           >
-            <Tooltip title={!isSidebarNavOpen ? menu.label : ''}>
+            <Tooltip title={!expanded ? menu.label : ''}>
               <ListItemIcon
                 sx={{
                   minWidth: 'initial',
@@ -80,7 +78,7 @@ const FamilyAlbumDrawerMenuItem: FC<FamilyAlbumDrawerMenuItemProps> = ({
                 {menu.iconComponent}
               </ListItemIcon>
             </Tooltip>
-            {isSidebarNavOpen ? (
+            {expanded ? (
               <ListItemText primary={menu.label} sx={{ ml: 3 }} />
             ) : null}
           </ListItemButton>
@@ -89,15 +87,17 @@ const FamilyAlbumDrawerMenuItem: FC<FamilyAlbumDrawerMenuItemProps> = ({
 
       {canEditCategory && (
         <>
-          {state.isOpen && state.name === 'edit' && (
-            <EditCategoryDialog
-              id={menu.id}
-              name={menu.label}
+          {state.isOpen && state.name === Actions.EDIT && (
+            <CategoryFormDialog
+              category={{
+                _id: menu.id,
+                name: menu.label
+              }}
               closeDialog={closeDialog}
             />
           )}
 
-          {state.isOpen && state.name === 'delete' && (
+          {state.isOpen && state.name === Actions.DELETE && (
             <DeleteCategoryDialog id={menu.id} closeDialog={closeDialog} />
           )}
         </>

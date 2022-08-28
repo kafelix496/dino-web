@@ -1,7 +1,6 @@
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import type { FC } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 
 import Alert from '@mui/material/Alert'
@@ -13,12 +12,13 @@ import FieldMultiSelect from '@/components/mui/FormFieldMultiSelect/FormFieldMul
 import FieldSelect from '@/components/mui/FormFieldSelect/FormFieldSelect'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
 import { PostAudiences } from '@/constants/album'
-import { AlertColor, FileInputExtensions, S3Paths } from '@/constants/app'
-import albumHttpService from '@/http-services/album'
-import { addPost, enqueueAlert, updatePost } from '@/redux-actions'
-import { selectCategoryList } from '@/redux-selectors'
-import type { Post } from '@/types/album'
-import { deleteFilesObject, uploadFile } from '@/utils/file'
+import { FileInputExtensions } from '@/constants/app'
+import {
+  useCategories,
+  useCreatePost,
+  useUpdatePost
+} from '@/hooks/useHttpAlbum'
+import type { Post, PostForm } from '@/types/album'
 
 interface PostFormDialogProps {
   post?: Post
@@ -28,32 +28,25 @@ interface PostFormDialogProps {
 const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
   const isCreating = !post
   const { t } = useTranslation('common')
-  const categories = useSelector(selectCategoryList)
-  const dispatch = useDispatch()
-  const formik = useFormik<{
-    title: string
-    description: string
-    audience: PostAudiences
-    categoriesId: string[]
-    files?: File[]
-  }>({
+  const { execute: executeCreate } = useCreatePost()
+  const { execute: executeUpdate } = useUpdatePost()
+  const { isLoading, categories, isError } = useCategories()
+  const formik = useFormik<PostForm>({
     initialValues: {
-      title: !isCreating ? post.title : '',
-      description: !isCreating ? post.description : '',
-      audience: !isCreating ? post.audience : PostAudiences.ALL,
-      categoriesId: !isCreating
-        ? post.categories.map((category) => category._id)
-        : [],
+      title: post?.title ?? '',
+      description: post?.description ?? '',
+      audience: post?.audience ?? PostAudiences.ALL,
+      categories: (post?.categories ?? []).map((category) => category._id),
       ...(isCreating ? { files: [] } : {})
     },
     validationSchema: yup.object({
       title: yup
         .string()
-        .max(20, t('POST_TITLE_MAX_MESSAGE'))
+        .max(25, t('POST_TITLE_MAX_MESSAGE'))
         .required(t('POST_TITLE_REQUIRED_MESSAGE')),
       description: yup.string().max(100, t('POST_DESCRIPTION_MAX_MESSAGE')),
       audience: yup.mixed().oneOf(Object.values(PostAudiences)),
-      categoriesId: yup.array(),
+      categories: yup.array(),
       ...(isCreating
         ? {
             files: yup
@@ -85,53 +78,19 @@ const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true)
 
-      try {
-        if (isCreating) {
-          const uploadedFiles = await Promise.all(
-            Array.from(values.files!).map((file) =>
-              uploadFile(file, S3Paths.ALBUM)
-            )
-          )
-
-          const postResult = await albumHttpService
-            .createPost({
-              values: {
-                assets: uploadedFiles,
-                audience: values.audience,
-                categories: values.categoriesId,
-                title: values.title,
-                description: values.description
-              }
-            })
-            .catch(() => {
-              // if something wrong on the database,
-              // delete all files uploaded
-              deleteFilesObject(uploadedFiles.map((file) => file.key))
-
-              throw new Error()
-            })
-
-          dispatch(addPost(postResult.post, postResult.assets))
-        } else {
-          const updatedPost = await albumHttpService.updatePost({
-            id: post._id,
-            values: {
-              audience: values.audience,
-              categories: values.categoriesId,
-              title: values.title,
-              description: values.description
-            }
+      if (isCreating) {
+        executeCreate(values)
+          .then(() => {
+            closeDialog()
           })
-
-          dispatch(updatePost(updatedPost._id, { ...post, ...updatedPost }))
-        }
-
+          .catch(() => {
+            setSubmitting(false)
+          })
+      } else {
         closeDialog()
-      } catch (_) {
-        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
-      }
 
-      setSubmitting(false)
+        executeUpdate(post._id, values)
+      }
     }
   })
   const audienceOptions = [
@@ -177,7 +136,7 @@ const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
           <FieldMultiSelect
             label={t('POST_CATEGORIES')}
             formik={formik}
-            name="categoriesId"
+            name="categories"
             options={categoryOptions}
           />
           {isCreating && (
@@ -218,7 +177,7 @@ const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
             {t('BUTTON_CANCEL')}
           </Button>
           <Button
-            disabled={formik.isSubmitting}
+            disabled={isLoading || isError || formik.isSubmitting}
             type="submit"
             color="success"
             variant="contained"

@@ -1,9 +1,8 @@
 import { signIn, signOut } from 'next-auth/react'
-import { useDispatch } from 'react-redux'
 
 import { AccessLevels, Apps } from '@/constants/app'
+import { useCurrentUser } from '@/hooks/useHttpApp'
 import { getMockUser } from '@/mock-data/user.mockData'
-import { setUser } from '@/redux-actions'
 import { fireEvent, render, screen } from '@/utils/testing-library'
 
 import AuthStatusButton from './AuthStatusButton'
@@ -18,13 +17,12 @@ const setup = ({
   accessLevel?: AccessLevels
 }) => {
   const TestComponent = () => {
-    const dispatch = useDispatch()
     if (isLogin) {
       const mockUser = getMockUser()
       mockUser.accessLevel[appAbbreviation as Apps] = accessLevel!
-      dispatch(setUser(mockUser))
+      ;(useCurrentUser as jest.Mock).mockReturnValueOnce({ user: mockUser })
     } else {
-      dispatch(setUser(null))
+      ;(useCurrentUser as jest.Mock).mockReturnValueOnce({ user: null })
     }
 
     return <AuthStatusButton />

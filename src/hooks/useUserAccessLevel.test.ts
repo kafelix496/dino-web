@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
 
 import { AccessLevels, Apps } from '@/constants/app'
+import { useCurrentUser } from '@/hooks/useHttpApp'
 import { getMockUser } from '@/mock-data/user.mockData'
-import { setUser } from '@/redux-actions'
 import { renderHook } from '@/utils/testing-library'
 
 import { useUserAccessLevel } from './useUserAccessLevel'
@@ -37,14 +36,9 @@ describe('#useUserAccessLevel', () => {
     })
     const mockUser = getMockUser()
     mockUser.accessLevel[Apps.familyAlbum] = AccessLevels.EDITOR
+    ;(useCurrentUser as jest.Mock).mockReturnValue({ user: mockUser })
 
-    const { result } = renderHook(() => {
-      const dispatch = useDispatch()
-
-      dispatch(setUser(mockUser))
-
-      return useUserAccessLevel()
-    })
+    const { result } = renderHook(() => useUserAccessLevel())
 
     expect(result.current.userAccessLevel).toBe(AccessLevels.EDITOR)
   })

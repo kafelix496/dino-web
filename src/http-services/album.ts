@@ -4,30 +4,30 @@ import { Apps } from '@/constants/app'
 import type { AxiosRequestConfig } from '@/types'
 import type {
   Asset,
-  AssetDefault,
   Category,
   Post,
-  PostRaw,
+  PostForm,
   PostRequest
 } from '@/types/album'
 
 const albumHttpService = {
-  getCategories: (config?: AxiosRequestConfig): Promise<Category[]> =>
-    axios
-      .get<Category[]>(
-        `${process.env.PAGE_URL ?? ''}/api/app/${
-          Apps.familyAlbum
-        }/album/category`,
-        config
-      )
-      .then((res) => res.data),
-  createCategory: (
+  getCategoriesUrl() {
+    return `${process.env.PAGE_URL ?? ''}/api/app/${
+      Apps.familyAlbum
+    }/album/category`
+  },
+  async getCategories(config?: AxiosRequestConfig): Promise<Category[]> {
+    return axios
+      .get<Category[]>(this.getCategoriesUrl(), config)
+      .then((res) => res.data)
+  },
+  async createCategory(
     data: {
       values: Pick<Category, 'name'>
     },
     config?: AxiosRequestConfig
-  ): Promise<Category> =>
-    axios
+  ): Promise<Category> {
+    return axios
       .post<Category>(
         `${process.env.PAGE_URL ?? ''}/api/app/${
           Apps.familyAlbum
@@ -35,15 +35,16 @@ const albumHttpService = {
         data.values,
         config
       )
-      .then((res) => res.data),
-  updateCategory: (
+      .then((res) => res.data)
+  },
+  async updateCategory(
     data: {
       id: string
-      values: Pick<Category, 'name'>
+      values: Omit<Category, '_id'>
     },
     config?: AxiosRequestConfig
-  ): Promise<Category> =>
-    axios
+  ): Promise<Category> {
+    return axios
       .put<Category>(
         `${process.env.PAGE_URL ?? ''}/api/app/${
           Apps.familyAlbum
@@ -51,87 +52,98 @@ const albumHttpService = {
         data.values,
         config
       )
-      .then((res) => res.data),
-  deleteCategory: (
+      .then((res) => res.data)
+  },
+  async deleteCategory(
     data: {
       id: string
     },
     config?: AxiosRequestConfig
-  ): Promise<Category> =>
-    axios
+  ): Promise<Category> {
+    return axios
       .delete<Category>(
         `${process.env.PAGE_URL ?? ''}/api/app/${
           Apps.familyAlbum
         }/album/category/${data.id}`,
         config
       )
-      .then((res) => res.data),
-  getPosts: (
+      .then((res) => res.data)
+  },
+  getPostsDataUrl(data: { page: number; qpCategoryId?: string }) {
+    return (
+      `${process.env.PAGE_URL ?? ''}/api/app/${
+        Apps.familyAlbum
+      }/album/post?page=${data.page}` +
+      (data.qpCategoryId ? `&qpCategoryId=${data.qpCategoryId}` : '')
+    )
+  },
+  async getPostsData(
     data: {
       page: number
       category?: string
     },
     config?: AxiosRequestConfig
-  ): Promise<{ total: number; posts: Post[] }> =>
-    axios
+  ): Promise<{ total: number; posts: Post[] }> {
+    return axios
       .get<{ total: number; posts: Post[] }>(
-        `${process.env.PAGE_URL ?? ''}/api/app/${
-          Apps.familyAlbum
-        }/album/post?page=${data.page}` +
-          (data.category ? `&category=${data.category}` : ''),
+        this.getPostsDataUrl({ page: data.page }),
         config
       )
-      .then((res) => res.data),
-  createPost: (
+      .then((res) => res.data)
+  },
+  async createPost(
     data: {
       values: PostRequest
     },
     config?: AxiosRequestConfig
-  ): Promise<{ post: PostRaw; assets: AssetDefault[] }> =>
-    axios
-      .post<{ post: PostRaw; assets: AssetDefault[] }>(
+  ): Promise<Post> {
+    return axios
+      .post<Post>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post`,
         data.values,
         config
       )
-      .then((res) => res.data),
-  updatePost: (
+      .then((res) => res.data)
+  },
+  async updatePost(
     data: {
       id: string
-      values: PostRequest
+      values: PostForm
     },
     config?: AxiosRequestConfig
-  ): Promise<PostRaw> =>
-    axios
-      .put<PostRaw>(
+  ): Promise<Post> {
+    return axios
+      .put<Post>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post/${
           data.id
         }`,
         data.values,
         config
       )
-      .then((res) => res.data),
-  deletePost: (
+      .then((res) => res.data)
+  },
+  async deletePost(
     data: {
       id: string
     },
     config?: AxiosRequestConfig
-  ): Promise<PostRaw> =>
-    axios
-      .delete<PostRaw>(
+  ): Promise<Post> {
+    return axios
+      .delete<Post>(
         `${process.env.PAGE_URL ?? ''}/api/app/${Apps.familyAlbum}/album/post/${
           data.id
         }`,
         config
       )
-      .then((res) => res.data),
-  getAsset: (
+      .then((res) => res.data)
+  },
+  async getAsset(
     data: {
       id: string
     },
     config?: AxiosRequestConfig
-  ): Promise<Asset> =>
-    axios
+  ): Promise<Asset> {
+    return axios
       .get<Asset>(
         `${process.env.PAGE_URL ?? ''}/api/app/${
           Apps.familyAlbum
@@ -139,6 +151,7 @@ const albumHttpService = {
         config
       )
       .then((res) => res.data)
+  }
 }
 
 export default albumHttpService

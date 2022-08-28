@@ -1,6 +1,6 @@
 import { ActionType } from '@/redux-types/app'
 import type { Action, State } from '@/redux-types/app'
-import { generateUuid } from '@/utils'
+import { generateUuid } from '@/utils/app'
 
 const initialState: State = {
   toastMessages: [],

@@ -1,6 +1,6 @@
 import { useTranslation } from 'next-i18next'
 
-import { convertTime } from '@/utils'
+import { convertTime } from '@/utils/app'
 
 export const useCreatedAtText = (time: string): { createdAtText: string } => {
   const { t } = useTranslation('common')

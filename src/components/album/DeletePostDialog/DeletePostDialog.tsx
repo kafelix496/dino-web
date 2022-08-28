@@ -1,21 +1,9 @@
 import { useTranslation } from 'next-i18next'
-import { useState } from 'react'
+import { useCallback } from 'react'
 import type { FC } from 'react'
-import { useDispatch } from 'react-redux'
 
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-
-import Dialog from '@/components/Dialog/Dialog'
-import { AlertColor } from '@/constants/app'
-import albumHttpService from '@/http-services/album'
-import {
-  deletePost,
-  enqueueAlert,
-  temporaryDeletePost,
-  undoTemporaryDeletedPost
-} from '@/redux-actions'
-import { deleteFilesObject } from '@/utils/file'
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog/DeleteConfirmationDialog'
+import { useDeletePost } from '@/hooks/useHttpAlbum'
 
 interface DeletePostDialogProps {
   id: string
@@ -29,57 +17,20 @@ const DeletePostDialog: FC<DeletePostDialogProps> = ({
   closeDialog
 }) => {
   const { t } = useTranslation('common')
-  const dispatch = useDispatch()
-  const [isSubmitting, setSubmitting] = useState(false)
+  const { execute } = useDeletePost()
 
-  const handleDelete = () => {
-    setSubmitting(true)
-
-    dispatch(temporaryDeletePost(id))
-
+  const handleDelete = useCallback(() => {
     closeDialog()
 
-    albumHttpService
-      .deletePost({ id })
-      .then(() => {
-        deleteFilesObject(assetKeys)
-
-        dispatch(deletePost(id))
-      })
-      .catch(() => {
-        dispatch(undoTemporaryDeletedPost(id))
-
-        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
-      })
-      .finally(() => {
-        setSubmitting(false)
-      })
-  }
+    execute(id, assetKeys)
+  }, [id, assetKeys, closeDialog, execute])
 
   return (
-    <Dialog
-      open={true}
-      onClose={closeDialog}
-      title={t('DELETE_CATEGORY_DIALOG_TITLE')}
-      contentJsx={
-        <Typography>{t('DELETE_CATEGORY_DIALOG_CONTENT')}</Typography>
-      }
-      actionsJsx={
-        <>
-          <Button color="secondary" variant="outlined" onClick={closeDialog}>
-            {t('BUTTON_CANCEL')}
-          </Button>
-          <Button
-            disabled={isSubmitting}
-            type="submit"
-            color="error"
-            variant="contained"
-            onClick={handleDelete}
-          >
-            {t('BUTTON_DELETE')}
-          </Button>
-        </>
-      }
+    <DeleteConfirmationDialog
+      title={t('DELETE_POST_DIALOG_TITLE')}
+      description={t('DELETE_POST_DIALOG_CONTENT')}
+      handleDelete={handleDelete}
+      closeDialog={closeDialog}
     />
   )
 }

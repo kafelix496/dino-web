@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
 
 import { AccessLevels, Apps } from '@/constants/app'
-import { selectUser } from '@/redux-selectors'
+import { useCurrentUser } from '@/hooks/useHttpApp'
 
 export const useUserAccessLevel = (): { userAccessLevel: AccessLevels } => {
-  const user = useSelector(selectUser)
+  const { user } = useCurrentUser()
   const router = useRouter()
   const appAbbreviation = router.query.appAbbreviation as Apps
 

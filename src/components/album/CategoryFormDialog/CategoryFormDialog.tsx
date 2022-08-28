@@ -1,32 +1,30 @@
 import { useFormik } from 'formik'
 import { useTranslation } from 'next-i18next'
 import type { FC } from 'react'
-import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
 import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
-import { AlertColor } from '@/constants/app'
-import albumHttpService from '@/http-services/album'
-import { enqueueAlert, setCategories, updateCategory } from '@/redux-actions'
+import { useCreateCategory, useUpdateCategory } from '@/hooks/useHttpAlbum'
+import type { Category } from '@/types/album'
 
-interface EditCategoryDialogProps {
-  id: string
-  name: string
+interface CategoryFormDialogProps {
+  category?: Category
   closeDialog: () => void
 }
 
-const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
-  closeDialog,
-  id,
-  name
+const CategoryFormDialog: FC<CategoryFormDialogProps> = ({
+  category,
+  closeDialog
 }) => {
+  const isCreating = !category
   const { t } = useTranslation('common')
-  const dispatch = useDispatch()
+  const { execute: executeCreate } = useCreateCategory()
+  const { execute: executeUpdate } = useUpdateCategory()
   const formik = useFormik({
-    initialValues: { name },
+    initialValues: { name: category?.name ?? '' },
     validationSchema: yup.object({
       name: yup
         .string()
@@ -34,27 +32,21 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
         .required(t('CATEGORY_NAME_REQUIRED_MESSAGE'))
     }),
     onSubmit: (values, { setSubmitting }) => {
-      setSubmitting(true)
+      if (isCreating) {
+        setSubmitting(true)
 
-      dispatch(updateCategory(id, values))
-
-      closeDialog()
-
-      albumHttpService
-        .updateCategory({ id, values })
-        .then((category) => {
-          dispatch(updateCategory(id, category))
-        })
-        .catch(() => {
-          albumHttpService.getCategories().then((categories) => {
-            dispatch(setCategories(categories))
+        executeCreate(values)
+          .then(() => {
+            closeDialog()
           })
+          .catch(() => {
+            setSubmitting(false)
+          })
+      } else {
+        closeDialog()
 
-          dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
-        })
-        .finally(() => {
-          setSubmitting(false)
-        })
+        executeUpdate(category._id, values)
+      }
     }
   })
 
@@ -62,7 +54,11 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
     <Dialog
       open={true}
       onClose={closeDialog}
-      title={t('UPDATE_CATEGORY_DIALOG_TITLE')}
+      title={t(
+        isCreating
+          ? 'CREATE_CATEGORY_DIALOG_TITLE'
+          : 'EDIT_CATEGORY_DIALOG_TITLE'
+      )}
       wrapBodyWithForm={true}
       handleFormSubmit={formik.handleSubmit}
       contentJsx={
@@ -80,12 +76,12 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
             {t('BUTTON_CANCEL')}
           </Button>
           <Button
-            disabled={!(formik.isValid && formik.dirty) || formik.isSubmitting}
+            disabled={formik.isSubmitting}
             type="submit"
             color="success"
             variant="contained"
           >
-            {t('BUTTON_CONFIRM')}
+            {t(isCreating ? 'BUTTON_CREATE' : 'BUTTON_EDIT')}
           </Button>
         </>
       }
@@ -93,4 +89,4 @@ const EditCategoryDialog: FC<EditCategoryDialogProps> = ({
   )
 }
 
-export default EditCategoryDialog
+export default CategoryFormDialog

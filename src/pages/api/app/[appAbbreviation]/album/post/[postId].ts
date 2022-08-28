@@ -7,12 +7,12 @@ import categorySchema from '@/models/album/categorySchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { PostRaw } from '@/types/album'
+import type { Post } from '@/types/album'
 import { dbConnect } from '@/utils/database'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<PostRaw | { message?: string }>
+  res: NextApiResponse<Post | { message?: string }>
 ) {
   try {
     const token = await getToken({ req })
@@ -48,13 +48,16 @@ export default async function handler(
           return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
         }
 
-        const { audience, categories, title, description } = req.body ?? {}
+        const { title, description, audience, categories } = req.body ?? {}
 
-        const post: PostRaw | null = await postDoc.findOneAndUpdate(
-          { _id: postId },
-          { audience, categories, title, description },
-          { new: true, runValidators: true }
-        )
+        const post: Post | null = (await postDoc
+          .findOneAndUpdate(
+            { _id: postId },
+            { title, description, audience, categories },
+            { new: true, runValidators: true }
+          )
+          .populate('categories')
+          .populate('assets')) as Post | null
 
         if (!post) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
@@ -69,9 +72,12 @@ export default async function handler(
           return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
         }
 
-        const deletedPost: PostRaw | null = await postDoc.findOneAndDelete({
-          _id: postId
-        })
+        const deletedPost: Post | null = (await postDoc
+          .findOneAndDelete({
+            _id: postId
+          })
+          .populate('categories')
+          .populate('assets')) as Post | null
 
         if (!deletedPost) {
           return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })

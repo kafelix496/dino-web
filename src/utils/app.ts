@@ -4,6 +4,14 @@ import { v1 as uuidv1 } from 'uuid'
 import { AccessLevels, Apps } from '@/constants/app'
 import type { User } from '@/types'
 
+export const isPositiveStringNumber = (value: unknown): boolean => {
+  if (typeof value !== 'string') {
+    return false
+  }
+
+  return /^[1-9](\d+)?$/.test(value)
+}
+
 export const isValidApp = (app: unknown): boolean => {
   if (typeof app !== 'string') {
     return false

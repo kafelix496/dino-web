@@ -1,4 +1,4 @@
-import { PostAudiences, Reactions } from '@/constants/album'
+import { PostAudiences } from '@/constants/album'
 
 export const getMockAssets = () => [
   {
@@ -49,18 +49,5 @@ export const getMockPost = () => ({
   title: 'mock post title',
   description: 'mock post description',
   createdAt: '2022-07-28T00:10:17.950Z',
-  updatedAt: '2022-07-28T00:10:17.950Z',
-  comments: [],
-  reaction: {
-    _id: null,
-    status: null,
-    items: [
-      { type: Reactions.LIKE, total: 0 },
-      { type: Reactions.LOVE, total: 0 },
-      { type: Reactions.HAHA, total: 0 },
-      { type: Reactions.WOW, total: 0 },
-      { type: Reactions.SAD, total: 0 },
-      { type: Reactions.ANGRY, total: 0 }
-    ]
-  }
+  updatedAt: '2022-07-28T00:10:17.950Z'
 })

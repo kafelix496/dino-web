@@ -1,15 +1,9 @@
 import { useTranslation } from 'next-i18next'
-import { useState } from 'react'
 import type { FC } from 'react'
-import { useDispatch } from 'react-redux'
+import { useCallback } from 'react'
 
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-
-import Dialog from '@/components/Dialog/Dialog'
-import { AlertColor } from '@/constants/app'
-import albumHttpService from '@/http-services/album'
-import { deleteCategory, enqueueAlert, setCategories } from '@/redux-actions'
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog/DeleteConfirmationDialog'
+import { useDeleteCategory } from '@/hooks/useHttpAlbum'
 
 interface DeleteCategoryDialogProps {
   id: string
@@ -21,54 +15,20 @@ const DeleteCategoryDialog: FC<DeleteCategoryDialogProps> = ({
   closeDialog
 }) => {
   const { t } = useTranslation('common')
-  const dispatch = useDispatch()
-  const [isSubmitting, setSubmitting] = useState(false)
+  const { execute } = useDeleteCategory()
 
-  const handleDelete = () => {
-    setSubmitting(true)
-
-    dispatch(deleteCategory(id))
-
+  const handleDelete = useCallback(() => {
     closeDialog()
 
-    albumHttpService
-      .deleteCategory({ id })
-      .catch(() => {
-        albumHttpService.getCategories().then((categories) => {
-          dispatch(setCategories(categories))
-        })
-
-        dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
-      })
-      .finally(() => {
-        setSubmitting(false)
-      })
-  }
+    execute(id)
+  }, [id, closeDialog, execute])
 
   return (
-    <Dialog
-      open={true}
-      onClose={closeDialog}
+    <DeleteConfirmationDialog
       title={t('DELETE_CATEGORY_DIALOG_TITLE')}
-      contentJsx={
-        <Typography>{t('DELETE_CATEGORY_DIALOG_CONTENT')}</Typography>
-      }
-      actionsJsx={
-        <>
-          <Button color="secondary" variant="outlined" onClick={closeDialog}>
-            {t('BUTTON_CANCEL')}
-          </Button>
-          <Button
-            disabled={isSubmitting}
-            type="submit"
-            color="error"
-            variant="contained"
-            onClick={handleDelete}
-          >
-            {t('BUTTON_DELETE')}
-          </Button>
-        </>
-      }
+      description={t('DELETE_CATEGORY_DIALOG_CONTENT')}
+      handleDelete={handleDelete}
+      closeDialog={closeDialog}
     />
   )
 }

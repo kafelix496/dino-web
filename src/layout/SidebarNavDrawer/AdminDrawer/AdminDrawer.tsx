@@ -2,7 +2,6 @@ import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import type { FC } from 'react'
-import { useSelector } from 'react-redux'
 
 import AttachMoney from '@mui/icons-material/AttachMoney'
 import PhotoLibrary from '@mui/icons-material/PhotoLibrary'
@@ -12,13 +11,10 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import Tooltip from '@mui/material/Tooltip'
 
 import { Apps } from '@/constants/app'
-import { selectSidebarNavOpenStatus } from '@/redux-selectors'
 
 const AdminDrawer: FC = () => {
-  const isSidebarNavOpen = useSelector(selectSidebarNavOpenStatus)
   const router = useRouter()
   const { t } = useTranslation('common')
 
@@ -43,28 +39,23 @@ const AdminDrawer: FC = () => {
       {menus.map((menu, index) => (
         <ListItem
           key={index}
-          className={!isSidebarNavOpen ? '__d-justify-center' : ''}
           sx={{ height: (theme: Theme) => theme.spacing(8) }}
-          disablePadding={isSidebarNavOpen}
+          disablePadding={true}
         >
           <Link href={menu.url} replace>
             <ListItemButton
               selected={menu.selected}
               sx={{ height: (theme: Theme) => theme.spacing(6) }}
             >
-              <Tooltip title={!isSidebarNavOpen ? menu.label : ''}>
-                <ListItemIcon
-                  sx={{
-                    minWidth: 'initial',
-                    width: (theme: Theme) => `${theme.spacing(3)}`
-                  }}
-                >
-                  {menu.iconComponent}
-                </ListItemIcon>
-              </Tooltip>
-              {isSidebarNavOpen ? (
-                <ListItemText primary={menu.label} sx={{ ml: 3 }} />
-              ) : null}
+              <ListItemIcon
+                sx={{
+                  minWidth: 'initial',
+                  width: (theme: Theme) => `${theme.spacing(3)}`
+                }}
+              >
+                {menu.iconComponent}
+              </ListItemIcon>
+              <ListItemText primary={menu.label} sx={{ ml: 3 }} />
             </ListItemButton>
           </Link>
         </ListItem>

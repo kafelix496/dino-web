@@ -8,12 +8,7 @@ import assetSchema from '@/models/album/assetSchema'
 import userSchema from '@/models/common/userSchema'
 import { createDocument } from '@/models/utils/createDocument'
 import type { User } from '@/types'
-import type { Asset, ReactionResponse } from '@/types/album'
-import {
-  generateLookupForComments,
-  generateLookupForReactions,
-  transformReactionsForClient
-} from '@/utils/album'
+import type { Asset } from '@/types/album'
 import { dbConnect } from '@/utils/database'
 
 export default async function handler(
@@ -54,8 +49,6 @@ export default async function handler(
           {
             $match: { _id: new mongoose.Types.ObjectId(assetId as string) }
           },
-          generateLookupForComments(1, CollectionsName.ALBUM_ASSET),
-          generateLookupForReactions(CollectionsName.ALBUM_ASSET),
           {
             $lookup: {
               from: CollectionsName.ALBUM_POST,
@@ -85,11 +78,7 @@ export default async function handler(
 
         return res.status(200).json({
           ...asset,
-          siblings: asset.siblings.map((sibling) => sibling.assets),
-          reaction: transformReactionsForClient(
-            currentUserId,
-            asset.reaction as unknown as ReactionResponse[]
-          )
+          siblings: asset.siblings.map((sibling) => sibling.assets)
         })
       }
 

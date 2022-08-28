@@ -1,7 +1,5 @@
 import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
 import type { FC } from 'react'
-import { useSelector } from 'react-redux'
 
 import AddIcon from '@mui/icons-material/Add'
 import AllInboxIcon from '@mui/icons-material/AllInbox'
@@ -13,46 +11,44 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import Tooltip from '@mui/material/Tooltip'
 
-import CreateCategoryDialog from '@/components/album/CreateCategoryDialog/CreateCategoryDialog'
+import CategoryFormDialog from '@/components/album/CategoryFormDialog/CategoryFormDialog'
 import { Apps } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
+import { useCategories } from '@/hooks/useHttpAlbum'
 import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
+import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
+import DrawerSkeleton from '@/layout/SidebarNavDrawer/DrawerSkeleton/DrawerSkeleton'
 import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'
-import {
-  selectCategoryList,
-  selectSidebarNavOpenStatus
-} from '@/redux-selectors'
 import type { DrawerMenuItem } from '@/types/album'
 
 const FamilyAlbumDrawer: FC = () => {
-  const isSidebarNavOpen = useSelector(selectSidebarNavOpenStatus)
-  const router = useRouter()
+  const { isLoading, categories } = useCategories()
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
   const { isAdminOrAbove } = useIsAdminOrAbove()
-  const categoryId = router.query.categoryId
-  const categories = useSelector(selectCategoryList)
-  const menus: DrawerMenuItem[] = [
-    {
-      id: '',
-      iconComponent: <AllInboxIcon />,
-      label: t('DRAWER_MENU_ITEM_ALL'),
-      url: `/app/${Apps.familyAlbum}/album`,
-      selected: categoryId === undefined,
-      editable: false
-    }
-  ].concat(
-    categories.map((category) => ({
-      id: category._id,
-      iconComponent: <DeckIcon />,
-      label: category.name,
-      url: `/app/${Apps.familyAlbum}/album?categoryId=${category._id}`,
-      selected: categoryId === category._id,
-      editable: true
-    }))
-  )
+  const { postPageQueryParams } = usePostPageQueryParams()
+  const menus: DrawerMenuItem[] = !isLoading
+    ? [
+        {
+          id: '',
+          iconComponent: <AllInboxIcon />,
+          label: t('DRAWER_MENU_ITEM_ALL'),
+          url: `/app/${Apps.familyAlbum}/album`,
+          selected: postPageQueryParams.qpCategoryId === undefined,
+          editable: false
+        }
+      ].concat(
+        categories.map((category) => ({
+          id: category._id,
+          iconComponent: <DeckIcon />,
+          label: category.name,
+          url: `/app/${Apps.familyAlbum}/album?qpCategoryId=${category._id}`,
+          selected: postPageQueryParams.qpCategoryId === category._id,
+          editable: true
+        }))
+      )
+    : []
   const addCategoryMenu = {
     iconComponent: <AddIcon />,
     label: t('DRAWER_MENU_ITEM_ADD_CATEGORY')
@@ -67,14 +63,16 @@ const FamilyAlbumDrawer: FC = () => {
           overflowY: 'auto'
         }}
       >
-        {menus.map((menu) => (
-          <FamilyAlbumDrawerMenuItem
-            key={menu.id}
-            isSidebarNavOpen={isSidebarNavOpen}
-            canEditCategory={isAdminOrAbove}
-            menu={menu}
-          />
-        ))}
+        {isLoading && [1, 2, 3].map((item) => <DrawerSkeleton key={item} />)}
+        {!isLoading &&
+          menus.map((menu) => (
+            <FamilyAlbumDrawerMenuItem
+              key={menu.id}
+              expanded={true}
+              canEditCategory={isAdminOrAbove}
+              menu={menu}
+            />
+          ))}
       </List>
 
       {isAdminOrAbove && (
@@ -82,9 +80,8 @@ const FamilyAlbumDrawer: FC = () => {
           <Divider />
           <List>
             <ListItem
-              className={!isSidebarNavOpen ? '__d-justify-center' : ''}
               sx={{ height: (theme: Theme) => theme.spacing(8) }}
-              disablePadding={isSidebarNavOpen}
+              disablePadding={true}
             >
               <ListItemButton
                 sx={{ height: (theme: Theme) => theme.spacing(6) }}
@@ -92,32 +89,23 @@ const FamilyAlbumDrawer: FC = () => {
                   openDialog()
                 }}
               >
-                <Tooltip title={!isSidebarNavOpen ? addCategoryMenu.label : ''}>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 'initial',
-                      width: (theme: Theme) => `${theme.spacing(3)}`
-                    }}
-                  >
-                    {addCategoryMenu.iconComponent}
-                  </ListItemIcon>
-                </Tooltip>
-                {isSidebarNavOpen ? (
-                  <ListItemText
-                    primary={addCategoryMenu.label}
-                    sx={{ ml: 3 }}
-                  />
-                ) : null}
+                <ListItemIcon
+                  sx={{
+                    minWidth: 'initial',
+                    width: (theme: Theme) => `${theme.spacing(3)}`
+                  }}
+                >
+                  {addCategoryMenu.iconComponent}
+                </ListItemIcon>
+                <ListItemText primary={addCategoryMenu.label} sx={{ ml: 3 }} />
               </ListItemButton>
             </ListItem>
           </List>
         </>
       )}
 
-      {isAdminOrAbove && (
-        <>
-          {state.isOpen && <CreateCategoryDialog closeDialog={closeDialog} />}
-        </>
+      {isAdminOrAbove && state.isOpen && (
+        <CategoryFormDialog closeDialog={closeDialog} />
       )}
     </div>
   )

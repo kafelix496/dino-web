@@ -30,7 +30,6 @@ module.exports = {
     '@/pages/(.*)': '<rootDir>/src/pages/$1',
     '@/hooks/(.*)': '<rootDir>/src/hooks/$1',
     '@/utils/(.*)': '<rootDir>/src/utils/$1',
-    '@/utils': '<rootDir>/src/utils/index.ts',
     '@/models/(.*)': '<rootDir>/src/models/$1',
     '@/redux-store': '<rootDir>/src/redux/store',
     '@/redux-types/(.*)': '<rootDir>/src/redux/types/$1',
@@ -55,7 +54,8 @@ module.exports = {
     '<rootDir>/src/__mocks__/next-auth.js',
     '<rootDir>/src/__mocks__/mongoose.js',
     '<rootDir>/src/__mocks__/uuid.js',
-    '<rootDir>/src/__mocks__/file-http-service.js'
+    '<rootDir>/src/__mocks__/file-http-service.js',
+    '<rootDir>/src/__mocks__/useHttpApp.js'
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
 }
