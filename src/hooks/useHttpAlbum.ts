@@ -12,9 +12,9 @@ import { deleteFilesObject, uploadFile } from '@/utils/file'
 
 import { usePostPageQueryParams } from './usePostPageQueryParams'
 
-export const useCategories = () => {
+export const useCategories = ({ isReady }: { isReady: boolean }) => {
   const { data, error } = useSWR<Category[]>(
-    albumHttpService.getCategoriesUrl()
+    isReady ? albumHttpService.getCategoriesUrl() : null
   )
 
   return {
@@ -133,14 +133,16 @@ export const useDeleteCategory = () => {
 }
 
 export const usePostsData = ({
+  isReady,
   qpPage,
   qpCategoryId
 }: {
+  isReady: boolean
   qpPage: number
   qpCategoryId?: string
 }) => {
   const { data, error } = useSWR<{ total: number; posts: Post[] }>(
-    albumHttpService.getPostsDataUrl({ qpPage, qpCategoryId })
+    isReady ? albumHttpService.getPostsDataUrl({ qpPage, qpCategoryId }) : null
   )
 
   return {

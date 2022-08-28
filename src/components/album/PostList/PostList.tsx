@@ -7,8 +7,9 @@ import { usePostsData } from '@/hooks/useHttpAlbum'
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 
 const PostList = () => {
-  const { postPageQueryParams } = usePostPageQueryParams()
+  const { isReady, postPageQueryParams } = usePostPageQueryParams()
   const { isLoading, posts } = usePostsData({
+    isReady,
     qpPage: postPageQueryParams.qpPage,
     qpCategoryId: postPageQueryParams.qpCategoryId
   })

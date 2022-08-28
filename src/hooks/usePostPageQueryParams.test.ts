@@ -60,7 +60,6 @@ describe('#usePostPageQueryParams', () => {
       expect(mockRouter.replace).toHaveBeenCalledWith(
         {
           query: {
-            qpPage: 1,
             qpCategoryId: 'FAKE_CATEGORY',
             qpAssetId: 'FAKE_ASSET'
           }

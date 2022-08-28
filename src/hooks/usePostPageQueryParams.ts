@@ -32,7 +32,7 @@ export const usePostPageQueryParams = (): {
             mergeLeft({
               ...(isPositiveStringNumber(String(newQueryParams.qpPage))
                 ? { qpPage: String(newQueryParams.qpPage) }
-                : { qpPage: 1 }),
+                : {}),
               ...(!isNil(newQueryParams.qpCategoryId)
                 ? { qpCategoryId: newQueryParams.qpCategoryId }
                 : {}),
