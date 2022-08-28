@@ -25,18 +25,16 @@ export enum FileExtensions {
   PNG = 'png',
   JPEG = 'jpeg',
   HEIC = 'heic',
-  MP4 = 'mp4'
-  // TODO: Add more file extensions
-  // MOV = 'mov'
+  MP4 = 'mp4',
+  MOV = 'mov'
 }
 
 export enum FileInputExtensions {
   PNG = 'image/png',
   JPEG = 'image/jpeg',
   HEIC = 'image/heic',
-  MP4 = 'video/mp4'
-  // TODO: Add more file types
-  // MOV = 'video/quicktime'
+  MP4 = 'video/mp4',
+  MOV = 'video/quicktime'
 }
 
 export enum PaletteModes {
