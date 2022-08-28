@@ -32,7 +32,7 @@ const PostPagination = () => {
           showFirstButton
           showLastButton
           count={isReady ? Math.ceil(total / POST_PAGE_SIZE) : 0}
-          page={isReady ? postPageQueryParams.qpPage : -1}
+          page={isReady ? postPageQueryParams.qpPage : 0}
           onChange={handleChange}
         />
       </Box>
