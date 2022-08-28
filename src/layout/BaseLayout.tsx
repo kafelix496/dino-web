@@ -35,6 +35,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ DrawerContent, children }) => {
         <Paper
           elevation={0}
           square={true}
+          className="__d-overflow-hidden"
           sx={{ height: (theme) => `calc(100% - ${theme.spacing(8)})` }}
         >
           {children}

@@ -1,6 +1,7 @@
 import type { ComponentType, FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { useMediaQuery, useTheme } from '@mui/material'
 import type { CSSObject, Theme } from '@mui/material'
 import { Paper } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -27,6 +28,8 @@ const drawerMixin = (theme: Theme): CSSObject => ({
 const SidebarNavDrawer: FC<SidebarNavDrawerProps> = ({ DrawerContent }) => {
   const isSidebarNavOpen = useSelector(selectSidebarNavOpenStatus)
   const dispatch = useDispatch()
+  const theme = useTheme()
+  const isScreenSizeBigEnough = useMediaQuery(theme.breakpoints.up('md'))
 
   return (
     <>
@@ -59,19 +62,22 @@ const SidebarNavDrawer: FC<SidebarNavDrawerProps> = ({ DrawerContent }) => {
       </Drawer>
 
       {/* to main content pushed */}
-      <Paper
-        sx={[
-          {
-            width: isSidebarNavOpen ? DRAWER_WIDTH : 0,
-            transition: (theme: Theme) =>
-              theme.transitions.create('width', {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.standard
-              })
-          },
-          (theme: Theme) => drawerMixin(theme)
-        ]}
-      />
+      {/* only screen is big enough to display contents well */}
+      {isScreenSizeBigEnough && (
+        <Paper
+          sx={[
+            {
+              width: isSidebarNavOpen ? DRAWER_WIDTH : 0,
+              transition: (theme: Theme) =>
+                theme.transitions.create('width', {
+                  easing: theme.transitions.easing.sharp,
+                  duration: theme.transitions.duration.standard
+                })
+            },
+            (theme: Theme) => drawerMixin(theme)
+          ]}
+        />
+      )}
     </>
   )
 }

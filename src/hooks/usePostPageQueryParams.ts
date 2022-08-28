@@ -9,6 +9,7 @@ import type {
 import { isPositiveStringNumber } from '@/utils/app'
 
 export const usePostPageQueryParams = (): {
+  isReady: boolean
   postPageQueryParams: PostQueryParamResponse
   patch: (newQueryParams: PostQueryParamRequest) => void
 } => {
@@ -55,5 +56,5 @@ export const usePostPageQueryParams = (): {
     [router]
   )
 
-  return { postPageQueryParams, patch }
+  return { isReady: router.isReady, postPageQueryParams, patch }
 }

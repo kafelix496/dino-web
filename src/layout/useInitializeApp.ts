@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import nookies from 'nookies'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -13,6 +14,7 @@ import {
 
 export const useInitializeApp = () => {
   const { isLoading: isUserLoading } = useCurrentUser()
+  const router = useRouter()
   const [isInitialized, setIsInitialized] = useState(false)
   const dispatch = useDispatch()
 
@@ -41,7 +43,7 @@ export const useInitializeApp = () => {
       nookies.get()[Cookies.sidebarNav] === 'true'
     dispatch(setSidebarNavOpenStatus(!!savedSidebarNavOpenStatus))
 
-    if (!isUserLoading) {
+    if (!isUserLoading && router.isReady) {
       timer = setTimeout(() => {
         setIsInitialized(true)
       }, 250)
@@ -51,7 +53,7 @@ export const useInitializeApp = () => {
       clearTimeout(timer)
       timer = undefined
     }
-  }, [dispatch, isUserLoading])
+  }, [dispatch, isUserLoading, router.isReady])
 
   return { isInitialized }
 }

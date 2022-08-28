@@ -3,12 +3,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { compose } from 'ramda'
 import type { ReactElement } from 'react'
 
+import type { Theme } from '@mui/material'
 import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
 
 import AddPostButton from '@/components/album/AddPostButton/AddPostButton'
 import PostList from '@/components/album/PostList/PostList'
 import PostListItemDetailDialog from '@/components/album/PostListItemDetailDialog/PostListItemDetailDialog'
 import withController from '@/components/album/PostListItemDetailDialog/withController'
+import PostPagination from '@/components/album/PostPagination/PostPagination'
 import { Apps, Locales } from '@/constants/app'
 import BaseLayout from '@/layout/BaseLayout'
 import RootLayout from '@/layout/RootLayout'
@@ -21,17 +24,32 @@ const PostListItemDetailDialogWithController = compose(withController)(
 
 const Page: NextPageWithLayout = () => {
   return (
-    <Box
-      className="__d-flex __d-justify-center __d-items-start __d-h-full"
-      sx={{ pt: 5, overflow: 'auto' }}
-    >
-      <Box className="__d-w-full __d-h-full">
-        <AddPostButton />
+    <Box className="__d-flex __d-flex-col __d-w-full __d-h-full __d-overflow-auto">
+      <Paper
+        elevation={0}
+        className="__d-w-full __d-sticky"
+        sx={{ top: 0, zIndex: (theme: Theme) => theme.zIndex.appBar }}
+      >
+        <Box sx={{ mt: 5 }} />
 
+        <Box sx={{ mt: 2 }}>
+          <AddPostButton />
+        </Box>
+
+        <Box sx={{ mt: 2 }}>
+          <PostPagination />
+        </Box>
+
+        <Box sx={{ mt: 5 }} />
+      </Paper>
+
+      <Box className="__d-w-full __d-h-full">
         <PostList />
 
-        <PostListItemDetailDialogWithController title="" />
+        <Box sx={{ mt: 5 }} />
       </Box>
+
+      <PostListItemDetailDialogWithController title="" />
     </Box>
   )
 }
