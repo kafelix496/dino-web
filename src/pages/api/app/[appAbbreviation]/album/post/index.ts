@@ -37,7 +37,7 @@ export default async function handler(
 
     switch (req.method) {
       case 'GET': {
-        const { page, category } = req.query
+        const { page, qpCategoryId } = req.query
         const audienceMatch =
           currentUserAppAccessLevel === AccessLevels.NONE
             ? {
@@ -45,7 +45,7 @@ export default async function handler(
               }
             : {}
 
-        const match = category
+        const match = qpCategoryId
           ? {
               $match: {
                 $expr: {
@@ -53,7 +53,7 @@ export default async function handler(
                     audienceMatch,
                     {
                       $in: [
-                        new mongoose.Types.ObjectId(category as string),
+                        new mongoose.Types.ObjectId(qpCategoryId as string),
                         '$categories'
                       ]
                     }

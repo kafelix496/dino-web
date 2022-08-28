@@ -1,5 +1,4 @@
 import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
 import type { FC } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
@@ -18,17 +17,17 @@ import { Apps } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useCategories } from '@/hooks/useHttpAlbum'
 import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
+import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 import DrawerSkeleton from '@/layout/SidebarNavDrawer/DrawerSkeleton/DrawerSkeleton'
 import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'
 import type { DrawerMenuItem } from '@/types/album'
 
 const FamilyAlbumDrawer: FC = () => {
   const { isLoading, categories } = useCategories()
-  const router = useRouter()
   const { t } = useTranslation('common')
   const { state, openDialog, closeDialog } = useDialogStatus()
   const { isAdminOrAbove } = useIsAdminOrAbove()
-  const qpCategoryId = router.query.qpCategoryId
+  const { postPageQueryParams } = usePostPageQueryParams()
   const menus: DrawerMenuItem[] = !isLoading
     ? [
         {
@@ -36,7 +35,7 @@ const FamilyAlbumDrawer: FC = () => {
           iconComponent: <AllInboxIcon />,
           label: t('DRAWER_MENU_ITEM_ALL'),
           url: `/app/${Apps.familyAlbum}/album`,
-          selected: qpCategoryId === undefined,
+          selected: postPageQueryParams.qpCategoryId === undefined,
           editable: false
         }
       ].concat(
@@ -45,7 +44,7 @@ const FamilyAlbumDrawer: FC = () => {
           iconComponent: <DeckIcon />,
           label: category.name,
           url: `/app/${Apps.familyAlbum}/album?qpCategoryId=${category._id}`,
-          selected: qpCategoryId === category._id,
+          selected: postPageQueryParams.qpCategoryId === category._id,
           editable: true
         }))
       )

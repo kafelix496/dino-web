@@ -162,7 +162,7 @@ export const useCreatePost = () => {
       return mutate(
         albumHttpService.getPostsDataUrl({
           page: postPageQueryParams.page,
-          category: postPageQueryParams.category
+          qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         Promise.all(
           Array.from(values.files!).map((file) =>
@@ -220,7 +220,7 @@ export const useUpdatePost = () => {
       return mutate(
         albumHttpService.getPostsDataUrl({
           page: postPageQueryParams.page,
-          category: postPageQueryParams.category
+          qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         albumHttpService.updatePost({ id, values }),
         {
@@ -278,7 +278,7 @@ export const useDeletePost = () => {
       return mutate(
         albumHttpService.getPostsDataUrl({
           page: postPageQueryParams.page,
-          category: postPageQueryParams.category
+          qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         albumHttpService.deletePost({ id }).then((post) => {
           deleteFilesObject(assetKeys)
