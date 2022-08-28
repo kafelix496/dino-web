@@ -82,7 +82,7 @@ export const uploadFile = (file: File, path = '') =>
           throw new Error()
         }
 
-        const key = `${path}${generateUuid()}`
+        const key = `${path}${generateUuid()}.${extension}`
 
         tryToUploadFile(key, file).then((status) => {
           if (!status) {
