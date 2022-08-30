@@ -17,7 +17,7 @@ const postSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      maxLength: 100
+      maxLength: 500
     },
     audience: {
       type: String,
