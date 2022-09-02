@@ -7,7 +7,7 @@ export const useCurrentUser = () => {
   const { data, error } = useSWR<User>(appHttpService.getCurrentUserUrl())
 
   return {
-    isLoading: data !== undefined && error !== undefined,
+    isLoading: data === undefined && error !== undefined,
     isError: !!error,
     user: data ?? null
   }
