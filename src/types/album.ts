@@ -67,8 +67,3 @@ export interface Post {
   createdAt: string
   updatedAt: string
 }
-
-export interface PostsData {
-  total: number
-  posts: Post[]
-}

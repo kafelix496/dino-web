@@ -16,11 +16,6 @@ const albumHttpService = {
       Apps.familyAlbum
     }/album/category`
   },
-  async getCategories(config?: AxiosRequestConfig): Promise<Category[]> {
-    return axios
-      .get<Category[]>(this.getCategoriesUrl(), config)
-      .then((res) => res.data)
-  },
   async createCategory(
     data: {
       values: Pick<Category, 'name'>
@@ -69,7 +64,12 @@ const albumHttpService = {
       )
       .then((res) => res.data)
   },
-  getPostsDataUrl(data: { qpPage: number; qpCategoryId?: string }) {
+  getPostsTotalUrl() {
+    return `${process.env.PAGE_URL ?? ''}/api/app/${
+      Apps.familyAlbum
+    }/album/post/total`
+  },
+  getPostsUrl(data: { qpPage: number; qpCategoryId?: string }) {
     return (
       `${process.env.PAGE_URL ?? ''}/api/app/${
         Apps.familyAlbum
@@ -77,18 +77,9 @@ const albumHttpService = {
       (data.qpCategoryId ? `&qpCategoryId=${data.qpCategoryId}` : '')
     )
   },
-  async getPostsData(
-    data: {
-      qpPage: number
-      category?: string
-    },
-    config?: AxiosRequestConfig
-  ): Promise<{ total: number; posts: Post[] }> {
+  async getPostsTotal(config?: AxiosRequestConfig): Promise<number> {
     return axios
-      .get<{ total: number; posts: Post[] }>(
-        this.getPostsDataUrl({ qpPage: data.qpPage }),
-        config
-      )
+      .get<number>(this.getPostsTotalUrl(), config)
       .then((res) => res.data)
   },
   async createPost(
