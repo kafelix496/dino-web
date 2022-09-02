@@ -9,7 +9,7 @@ export const useCurrentUser = () => {
   )
 
   return {
-    isLoading: data === undefined && error !== undefined,
+    isLoading: data === undefined && error === undefined,
     isValidating,
     isError: !!error,
     user: data ?? null

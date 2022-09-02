@@ -18,7 +18,7 @@ export const useCategories = ({ isReady }: { isReady: boolean }) => {
   )
 
   return {
-    isLoading: data === undefined && error !== undefined,
+    isLoading: data === undefined && error === undefined,
     isValidating,
     isError: !!error,
     categories: data ?? []
@@ -139,7 +139,7 @@ export const usePostsTotal = ({ isReady }: { isReady: boolean }) => {
   )
 
   return {
-    isLoading: data === undefined && error !== undefined,
+    isLoading: data === undefined && error === undefined,
     isValidating,
     isError: !!error,
     total: data
@@ -160,7 +160,7 @@ export const usePosts = ({
   )
 
   return {
-    isLoading: data === undefined && error !== undefined,
+    isLoading: data === undefined && error === undefined,
     isValidating,
     isError: !!error,
     posts: data ?? []
