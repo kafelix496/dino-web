@@ -2,16 +2,12 @@ import Box from '@mui/material/Box'
 import Pagination from '@mui/material/Pagination'
 
 import { POST_MAX_WIDTH, POST_PAGE_SIZE } from '@/constants/album'
-import { usePostsData } from '@/hooks/useHttpAlbum'
+import { usePostsTotal } from '@/hooks/useHttpAlbum'
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 
 const PostPagination = () => {
   const { isReady, postPageQueryParams, patch } = usePostPageQueryParams()
-  const { total } = usePostsData({
-    isReady,
-    qpPage: postPageQueryParams.qpPage,
-    qpCategoryId: postPageQueryParams.qpCategoryId
-  })
+  const { isLoading, total } = usePostsTotal({ isReady: true })
 
   // @ts-expect-error // don't need a type for the first parameter
   const handleChange = (_, value: number) => {
@@ -31,7 +27,7 @@ const PostPagination = () => {
           className="__d-flex-center"
           showFirstButton
           showLastButton
-          count={isReady ? Math.ceil(total / POST_PAGE_SIZE) : 0}
+          count={isReady && !isLoading ? Math.ceil(total! / POST_PAGE_SIZE) : 0}
           page={isReady ? postPageQueryParams.qpPage : 0}
           onChange={handleChange}
         />

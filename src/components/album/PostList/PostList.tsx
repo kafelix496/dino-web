@@ -3,12 +3,12 @@ import Box from '@mui/material/Box'
 
 import PostListItem from '@/components/album/PostListItem/PostListItem'
 import PostListItemSkeleton from '@/components/album/PostListItemSkeleton/PostListItemSkeleton'
-import { usePostsData } from '@/hooks/useHttpAlbum'
+import { usePosts } from '@/hooks/useHttpAlbum'
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 
 const PostList = () => {
   const { isReady, postPageQueryParams } = usePostPageQueryParams()
-  const { isLoading, posts } = usePostsData({
+  const { isLoading, posts } = usePosts({
     isReady,
     qpPage: postPageQueryParams.qpPage,
     qpCategoryId: postPageQueryParams.qpCategoryId

@@ -6,7 +6,7 @@ import useSWR, { useSWRConfig } from 'swr'
 import { AlertColor, S3Paths } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import { enqueueAlert } from '@/redux-actions'
-import type { Category, Post, PostForm, PostsData } from '@/types/album'
+import type { Category, Post, PostForm } from '@/types/album'
 import { generateUuid } from '@/utils/app'
 import { deleteFilesObject, uploadFile } from '@/utils/file'
 
@@ -132,7 +132,19 @@ export const useDeleteCategory = () => {
   return { execute }
 }
 
-export const usePostsData = ({
+export const usePostsTotal = ({ isReady }: { isReady: boolean }) => {
+  const { data, error } = useSWR<number>(
+    isReady ? albumHttpService.getPostsTotalUrl() : null
+  )
+
+  return {
+    isLoading: data === undefined && error !== undefined,
+    isError: !!error,
+    total: data
+  }
+}
+
+export const usePosts = ({
   isReady,
   qpPage,
   qpCategoryId
@@ -141,15 +153,14 @@ export const usePostsData = ({
   qpPage: number
   qpCategoryId?: string
 }) => {
-  const { data, error } = useSWR<{ total: number; posts: Post[] }>(
-    isReady ? albumHttpService.getPostsDataUrl({ qpPage, qpCategoryId }) : null
+  const { data, error } = useSWR<Post[]>(
+    isReady ? albumHttpService.getPostsUrl({ qpPage, qpCategoryId }) : null
   )
 
   return {
     isLoading: data === undefined && error !== undefined,
     isError: !!error,
-    total: data?.total ?? 0,
-    posts: data?.posts ?? []
+    posts: data ?? []
   }
 }
 
@@ -162,7 +173,7 @@ export const useCreatePost = () => {
   const execute = useCallback(
     async (values: PostForm) => {
       return mutate(
-        albumHttpService.getPostsDataUrl({
+        albumHttpService.getPostsUrl({
           qpPage: postPageQueryParams.qpPage,
           qpCategoryId: postPageQueryParams.qpCategoryId
         }),
@@ -190,13 +201,18 @@ export const useCreatePost = () => {
             })
         ),
         {
-          populateCache: (newPost: Post, postsData: PostsData) => {
-            return {
-              total: postsData.total,
-              posts: postsData.posts.map((post) =>
-                post._id === newPost._id ? newPost : post
-              )
-            }
+          populateCache: (_, posts: Post[]) => {
+            mutate(albumHttpService.getPostsTotalUrl(), undefined, {
+              optimisticData: (total: number) => {
+                return total + 1
+              },
+              populateCache: (_, total: number) => {
+                return total + 1
+              },
+              rollbackOnError: true
+            })
+
+            return posts
           }
         }
       ).catch((error) => {
@@ -220,35 +236,27 @@ export const useUpdatePost = () => {
   const execute = useCallback(
     async (id: string, values: PostForm) => {
       return mutate(
-        albumHttpService.getPostsDataUrl({
+        albumHttpService.getPostsUrl({
           qpPage: postPageQueryParams.qpPage,
           qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         albumHttpService.updatePost({ id, values }),
         {
-          optimisticData: (postsData: PostsData) => {
-            return {
-              total: postsData.total,
-              posts: postsData.posts.map((post) =>
-                post._id === id
-                  ? {
-                      ...post,
-                      title: values.title,
-                      description: values.description,
-                      audience: values.audience,
-                      categories: values.categories
-                    }
-                  : post
-              )
-            }
+          optimisticData: (posts: Post[]) => {
+            return posts.map((post) =>
+              post._id === id
+                ? {
+                    ...post,
+                    title: values.title,
+                    description: values.description,
+                    audience: values.audience,
+                    categories: values.categories
+                  }
+                : post
+            )
           },
-          populateCache: (newPost: Post, postsData: PostsData) => {
-            return {
-              total: postsData.total,
-              posts: postsData.posts.map((post) =>
-                post._id === id ? newPost : post
-              )
-            }
+          populateCache: (newPost: Post, posts: Post[]) => {
+            return posts.map((post) => (post._id === id ? newPost : post))
           },
           rollbackOnError: true
         }
@@ -272,13 +280,11 @@ export const useDeletePost = () => {
 
   const execute = useCallback(
     async (id: string, assetKeys: string[]) => {
-      const getNewPostsData = (postsData: PostsData): PostsData => ({
-        total: postsData.total - 1,
-        posts: postsData.posts.filter((post) => post._id !== id)
-      })
+      const getNewPosts = (posts: Post[]): Post[] =>
+        posts.filter((post) => post._id !== id)
 
       return mutate(
-        albumHttpService.getPostsDataUrl({
+        albumHttpService.getPostsUrl({
           qpPage: postPageQueryParams.qpPage,
           qpCategoryId: postPageQueryParams.qpCategoryId
         }),
@@ -288,11 +294,21 @@ export const useDeletePost = () => {
           return post
         }),
         {
-          optimisticData: (postsData: PostsData) => {
-            return getNewPostsData(postsData)
+          optimisticData: (posts: Post[]) => {
+            return getNewPosts(posts)
           },
-          populateCache: (_, postsData: PostsData) => {
-            return getNewPostsData(postsData)
+          populateCache: (_, posts: Post[]) => {
+            mutate(albumHttpService.getPostsTotalUrl(), undefined, {
+              optimisticData: (total: number) => {
+                return total - 1
+              },
+              populateCache: (_, total: number) => {
+                return total - 1
+              },
+              rollbackOnError: true
+            })
+
+            return getNewPosts(posts)
           },
           rollbackOnError: true
         }
