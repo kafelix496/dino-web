@@ -6,7 +6,7 @@ import useSWR, { useSWRConfig } from 'swr'
 import { AlertColor, S3Paths } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import { enqueueAlert } from '@/redux-actions'
-import type { Category, Post, PostForm } from '@/types/album'
+import type { Asset, Category, Post, PostForm } from '@/types/album'
 import { generateUuid } from '@/utils/app'
 import { deleteFilesObject, uploadFile } from '@/utils/file'
 
@@ -325,4 +325,23 @@ export const useDeletePost = () => {
   )
 
   return { execute }
+}
+
+export const useAsset = ({
+  isReady,
+  assetId
+}: {
+  isReady: boolean
+  assetId: string
+}) => {
+  const { data, error, isValidating } = useSWR<Asset>(
+    isReady ? albumHttpService.getAssetUrl({ id: assetId }) : null
+  )
+
+  return {
+    isLoading: data === undefined && error === undefined,
+    isValidating,
+    isError: !!error,
+    asset: data!
+  }
 }
