@@ -13,12 +13,13 @@ import { deleteFilesObject, uploadFile } from '@/utils/file'
 import { usePostPageQueryParams } from './usePostPageQueryParams'
 
 export const useCategories = ({ isReady }: { isReady: boolean }) => {
-  const { data, error } = useSWR<Category[]>(
+  const { data, error, isValidating } = useSWR<Category[]>(
     isReady ? albumHttpService.getCategoriesUrl() : null
   )
 
   return {
     isLoading: data === undefined && error !== undefined,
+    isValidating,
     isError: !!error,
     categories: data ?? []
   }
@@ -133,12 +134,13 @@ export const useDeleteCategory = () => {
 }
 
 export const usePostsTotal = ({ isReady }: { isReady: boolean }) => {
-  const { data, error } = useSWR<number>(
+  const { data, error, isValidating } = useSWR<number>(
     isReady ? albumHttpService.getPostsTotalUrl() : null
   )
 
   return {
     isLoading: data === undefined && error !== undefined,
+    isValidating,
     isError: !!error,
     total: data
   }
@@ -153,12 +155,13 @@ export const usePosts = ({
   qpPage: number
   qpCategoryId?: string
 }) => {
-  const { data, error } = useSWR<Post[]>(
+  const { data, error, isValidating } = useSWR<Post[]>(
     isReady ? albumHttpService.getPostsUrl({ qpPage, qpCategoryId }) : null
   )
 
   return {
     isLoading: data === undefined && error !== undefined,
+    isValidating,
     isError: !!error,
     posts: data ?? []
   }
