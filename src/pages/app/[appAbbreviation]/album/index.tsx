@@ -13,6 +13,7 @@ import PostListItemDetailDialog from '@/components/album/PostListItemDetailDialo
 import withController from '@/components/album/PostListItemDetailDialog/withController'
 import PostPagination from '@/components/album/PostPagination/PostPagination'
 import { Apps, Locales } from '@/constants/app'
+import { useRedirect404IfNotSignedIn } from '@/hooks/useRedirect404IfNotSignedIn'
 import BaseLayout from '@/layout/BaseLayout'
 import RootLayout from '@/layout/RootLayout'
 import FamilyAlbumDrawer from '@/layout/SidebarNavDrawer/FamilyAlbumDrawer/FamilyAlbumDrawer'
@@ -23,6 +24,8 @@ const PostListItemDetailDialogWithController = compose(withController)(
 )
 
 const Page: NextPageWithLayout = () => {
+  useRedirect404IfNotSignedIn()
+
   return (
     <Box className="__d-flex __d-flex-col __d-w-full __d-h-full __d-overflow-auto">
       <Paper
