@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react'
 import type { FC, ReactNode } from 'react'
+import { useSelector } from 'react-redux'
 
 import type { Theme } from '@mui/material'
 import Backdrop from '@mui/material/Backdrop'
@@ -7,6 +8,8 @@ import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
+
+import { selectGlobalLoadingState } from '@/redux-selectors'
 
 import Header from './Header/Header'
 import SettingsDrawer from './SettingsDrawer/SettingsDrawer'
@@ -20,6 +23,7 @@ interface BaseLayoutProps {
 
 const BaseLayout: FC<BaseLayoutProps> = ({ DrawerContent, children }) => {
   const { isInitialized } = useInitializeApp()
+  const isGlobalLoading = useSelector(selectGlobalLoadingState)
 
   return (
     <Box className="__d-flex">
@@ -57,6 +61,14 @@ const BaseLayout: FC<BaseLayoutProps> = ({ DrawerContent, children }) => {
           <CircularProgress color="inherit" />
         </Backdrop>
       </Paper>
+
+      <Backdrop
+        className="__d-global-loading-backdrop"
+        sx={{ color: (theme: Theme) => theme.palette.secondary.main }}
+        open={isGlobalLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   )
 }

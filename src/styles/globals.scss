@@ -22,6 +22,15 @@ body {
   padding: 0;
 }
 
+.__d-global-loading-backdrop {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+}
+
 .__d-backdrop-paper {
   position: fixed;
   left: 0;
