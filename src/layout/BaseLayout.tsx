@@ -23,7 +23,7 @@ interface BaseLayoutProps {
 
 const BaseLayout: FC<BaseLayoutProps> = ({ DrawerContent, children }) => {
   const { isInitialized } = useInitializeApp()
-  const isGlobalLoading = useSelector(selectGlobalLoadingState)
+  const isLoadingGlobally = useSelector(selectGlobalLoadingState)
 
   return (
     <Box className="__d-flex">
@@ -65,7 +65,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ DrawerContent, children }) => {
       <Backdrop
         className="__d-global-loading-backdrop"
         sx={{ color: (theme: Theme) => theme.palette.secondary.main }}
-        open={isGlobalLoading}
+        open={isLoadingGlobally}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
