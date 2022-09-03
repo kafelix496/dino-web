@@ -1,6 +1,7 @@
 import type { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { compose } from 'ramda'
+import { useRef } from 'react'
 import type { ReactElement } from 'react'
 
 import type { Theme } from '@mui/material'
@@ -14,6 +15,7 @@ import withController from '@/components/album/PostListItemDetailDialog/withCont
 import PostPagination from '@/components/album/PostPagination/PostPagination'
 import { Apps, Locales } from '@/constants/app'
 import { useRedirect404IfNotSignedIn } from '@/hooks/useRedirect404IfNotSignedIn'
+import { useScrollTop0IfPostPageNumberChange } from '@/hooks/useScrollTop0IfPostPageNumberChange'
 import BaseLayout from '@/layout/BaseLayout'
 import RootLayout from '@/layout/RootLayout'
 import FamilyAlbumDrawer from '@/layout/SidebarNavDrawer/FamilyAlbumDrawer/FamilyAlbumDrawer'
@@ -24,10 +26,16 @@ const PostListItemDetailDialogWithController = compose(withController)(
 )
 
 const Page: NextPageWithLayout = () => {
+  const scrollBoxRef = useRef<HTMLElement>(null)
+
+  useScrollTop0IfPostPageNumberChange(scrollBoxRef)
   useRedirect404IfNotSignedIn()
 
   return (
-    <Box className="__d-flex __d-flex-col __d-w-full __d-h-full __d-overflow-auto">
+    <Box
+      className="__d-flex __d-flex-col __d-w-full __d-h-full __d-overflow-auto"
+      ref={scrollBoxRef}
+    >
       <Paper
         elevation={0}
         className="__d-w-full __d-sticky"

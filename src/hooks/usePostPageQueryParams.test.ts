@@ -11,11 +11,9 @@ describe('#usePostPageQueryParams', () => {
         query: { qpPage: '2', qpCategoryId: 'FAKE_CATEGORY' },
         replace: jest.fn()
       }
-      const { result } = renderHook(() => {
-        ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
+      ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
 
-        return usePostPageQueryParams()
-      })
+      const { result } = renderHook(() => usePostPageQueryParams())
 
       expect(result.current.postPageQueryParams).toEqual({
         qpPage: 2,
@@ -29,11 +27,9 @@ describe('#usePostPageQueryParams', () => {
         query: { query: 'INVALID', qpCategoryId: 'FAKE_CATEGORY' },
         replace: jest.fn()
       }
-      const { result } = renderHook(() => {
-        ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
+      ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
 
-        return usePostPageQueryParams()
-      })
+      const { result } = renderHook(() => usePostPageQueryParams())
 
       expect(result.current.postPageQueryParams).toEqual({
         qpPage: 1,
@@ -49,11 +45,9 @@ describe('#usePostPageQueryParams', () => {
         query: { qpCategoryId: 'FAKE_CATEGORY' },
         replace: jest.fn()
       }
-      const { result } = renderHook(() => {
-        ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
+      ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
 
-        return usePostPageQueryParams()
-      })
+      const { result } = renderHook(() => usePostPageQueryParams())
 
       expect(mockRouter.replace).not.toHaveBeenCalled()
       result.current.patch({ qpPage: -1, qpAssetId: 'FAKE_ASSET' })
@@ -74,11 +68,9 @@ describe('#usePostPageQueryParams', () => {
         query: { qpCategoryId: 'FAKE_CATEGORY' },
         replace: jest.fn()
       }
-      const { result } = renderHook(() => {
-        ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
+      ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
 
-        return usePostPageQueryParams()
-      })
+      const { result } = renderHook(() => usePostPageQueryParams())
 
       expect(mockRouter.replace).not.toHaveBeenCalled()
       result.current.patch({ qpPage: 2, qpAssetId: 'FAKE_ASSET' })
@@ -100,11 +92,9 @@ describe('#usePostPageQueryParams', () => {
         query: { qpCategoryId: 'FAKE_CATEGORY' },
         replace: jest.fn()
       }
-      const { result } = renderHook(() => {
-        ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
+      ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
 
-        return usePostPageQueryParams()
-      })
+      const { result } = renderHook(() => usePostPageQueryParams())
 
       expect(mockRouter.replace).not.toHaveBeenCalled()
       result.current.patch({
