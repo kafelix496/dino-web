@@ -2,18 +2,25 @@ import { AlertColor } from '@/constants/app'
 import type { ToastMessage } from '@/types'
 
 export interface State {
+  isLoading: boolean
   toastMessages: ToastMessage[]
   isSidebarNavOpen: boolean
   isSettingNavOpen: boolean
 }
 
 export enum ActionType {
+  SET_LOADING = 'app/setLoading',
   ENQUEUE_ALERT = 'app/enqueueAlert',
   DELETE_ALERT = 'app/deleteAlert',
   UPDATE_SIDEBAR_NAV_OPEN_STATUS = 'app/updateSidebarNavOpenStatus',
   TOGGLE_SIDEBAR_NAV_OPEN_STATUS = 'app/toggleSidebarNavOpenStatus',
   UPDATE_SETTING_NAV_OPEN_STATUS = 'app/updateSettingNavOpenStatus',
   TOGGLE_SETTING_NAV_OPEN_STATUS = 'app/toggleSettingNavOpenStatus'
+}
+
+export interface setLoadingAction {
+  type: ActionType.SET_LOADING
+  status: boolean
 }
 
 export interface enqueueAlertAction {
@@ -46,6 +53,7 @@ export interface toggleSettingNavOpenStatusAction {
 }
 
 export type Action =
+  | setLoadingAction
   | enqueueAlertAction
   | deleteAlertAction
   | updateSidebarNavOpenStatusAction

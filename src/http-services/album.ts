@@ -128,6 +128,11 @@ const albumHttpService = {
       )
       .then((res) => res.data)
   },
+  getAssetUrl(data: { id: string }) {
+    return `${process.env.PAGE_URL ?? ''}/api/app/${
+      Apps.familyAlbum
+    }/album/asset/${data.id}`
+  },
   async getAsset(
     data: {
       id: string
@@ -135,12 +140,7 @@ const albumHttpService = {
     config?: AxiosRequestConfig
   ): Promise<Asset> {
     return axios
-      .get<Asset>(
-        `${process.env.PAGE_URL ?? ''}/api/app/${
-          Apps.familyAlbum
-        }/album/asset/${data.id}`,
-        config
-      )
+      .get<Asset>(this.getAssetUrl({ id: data.id }), config)
       .then((res) => res.data)
   }
 }

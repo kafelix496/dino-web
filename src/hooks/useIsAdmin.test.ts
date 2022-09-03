@@ -12,16 +12,6 @@ enum SetupType {
   useIsSuperAdmin = 'useIsSuperAdmin'
 }
 
-jest.mock('next/router', () => {
-  const originalModule = jest.requireActual('next/router')
-
-  return {
-    __esModule: true,
-    ...originalModule,
-    useRouter: jest.fn()
-  }
-})
-
 const setup = ({
   isLogin,
   appAbbreviation,

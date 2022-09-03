@@ -1,6 +1,7 @@
 import type { FC, ReactElement, ReactNode } from 'react'
-import { Provider } from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
 
+import { SWRProvider } from '@/pages/_app'
 import { makeStore } from '@/redux-store'
 import { render, renderHook } from '@testing-library/react'
 import type { RenderHookOptions } from '@testing-library/react'
@@ -11,7 +12,9 @@ interface ProvidersProps {
 }
 
 const Providers: FC<ProvidersProps> = ({ children }) => (
-  <Provider store={makeStore()}>{children}</Provider>
+  <ReduxProvider store={makeStore()}>
+    <SWRProvider>{children}</SWRProvider>
+  </ReduxProvider>
 )
 
 const customRender = (

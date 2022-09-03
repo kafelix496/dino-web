@@ -3,6 +3,7 @@ import type { Action, State } from '@/redux-types/app'
 import { generateUuid } from '@/utils/app'
 
 const initialState: State = {
+  isLoading: false,
   toastMessages: [],
   isSidebarNavOpen: false,
   isSettingNavOpen: false
@@ -10,6 +11,13 @@ const initialState: State = {
 
 const reducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
+    case ActionType.SET_LOADING: {
+      return {
+        ...state,
+        isLoading: action.status
+      }
+    }
+
     case ActionType.ENQUEUE_ALERT: {
       return {
         ...state,

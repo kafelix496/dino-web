@@ -1,5 +1,13 @@
 import { PostAudiences } from '@/constants/album'
 
+export const getMockAsset = () => ({
+  _id: '62e1d3e9e54d94213ef3720e',
+  key: 'a93f5cf0-0e09-11ed-9f93-8f1a6ce6cf87',
+  extension: 'png',
+  createdAt: '2022-07-28T00:10:17.946Z',
+  updatedAt: '2022-07-28T00:10:17.946Z'
+})
+
 export const getMockAssets = () => [
   {
     _id: '62e1d3e9e54d94213ef3720e',

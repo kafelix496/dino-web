@@ -37,7 +37,9 @@ type Config = SWRConfiguration & Partial<ProviderConfiguration>
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
 
-const SWRProvider: FC<PropsWithChildren<{ value?: Config }>> = (props) => {
+export const SWRProvider: FC<PropsWithChildren<{ value?: Config }>> = (
+  props
+) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -45,7 +47,8 @@ const SWRProvider: FC<PropsWithChildren<{ value?: Config }>> = (props) => {
     fetcher: (resource, init) => axios(resource, init).then((res) => res.data),
     onError: () => {
       dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
-    }
+    },
+    dedupingInterval: 0
   }
   return createElement(SWRConfig, { ...props, ...{ value: configValue } })
 }

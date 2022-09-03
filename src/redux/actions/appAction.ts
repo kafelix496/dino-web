@@ -8,6 +8,28 @@ import type { RootState } from '@/redux-types'
 import { ActionType } from '@/redux-types/app'
 import type { Action } from '@/redux-types/app'
 
+export const showGlobalLoading = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action
+> => {
+  return (dispatch) => {
+    dispatch({ type: ActionType.SET_LOADING, status: true })
+  }
+}
+
+export const hideGlobalLoading = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action
+> => {
+  return (dispatch) => {
+    dispatch({ type: ActionType.SET_LOADING, status: false })
+  }
+}
+
 export const enqueueAlert = (
   severity: AlertColor,
   message: string

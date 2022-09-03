@@ -17,9 +17,9 @@ interface PostListItemAssetListProps {
 const GAP = 16
 
 const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
-  const { assetsWithSrc } = useAssetsSrc(assets)
+  const { refinedAsset } = useAssetsSrc(assets)
 
-  switch (assetsWithSrc.length) {
+  switch (refinedAsset.length) {
     case 1: {
       return (
         <Box>
@@ -32,7 +32,7 @@ const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
             <PostAsset
               target={PostAssetTargets.SINGLE}
               withAddIcon={false}
-              asset={head(assetsWithSrc)!}
+              asset={head(refinedAsset)!}
             />
           </ImageList>
         </Box>
@@ -48,7 +48,7 @@ const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
             gap={GAP}
             rowHeight={POST_ROW_HEIGHT}
           >
-            {assetsWithSrc.map((asset) => (
+            {refinedAsset.map((asset) => (
               <PostAsset
                 key={asset._id}
                 target={PostAssetTargets.MULTIPLE}
@@ -70,7 +70,7 @@ const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
             gap={GAP}
             rowHeight={POST_ROW_HEIGHT}
           >
-            {assetsWithSrc.map((asset, index) => (
+            {refinedAsset.map((asset, index) => (
               <PostAsset
                 key={asset._id}
                 cols={index === 0 ? 2 : 1}
@@ -93,11 +93,11 @@ const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
             gap={GAP}
             rowHeight={POST_ROW_HEIGHT}
           >
-            {assetsWithSrc.slice(0, 4).map((asset, index) => (
+            {refinedAsset.slice(0, 4).map((asset, index) => (
               <PostAsset
                 key={asset._id}
                 target={PostAssetTargets.MULTIPLE}
-                withAddIcon={index === 3 && assetsWithSrc.length > 4}
+                withAddIcon={index === 3 && refinedAsset.length > 4}
                 asset={asset}
               />
             ))}
