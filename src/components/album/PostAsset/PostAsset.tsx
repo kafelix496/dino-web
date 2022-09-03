@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import type { FC } from 'react'
 import { useState } from 'react'
 
@@ -30,6 +31,17 @@ const PostAsset: FC<PostAssetProps> = ({
   const hasSrc = !!asset.src
   const isImage = asset.type === FileTypes.IMAGE
   const isVideo = asset.type === FileTypes.VIDEO
+
+  const thumbnailSrc = useMemo(() => {
+    if (!isVideo) {
+      return ''
+    }
+
+    const [pathname, queryString] = (asset.src ?? '').split('?')
+    const thumbnailSrc = `${pathname}/ik-thumbnail.jpg?${queryString}`
+
+    return thumbnailSrc
+  }, [asset.src, isVideo])
 
   const handleClickAsset = () => {
     if (
@@ -72,7 +84,8 @@ const PostAsset: FC<PostAssetProps> = ({
         {(!hasSrc || isAssetLoading) && <Skeleton width="100%" height="100%" />}
 
         {isImage && hasSrc && (
-          <img
+          <Box
+            component="img"
             className={
               '__d-w-full __d-h-full' +
               (withAddIcon ? ' __d-opacity-50' : '') +
@@ -81,7 +94,7 @@ const PostAsset: FC<PostAssetProps> = ({
                 : ' __d-object-cover')
             }
             src={asset.src}
-            style={{
+            sx={{
               display: isAssetLoading ? 'none' : '',
               ...(target === PostAssetTargets.SINGLE
                 ? {
@@ -101,7 +114,8 @@ const PostAsset: FC<PostAssetProps> = ({
         )}
 
         {isVideo && hasSrc && (
-          <video
+          <Box
+            component="video"
             controls={target === PostAssetTargets.DETAIL}
             className={
               '__d-w-full __d-h-full' +
@@ -111,7 +125,8 @@ const PostAsset: FC<PostAssetProps> = ({
                 : ' __d-object-cover')
             }
             src={asset.src}
-            style={{
+            poster={thumbnailSrc}
+            sx={{
               display: isAssetLoading ? 'none' : '',
               ...(target === PostAssetTargets.SINGLE
                 ? {

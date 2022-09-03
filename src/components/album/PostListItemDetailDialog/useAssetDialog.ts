@@ -7,7 +7,7 @@ import { useAsset } from '@/hooks/useHttpAlbum'
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 import { hideGlobalLoading, showGlobalLoading } from '@/redux-actions'
 import type { Asset } from '@/types/album'
-import { getAssetUrl } from '@/utils/album'
+import { getAssetSrc } from '@/utils/album'
 
 export const useAssetDialog = () => {
   const [refinedAsset, setRefinedAsset] = useState<Asset | null>(null)
@@ -46,7 +46,7 @@ export const useAssetDialog = () => {
       // so PostAsset component displays skeleton.
       setRefinedAsset(asset)
 
-      getAssetUrl({ key: asset.key, extension: asset.extension })
+      getAssetSrc({ key: asset.key, extension: asset.extension })
         .then((src) => ({ ...asset, src }))
         .then((asset) => {
           setRefinedAsset(asset)

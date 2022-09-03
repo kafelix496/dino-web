@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import type { AssetDefault } from '@/types/album'
-import { getAssetUrl } from '@/utils/album'
+import { getAssetSrc } from '@/utils/album'
 
 export const useAssetsSrc = (assets: AssetDefault[]) => {
   const [refinedAsset, setRefinedAsset] = useState<AssetDefault[]>(assets)
@@ -9,7 +9,7 @@ export const useAssetsSrc = (assets: AssetDefault[]) => {
   useEffect(() => {
     Promise.all<Promise<AssetDefault>[]>(
       assets.map((asset) =>
-        getAssetUrl({ key: asset.key, extension: asset.extension }).then(
+        getAssetSrc({ key: asset.key, extension: asset.extension }).then(
           (src) => ({ ...asset, src })
         )
       )
