@@ -3,7 +3,7 @@ import { FileExtensions } from '@/constants/app'
 import assetHttpService from '@/http-services/asset'
 import type { AxiosRequestConfig } from '@/types'
 
-export const getAssetUrl = (
+export const getAssetSrc = (
   data: { key: string; extension: FileExtensions },
   config?: AxiosRequestConfig
 ): Promise<string> =>
