@@ -1,11 +1,10 @@
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
 import { useSelector } from 'react-redux'
 
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
-import albumHttpService from '@/http-services/album'
 import { getMockAsset } from '@/mock-data/post.mockData'
 import { selectGlobalLoadingState } from '@/redux-selectors'
+import { mockAssetUrlHandlerException } from '@/utils/msw-handlers'
+import { mswServer } from '@/utils/msw-server'
 import { act, renderHook, waitFor } from '@/utils/testing-library'
 
 import { useAssetDialog } from './useAssetDialog'
@@ -19,26 +18,6 @@ jest.mock('@/hooks/usePostPageQueryParams', () => {
     usePostPageQueryParams: jest.fn()
   }
 })
-
-const server = setupServer(
-  rest.get(
-    albumHttpService.getAssetUrl({ id: 'QUERY_PARAM_ASSET_ID' }),
-    (_, response, context) => {
-      return response(
-        context.delay(100),
-        context.status(200),
-        context.json(getMockAsset())
-      )
-    }
-  ),
-  rest.get('/api/asset/signed-url', (_, response, context) => {
-    return response(
-      context.delay(100),
-      context.status(200),
-      context.json({ url: 'FAKE_URL' })
-    )
-  })
-)
 
 const setup = () => {
   const useTestHook = () => {
@@ -57,18 +36,6 @@ const setup = () => {
 }
 
 describe('#useAssetDialog', () => {
-  beforeAll(() => {
-    server.listen()
-  })
-
-  afterEach(() => {
-    server.resetHandlers()
-  })
-
-  afterAll(() => {
-    server.close()
-  })
-
   test(`
     1. isLoadingGlobally and isDialogOpen should be false if qpAssetId is invalid.
     2. should set isLoadingGlobally and isDialogOpen to true when the qpAssetId is valid.
@@ -100,8 +67,6 @@ describe('#useAssetDialog', () => {
     expect(result.current.isLoadingGlobally).toBe(true)
 
     // 3.
-    // TODO: instead of using waitFor, I want to use fake timer.
-    // right now, something is wrong, jest fake timer doesn't work in this case.
     await waitFor(() => {
       expect(result.current.assetDialog.refinedAsset).toEqual({
         ...getMockAsset()
@@ -110,8 +75,6 @@ describe('#useAssetDialog', () => {
     expect(result.current.isLoadingGlobally).toBe(true)
 
     // 4.
-    // TODO: instead of using waitFor, I want to use fake timer.
-    // right now, something is wrong, jest fake timer doesn't work in this case.
     await waitFor(() => {
       expect(result.current.assetDialog.refinedAsset).toEqual({
         ...getMockAsset(),
@@ -131,15 +94,7 @@ describe('#useAssetDialog', () => {
       postPageQueryParams: { qpAssetId: '' },
       patch: jest.fn()
     })
-    server.use(
-      rest.get('/api/asset/signed-url', (_, response, context) => {
-        return response(
-          context.delay(100),
-          context.status(400),
-          context.json({ message: 'FAKE_MESSAGE' })
-        )
-      })
-    )
+    mswServer.use(mockAssetUrlHandlerException)
 
     const { result, rerender } = setup()
 
@@ -161,8 +116,6 @@ describe('#useAssetDialog', () => {
     expect(result.current.isLoadingGlobally).toBe(true)
 
     // 3.
-    // TODO: instead of using waitFor, I want to use fake timer.
-    // right now, something is wrong, jest fake timer doesn't work in this case.
     await waitFor(() => {
       expect(result.current.assetDialog.refinedAsset).toEqual({
         ...getMockAsset()
@@ -171,8 +124,6 @@ describe('#useAssetDialog', () => {
     expect(result.current.isLoadingGlobally).toBe(true)
 
     // 4.
-    // TODO: instead of using waitFor, I want to use fake timer.
-    // right now, something is wrong, jest fake timer doesn't work in this case.
     await waitFor(() => {
       expect(result.current.assetDialog.refinedAsset).toBe(null)
     })
