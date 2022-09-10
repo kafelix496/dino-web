@@ -1,4 +1,5 @@
 import axios from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 
 import { FileExtensions, FileInputExtensions, FileTypes } from '@/constants/app'
 import fileHttpService from '@/http-services/file'
@@ -51,7 +52,11 @@ const getFileExtension = (type: string): FileExtensions | null => {
   }
 }
 
-const tryToUploadFile = async (key: string, file: File) => {
+const tryToUploadFile = async (
+  key: string,
+  file: File,
+  config?: AxiosRequestConfig
+) => {
   try {
     const { url, fields } = await fileHttpService.createPresignedUrl({ key })
 
@@ -61,7 +66,7 @@ const tryToUploadFile = async (key: string, file: File) => {
       formData.append(key, value as string | Blob)
     })
 
-    await axios.post(url, formData)
+    await axios.post(url, formData, config)
 
     return true
   } catch (_) {
@@ -71,7 +76,11 @@ const tryToUploadFile = async (key: string, file: File) => {
 
 export const getFileUrl = (key: string) => fileHttpService.getSignedUrl({ key })
 
-export const uploadFile = (file: File, path = '') =>
+export const uploadFile = (
+  file: File,
+  path: string,
+  config?: AxiosRequestConfig
+) =>
   new Promise<{ key: string; type: FileTypes; extension: FileExtensions }>(
     (resolve, reject) => {
       try {
@@ -84,7 +93,7 @@ export const uploadFile = (file: File, path = '') =>
 
         const key = `${path}${generateUuid()}.${extension}`
 
-        tryToUploadFile(key, file).then((status) => {
+        tryToUploadFile(key, file, config).then((status) => {
           if (!status) {
             throw new Error()
           }

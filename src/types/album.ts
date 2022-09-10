@@ -67,3 +67,7 @@ export interface Post {
   createdAt: string
   updatedAt: string
 }
+
+export interface PostUploadStatus {
+  progress: number
+}

@@ -1,3 +1,4 @@
+import type { AxiosRequestConfig } from 'axios'
 import { useTranslation } from 'next-i18next'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
@@ -5,7 +6,12 @@ import useSWR, { useSWRConfig } from 'swr'
 
 import { AlertColor, S3Paths } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
-import { enqueueAlert } from '@/redux-actions'
+import {
+  enqueueAlert,
+  resetPostUploadStatus,
+  setPostUploadStatus,
+  updatePostUploadStatus
+} from '@/redux-actions'
 import type { Asset, Category, Post, PostForm } from '@/types/album'
 import { generateUuid } from '@/utils/app'
 import { deleteFilesObject, uploadFile } from '@/utils/file'
@@ -175,15 +181,32 @@ export const useCreatePost = () => {
 
   const execute = useCallback(
     async (values: PostForm) => {
+      dispatch(
+        setPostUploadStatus(
+          Array.from(values.files!).map(() => ({ progress: 0 }))
+        )
+      )
+
       return mutate(
         albumHttpService.getPostsUrl({
           qpPage: postPageQueryParams.qpPage,
           qpCategoryId: postPageQueryParams.qpCategoryId
         }),
         Promise.all(
-          Array.from(values.files!).map((file) =>
-            uploadFile(file, S3Paths.ALBUM)
-          )
+          Array.from(values.files!).map((file, index) => {
+            const config: AxiosRequestConfig = {
+              onUploadProgress: (progressEvent) => {
+                const percentCompleted =
+                  progressEvent.loaded / progressEvent.total
+
+                dispatch(
+                  updatePostUploadStatus(index, { progress: percentCompleted })
+                )
+              }
+            }
+
+            return uploadFile(file, S3Paths.ALBUM, config)
+          })
         ).then((uploadedFiles) =>
           albumHttpService
             .createPost({
@@ -196,6 +219,7 @@ export const useCreatePost = () => {
               }
             })
             .catch((error) => {
+              dispatch(resetPostUploadStatus())
               // if something wrong on the database,
               // delete all files uploaded
               deleteFilesObject(uploadedFiles.map((file) => file.key))
@@ -219,6 +243,7 @@ export const useCreatePost = () => {
           }
         }
       ).catch((error) => {
+        dispatch(resetPostUploadStatus())
         dispatch(enqueueAlert(AlertColor.ERROR, t('ERROR_ALERT_MESSAGE')))
 
         throw error
