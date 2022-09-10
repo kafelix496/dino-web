@@ -8,6 +8,7 @@ import Button from '@mui/material/Button'
 
 import Dialog from '@/components/Dialog/Dialog'
 import PostFormDialogAssetList from '@/components/album/PostFormDialogAssetList/PostFormDialogAssetList'
+import PostFormDialogProgressBar from '@/components/album/PostFormDialogProgressBar/PostFormDialogProgressBar'
 import FieldMultiSelect from '@/components/mui/FormFieldMultiSelect/FormFieldMultiSelect'
 import FieldSelect from '@/components/mui/FormFieldSelect/FormFieldSelect'
 import FieldText from '@/components/mui/FormFieldText/FormFieldText'
@@ -169,6 +170,8 @@ const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
               {formik.errors.files as string}
             </Alert>
           ) : null}
+
+          <PostFormDialogProgressBar />
         </>
       }
       actionsJsx={
