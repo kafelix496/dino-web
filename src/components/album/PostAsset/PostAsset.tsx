@@ -3,6 +3,7 @@ import type { FC } from 'react'
 import { useState } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
+import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import Box from '@mui/material/Box'
 import ImageListItem from '@mui/material/ImageListItem'
 import Skeleton from '@mui/material/Skeleton'
@@ -82,6 +83,16 @@ const PostAsset: FC<PostAssetProps> = ({
         onClick={handleClickAsset}
       >
         {(!hasSrc || isAssetLoading) && <Skeleton width="100%" height="100%" />}
+
+        {isVideo &&
+          hasSrc &&
+          !isAssetLoading &&
+          (target === PostAssetTargets.SINGLE ||
+            target === PostAssetTargets.MULTIPLE) && (
+            <Box className="__d-flex-center __d-absolute __d-w-full __d-h-full">
+              <PlayCircleIcon fontSize="large" />
+            </Box>
+          )}
 
         {isImage && hasSrc && (
           <Box
