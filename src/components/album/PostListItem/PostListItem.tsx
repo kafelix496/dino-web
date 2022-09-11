@@ -2,7 +2,6 @@ import { useTranslation } from 'next-i18next'
 import dynamic from 'next/dynamic'
 import type { FC } from 'react'
 
-import type { Theme } from '@mui/material'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Paper from '@mui/material/Paper'
@@ -13,7 +12,6 @@ import PostFormDialog from '@/components/album/PostFormDialog/PostFormDialog'
 import PostListItemAssetList from '@/components/album/PostListItemAssetList/PostListItemAssetList'
 import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
-import { POST_MAX_WIDTH } from '@/constants/album'
 import { Actions } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useIsAdminOrAbove, useIsSuperAdmin } from '@/hooks/useIsAdmin'
@@ -29,7 +27,7 @@ const PostListItemTime = dynamic(
 )
 
 const PostListItem: FC<PostListItemProps> = ({ post }) => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation()
   const { state, openDialog, closeDialog } = useDialogStatus()
   const { isAdminOrAbove } = useIsAdminOrAbove()
   const { isSuperAdmin } = useIsSuperAdmin()
@@ -55,13 +53,7 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
 
   return (
     <>
-      <Paper
-        sx={{
-          width: '90%',
-          maxWidth: POST_MAX_WIDTH,
-          padding: (theme: Theme) => theme.spacing(2)
-        }}
-      >
+      <Paper className="__d-w-full" sx={{ p: 2 }}>
         <Box className="__d-flex">
           <Box className="__d-flex __d-flex-col __d-justify-center __d-grow">
             <Typography>{post.title}</Typography>

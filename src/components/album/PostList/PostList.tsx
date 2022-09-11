@@ -1,4 +1,3 @@
-import type { Theme } from '@mui/material'
 import Box from '@mui/material/Box'
 
 import PostListItem from '@/components/album/PostListItem/PostListItem'
@@ -25,10 +24,8 @@ const PostList = () => {
               key={post._id}
               className="__d-w-full __d-flex-center"
               sx={{
-                marginTop: (theme: Theme) =>
-                  index > 0 ? theme.spacing(4) : '',
-                marginBottom: (theme: Theme) =>
-                  posts.length - 1 === index ? theme.spacing(4) : ''
+                mt: index > 0 ? 4 : 0,
+                mb: posts.length - 1 === index ? 4 : 0
               }}
             >
               <PostListItem post={post} />
