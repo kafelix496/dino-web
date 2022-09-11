@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import useSWR, { useSWRConfig } from 'swr'
 
+import { POST_PAGE_SIZE } from '@/constants/album'
 import { AlertColor, S3Paths } from '@/constants/app'
 import albumHttpService from '@/http-services/album'
 import {
@@ -148,7 +149,8 @@ export const usePostsTotal = ({ isReady }: { isReady: boolean }) => {
     isLoading: data === undefined && error === undefined,
     isValidating,
     isError: !!error,
-    total: data
+    total: data,
+    totalPage: data !== undefined ? Math.ceil(data / POST_PAGE_SIZE) : undefined
   }
 }
 
