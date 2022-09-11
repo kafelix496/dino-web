@@ -68,3 +68,9 @@ export enum AlertColor {
   WARNING = 'warning',
   ERROR = 'error'
 }
+
+export enum DeviceType {
+  DESKTOP = 'desktop',
+  TABLET = 'tablet',
+  MOBILE = 'smartphone'
+}

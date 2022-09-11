@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { useAlbumAssetMaxWidth } from '@/hooks/useAlbumAssetMaxWidth'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useAsset } from '@/hooks/useHttpAlbum'
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
@@ -18,6 +19,7 @@ export const useAssetDialog = () => {
     assetId: postPageQueryParams.qpAssetId!
   })
   const dispatch = useDispatch()
+  const { width: albumAssetMaxWidth } = useAlbumAssetMaxWidth()
 
   const handleClose = useCallback(() => {
     patch({ qpAssetId: null })
@@ -46,7 +48,11 @@ export const useAssetDialog = () => {
       // so PostAsset component displays skeleton.
       setRefinedAsset(asset)
 
-      getAssetSrc({ key: asset.key, extension: asset.extension })
+      getAssetSrc({
+        key: asset.key,
+        extension: asset.extension,
+        width: albumAssetMaxWidth
+      })
         .then((src) => ({ ...asset, src }))
         .then((asset) => {
           setRefinedAsset(asset)
@@ -56,7 +62,7 @@ export const useAssetDialog = () => {
           handleClose()
         })
     }
-  }, [asset, setRefinedAsset, handleClose, dispatch])
+  }, [asset, setRefinedAsset, handleClose, dispatch, albumAssetMaxWidth])
 
   return { refinedAsset, handleClose, isDialogOpen: state.isOpen }
 }
