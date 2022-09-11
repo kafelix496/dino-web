@@ -72,7 +72,12 @@ const CategoryFormDialog: FC<CategoryFormDialogProps> = ({
       }
       actionsJsx={
         <>
-          <Button color="secondary" variant="outlined" onClick={closeDialog}>
+          <Button
+            type="button"
+            color="secondary"
+            variant="outlined"
+            onClick={closeDialog}
+          >
             {t('BUTTON_CANCEL')}
           </Button>
           <Button

@@ -11,8 +11,11 @@ import Paper from '@mui/material/Paper'
 import AddPostButton from '@/components/album/AddPostButton/AddPostButton'
 import PostList from '@/components/album/PostList/PostList'
 import PostListItemDetailDialog from '@/components/album/PostListItemDetailDialog/PostListItemDetailDialog'
-import withController from '@/components/album/PostListItemDetailDialog/withController'
+import withControllerForPostListItemDetailDialog from '@/components/album/PostListItemDetailDialog/withController'
+import PostPageMoveButtons from '@/components/album/PostPageMoveButtons/PostPageMoveButtons'
+import withControllerForPostPageMoveButtons from '@/components/album/PostPageMoveButtons/withController'
 import PostPagination from '@/components/album/PostPagination/PostPagination'
+import { POST_MAX_WIDTH } from '@/constants/album'
 import { Apps, Locales } from '@/constants/app'
 import { useRedirect404IfNotSignedIn } from '@/hooks/useRedirect404IfNotSignedIn'
 import { useScrollTop0IfPostPageNumberChange } from '@/hooks/useScrollTop0IfPostPageNumberChange'
@@ -21,9 +24,12 @@ import RootLayout from '@/layout/RootLayout'
 import FamilyAlbumDrawer from '@/layout/SidebarNavDrawer/FamilyAlbumDrawer/FamilyAlbumDrawer'
 import type { NextPageWithLayout } from '@/pages/_app'
 
-const PostListItemDetailDialogWithController = compose(withController)(
-  PostListItemDetailDialog
-)
+const PostPageMoveButtonsWithController = compose(
+  withControllerForPostPageMoveButtons
+)(PostPageMoveButtons)
+const PostListItemDetailDialogWithController = compose(
+  withControllerForPostListItemDetailDialog
+)(PostListItemDetailDialog)
 
 const Page: NextPageWithLayout = () => {
   const scrollBoxRef = useRef<HTMLElement>(null)
@@ -41,23 +47,45 @@ const Page: NextPageWithLayout = () => {
         className="__d-w-full __d-sticky"
         sx={{ top: 0, zIndex: (theme: Theme) => theme.zIndex.appBar }}
       >
-        <Box sx={{ mt: 5 }} />
+        <Box className="__d-flex-center __d-flex-col">
+          <Box
+            className="__d-h-full"
+            sx={{
+              width: '90%',
+              maxWidth: POST_MAX_WIDTH
+            }}
+          >
+            <Box sx={{ mt: 5 }} />
 
-        <Box sx={{ mt: 2 }}>
-          <AddPostButton />
+            <Box sx={{ mt: 2 }}>
+              <AddPostButton />
+            </Box>
+
+            <Box sx={{ mt: 2 }}>
+              <PostPagination />
+            </Box>
+
+            <Box sx={{ mt: 5 }} />
+          </Box>
         </Box>
-
-        <Box sx={{ mt: 2 }}>
-          <PostPagination />
-        </Box>
-
-        <Box sx={{ mt: 5 }} />
       </Paper>
 
       <Box className="__d-w-full __d-h-full">
-        <PostList />
+        <Box className="__d-flex-center __d-flex-col">
+          <Box
+            className="__d-h-full"
+            sx={{
+              width: '90%',
+              maxWidth: POST_MAX_WIDTH
+            }}
+          >
+            <PostList />
 
-        <Box sx={{ mt: 5 }} />
+            <PostPageMoveButtonsWithController />
+
+            <Box sx={{ mt: 3 }} />
+          </Box>
+        </Box>
       </Box>
 
       <PostListItemDetailDialogWithController title="" />
