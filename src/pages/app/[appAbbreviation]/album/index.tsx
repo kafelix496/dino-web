@@ -61,7 +61,7 @@ const Page: NextPageWithLayout = () => {
               <AddPostButton />
             </Box>
 
-            <Box sx={{ mt: 2 }}>
+            <Box className="__d-flex-center" sx={{ mt: 2 }}>
               <PostPagination />
             </Box>
 

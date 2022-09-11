@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 import type { ComponentType } from 'react'
 
-import { POST_PAGE_SIZE } from '@/constants/album'
 import { usePostsTotal } from '@/hooks/useHttpAlbum'
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 
@@ -12,9 +11,7 @@ const withController = <T extends PostPageMoveButtonsProps>(
 ) => {
   const ComponentWithController = (props: Pick<T, never>) => {
     const { isReady, postPageQueryParams, patch } = usePostPageQueryParams()
-    const { isLoading, total } = usePostsTotal({ isReady })
-
-    const totalPage = Math.ceil(total! / POST_PAGE_SIZE)
+    const { isLoading, totalPage } = usePostsTotal({ isReady })
 
     const goPrevPage = useCallback(() => {
       patch({ qpPage: postPageQueryParams.qpPage - 1 })
