@@ -90,7 +90,10 @@ const PostAsset: FC<PostAssetProps> = ({
           (target === PostAssetTargets.SINGLE ||
             target === PostAssetTargets.MULTIPLE) && (
             <Box className="__d-flex-center __d-absolute __d-w-full __d-h-full">
-              <PlayCircleIcon fontSize="large" />
+              <PlayCircleIcon
+                color="primary"
+                sx={{ fontSize: 'var(--fontsize__post-asset-video-icon)' }}
+              />
             </Box>
           )}
 
