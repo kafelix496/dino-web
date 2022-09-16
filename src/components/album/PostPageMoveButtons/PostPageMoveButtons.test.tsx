@@ -48,7 +48,7 @@ describe('#PostPageMoveButtons', () => {
     expect(screen.getByText('BUTTON_NEXT')).toHaveClass('Mui-disabled')
   })
 
-  test('if prev button is disabled if currentPage is 1', () => {
+  test('prev button is disabled if currentPage is 1', () => {
     render(
       <PostPageMoveButtons
         isLoading={false}
@@ -63,7 +63,7 @@ describe('#PostPageMoveButtons', () => {
     expect(screen.getByText('BUTTON_NEXT')).not.toHaveClass('Mui-disabled')
   })
 
-  test('if next button is disabled if currentPage is equal to totalPage', () => {
+  test('next button is disabled if currentPage is equal to totalPage', () => {
     render(
       <PostPageMoveButtons
         isLoading={false}
@@ -75,6 +75,21 @@ describe('#PostPageMoveButtons', () => {
     )
 
     expect(screen.getByText('BUTTON_PREV')).not.toHaveClass('Mui-disabled')
+    expect(screen.getByText('BUTTON_NEXT')).toHaveClass('Mui-disabled')
+  })
+
+  test('prev button and next button are disabled if totalPage is less than 1 or equal to 1', () => {
+    render(
+      <PostPageMoveButtons
+        isLoading={false}
+        currentPage={1}
+        totalPage={1}
+        goPrevPage={jest.fn()}
+        goNextPage={jest.fn()}
+      />
+    )
+
+    expect(screen.getByText('BUTTON_PREV')).toHaveClass('Mui-disabled')
     expect(screen.getByText('BUTTON_NEXT')).toHaveClass('Mui-disabled')
   })
 
