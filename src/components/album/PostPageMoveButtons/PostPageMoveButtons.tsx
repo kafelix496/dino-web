@@ -40,7 +40,7 @@ const PostPageMoveButtons: FC<PostPageMoveButtonsProps> = ({
       <Button
         type="button"
         variant="outlined"
-        disabled={isLoading || currentPage === totalPage}
+        disabled={isLoading || currentPage === totalPage || totalPage <= 1}
         onClick={() => {
           goNextPage()
         }}
