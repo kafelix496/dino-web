@@ -2,11 +2,11 @@ import { useTranslation } from 'next-i18next'
 
 import Button from '@mui/material/Button'
 
-import PostFormDialog from '@/components/album/PostFormDialog/PostFormDialog'
+import { PostFormDialog } from '@/components/album/PostFormDialog/PostFormDialog'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
 
-const AddPostButton = () => {
+export const AddPostButton = () => {
   const { t } = useTranslation('common')
   const { state: dialogState, openDialog, closeDialog } = useDialogStatus()
   const { isAdminOrAbove } = useIsAdminOrAbove()
@@ -31,5 +31,3 @@ const AddPostButton = () => {
     </>
   )
 }
-
-export default AddPostButton

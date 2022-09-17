@@ -5,7 +5,7 @@ import type { ReactElement } from 'react'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 
-import UserList from '@/components/admin/UserList/UserList'
+import { UserList } from '@/components/admin/UserList/UserList'
 import { Apps, Locales } from '@/constants/app'
 import BaseLayout from '@/layout/BaseLayout'
 import RootLayout from '@/layout/RootLayout'

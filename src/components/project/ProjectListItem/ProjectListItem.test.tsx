@@ -1,7 +1,7 @@
 import { Apps } from '@/constants/app'
 import { fireEvent, render, screen } from '@/utils/testing-library'
 
-import ProjectListItem from './ProjectListItem'
+import { ProjectListItem } from './ProjectListItem'
 
 const setup = () => {
   return {

@@ -7,7 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import { resetPostUploadStatus } from '@/redux-actions'
 import { selectPostUploadProgress } from '@/redux-selectors'
 
-const PostFormDialogProgressBar: FC = () => {
+export const PostFormDialogProgressBar: FC = () => {
   const progress = useSelector(selectPostUploadProgress)
   const dispatch = useDispatch()
 
@@ -23,5 +23,3 @@ const PostFormDialogProgressBar: FC = () => {
 
   return <LinearProgress variant="determinate" value={progress} />
 }
-
-export default PostFormDialogProgressBar

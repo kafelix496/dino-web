@@ -12,7 +12,7 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
-import CategoryFormDialog from '@/components/album/CategoryFormDialog/CategoryFormDialog'
+import { CategoryFormDialog } from '@/components/album/CategoryFormDialog/CategoryFormDialog'
 import { Apps } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useCategories } from '@/hooks/useHttpAlbum'

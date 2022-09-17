@@ -1,6 +1,6 @@
 import { render, screen } from '@/utils/testing-library'
 
-import FieldText from './FormFieldText'
+import { FieldText } from './FormFieldText'
 
 const setup = ({ touched }: { touched: boolean }) => {
   const formik = {
@@ -24,6 +24,7 @@ describe('FieldText component', () => {
   it('should render a form field text', () => {
     const { formik } = setup({ touched: false })
 
+    // @ts-expect-error // do not think about type while testing
     render(<FieldText label="TEST_TITLE" formik={formik} name="title" />)
 
     const textbox = screen.getByRole('textbox', {
@@ -39,6 +40,7 @@ describe('FieldText component', () => {
       <FieldText
         required={true}
         label="TEST_TITLE"
+        // @ts-expect-error // do not think about type while testing
         formik={formik}
         name="title"
       />
@@ -53,6 +55,7 @@ describe('FieldText component', () => {
       <FieldText
         required={true}
         label="TEST_TITLE"
+        // @ts-expect-error // do not think about type while testing
         formik={formik2}
         name="title"
       />

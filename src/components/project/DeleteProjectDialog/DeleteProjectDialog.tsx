@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-import Dialog from '@/components/Dialog/Dialog'
+import { Dialog } from '@/components/Dialog/Dialog'
 import { AlertColor, Apps } from '@/constants/app'
 import projectHttpService from '@/http-services/project'
 import { deleteProject, enqueueAlert, setProjects } from '@/redux-actions'
@@ -17,7 +17,7 @@ interface DeleteProjectDialogProps {
   closeDialog: () => void
 }
 
-const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
+export const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
   appAbbreviation,
   id,
   closeDialog
@@ -72,5 +72,3 @@ const DeleteProjectDialog: FC<DeleteProjectDialogProps> = ({
     />
   )
 }
-
-export default DeleteProjectDialog

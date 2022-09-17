@@ -6,7 +6,7 @@ import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 
 import type { PostPageMoveButtonsProps } from './PostPageMoveButtons'
 
-const withController = <T extends PostPageMoveButtonsProps>(
+export const withController = <T extends PostPageMoveButtonsProps>(
   WrappedComponent: ComponentType<T>
 ) => {
   const ComponentWithController = (props: Pick<T, never>) => {
@@ -34,5 +34,3 @@ const withController = <T extends PostPageMoveButtonsProps>(
 
   return ComponentWithController
 }
-
-export default withController

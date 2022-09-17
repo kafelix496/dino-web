@@ -4,7 +4,7 @@ import type { FC } from 'react'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-import Dialog from '@/components/Dialog/Dialog'
+import { Dialog } from '@/components/Dialog/Dialog'
 
 interface DeleteConfirmationDialogProps {
   title: string
@@ -13,7 +13,7 @@ interface DeleteConfirmationDialogProps {
   closeDialog: () => void
 }
 
-const DeleteConfirmationDialog: FC<DeleteConfirmationDialogProps> = ({
+export const DeleteConfirmationDialog: FC<DeleteConfirmationDialogProps> = ({
   title,
   description,
   handleDelete,
@@ -45,5 +45,3 @@ const DeleteConfirmationDialog: FC<DeleteConfirmationDialogProps> = ({
     />
   )
 }
-
-export default DeleteConfirmationDialog

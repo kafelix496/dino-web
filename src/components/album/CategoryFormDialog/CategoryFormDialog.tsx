@@ -5,8 +5,8 @@ import * as yup from 'yup'
 
 import Button from '@mui/material/Button'
 
-import Dialog from '@/components/Dialog/Dialog'
-import FieldText from '@/components/mui/FormFieldText/FormFieldText'
+import { Dialog } from '@/components/Dialog/Dialog'
+import { FieldText } from '@/components/mui/FormFieldText/FormFieldText'
 import { useCreateCategory, useUpdateCategory } from '@/hooks/useHttpAlbum'
 import type { Category } from '@/types/album'
 
@@ -15,7 +15,7 @@ interface CategoryFormDialogProps {
   closeDialog: () => void
 }
 
-const CategoryFormDialog: FC<CategoryFormDialogProps> = ({
+export const CategoryFormDialog: FC<CategoryFormDialogProps> = ({
   category,
   closeDialog
 }) => {
@@ -93,5 +93,3 @@ const CategoryFormDialog: FC<CategoryFormDialogProps> = ({
     />
   )
 }
-
-export default CategoryFormDialog

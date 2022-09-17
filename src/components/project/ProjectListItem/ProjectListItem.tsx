@@ -14,13 +14,13 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/system/Box'
 
-import DeleteProjectDialog from '@/components/project/DeleteProjectDialog/DeleteProjectDialog'
-import EditProjectDialog from '@/components/project/EditProjectDialog/EditProjectDialog'
+import { DeleteProjectDialog } from '@/components/project/DeleteProjectDialog/DeleteProjectDialog'
+import { EditProjectDialog } from '@/components/project/EditProjectDialog/EditProjectDialog'
 import { Apps } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useCreatedAtText, useUpdatedAtText } from '@/hooks/useTimestampText'
 
-interface ProjectListItemProps {
+export interface ProjectListItemProps {
   appAbbreviation: Apps
   id: string
   title: string
@@ -29,7 +29,7 @@ interface ProjectListItemProps {
   updatedAt: string
 }
 
-const ProjectListItem: FC<ProjectListItemProps> = ({
+export const ProjectListItem: FC<ProjectListItemProps> = ({
   appAbbreviation,
   id,
   title,
@@ -126,5 +126,3 @@ const ProjectListItem: FC<ProjectListItemProps> = ({
     </>
   )
 }
-
-export default ProjectListItem

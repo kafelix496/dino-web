@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import PostPageMoveButtons from './PostPageMoveButtons'
+import { PostPageMoveButtons } from './PostPageMoveButtons'
 
 describe('#PostPageMoveButtons', () => {
   it('should render anything if current page is smaller than 1', () => {

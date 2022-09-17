@@ -1,6 +1,6 @@
 import { render, screen } from '@/utils/testing-library'
 
-import Error from './Error'
+import { Error } from './Error'
 
 describe('Error component', () => {
   describe('should render a proper text', () => {

@@ -1,6 +1,6 @@
 import { act, render, screen } from '@/utils/testing-library'
 
-import DeleteConfirmationDialog from './DeleteConfirmationDialog'
+import { DeleteConfirmationDialog } from './DeleteConfirmationDialog'
 
 const setup = () => {
   const mockTitle = 'TEST_TITLE'

@@ -3,7 +3,7 @@ import adminUserHttpService from '@/http-services/adminUser'
 import { getMockUsers } from '@/mock-data/user.mockData'
 import { act, render, screen } from '@/utils/testing-library'
 
-import UserList from './UserList'
+import { UserList } from './UserList'
 
 jest.mock('@/hooks/useIsAdmin', () => {
   const originalModule = jest.requireActual('@/hooks/useIsAdmin')

@@ -4,12 +4,12 @@ import Typography from '@mui/material/Typography'
 
 import { useCreatedAtText, useUpdatedAtText } from '@/hooks/useTimestampText'
 
-interface PostListItemTimeProps {
+export interface PostListItemTimeProps {
   createdAt: string
   updatedAt: string
 }
 
-const PostListItemTime: FC<PostListItemTimeProps> = ({
+export const PostListItemTime: FC<PostListItemTimeProps> = ({
   createdAt,
   updatedAt
 }) => {
@@ -23,5 +23,3 @@ const PostListItemTime: FC<PostListItemTimeProps> = ({
     </>
   )
 }
-
-export default PostListItemTime

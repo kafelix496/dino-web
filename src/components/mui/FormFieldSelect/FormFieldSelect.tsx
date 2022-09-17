@@ -15,7 +15,7 @@ interface FieldSelectProps {
   options: { label: string; value: any }[]
 }
 
-const FieldSelect: FC<FieldSelectProps> = ({
+export const FieldSelect: FC<FieldSelectProps> = ({
   required = false,
   fullWidth = true,
   label = '',
@@ -45,5 +45,3 @@ const FieldSelect: FC<FieldSelectProps> = ({
     </TextField>
   )
 }
-
-export default FieldSelect

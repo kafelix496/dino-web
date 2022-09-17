@@ -20,7 +20,7 @@ interface PostAssetProps {
   asset: AssetDefault
 }
 
-const PostAsset: FC<PostAssetProps> = ({
+export const PostAsset: FC<PostAssetProps> = ({
   cols,
   target,
   withAddIcon,
@@ -178,5 +178,3 @@ const PostAsset: FC<PostAssetProps> = ({
     </ImageListItem>
   )
 }
-
-export default PostAsset

@@ -6,12 +6,12 @@ import * as yup from 'yup'
 import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 
-import Dialog from '@/components/Dialog/Dialog'
-import PostFormDialogAssetList from '@/components/album/PostFormDialogAssetList/PostFormDialogAssetList'
-import PostFormDialogProgressBar from '@/components/album/PostFormDialogProgressBar/PostFormDialogProgressBar'
-import FieldMultiSelect from '@/components/mui/FormFieldMultiSelect/FormFieldMultiSelect'
-import FieldSelect from '@/components/mui/FormFieldSelect/FormFieldSelect'
-import FieldText from '@/components/mui/FormFieldText/FormFieldText'
+import { Dialog } from '@/components/Dialog/Dialog'
+import { PostFormDialogAssetList } from '@/components/album/PostFormDialogAssetList/PostFormDialogAssetList'
+import { PostFormDialogProgressBar } from '@/components/album/PostFormDialogProgressBar/PostFormDialogProgressBar'
+import { FieldMultiSelect } from '@/components/mui/FormFieldMultiSelect/FormFieldMultiSelect'
+import { FieldSelect } from '@/components/mui/FormFieldSelect/FormFieldSelect'
+import { FieldText } from '@/components/mui/FormFieldText/FormFieldText'
 import { PostAudiences } from '@/constants/album'
 import { FileInputExtensions } from '@/constants/app'
 import {
@@ -26,7 +26,10 @@ interface PostFormDialogProps {
   closeDialog: () => void
 }
 
-const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
+export const PostFormDialog: FC<PostFormDialogProps> = ({
+  post,
+  closeDialog
+}) => {
   const isCreating = !post
   const { t } = useTranslation('common')
   const { execute: executeCreate } = useCreatePost()
@@ -197,5 +200,3 @@ const PostFormDialog: FC<PostFormDialogProps> = ({ post, closeDialog }) => {
     />
   )
 }
-
-export default PostFormDialog

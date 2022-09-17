@@ -12,7 +12,7 @@ export interface PostPageMoveButtonsProps {
   goNextPage: () => void
 }
 
-const PostPageMoveButtons: FC<PostPageMoveButtonsProps> = ({
+export const PostPageMoveButtons: FC<PostPageMoveButtonsProps> = ({
   isLoading,
   currentPage,
   totalPage,
@@ -50,5 +50,3 @@ const PostPageMoveButtons: FC<PostPageMoveButtonsProps> = ({
     </Box>
   )
 }
-
-export default PostPageMoveButtons

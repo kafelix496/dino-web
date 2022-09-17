@@ -7,7 +7,7 @@ import Skeleton from '@mui/material/Skeleton'
 
 import { POST_MAX_WIDTH, POST_ROW_HEIGHT } from '@/constants/album'
 
-const PostListItemSkeleton: FC = () => {
+export const PostListItemSkeleton: FC = () => {
   return (
     <Paper
       sx={[
@@ -52,5 +52,3 @@ const PostListItemSkeleton: FC = () => {
     </Paper>
   )
 }
-
-export default PostListItemSkeleton

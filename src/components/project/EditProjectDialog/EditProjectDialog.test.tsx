@@ -1,7 +1,7 @@
 import { Apps } from '@/constants/app'
 import { act, fireEvent, render, screen } from '@/utils/testing-library'
 
-import EditProjectDialog from './EditProjectDialog'
+import { EditProjectDialog } from './EditProjectDialog'
 
 describe('EditProjectDialog component', () => {
   test('the button should not be disabled at the beginning', async () => {

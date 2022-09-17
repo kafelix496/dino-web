@@ -11,7 +11,7 @@ interface ErrorProps {
   statusCode: 404 | 500
 }
 
-const Error: FC<ErrorProps> = ({ statusCode }) => {
+export const Error: FC<ErrorProps> = ({ statusCode }) => {
   const { t } = useTranslation('common')
 
   return (
@@ -29,5 +29,3 @@ const Error: FC<ErrorProps> = ({ statusCode }) => {
     </Box>
   )
 }
-
-export default Error

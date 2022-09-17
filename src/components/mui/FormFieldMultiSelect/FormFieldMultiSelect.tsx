@@ -16,7 +16,7 @@ interface FieldMultiSelectProps {
   options: { label: string; value: any }[]
 }
 
-const FieldMultiSelect: FC<FieldMultiSelectProps> = ({
+export const FieldMultiSelect: FC<FieldMultiSelectProps> = ({
   fullWidth = true,
   label = '',
   formik,
@@ -57,5 +57,3 @@ const FieldMultiSelect: FC<FieldMultiSelectProps> = ({
     />
   )
 }
-
-export default FieldMultiSelect
