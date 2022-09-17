@@ -24,6 +24,7 @@ export const CategoryFormDialog: FC<CategoryFormDialogProps> = ({
   const { execute: executeCreate } = useCreateCategory()
   const { execute: executeUpdate } = useUpdateCategory()
   const formik = useFormik({
+    validateOnMount: true,
     initialValues: { name: category?.name ?? '' },
     validationSchema: yup.object({
       name: yup
@@ -81,7 +82,7 @@ export const CategoryFormDialog: FC<CategoryFormDialogProps> = ({
             {t('BUTTON_CANCEL')}
           </Button>
           <Button
-            disabled={formik.isSubmitting}
+            disabled={formik.isSubmitting || !formik.isValid}
             type="submit"
             color="success"
             variant="contained"

@@ -36,6 +36,7 @@ export const PostFormDialog: FC<PostFormDialogProps> = ({
   const { execute: executeUpdate } = useUpdatePost()
   const { isLoading, categories, isError } = useCategories({ isReady: true })
   const formik = useFormik<PostForm>({
+    validateOnMount: true,
     initialValues: {
       title: post?.title ?? '',
       description: post?.description ?? '',
@@ -188,7 +189,9 @@ export const PostFormDialog: FC<PostFormDialogProps> = ({
             {t('BUTTON_CANCEL')}
           </Button>
           <Button
-            disabled={isLoading || isError || formik.isSubmitting}
+            disabled={
+              isLoading || isError || formik.isSubmitting || !formik.isValid
+            }
             type="submit"
             color="success"
             variant="contained"
