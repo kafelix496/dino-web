@@ -6,18 +6,17 @@ import { useAssetDialog } from './useAssetDialog'
 export const withController = <T extends PostListItemDetailDialogProps>(
   WrappedComponent: ComponentType<T>
 ) => {
-  const ComponentWithController = (
-    props: Omit<T, 'asset' | 'closeDialog' | 'handleClose'>
-  ) => {
+  const ComponentWithController = (props: Pick<T, never>) => {
     const { refinedAsset, handleClose, isDialogOpen } = useAssetDialog()
 
     if (!isDialogOpen || !refinedAsset) {
-      return <></>
+      return null
     }
 
     return (
       <WrappedComponent
         {...(props as T)}
+        title=""
         asset={refinedAsset}
         closeDialog={handleClose}
         handleClose={handleClose}
