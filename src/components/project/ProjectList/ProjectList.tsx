@@ -4,11 +4,15 @@ import { useSelector } from 'react-redux'
 
 import Grid from '@mui/material/Grid'
 
+import type { ProjectListItemProps } from '@/components/project/ProjectListItem/ProjectListItem'
 import { Apps } from '@/constants/app'
 import { selectProjectList } from '@/redux-selectors'
 
-const ProjectListItem = dynamic(
-  () => import('@/components/project/ProjectListItem/ProjectListItem'),
+const ProjectListItem = dynamic<ProjectListItemProps>(
+  () =>
+    import('@/components/project/ProjectListItem/ProjectListItem').then(
+      (mod) => mod.ProjectListItem
+    ),
   { ssr: false }
 )
 
@@ -16,7 +20,7 @@ interface ProjectListProps {
   appAbbreviation: Apps
 }
 
-const ProjectList: FC<ProjectListProps> = ({ appAbbreviation }) => {
+export const ProjectList: FC<ProjectListProps> = ({ appAbbreviation }) => {
   const projects = useSelector(selectProjectList)
 
   return (
@@ -36,5 +40,3 @@ const ProjectList: FC<ProjectListProps> = ({ appAbbreviation }) => {
     </Grid>
   )
 }
-
-export default ProjectList

@@ -29,7 +29,7 @@ interface DialogProps {
   actionsJsx?: JSX.Element
 }
 
-const Dialog: FC<DialogProps> = ({
+export const Dialog: FC<DialogProps> = ({
   open,
   onClose,
   title,
@@ -78,5 +78,3 @@ const Dialog: FC<DialogProps> = ({
     </MuiDialog>
   )
 }
-
-export default Dialog

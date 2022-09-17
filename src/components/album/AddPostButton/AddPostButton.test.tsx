@@ -1,7 +1,7 @@
 import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
 import { render, screen } from '@/utils/testing-library'
 
-import AddPostButton from './AddPostButton'
+import { AddPostButton } from './AddPostButton'
 
 jest.mock('@/hooks/useIsAdmin', () => {
   const originalModule = jest.requireActual('@/hooks/useIsAdmin')

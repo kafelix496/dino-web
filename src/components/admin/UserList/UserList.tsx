@@ -2,9 +2,9 @@ import type { FC } from 'react'
 
 import { DataGrid } from '@mui/x-data-grid'
 
-import useRowsAndCols from './useRowsAndCols'
+import { useRowsAndCols } from './useRowsAndCols'
 
-const UserList: FC = () => {
+export const UserList: FC = () => {
   const { isLoading, rows, columns } = useRowsAndCols()
 
   return (
@@ -23,5 +23,3 @@ const UserList: FC = () => {
     />
   )
 }
-
-export default UserList

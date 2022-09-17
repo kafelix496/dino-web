@@ -6,8 +6,8 @@ import * as yup from 'yup'
 
 import Button from '@mui/material/Button'
 
-import Dialog from '@/components/Dialog/Dialog'
-import FieldText from '@/components/mui/FormFieldText/FormFieldText'
+import { Dialog } from '@/components/Dialog/Dialog'
+import { FieldText } from '@/components/mui/FormFieldText/FormFieldText'
 import { AlertColor, Apps } from '@/constants/app'
 import projectHttpService from '@/http-services/project'
 import { enqueueAlert, setProjects, updateProject } from '@/redux-actions'
@@ -20,7 +20,7 @@ interface EditProjectDialogProps {
   closeDialog: () => void
 }
 
-const EditProjectDialog: FC<EditProjectDialogProps> = ({
+export const EditProjectDialog: FC<EditProjectDialogProps> = ({
   appAbbreviation,
   id,
   title,
@@ -106,5 +106,3 @@ const EditProjectDialog: FC<EditProjectDialogProps> = ({
     />
   )
 }
-
-export default EditProjectDialog

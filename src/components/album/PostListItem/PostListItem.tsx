@@ -7,10 +7,11 @@ import Divider from '@mui/material/Divider'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
-import DeletePostDialog from '@/components/album/DeletePostDialog/DeletePostDialog'
-import PostFormDialog from '@/components/album/PostFormDialog/PostFormDialog'
-import PostListItemAssetList from '@/components/album/PostListItemAssetList/PostListItemAssetList'
-import MaxHeightMenu from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
+import { DeletePostDialog } from '@/components/album/DeletePostDialog/DeletePostDialog'
+import { PostFormDialog } from '@/components/album/PostFormDialog/PostFormDialog'
+import { PostListItemAssetList } from '@/components/album/PostListItemAssetList/PostListItemAssetList'
+import type { PostListItemTimeProps } from '@/components/album/PostListItemTime/PostListItemTime'
+import { MaxHeightMenu } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import { Actions } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
@@ -21,12 +22,15 @@ interface PostListItemProps {
   post: Post
 }
 
-const PostListItemTime = dynamic(
-  () => import('@/components/album/PostListItemTime/PostListItemTime'),
+const PostListItemTime = dynamic<PostListItemTimeProps>(
+  () =>
+    import('@/components/album/PostListItemTime/PostListItemTime').then(
+      (mod) => mod.PostListItemTime
+    ),
   { ssr: false }
 )
 
-const PostListItem: FC<PostListItemProps> = ({ post }) => {
+export const PostListItem: FC<PostListItemProps> = ({ post }) => {
   const { t } = useTranslation()
   const { state, openDialog, closeDialog } = useDialogStatus()
   const { isAdminOrAbove } = useIsAdminOrAbove()
@@ -102,5 +106,3 @@ const PostListItem: FC<PostListItemProps> = ({ post }) => {
     </>
   )
 }
-
-export default PostListItem

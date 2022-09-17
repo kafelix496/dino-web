@@ -14,7 +14,7 @@ interface FieldTextProps {
   name: string
 }
 
-const FieldText: FC<FieldTextProps> = ({
+export const FieldText: FC<FieldTextProps> = ({
   autoFocus = false,
   required = false,
   fullWidth = true,
@@ -40,5 +40,3 @@ const FieldText: FC<FieldTextProps> = ({
     />
   )
 }
-
-export default FieldText

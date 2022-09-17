@@ -6,13 +6,13 @@ import Skeleton from '@mui/material/Skeleton'
 import { FileInputExtensions } from '@/constants/app'
 import { heicToPng, isImageFileType, isVideoFileType } from '@/utils/file'
 
-interface PostFormDialogAssetListItemProps {
+export interface PostFormDialogAssetListItemProps {
   file: Blob
 }
 
-const PostFormDialogAssetListItem: FC<PostFormDialogAssetListItemProps> = ({
-  file
-}) => {
+export const PostFormDialogAssetListItem: FC<
+  PostFormDialogAssetListItemProps
+> = ({ file }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [src, setSrc] = useState('')
   const isImage = isImageFileType(file)
@@ -70,5 +70,3 @@ const PostFormDialogAssetListItem: FC<PostFormDialogAssetListItemProps> = ({
     </>
   )
 }
-
-export default PostFormDialogAssetListItem

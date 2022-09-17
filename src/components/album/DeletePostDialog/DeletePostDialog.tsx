@@ -2,7 +2,7 @@ import { useTranslation } from 'next-i18next'
 import { useCallback } from 'react'
 import type { FC } from 'react'
 
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog/DeleteConfirmationDialog'
+import { DeleteConfirmationDialog } from '@/components/DeleteConfirmationDialog/DeleteConfirmationDialog'
 import { useDeletePost } from '@/hooks/useHttpAlbum'
 
 interface DeletePostDialogProps {
@@ -11,7 +11,7 @@ interface DeletePostDialogProps {
   closeDialog: () => void
 }
 
-const DeletePostDialog: FC<DeletePostDialogProps> = ({
+export const DeletePostDialog: FC<DeletePostDialogProps> = ({
   id,
   assetKeys,
   closeDialog
@@ -34,5 +34,3 @@ const DeletePostDialog: FC<DeletePostDialogProps> = ({
     />
   )
 }
-
-export default DeletePostDialog

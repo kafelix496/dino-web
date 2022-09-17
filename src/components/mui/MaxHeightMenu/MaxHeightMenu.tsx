@@ -17,7 +17,7 @@ interface MaxHeightMenuProps {
   extraIconButtonProps?: Record<string, unknown>
 }
 
-const MaxHeightMenu: FC<MaxHeightMenuProps> = ({
+export const MaxHeightMenu: FC<MaxHeightMenuProps> = ({
   options,
   extraIconButtonProps
 }) => {
@@ -53,5 +53,3 @@ const MaxHeightMenu: FC<MaxHeightMenuProps> = ({
     </Box>
   )
 }
-
-export default MaxHeightMenu

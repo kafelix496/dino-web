@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 
 import { render, screen } from '@/utils/testing-library'
 
-import Dialog from './Dialog'
+import { Dialog } from './Dialog'
 
 const setup = ({ initialOpenStatus }: { initialOpenStatus: boolean }) => {
   const mockTitle = 'TEST_TITLE'

@@ -3,8 +3,8 @@ import type { FC } from 'react'
 
 import Button from '@mui/material/Button'
 
-import Dialog from '@/components/Dialog/Dialog'
-import PostAsset from '@/components/album/PostAsset/PostAsset'
+import { Dialog } from '@/components/Dialog/Dialog'
+import { PostAsset } from '@/components/album/PostAsset/PostAsset'
 import { PostAssetTargets } from '@/constants/album'
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 import type { Asset } from '@/types/album'
@@ -16,7 +16,7 @@ export interface PostListItemDetailDialogProps {
   handleClose: () => void
 }
 
-const PostListItemDetailDialog: FC<PostListItemDetailDialogProps> = ({
+export const PostListItemDetailDialog: FC<PostListItemDetailDialogProps> = ({
   title,
   asset,
   closeDialog,
@@ -72,5 +72,3 @@ const PostListItemDetailDialog: FC<PostListItemDetailDialogProps> = ({
     />
   )
 }
-
-export default PostListItemDetailDialog

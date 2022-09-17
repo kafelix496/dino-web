@@ -3,7 +3,7 @@ import Pagination from '@mui/material/Pagination'
 import { usePostsTotal } from '@/hooks/useHttpAlbum'
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 
-const PostPagination = () => {
+export const PostPagination = () => {
   const { isReady, postPageQueryParams, patch } = usePostPageQueryParams()
   const { isLoading, totalPage } = usePostsTotal({ isReady })
 
@@ -22,5 +22,3 @@ const PostPagination = () => {
     />
   )
 }
-
-export default PostPagination

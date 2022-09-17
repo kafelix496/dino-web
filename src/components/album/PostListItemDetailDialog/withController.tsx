@@ -3,7 +3,7 @@ import type { ComponentType } from 'react'
 import type { PostListItemDetailDialogProps } from './PostListItemDetailDialog'
 import { useAssetDialog } from './useAssetDialog'
 
-const withController = <T extends PostListItemDetailDialogProps>(
+export const withController = <T extends PostListItemDetailDialogProps>(
   WrappedComponent: ComponentType<T>
 ) => {
   const ComponentWithController = (
@@ -27,5 +27,3 @@ const withController = <T extends PostListItemDetailDialogProps>(
 
   return ComponentWithController
 }
-
-export default withController

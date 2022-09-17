@@ -12,7 +12,7 @@ import Drawer from '@mui/material/Drawer'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
-import TooltipIconButton from '@/components/mui/TooltipIconButton/TooltipIconButton'
+import { TooltipIconButton } from '@/components/mui/TooltipIconButton/TooltipIconButton'
 import { DRAWER_WIDTH, Locales, PaletteModes } from '@/constants/app'
 import SettingDrawerButton from '@/layout/SettingsDrawerButton/SettingsDrawerButton'
 import {

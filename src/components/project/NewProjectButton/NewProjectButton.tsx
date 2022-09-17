@@ -4,7 +4,7 @@ import type { FC } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import Button from '@mui/material/Button'
 
-import CreateProjectDialog from '@/components/project/CreateProjectDialog/CreateProjectDialog'
+import { CreateProjectDialog } from '@/components/project/CreateProjectDialog/CreateProjectDialog'
 import { Apps } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 
@@ -12,7 +12,9 @@ interface NewProjectButtonProps {
   appAbbreviation: Apps
 }
 
-const NewProjectButton: FC<NewProjectButtonProps> = ({ appAbbreviation }) => {
+export const NewProjectButton: FC<NewProjectButtonProps> = ({
+  appAbbreviation
+}) => {
   const { t } = useTranslation('common')
   const { state: dialogState, openDialog, closeDialog } = useDialogStatus()
 
@@ -38,5 +40,3 @@ const NewProjectButton: FC<NewProjectButtonProps> = ({ appAbbreviation }) => {
     </>
   )
 }
-
-export default NewProjectButton

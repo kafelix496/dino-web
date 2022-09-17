@@ -41,7 +41,7 @@ const getSuperAdminPermissionOptions = (t: TFunction) =>
     }
   ].concat(getAdminPermissionOptions(t))
 
-const useRowsAndCols = () => {
+export const useRowsAndCols = () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -182,5 +182,3 @@ const useRowsAndCols = () => {
 
   return { isLoading, rows: refinedRows, columns: refinedColumns }
 }
-
-export default useRowsAndCols

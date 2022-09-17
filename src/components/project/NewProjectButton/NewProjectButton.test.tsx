@@ -1,7 +1,7 @@
 import { Apps } from '@/constants/app'
 import { fireEvent, render, screen } from '@/utils/testing-library'
 
-import NewProjectButton from './NewProjectButton'
+import { NewProjectButton } from './NewProjectButton'
 
 describe('NewProjectButton component', () => {
   beforeEach(() => {

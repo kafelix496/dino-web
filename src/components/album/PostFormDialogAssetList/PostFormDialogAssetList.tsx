@@ -4,19 +4,21 @@ import type { FC } from 'react'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 
+import type { PostFormDialogAssetListItemProps } from '@/components/album/PostFormDialogAssetListItem/PostFormDialogAssetListItem'
+
 interface PostFormDialogAssetListProps {
   files: Blob[]
 }
 
-const PostFormDialogAssetListItem = dynamic(
+const PostFormDialogAssetListItem = dynamic<PostFormDialogAssetListItemProps>(
   () =>
     import(
       '@/components/album/PostFormDialogAssetListItem/PostFormDialogAssetListItem'
-    ),
+    ).then((mod) => mod.PostFormDialogAssetListItem),
   { ssr: false }
 )
 
-const PostFormDialogAssetList: FC<PostFormDialogAssetListProps> = ({
+export const PostFormDialogAssetList: FC<PostFormDialogAssetListProps> = ({
   files
 }) => {
   if (!files.length) {
@@ -39,5 +41,3 @@ const PostFormDialogAssetList: FC<PostFormDialogAssetListProps> = ({
     </ImageList>
   )
 }
-
-export default PostFormDialogAssetList

@@ -9,7 +9,7 @@ interface TooltipIconButtonProps {
   iconButtonProps?: { [key: string]: unknown }
 }
 
-const TooltipIconButton: FC<TooltipIconButtonProps> = ({
+export const TooltipIconButton: FC<TooltipIconButtonProps> = ({
   title,
   iconButtonProps,
   children
@@ -20,5 +20,3 @@ const TooltipIconButton: FC<TooltipIconButtonProps> = ({
     </Tooltip>
   )
 }
-
-export default TooltipIconButton

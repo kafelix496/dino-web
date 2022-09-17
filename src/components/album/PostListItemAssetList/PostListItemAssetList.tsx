@@ -4,7 +4,7 @@ import type { FC } from 'react'
 import Box from '@mui/material/Box'
 import ImageList from '@mui/material/ImageList'
 
-import PostAsset from '@/components/album/PostAsset/PostAsset'
+import { PostAsset } from '@/components/album/PostAsset/PostAsset'
 import { POST_ROW_HEIGHT, PostAssetTargets } from '@/constants/album'
 import type { AssetDefault } from '@/types/album'
 
@@ -16,7 +16,9 @@ interface PostListItemAssetListProps {
 
 const GAP = 16
 
-const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
+export const PostListItemAssetList: FC<PostListItemAssetListProps> = ({
+  assets
+}) => {
   const { refinedAsset } = useAssetsSrc(assets)
 
   switch (refinedAsset.length) {
@@ -107,5 +109,3 @@ const PostListItemAssetList: FC<PostListItemAssetListProps> = ({ assets }) => {
     }
   }
 }
-
-export default PostListItemAssetList
