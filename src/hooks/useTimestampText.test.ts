@@ -8,8 +8,8 @@ describe('#useCreatedAtText', () => {
       useCreatedAtText('2022-08-12T14:15:22.178Z')
     )
 
-    expect(result.current.createdAtText).toMatch(
-      /^CREATED_AT: \d\d\/\d\d\/\d\d\d\d \d\d:\d\d (a|p)m/
+    expect(result.current.createdAtText).toBe(
+      'CREATED_AT: Aug.12.2022 02:15 pm'
     )
   })
 })
@@ -20,8 +20,8 @@ describe('#useUpdatedAtText', () => {
       useUpdatedAtText('2022-08-12T14:15:22.178Z')
     )
 
-    expect(result.current.updatedAtText).toMatch(
-      /^UPDATED_AT: \d\d\/\d\d\/\d\d\d\d \d\d:\d\d (a|p)m/
+    expect(result.current.updatedAtText).toBe(
+      'UPDATED_AT: Aug.12.2022 02:15 pm'
     )
   })
 })
