@@ -16,7 +16,7 @@ export const PostListItemCategoryList: FC<PostListItemCategoryListProps> = ({
   const { patch } = usePostPageQueryParams()
 
   const handleClick = (category: Category) => {
-    patch({ qpCategoryId: category._id })
+    patch({ qpPage: 1, qpCategoryId: category._id })
   }
 
   return (
