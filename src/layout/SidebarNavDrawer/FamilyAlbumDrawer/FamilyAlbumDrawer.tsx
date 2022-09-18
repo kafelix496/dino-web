@@ -3,7 +3,12 @@ import type { FC } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import AllInboxIcon from '@mui/icons-material/AllInbox'
+import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly'
 import DeckIcon from '@mui/icons-material/Deck'
+import FilterVintageIcon from '@mui/icons-material/FilterVintage'
+import HouseIcon from '@mui/icons-material/House'
+import LaptopIcon from '@mui/icons-material/Laptop'
+import PetsIcon from '@mui/icons-material/Pets'
 import type { Theme } from '@mui/material'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -21,6 +26,46 @@ import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 import DrawerSkeleton from '@/layout/SidebarNavDrawer/DrawerSkeleton/DrawerSkeleton'
 import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'
 import type { DrawerMenuItem } from '@/types/album'
+
+/*
+ * this is temporary code
+ * eventually, user can select the icon
+ */
+const getIcon = (name: string) => {
+  switch (name.toLowerCase()) {
+    case 'ian': {
+      return <ChildFriendlyIcon />
+    }
+
+    case 'family': {
+      return <HouseIcon />
+    }
+
+    case 'cat': {
+      return <PetsIcon />
+    }
+
+    case 'sebastian': {
+      return <PetsIcon />
+    }
+
+    case 'aurelio': {
+      return <PetsIcon />
+    }
+
+    case 'jiyeol': {
+      return <LaptopIcon />
+    }
+
+    case 'nashallie': {
+      return <FilterVintageIcon />
+    }
+
+    default: {
+      return <DeckIcon />
+    }
+  }
+}
 
 const FamilyAlbumDrawer: FC = () => {
   const { isLoading, categories } = useCategories({ isReady: true })
@@ -41,7 +86,7 @@ const FamilyAlbumDrawer: FC = () => {
       ].concat(
         categories.map((category) => ({
           id: category._id,
-          iconComponent: <DeckIcon />,
+          iconComponent: getIcon(category.name),
           label: category.name,
           url: `/app/${Apps.familyAlbum}/album?qpCategoryId=${category._id}`,
           selected: postPageQueryParams.qpCategoryId === category._id,
