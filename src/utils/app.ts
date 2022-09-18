@@ -45,7 +45,7 @@ export const hasAccessAdminPage = (user: User | null): boolean =>
 
 export const convertTime = {
   dbToJs(date: string): string {
-    return dayjs(date).format('MM/DD/YYYY hh:mm a')
+    return dayjs(date).format('MMM.DD.YYYY hh:mm a')
   }
 }
 
