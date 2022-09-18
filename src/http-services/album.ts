@@ -64,10 +64,12 @@ const albumHttpService = {
       )
       .then((res) => res.data)
   },
-  getPostsTotalUrl() {
+  getPostsTotalUrl(data: { qpCategoryId?: string } = {}) {
     return `${process.env.PAGE_URL ?? ''}/api/app/${
       Apps.familyAlbum
-    }/album/post/total`
+    }/album/post/total?${
+      data.qpCategoryId ? `qpCategoryId=${data.qpCategoryId}` : ''
+    }`
   },
   getPostsUrl(data: { qpPage: number; qpCategoryId?: string }) {
     return (

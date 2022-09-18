@@ -11,7 +11,10 @@ export const withController = <T extends PostPageMoveButtonsProps>(
 ) => {
   const ComponentWithController = (props: Pick<T, never>) => {
     const { isReady, postPageQueryParams, patch } = usePostPageQueryParams()
-    const { isLoading, totalPage } = usePostsTotal({ isReady })
+    const { isLoading, totalPage } = usePostsTotal({
+      isReady,
+      qpCategoryId: postPageQueryParams.qpCategoryId
+    })
 
     const goPrevPage = useCallback(() => {
       patch({ qpPage: postPageQueryParams.qpPage - 1 })

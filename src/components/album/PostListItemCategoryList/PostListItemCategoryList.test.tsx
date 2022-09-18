@@ -53,8 +53,8 @@ describe('#PostListItemCategoryList', () => {
 
     expect(mockPatch).not.toHaveBeenCalled()
     fireEvent.click(screen.getByText('1111_NAME'))
-    expect(mockPatch).toHaveBeenCalledWith({ qpCategoryId: '1111' })
+    expect(mockPatch).toHaveBeenCalledWith({ qpPage: 1, qpCategoryId: '1111' })
     fireEvent.click(screen.getByText('2222_NAME'))
-    expect(mockPatch).toHaveBeenCalledWith({ qpCategoryId: '2222' })
+    expect(mockPatch).toHaveBeenCalledWith({ qpPage: 1, qpCategoryId: '2222' })
   })
 })
