@@ -2,6 +2,9 @@ import { POST_ASSET_MAX_WIDTH } from '@/constants/album'
 import { FileExtensions } from '@/constants/app'
 import assetHttpService from '@/http-services/asset'
 import type { AxiosRequestConfig } from '@/types'
+import type { Category } from '@/types/album'
+
+import { sortAlphabetiacally } from './app'
 
 export const getAssetSrc = (
   data: { key: string; extension: FileExtensions; width?: number },
@@ -17,3 +20,6 @@ export const getAssetSrc = (
       config
     )
     .then(({ url }) => url)
+
+export const sortCategoriesAlphabetically = (categories: Category[]) =>
+  sortAlphabetiacally((category) => category.name, categories)

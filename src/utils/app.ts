@@ -54,3 +54,9 @@ export const generateUuid = (): string => {
 }
 
 export const isServer = () => typeof window === 'undefined'
+
+export const sortAlphabetiacally = <T extends object | string>(
+  targetCB: (item: T) => string,
+  items: T[]
+) =>
+  items.sort((itemA, itemB) => targetCB(itemA).localeCompare(targetCB(itemB)))

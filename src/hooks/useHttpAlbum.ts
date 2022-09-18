@@ -1,5 +1,6 @@
 import type { AxiosRequestConfig } from 'axios'
 import { useTranslation } from 'next-i18next'
+import { append, compose, map } from 'ramda'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import useSWR, { useSWRConfig } from 'swr'
@@ -14,6 +15,7 @@ import {
   updatePostUploadStatus
 } from '@/redux-actions'
 import type { Asset, Category, Post, PostForm } from '@/types/album'
+import { sortCategoriesAlphabetically } from '@/utils/album'
 import { generateUuid } from '@/utils/app'
 import { deleteFilesObject, uploadFile } from '@/utils/file'
 
@@ -42,7 +44,8 @@ export const useCreateCategory = () => {
       const getNewCategories = (
         newCategory: Category,
         categories: Category[]
-      ): Category[] => categories.concat(newCategory)
+      ): Category[] =>
+        compose(sortCategoriesAlphabetically, append(newCategory))(categories)
 
       return mutate(
         albumHttpService.getCategoriesUrl(),
@@ -78,9 +81,12 @@ export const useUpdateCategory = () => {
   const execute = useCallback(
     async (id: string, values: Omit<Category, '_id'>) => {
       const getNewCategories = (categories: Category[]): Category[] =>
-        categories.map((category) =>
-          category._id === id ? { ...category, ...values } : category
-        )
+        compose(
+          sortCategoriesAlphabetically,
+          map((category: Category) =>
+            category._id === id ? { ...category, ...values } : category
+          )
+        )(categories)
 
       return mutate(
         albumHttpService.getCategoriesUrl(),

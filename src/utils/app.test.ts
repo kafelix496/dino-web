@@ -1,4 +1,4 @@
-import { isPositiveStringNumber } from '@/utils/app'
+import { isPositiveStringNumber, sortAlphabetiacally } from './app'
 
 describe('#isPositiveStringNumber', () => {
   it('should return false if input is "0"', () => {
@@ -23,5 +23,31 @@ describe('#isPositiveStringNumber', () => {
     expect(isPositiveStringNumber('2')).toBe(true)
     expect(isPositiveStringNumber('5')).toBe(true)
     expect(isPositiveStringNumber('15')).toBe(true)
+  })
+})
+
+describe('sortAlphabetiacally', () => {
+  it('should sort as expected', () => {
+    const items = [
+      { _id: '3333', name: '3333_NAME' },
+      { _id: '1111', name: '1111_NAME' },
+      { _id: '2222', name: '2222_NAME' }
+    ]
+
+    expect(sortAlphabetiacally((item) => item.name, items)).toEqual([
+      { _id: '1111', name: '1111_NAME' },
+      { _id: '2222', name: '2222_NAME' },
+      { _id: '3333', name: '3333_NAME' }
+    ])
+  })
+
+  it('should sort as expected', () => {
+    const items = ['3333_NAME', '1111_NAME', '2222_NAME']
+
+    expect(sortAlphabetiacally((item) => item, items)).toEqual([
+      '1111_NAME',
+      '2222_NAME',
+      '3333_NAME'
+    ])
   })
 })
