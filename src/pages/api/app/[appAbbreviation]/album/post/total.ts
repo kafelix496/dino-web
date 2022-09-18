@@ -67,18 +67,14 @@ export default async function handler(
               }
             }
 
-        const [result]: { total: number }[] = await postDoc.aggregate([
+        const [result]: { total?: number }[] = await postDoc.aggregate([
           match,
           {
             $count: 'total'
           }
         ])
 
-        if (!result) {
-          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
-        }
-
-        return res.status(200).json(result.total)
+        return res.status(200).json(result?.total ?? 0)
       }
 
       default:
