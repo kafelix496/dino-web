@@ -93,7 +93,7 @@ export const PostFormDialog: FC<PostFormDialogProps> = ({
       } else {
         closeDialog()
 
-        executeUpdate(post._id, values)
+        executeUpdate(post._id, categories, values)
       }
     }
   })

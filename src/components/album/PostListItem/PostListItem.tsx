@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography'
 import { DeletePostDialog } from '@/components/album/DeletePostDialog/DeletePostDialog'
 import { PostFormDialog } from '@/components/album/PostFormDialog/PostFormDialog'
 import { PostListItemAssetList } from '@/components/album/PostListItemAssetList/PostListItemAssetList'
+import { PostListItemCategoryList } from '@/components/album/PostListItemCategoryList/PostListItemCategoryList'
 import type { PostListItemTimeProps } from '@/components/album/PostListItemTime/PostListItemTime'
 import { MaxHeightMenu } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/mui/MaxHeightMenu/MaxHeightMenu'
@@ -62,15 +63,10 @@ export const PostListItem: FC<PostListItemProps> = ({ post }) => {
           <Box className="__d-flex __d-flex-col __d-justify-center __d-grow">
             <Typography>{post.title}</Typography>
 
-            <Box sx={{ mt: 1 }} />
-
-            <PostListItemTime
-              createdAt={post.createdAt}
-              updatedAt={post.updatedAt}
-            />
+            <PostListItemTime createdAt={post.createdAt} />
           </Box>
 
-          {(isAdminOrAbove || isSuperAdmin) && (
+          {isAdminOrAbove && (
             <Box className="__d-flex __d-items-center">
               <MaxHeightMenu options={menuOptions} />
             </Box>
@@ -80,6 +76,7 @@ export const PostListItem: FC<PostListItemProps> = ({ post }) => {
         {post.description && (
           <Box sx={{ mt: 2 }}>
             <Divider />
+
             <Typography className="__d-whitespace-pre-wrap" sx={{ mt: 2 }}>
               {post.description}
             </Typography>
@@ -87,8 +84,13 @@ export const PostListItem: FC<PostListItemProps> = ({ post }) => {
         )}
 
         <Divider sx={{ mt: 2 }} />
+
         <Box sx={{ mt: 2 }}>
           <PostListItemAssetList assets={post.assets} />
+        </Box>
+
+        <Box className="__d-flex __d-justify-end">
+          <PostListItemCategoryList categories={post.categories} />
         </Box>
       </Paper>
 

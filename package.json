@@ -9,8 +9,8 @@
     "lint:fix": "eslint src/ --fix",
     "format": "prettier -c src/",
     "format:fix": "prettier -w src/",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "TZ=utc jest",
+    "test:watch": "TZ=utc jest --watch",
     "prepare": "is-ci || husky install"
   },
   "dependencies": {

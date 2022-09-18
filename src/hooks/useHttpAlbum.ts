@@ -264,7 +264,7 @@ export const useUpdatePost = () => {
   const { mutate } = useSWRConfig()
 
   const execute = useCallback(
-    async (id: string, values: PostForm) => {
+    async (id: string, categories: Category[], values: PostForm) => {
       return mutate(
         albumHttpService.getPostsUrl({
           qpPage: postPageQueryParams.qpPage,
@@ -281,6 +281,12 @@ export const useUpdatePost = () => {
                     description: values.description,
                     audience: values.audience,
                     categories: values.categories
+                      .map((categoryId) =>
+                        categories.find(
+                          (category) => category._id === categoryId
+                        )
+                      )
+                      .filter((category) => category !== undefined)
                   }
                 : post
             )

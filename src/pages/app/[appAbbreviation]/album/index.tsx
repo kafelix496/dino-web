@@ -88,7 +88,7 @@ const Page: NextPageWithLayout = () => {
         </Box>
       </Box>
 
-      <PostListItemDetailDialogWithController title="" />
+      <PostListItemDetailDialogWithController />
     </Box>
   )
 }
