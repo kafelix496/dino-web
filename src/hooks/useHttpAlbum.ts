@@ -140,9 +140,15 @@ export const useDeleteCategory = () => {
   return { execute }
 }
 
-export const usePostsTotal = ({ isReady }: { isReady: boolean }) => {
+export const usePostsTotal = ({
+  isReady,
+  qpCategoryId
+}: {
+  isReady: boolean
+  qpCategoryId?: string
+}) => {
   const { data, error, isValidating } = useSWR<number>(
-    isReady ? albumHttpService.getPostsTotalUrl() : null
+    isReady ? albumHttpService.getPostsTotalUrl({ qpCategoryId }) : null
   )
 
   return {
