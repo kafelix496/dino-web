@@ -84,14 +84,18 @@ const FamilyAlbumDrawer: FC = () => {
           editable: false
         }
       ].concat(
-        categories.map((category) => ({
-          id: category._id,
-          iconComponent: getIcon(category.name),
-          label: category.name,
-          url: `/app/${Apps.familyAlbum}/album?qpCategoryId=${category._id}`,
-          selected: postPageQueryParams.qpCategoryId === category._id,
-          editable: true
-        }))
+        categories
+          .sort((categoryA, categoryB) =>
+            categoryA.name.localeCompare(categoryB.name)
+          )
+          .map((category) => ({
+            id: category._id,
+            iconComponent: getIcon(category.name),
+            label: category.name,
+            url: `/app/${Apps.familyAlbum}/album?qpCategoryId=${category._id}`,
+            selected: postPageQueryParams.qpCategoryId === category._id,
+            editable: true
+          }))
       )
     : []
   const addCategoryMenu = {
