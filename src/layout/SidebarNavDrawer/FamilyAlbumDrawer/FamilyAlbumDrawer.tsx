@@ -3,6 +3,7 @@ import type { FC } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import type { Theme } from '@mui/material'
+import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -54,7 +55,7 @@ const FamilyAlbumDrawer: FC = () => {
   }
 
   return (
-    <div className="__d-relative __d-h-full">
+    <Box className="__d-relative __d-h-full">
       <List
         sx={{
           maxHeight: (theme: Theme) =>
@@ -97,7 +98,7 @@ const FamilyAlbumDrawer: FC = () => {
       {isAdminOrAbove && state.isOpen && (
         <CategoryFormDialog closeDialog={closeDialog} />
       )}
-    </div>
+    </Box>
   )
 }
 
