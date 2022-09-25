@@ -2,7 +2,7 @@ import { useTranslation } from 'next-i18next'
 import { useCallback } from 'react'
 import type { FC } from 'react'
 
-import { DeleteConfirmationDialog } from '@/components/DeleteConfirmationDialog/DeleteConfirmationDialog'
+import { DeleteConfirmationDialog } from '@/components/shared/DeleteConfirmationDialog/DeleteConfirmationDialog'
 import { useDeletePost } from '@/hooks/useHttpAlbum'
 
 interface DeletePostDialogProps {

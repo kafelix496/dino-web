@@ -4,7 +4,7 @@ import type { FC } from 'react'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-import { Dialog } from '@/components/Dialog/Dialog'
+import { Dialog } from '@/components/shared/Dialog/Dialog'
 
 interface DeleteConfirmationDialogProps {
   title: string
