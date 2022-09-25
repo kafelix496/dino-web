@@ -6,8 +6,8 @@ import * as yup from 'yup'
 
 import Button from '@mui/material/Button'
 
-import { Dialog } from '@/components/Dialog/Dialog'
-import { FieldText } from '@/components/mui/FormFieldText/FormFieldText'
+import { Dialog } from '@/components/shared/Dialog/Dialog'
+import { FieldText } from '@/components/shared/FormFieldText/FormFieldText'
 import { AlertColor, Apps } from '@/constants/app'
 import projectHttpService from '@/http-services/project'
 import { addProject, enqueueAlert } from '@/redux-actions'

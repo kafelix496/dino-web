@@ -11,7 +11,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Toolbar from '@mui/material/Toolbar'
 
-import { TooltipIconButton } from '@/components/mui/TooltipIconButton/TooltipIconButton'
+import { TooltipIconButton } from '@/components/shared/TooltipIconButton/TooltipIconButton'
 import {
   setSettingNavOpenStatus,
   toggleSidebarNavOpenStatus

@@ -2,13 +2,13 @@ import type { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import type { ReactElement } from 'react'
 
-import { Error } from '@/components/Error/Error'
+import { ErrorPage } from '@/components/shared/ErrorPage/ErrorPage'
 import ErrorLayout from '@/layout/ErrorLayout'
 import RootLayout from '@/layout/RootLayout'
 import type { NextPageWithLayout } from '@/pages/_app'
 
 const Page: NextPageWithLayout = () => {
-  return <Error statusCode={404} />
+  return <ErrorPage statusCode={404} />
 }
 
 Page.getLayout = (page: ReactElement) => {

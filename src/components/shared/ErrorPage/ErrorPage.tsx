@@ -7,11 +7,11 @@ import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
-interface ErrorProps {
+interface ErrorPageProps {
   statusCode: 404 | 500
 }
 
-export const Error: FC<ErrorProps> = ({ statusCode }) => {
+export const ErrorPage: FC<ErrorPageProps> = ({ statusCode }) => {
   const { t } = useTranslation('common')
 
   return (

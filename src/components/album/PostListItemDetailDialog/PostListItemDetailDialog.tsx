@@ -3,8 +3,8 @@ import type { FC } from 'react'
 
 import Button from '@mui/material/Button'
 
-import { Dialog } from '@/components/Dialog/Dialog'
 import { PostAsset } from '@/components/album/PostAsset/PostAsset'
+import { Dialog } from '@/components/shared/Dialog/Dialog'
 import { PostAssetTargets } from '@/constants/album'
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 import type { Asset } from '@/types/album'
