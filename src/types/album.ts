@@ -15,7 +15,6 @@ export interface PostQueryParamRequest {
 
 export interface DrawerMenuItem {
   id: string
-  iconComponent: JSX.Element
   label: string
   url: string
   selected: boolean

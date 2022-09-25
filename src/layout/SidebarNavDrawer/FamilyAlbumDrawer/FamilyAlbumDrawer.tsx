@@ -2,19 +2,11 @@ import { useTranslation } from 'next-i18next'
 import type { FC } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
-import AllInboxIcon from '@mui/icons-material/AllInbox'
-import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly'
-import DeckIcon from '@mui/icons-material/Deck'
-import FilterVintageIcon from '@mui/icons-material/FilterVintage'
-import HouseIcon from '@mui/icons-material/House'
-import LaptopIcon from '@mui/icons-material/Laptop'
-import PetsIcon from '@mui/icons-material/Pets'
 import type { Theme } from '@mui/material'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
 import { CategoryFormDialog } from '@/components/album/CategoryFormDialog/CategoryFormDialog'
@@ -27,46 +19,6 @@ import DrawerSkeleton from '@/layout/SidebarNavDrawer/DrawerSkeleton/DrawerSkele
 import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'
 import type { DrawerMenuItem } from '@/types/album'
 
-/*
- * this is temporary code
- * eventually, user can select the icon
- */
-const getIcon = (name: string) => {
-  switch (name.toLowerCase()) {
-    case 'ian': {
-      return <ChildFriendlyIcon />
-    }
-
-    case 'family': {
-      return <HouseIcon />
-    }
-
-    case 'cat': {
-      return <PetsIcon />
-    }
-
-    case 'sebastian': {
-      return <PetsIcon />
-    }
-
-    case 'aurelio': {
-      return <PetsIcon />
-    }
-
-    case 'jiyeol': {
-      return <LaptopIcon />
-    }
-
-    case 'nashallie': {
-      return <FilterVintageIcon />
-    }
-
-    default: {
-      return <DeckIcon />
-    }
-  }
-}
-
 const FamilyAlbumDrawer: FC = () => {
   const { isLoading, categories } = useCategories({ isReady: true })
   const { t } = useTranslation('common')
@@ -77,7 +29,6 @@ const FamilyAlbumDrawer: FC = () => {
     ? [
         {
           id: '',
-          iconComponent: <AllInboxIcon />,
           label: t('DRAWER_MENU_ITEM_ALL'),
           url: `/app/${Apps.familyAlbum}/album`,
           selected: postPageQueryParams.qpCategoryId === undefined,
@@ -90,7 +41,6 @@ const FamilyAlbumDrawer: FC = () => {
           )
           .map((category) => ({
             id: category._id,
-            iconComponent: getIcon(category.name),
             label: category.name,
             url: `/app/${Apps.familyAlbum}/album?qpCategoryId=${category._id}`,
             selected: postPageQueryParams.qpCategoryId === category._id,
@@ -117,7 +67,6 @@ const FamilyAlbumDrawer: FC = () => {
           menus.map((menu) => (
             <FamilyAlbumDrawerMenuItem
               key={menu.id}
-              expanded={true}
               canEditCategory={isAdminOrAbove}
               menu={menu}
             />
@@ -138,15 +87,7 @@ const FamilyAlbumDrawer: FC = () => {
                   openDialog()
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 'initial',
-                    width: (theme: Theme) => `${theme.spacing(3)}`
-                  }}
-                >
-                  {addCategoryMenu.iconComponent}
-                </ListItemIcon>
-                <ListItemText primary={addCategoryMenu.label} sx={{ ml: 3 }} />
+                <ListItemText primary={addCategoryMenu.label} sx={{ ml: 1 }} />
               </ListItemButton>
             </ListItem>
           </List>
