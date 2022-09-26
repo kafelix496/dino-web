@@ -1,12 +1,12 @@
-import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
+import { useIsAdminOrAbove } from '@/hooks/usePermission'
 import adminUserHttpService from '@/http-services/adminUser'
 import { getMockUsers } from '@/mock-data/user.mockData'
 import { act, render, screen } from '@/utils/testing-library'
 
 import { UserList } from './UserList'
 
-jest.mock('@/hooks/useIsAdmin', () => {
-  const originalModule = jest.requireActual('@/hooks/useIsAdmin')
+jest.mock('@/hooks/usePermission', () => {
+  const originalModule = jest.requireActual('@/hooks/usePermission')
 
   return {
     __esModule: true,

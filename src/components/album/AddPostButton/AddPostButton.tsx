@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 
 import { PostFormDialog } from '@/components/album/PostFormDialog/PostFormDialog'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
-import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
+import { useIsAdminOrAbove } from '@/hooks/usePermission'
 
 export const AddPostButton = () => {
   const { t } = useTranslation('common')

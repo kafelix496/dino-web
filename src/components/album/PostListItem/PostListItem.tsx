@@ -16,7 +16,7 @@ import { MaxHeightMenu } from '@/components/shared/MaxHeightMenu/MaxHeightMenu'
 import type { MenuOption } from '@/components/shared/MaxHeightMenu/MaxHeightMenu'
 import { Actions } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
-import { useIsAdminOrAbove, useIsSuperAdmin } from '@/hooks/useIsAdmin'
+import { useIsAdminOrAbove, useIsSuperAdmin } from '@/hooks/usePermission'
 import type { Post } from '@/types/album'
 
 interface PostListItemProps {

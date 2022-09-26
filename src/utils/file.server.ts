@@ -36,7 +36,7 @@ export const createPresignedUrl = (key: string, config: Config) => {
     Expires: 120,
     Conditions: [
       ['starts-with', '$Content-Type', ''],
-      ['content-length-range', 0, 200000000] // up to 200 MB
+      ['content-length-range', 0, 100000000] // up to 100 MB
     ]
   })
 

@@ -5,9 +5,14 @@ import { useCurrentUser } from '@/hooks/useHttpApp'
 import { getMockUser } from '@/mock-data/user.mockData'
 import { renderHook } from '@/utils/testing-library'
 
-import { useIsAdminOrAbove, useIsSuperAdmin } from './useIsAdmin'
+import {
+  useIsAdminOrAbove,
+  useIsEditorOrAbove,
+  useIsSuperAdmin
+} from './usePermission'
 
 enum SetupType {
+  useIsEditorOrAbove = 'useIsEditorOrAbove',
   useIsAdminOrAbove = 'useIsAdminOrAbove',
   useIsSuperAdmin = 'useIsSuperAdmin'
 }
@@ -36,6 +41,10 @@ const setup = ({
       ;(useCurrentUser as jest.Mock).mockReturnValueOnce({ user: null })
     }
 
+    if (type === SetupType.useIsEditorOrAbove) {
+      return useIsEditorOrAbove()
+    }
+
     if (type === SetupType.useIsAdminOrAbove) {
       return useIsAdminOrAbove()
     }
@@ -50,7 +59,7 @@ const setup = ({
   return result
 }
 
-describe('#useIsAdmin', () => {
+describe('#usePermisison', () => {
   describe('#useIsSuperAdmin', () => {
     beforeEach(() => {
       jest.clearAllMocks()
@@ -180,6 +189,72 @@ describe('#useIsAdmin', () => {
       })
 
       expect(result4.current).toEqual({ isAdminOrAbove: true })
+    })
+  })
+
+  describe('#useIsEditorOrAbove', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+    })
+
+    it('should return false if the user is not logged in', () => {
+      const result = setup({
+        isLogin: false,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.NONE,
+        type: SetupType.useIsEditorOrAbove
+      })
+
+      expect(result.current).toEqual({ isEditorOrAbove: false })
+    })
+
+    it('should return false if the appAbbreviation is not valid', () => {
+      const result = setup({
+        isLogin: true,
+        appAbbreviation: 'fake',
+        accessLevel: AccessLevels.NONE,
+        type: SetupType.useIsEditorOrAbove
+      })
+
+      expect(result.current).toEqual({ isEditorOrAbove: false })
+    })
+
+    it('should return false if the user is not editor or admin or super admin', () => {
+      const result1 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.NONE,
+        type: SetupType.useIsEditorOrAbove
+      })
+
+      expect(result1.current).toEqual({ isEditorOrAbove: false })
+
+      const result2 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.EDITOR,
+        type: SetupType.useIsEditorOrAbove
+      })
+
+      expect(result2.current).toEqual({ isEditorOrAbove: true })
+
+      const result3 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.ADMIN,
+        type: SetupType.useIsEditorOrAbove
+      })
+
+      expect(result3.current).toEqual({ isEditorOrAbove: true })
+
+      const result4 = setup({
+        isLogin: true,
+        appAbbreviation: Apps.familyAlbum,
+        accessLevel: AccessLevels.SUPER_ADMIN,
+        type: SetupType.useIsEditorOrAbove
+      })
+
+      expect(result4.current).toEqual({ isEditorOrAbove: true })
     })
   })
 })

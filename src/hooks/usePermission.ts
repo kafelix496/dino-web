@@ -41,3 +41,24 @@ export const useIsAdminOrAbove = (): { isAdminOrAbove: boolean } => {
       user.accessLevel[targetApp] === AccessLevels.ADMIN
   }
 }
+
+export const useIsEditorOrAbove = (): { isEditorOrAbove: boolean } => {
+  const { user } = useCurrentUser()
+  const router = useRouter()
+  const targetApp = router.query.appAbbreviation as Apps
+
+  if (user === null) {
+    return { isEditorOrAbove: false }
+  }
+
+  if (!isValidApp(targetApp)) {
+    return { isEditorOrAbove: false }
+  }
+
+  return {
+    isEditorOrAbove:
+      user.accessLevel[targetApp] === AccessLevels.SUPER_ADMIN ||
+      user.accessLevel[targetApp] === AccessLevels.ADMIN ||
+      user.accessLevel[targetApp] === AccessLevels.EDITOR
+  }
+}
