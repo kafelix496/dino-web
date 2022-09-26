@@ -14,7 +14,7 @@ import { CategoryFormDialog } from '@/components/album/CategoryFormDialog/Catego
 import { Apps } from '@/constants/app'
 import { useDialogStatus } from '@/hooks/useDialogStatus'
 import { useCategories } from '@/hooks/useHttpAlbum'
-import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
+import { useIsAdminOrAbove } from '@/hooks/usePermission'
 import { usePostPageQueryParams } from '@/hooks/usePostPageQueryParams'
 import DrawerSkeleton from '@/layout/SidebarNavDrawer/DrawerSkeleton/DrawerSkeleton'
 import FamilyAlbumDrawerMenuItem from '@/layout/SidebarNavDrawer/FamilyAlbumDrawerMenuItem/FamilyAlbumDrawerMenuItem'

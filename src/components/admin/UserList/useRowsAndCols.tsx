@@ -8,7 +8,7 @@ import Avatar from '@mui/material/Avatar'
 import type { GridColDef } from '@mui/x-data-grid'
 
 import { AccessLevels, AlertColor, Apps } from '@/constants/app'
-import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
+import { useIsAdminOrAbove } from '@/hooks/usePermission'
 import { useUserAccessLevel } from '@/hooks/useUserAccessLevel'
 import adminUserHttpService from '@/http-services/adminUser'
 import { enqueueAlert } from '@/redux-actions'

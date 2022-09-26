@@ -1,10 +1,10 @@
-import { useIsAdminOrAbove } from '@/hooks/useIsAdmin'
+import { useIsAdminOrAbove } from '@/hooks/usePermission'
 import { render, screen } from '@/utils/testing-library'
 
 import { AddPostButton } from './AddPostButton'
 
-jest.mock('@/hooks/useIsAdmin', () => {
-  const originalModule = jest.requireActual('@/hooks/useIsAdmin')
+jest.mock('@/hooks/usePermission', () => {
+  const originalModule = jest.requireActual('@/hooks/usePermission')
 
   return {
     __esModule: true,
