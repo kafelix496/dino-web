@@ -19,6 +19,8 @@ declare global {
       DINO_IMAGE_KIT_URL_ENDPOINT_3: string
       DINO_IMAGE_KIT_ACCESS_KEY_3: string
       DINO_IMAGE_KIT_SECRET_KEY_3: string
+      DINO_NOTION_SECRET_KEY: string
+      DINO_NOTION_FIXED_CASHFLOW_PAGE_ID: string
     }
   }
 }
@@ -33,11 +35,6 @@ declare module 'next-auth' {
         }
       | undefined
   }
-}
-
-declare module 'ramda' {
-  export function flip(...rest: any[]): any
-  export function transduce(...rest: any[]): any
 }
 
 declare module 'react-redux' {
