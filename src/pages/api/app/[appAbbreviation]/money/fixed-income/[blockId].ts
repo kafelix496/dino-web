@@ -21,7 +21,7 @@ export default async function handler(
       appAbbreviation: Apps
       postId: unknown
     }
-    if (appAbbreviation !== Apps.familyAlbum) {
+    if (appAbbreviation !== Apps.moneyTracker) {
       return res.status(400).json({ message: 'SEM_QUERY_NOT_ALLOWED' })
     }
 
@@ -39,7 +39,7 @@ export default async function handler(
     const postDoc = createDocument(CollectionsName.ALBUM_POST, categorySchema)
 
     switch (req.method) {
-      case 'PUT': {
+      case 'GET': {
         // if the user access-level is not super admin or admin, return error
         if (
           currentUserAppAccessLevel !== AccessLevels.SUPER_ADMIN &&
@@ -64,26 +64,6 @@ export default async function handler(
         }
 
         return res.status(200).json(post)
-      }
-
-      case 'DELETE': {
-        // if the user access-level is not super admin, return error
-        if (currentUserAppAccessLevel !== AccessLevels.SUPER_ADMIN) {
-          return res.status(401).json({ message: 'SEM_NOT_AUTHORIZED_USER' })
-        }
-
-        const deletedPost: Post | null = (await postDoc
-          .findOneAndDelete({
-            _id: postId
-          })
-          .populate('categories')
-          .populate('assets')) as Post | null
-
-        if (!deletedPost) {
-          return res.status(400).json({ message: 'SEM_UNEXPECTED_ERROR' })
-        }
-
-        return res.status(200).json(deletedPost)
       }
 
       default:
