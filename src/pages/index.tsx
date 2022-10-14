@@ -33,15 +33,15 @@ const appList = [
     name: 'APP_NAME_FAMILY_ALBUM',
     shouldAdmin: false,
     needAuth: true
+  },
+  {
+    link: {
+      pathname: `/app/${Apps.moneyTracker}/doc/fixed-income`
+    },
+    name: 'APP_NAME_MONEY_TRACKER',
+    shouldAdmin: false,
+    needAuth: true
   }
-  // {
-  //   link: {
-  //     pathname: `/app/${Apps.moneyTracker}/project/list`
-  //   },
-  //   name: 'APP_NAME_MONEY_TRACKER',
-  //   shouldAdmin: false,
-  //   needAuth: true
-  // }
 ]
 
 const Page: NextPageWithLayout = () => {
